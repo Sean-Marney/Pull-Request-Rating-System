@@ -6,9 +6,8 @@ const connectDB = require("./config/db");
 const app = express();
 
 // connect database
-connectDB(); //added
+connectDB(); 
 
-// initialize middleware
 app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("Server up and running"));
 
