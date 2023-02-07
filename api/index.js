@@ -1,8 +1,7 @@
 // server.js
-require("dotenv").config(); //added
+require("dotenv").config(); 
 const express = require("express");
-
-const connectDB = require("./config/db"); //added
+const connectDB = require("./config/db"); 
 
 const app = express();
 
