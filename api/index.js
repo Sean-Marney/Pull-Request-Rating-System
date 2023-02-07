@@ -2,6 +2,7 @@
 import express from "express";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
+import cors from "cors";
 import manageRewardsRoute from "./routes/manageRewards.js";
 
 dotenv.config();
@@ -11,6 +12,8 @@ const app = express();
 connectDB();
 
 app.use(express.json({ extended: false }));
+app.use(cors());
+
 app.get("/", (req, res) => res.send("Server up and running"));
 
 // routes
