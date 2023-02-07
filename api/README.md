@@ -2,7 +2,7 @@
 
 - [Installing NPM Packages](#installing-npm-packages)
 - [Setting up Environment Variables](#setting-up-environment-variables)
-- [Available Scripts](#available-scripts)
+- [Available Commands](#available-scripts)
 
 ## Installing NPM Packages
 
