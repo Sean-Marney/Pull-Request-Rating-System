@@ -55,3 +55,26 @@ Add you environment variables:
 PORT=8000
 MONGO_URI='mongodb://localhost:27017' (check yours on MongoDB Compass)
 ```
+
+## Available Commands
+
+In the `/api` directory, you can run:
+
+### `npm run build`
+
+- Builds the server for production to the `dist` folder.
+- It correctly bundles JavaScript in production mode and optimizes the build for the best performance.
+- Your app is ready to be deployed!
+
+### `npm start`
+
+- Runs the server in the development mode.
+- Open [http://localhost:8000](http://localhost:8000) to view it in Postman or in the browser.
+- The page will reload if you make edits.
+- You will also see any lint errors in the console.
+
+### `npm install`
+
+##### (or `npm i`)
+
+- Installs the required dependencies for development.
