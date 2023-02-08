@@ -12,14 +12,14 @@ export const getRewards = async (req, res) => {
   }
 };
 
-// Get a reward by name
-export const getRewardByName = async (req, res) => {
+// Get a reward by ID
+export const getRewardsById = async (req, res) => {
   try {
-    const reward = await Reward.findOne({ rewardName: req.params.name });
+    const reward = await Reward.findById(req.params.id);
     if (!reward) {
       return res
         .status(404)
-        .json({ message: "Reward with that name was not found" });
+        .json({ message: "Reward with that ID was not found" });
     }
 
     res.status(200).json(reward);
@@ -27,6 +27,22 @@ export const getRewardByName = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// // Get a reward by name
+// export const getRewardByName = async (req, res) => {
+//   try {
+//     const reward = await Reward.findOne({ rewardName: req.params.name });
+//     if (!reward) {
+//       return res
+//         .status(404)
+//         .json({ message: "Reward with that name was not found" });
+//     }
+
+//     res.status(200).json(reward);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 // Get rewards, sorted by stars required
 export const getRewardSortedByStars = async (req, res) => {
@@ -90,7 +106,8 @@ export const deleteReward = async (req, res) => {
 
 export default {
   getRewards,
-  getRewardByName,
+  getRewardsById,
+  // getRewardByName,
   getRewardSortedByStars,
   createReward,
   updateReward,

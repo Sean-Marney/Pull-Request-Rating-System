@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageRewards() {
   const [rewards, setRewards] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getRewards();
@@ -14,7 +17,15 @@ export default function ManageRewards() {
 
     // Set to state
     setRewards(res.data);
-    console.log(res.data);
+  };
+
+  const deleteReward = async (_id) => {
+    // Delete reward
+    await axios.delete(
+      `http://localhost:8000/management/rewards/delete/${_id}`
+    );
+
+    getRewards(); // Get updated list of rewards
   };
 
   return (
@@ -23,6 +34,7 @@ export default function ManageRewards() {
         <h2>Manage Rewards</h2>
       </div>
       <div>
+        {/* Get all rewards from database and display in a table */}
         {rewards &&
           rewards.map((reward) => {
             return (
@@ -36,6 +48,20 @@ export default function ManageRewards() {
                     <tr>
                       <td>{reward.rewardName}</td>
                       <td>{reward.starsRequired}</td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            navigate(`/management/rewards/update/${reward._id}`)
+                          }
+                        >
+                          Edit
+                        </button>
+                      </td>
+                      <td>
+                        <button onClick={() => deleteReward(reward._id)}>
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -43,6 +69,9 @@ export default function ManageRewards() {
             );
           })}
       </div>
+      <button onClick={() => navigate("/management/rewards/create")}>
+        Add New Reward
+      </button>
     </div>
   );
 }

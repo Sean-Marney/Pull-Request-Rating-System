@@ -2,17 +2,18 @@ import express from "express";
 import {
   createReward,
   deleteReward,
-  getRewardByName,
+  // getRewardByName,
   getRewards,
   getRewardSortedByStars,
   updateReward,
+  getRewardsById,
 } from "../controllers/manageRewards.js";
 
 const router = express.Router();
 
 // CRUD routes for /manage/rewards
 router.get("/", getRewards);
-router.get("/:name", getRewardByName);
+router.get("/:id", getRewardsById);
 router.get("/sort/byStars", getRewardSortedByStars);
 router.post("/create", createReward);
 router.patch("/update/:id", updateReward);
