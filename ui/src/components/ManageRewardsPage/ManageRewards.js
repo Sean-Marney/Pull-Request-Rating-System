@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  Typography,
+} from "@material-ui/core";
 
 export default function ManageRewards() {
   const [rewards, setRewards] = useState(null);
@@ -29,49 +40,69 @@ export default function ManageRewards() {
   };
 
   return (
-    <div>
+    <div style={{ marginLeft: "50px", marginRight: "50px" }}>
       <div>
-        <h2>Manage Rewards</h2>
+        <Typography variant="h4">Manage Rewards</Typography>
       </div>
       <div>
         {/* Get all rewards from database and display in a table */}
-        {rewards &&
-          rewards.map((reward) => {
-            return (
-              <div key={reward._id}>
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Name</th>
-                      <th>Stars Required</th>
-                    </tr>
-                    <tr>
-                      <td>{reward.rewardName}</td>
-                      <td>{reward.starsRequired}</td>
-                      <td>
-                        <button
-                          onClick={() =>
-                            navigate(`/management/rewards/update/${reward._id}`)
-                          }
-                        >
-                          Edit
-                        </button>
-                      </td>
-                      <td>
-                        <button onClick={() => deleteReward(reward._id)}>
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            );
-          })}
+        {rewards && (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <b>Name</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Stars Required</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Actions</b>
+                  </TableCell>
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rewards.map((reward) => (
+                  <TableRow key={reward._id}>
+                    <TableCell>{reward.rewardName}</TableCell>
+                    <TableCell>{reward.starsRequired}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        onClick={() =>
+                          navigate(`/management/rewards/update/${reward._id}`)
+                        }
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        onClick={() => deleteReward(reward._id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </div>
-      <button onClick={() => navigate("/management/rewards/create")}>
+      <Button
+        variant="contained"
+        color="primary"
+        size="large"
+        startIcon={<AddCircleIcon />}
+        style={{ marginTop: "20px" }}
+        onClick={() => navigate("/management/rewards/create")}
+      >
         Add New Reward
-      </button>
+      </Button>
     </div>
   );
 }

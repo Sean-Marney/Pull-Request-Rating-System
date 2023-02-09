@@ -1,9 +1,9 @@
-import Reward from "../models/Reward.js";
+const Reward = require("../models/Reward");
 
 // CRUD methods for rewards
 
 // Get all rewards
-export const getRewards = async (req, res) => {
+const getRewards = async (req, res) => {
   try {
     const rewards = await Reward.find();
     res.status(200).json(rewards);
@@ -13,7 +13,7 @@ export const getRewards = async (req, res) => {
 };
 
 // Get a reward by ID
-export const getRewardsById = async (req, res) => {
+const getRewardsById = async (req, res) => {
   try {
     const reward = await Reward.findById(req.params.id);
     if (!reward) {
@@ -28,24 +28,8 @@ export const getRewardsById = async (req, res) => {
   }
 };
 
-// // Get a reward by name
-// export const getRewardByName = async (req, res) => {
-//   try {
-//     const reward = await Reward.findOne({ rewardName: req.params.name });
-//     if (!reward) {
-//       return res
-//         .status(404)
-//         .json({ message: "Reward with that name was not found" });
-//     }
-
-//     res.status(200).json(reward);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
 // Get rewards, sorted by stars required
-export const getRewardSortedByStars = async (req, res) => {
+const getRewardSortedByStars = async (req, res) => {
   try {
     // TODO - Make method correctly sort by size of number
     const rewards = await Reward.find().sort({ starsRequired: 1 });
@@ -56,7 +40,7 @@ export const getRewardSortedByStars = async (req, res) => {
 };
 
 // Create a reward
-export const createReward = async (req, res) => {
+const createReward = async (req, res) => {
   try {
     const reward = new Reward({
       rewardName: req.body.rewardName,
@@ -71,7 +55,7 @@ export const createReward = async (req, res) => {
 };
 
 // Update a reward
-export const updateReward = async (req, res) => {
+const updateReward = async (req, res) => {
   try {
     const reward = await Reward.findById(req.params.id);
     if (!reward) {
@@ -89,7 +73,7 @@ export const updateReward = async (req, res) => {
 };
 
 // Delete a reward
-export const deleteReward = async (req, res) => {
+const deleteReward = async (req, res) => {
   try {
     const reward = await Reward.findById(req.params.id);
     if (!reward) {
@@ -104,10 +88,9 @@ export const deleteReward = async (req, res) => {
   }
 };
 
-export default {
+module.exports = {
   getRewards,
   getRewardsById,
-  // getRewardByName,
   getRewardSortedByStars,
   createReward,
   updateReward,

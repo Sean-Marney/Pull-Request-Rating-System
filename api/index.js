@@ -1,11 +1,10 @@
 // server.js
-import express from "express";
-import connectDB from "./config/db.js";
-import dotenv from "dotenv";
-import cors from "cors";
-import manageRewardsRoute from "./routes/manageRewards.js";
+const express = require("express");
+const connectDB = require("./config/db");
+require("dotenv").config();
+const cors = require("cors");
+const manageRewardsRoute = require("./routes/manageRewards");
 
-dotenv.config();
 const app = express();
 
 // connect database

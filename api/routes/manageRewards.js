@@ -1,5 +1,5 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   createReward,
   deleteReward,
   // getRewardByName,
@@ -7,7 +7,7 @@ import {
   getRewardSortedByStars,
   updateReward,
   getRewardsById,
-} from "../controllers/manageRewards.js";
+} = require("../controllers/manageRewards");
 
 const router = express.Router();
 
@@ -19,4 +19,4 @@ router.post("/create", createReward);
 router.patch("/update/:id", updateReward);
 router.delete("/delete/:id", deleteReward);
 
-export default router;
+module.exports = router;

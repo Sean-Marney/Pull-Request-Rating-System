@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const RewardSchema = new mongoose.Schema({
   rewardName: {
@@ -12,4 +12,4 @@ const RewardSchema = new mongoose.Schema({
 });
 
 const Reward = mongoose.model("Reward", RewardSchema);
-export default Reward;
+module.exports = Reward;
