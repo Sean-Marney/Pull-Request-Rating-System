@@ -1,6 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  Typography,
+  FormControl,
+  InputLabel,
+  Input,
+  Button,
+  Grid,
+  Card,
+  CardContent,
+} from "@material-ui/core";
 
 export default function CreateReward() {
   const [createForm, setCreateForm] = useState({
@@ -36,30 +46,88 @@ export default function CreateReward() {
   return (
     <div>
       <div>
-        <h1>Create New Reward</h1>
+        <Typography style={{ marginTop: "100px" }} variant="h4">
+          Create New Reward
+        </Typography>
       </div>
       <div>
-        <form onSubmit={createReward}>
-          <label>Reward Name</label>
-          <input
-            onChange={updateCreateFormField}
-            value={createForm.rewardName}
-            name="rewardName"
-          />
-          <br />
-          <label>Stars Required</label>
-          <input
-            onChange={updateCreateFormField}
-            value={createForm.starsRequired}
-            name="starsRequired"
-          />
-          <br />
-          <button onClick={() => navigate("/management/rewards")}>
-            Cancel
-          </button>
-          <button type="submit">Create Reward</button>
-        </form>
+        <Card
+          style={{
+            maxWidth: 600,
+            minHeight: 250,
+            padding: "20px 5px",
+            margin: "0 auto",
+            marginTop: "50px",
+          }}
+        >
+          <CardContent>
+            <form onSubmit={createReward}>
+              <div>
+                <InputLabel>Reward Name</InputLabel>
+                <Input
+                  onChange={updateCreateFormField}
+                  value={createForm.rewardName}
+                  name="rewardName"
+                />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <InputLabel>Stars Required</InputLabel>
+                <Input
+                  onChange={updateCreateFormField}
+                  value={createForm.starsRequired}
+                  name="starsRequired"
+                />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <Button
+                  onClick={() => navigate("/management/rewards")}
+                  variant="contained"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  style={{ marginLeft: "30px" }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Create Reward
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
+
+  // return (
+  //   <div>
+  //     <div>
+  //       <Typography variant="h4">Create New Reward</Typography>
+  //     </div>
+  //     <div>
+  //       <form onSubmit={createReward}>
+  //         <label>Reward Name</label>
+  //         <input
+  //           onChange={updateCreateFormField}
+  //           value={createForm.rewardName}
+  //           name="rewardName"
+  //         />
+  //         <br />
+  //         <label>Stars Required</label>
+  //         <input
+  //           onChange={updateCreateFormField}
+  //           value={createForm.starsRequired}
+  //           name="starsRequired"
+  //         />
+  //         <br />
+  //         <button onClick={() => navigate("/management/rewards")}>
+  //           Cancel
+  //         </button>
+  //         <button type="submit">Create Reward</button>
+  //       </form>
+  //     </div>
+  //   </div>
+  // );
 }
