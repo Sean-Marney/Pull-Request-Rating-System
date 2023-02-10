@@ -2,7 +2,6 @@ const express = require("express");
 const {
   createReward,
   deleteReward,
-  // getRewardByName,
   getRewards,
   getRewardSortedByStars,
   updateReward,
