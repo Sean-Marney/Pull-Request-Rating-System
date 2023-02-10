@@ -9,12 +9,16 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
+import * as yup from "yup";
+import validateCreateRewardForm from "../../validations/createRewardForm";
 
 export default function CreateReward() {
   const [createForm, setCreateForm] = useState({
     rewardName: "",
     starsRequired: "",
   });
+
+  const [error, setError] = useState({});
 
   const navigate = useNavigate();
 
@@ -30,15 +34,26 @@ export default function CreateReward() {
   const createReward = async (e) => {
     e.preventDefault(); // Prevents refresh after submit
 
-    // Create new reward
-    const res = await axios.post(
-      "http://localhost:8000/management/rewards/create",
-      createForm
-    );
+    try {
+      await validateCreateRewardForm.validate(createForm, {
+        abortEarly: false,
+      });
+      // Create new reward
+      await axios.post(
+        "http://localhost:8000/management/rewards/create",
+        createForm
+      );
 
-    navigate("/management/rewards"); // Redirects after reward is created
-
-    console.log(res);
+      navigate("/management/rewards"); // Redirects after reward is created
+    } catch (error) {
+      const validationErrors = {};
+      if (error instanceof yup.ValidationError) {
+        error.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+        });
+        setError(validationErrors);
+      }
+    }
   };
 
   return (
@@ -67,6 +82,9 @@ export default function CreateReward() {
                   value={createForm.rewardName}
                   name="rewardName"
                 />
+                {error.rewardName && (
+                  <div style={{ color: "red" }}>{error.rewardName}</div>
+                )}
               </div>
               <div style={{ marginTop: "20px" }}>
                 <InputLabel>Stars Required</InputLabel>
@@ -75,6 +93,9 @@ export default function CreateReward() {
                   value={createForm.starsRequired}
                   name="starsRequired"
                 />
+                {error.starsRequired && (
+                  <div style={{ color: "red" }}>{error.starsRequired}</div>
+                )}
               </div>
               <div style={{ marginTop: "20px" }}>
                 <Button
