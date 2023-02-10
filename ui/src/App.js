@@ -1,10 +1,18 @@
 import "./App.css";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import History from "./components/PullRequestHistory/PullRequestHistory";
 
 function App() {
     return (
         <div className="App">
-            <h1>Hello</h1>
-        </div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/history" element={<History />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+  
     );
 }
 
