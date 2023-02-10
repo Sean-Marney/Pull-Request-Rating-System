@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import {
+  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -11,9 +14,25 @@ import {
   TableRow,
   Button,
   Typography,
+  Box,
+  IconButton,
 } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  table: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(2),
+    boxShadow: theme.shadows[20],
+    paddingBottom: theme.spacing(0),
+  },
+  tableContainer: {
+    paddingLeft: theme.spacing(20),
+    paddingRight: theme.spacing(20),
+  },
+}));
+
 export default function ManageRewards() {
+  const classes = useStyles();
   const [rewards, setRewards] = useState(null);
 
   const navigate = useNavigate();
@@ -40,14 +59,25 @@ export default function ManageRewards() {
   };
 
   return (
-    <div style={{ marginLeft: "50px", marginRight: "50px" }}>
-      <div>
-        <Typography variant="h4">Manage Rewards</Typography>
-      </div>
-      <div>
+    <div className={classes.tableContainer}>
+      <Box padding={3}>
+        <Typography variant="h4">
+          <b>Manage Rewards</b>
+        </Typography>
+      </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        size="large"
+        startIcon={<AddCircleIcon />}
+        onClick={() => navigate("/management/rewards/create")}
+      >
+        Add New Reward
+      </Button>
+      <Box>
         {/* Get all rewards from database and display in a table */}
         {rewards && (
-          <TableContainer>
+          <TableContainer className={classes.table}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -69,22 +99,22 @@ export default function ManageRewards() {
                     <TableCell>{reward.rewardName}</TableCell>
                     <TableCell>{reward.starsRequired}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
+                      <IconButton
+                        color="primary"
                         onClick={() =>
                           navigate(`/management/rewards/update/${reward._id}`)
                         }
                       >
-                        Edit
-                      </Button>
+                        <EditIcon />
+                      </IconButton>
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
+                      <IconButton
+                        color="secondary"
                         onClick={() => deleteReward(reward._id)}
                       >
-                        Delete
-                      </Button>
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -92,17 +122,7 @@ export default function ManageRewards() {
             </Table>
           </TableContainer>
         )}
-      </div>
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        startIcon={<AddCircleIcon />}
-        style={{ marginTop: "20px" }}
-        onClick={() => navigate("/management/rewards/create")}
-      >
-        Add New Reward
-      </Button>
+      </Box>
     </div>
   );
 }
