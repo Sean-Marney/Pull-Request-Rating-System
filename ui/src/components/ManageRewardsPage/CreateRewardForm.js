@@ -3,11 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Typography,
-  FormControl,
   InputLabel,
   Input,
   Button,
-  Grid,
   Card,
   CardContent,
 } from "@material-ui/core";
@@ -57,7 +55,7 @@ export default function CreateReward() {
             minHeight: 250,
             padding: "20px 5px",
             margin: "0 auto",
-            marginTop: "50px",
+            marginTop: "20px",
           }}
         >
           <CardContent>
@@ -100,34 +98,4 @@ export default function CreateReward() {
       </div>
     </div>
   );
-
-  // return (
-  //   <div>
-  //     <div>
-  //       <Typography variant="h4">Create New Reward</Typography>
-  //     </div>
-  //     <div>
-  //       <form onSubmit={createReward}>
-  //         <label>Reward Name</label>
-  //         <input
-  //           onChange={updateCreateFormField}
-  //           value={createForm.rewardName}
-  //           name="rewardName"
-  //         />
-  //         <br />
-  //         <label>Stars Required</label>
-  //         <input
-  //           onChange={updateCreateFormField}
-  //           value={createForm.starsRequired}
-  //           name="starsRequired"
-  //         />
-  //         <br />
-  //         <button onClick={() => navigate("/management/rewards")}>
-  //           Cancel
-  //         </button>
-  //         <button type="submit">Create Reward</button>
-  //       </form>
-  //     </div>
-  //   </div>
-  // );
 }
