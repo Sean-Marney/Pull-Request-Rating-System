@@ -24,10 +24,17 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     boxShadow: theme.shadows[20],
     paddingBottom: theme.spacing(0),
+    borderRadius: "20px",
   },
   tableContainer: {
     paddingLeft: theme.spacing(20),
     paddingRight: theme.spacing(20),
+  },
+  tableHeaders: {
+    fontSize: "25px",
+  },
+  tableContent: {
+    fontSize: "20px",
   },
 }));
 
@@ -81,13 +88,13 @@ export default function ManageRewards() {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>
+                  <TableCell className={classes.tableHeaders}>
                     <b>Name</b>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={classes.tableHeaders}>
                     <b>Stars Required</b>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={classes.tableHeaders}>
                     <b>Actions</b>
                   </TableCell>
                   <TableCell />
@@ -96,11 +103,16 @@ export default function ManageRewards() {
               <TableBody>
                 {rewards.map((reward) => (
                   <TableRow key={reward._id}>
-                    <TableCell>{reward.rewardName}</TableCell>
-                    <TableCell>{reward.starsRequired}</TableCell>
+                    <TableCell className={classes.tableContent}>
+                      {reward.rewardName}
+                    </TableCell>
+                    <TableCell className={classes.tableContent}>
+                      {reward.starsRequired}
+                    </TableCell>
                     <TableCell>
                       <IconButton
                         color="primary"
+                        title="Edit Reward"
                         onClick={() =>
                           navigate(`/management/rewards/update/${reward._id}`)
                         }
@@ -111,6 +123,7 @@ export default function ManageRewards() {
                     <TableCell>
                       <IconButton
                         color="secondary"
+                        title="Delete Reward"
                         onClick={() => deleteReward(reward._id)}
                       >
                         <DeleteIcon />

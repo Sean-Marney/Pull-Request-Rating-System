@@ -16,10 +16,17 @@ import validateCreateRewardForm from "../../validations/createRewardForm";
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 600,
-    minHeight: 250,
+    minHeight: 325,
     padding: "20px 5px",
     margin: "0 auto",
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(10),
+    boxShadow: theme.shadows[20],
+    borderRadius: "20px",
+  },
+  input: {
+    padding: "5px 5px",
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -71,12 +78,10 @@ export default function CreateReward() {
   return (
     <div>
       <div>
-        <Typography style={{ marginTop: "100px" }} variant="h4">
-          Create New Reward
-        </Typography>
-      </div>
-      <div>
         <Card className={classes.card}>
+          <Typography variant="h4">
+            <b>Create New Reward</b>
+          </Typography>
           <CardContent>
             <form onSubmit={createReward}>
               <div>
@@ -85,6 +90,10 @@ export default function CreateReward() {
                   onChange={updateCreateFormField}
                   value={createForm.rewardName}
                   name="rewardName"
+                  inputProps={{
+                    style: { textAlign: "center" },
+                  }}
+                  className={classes.input}
                 />
                 {error.rewardName && (
                   <div style={{ color: "red" }}>{error.rewardName}</div>
@@ -96,6 +105,10 @@ export default function CreateReward() {
                   onChange={updateCreateFormField}
                   value={createForm.starsRequired}
                   name="starsRequired"
+                  inputProps={{
+                    style: { textAlign: "center" },
+                  }}
+                  className={classes.input}
                 />
                 {error.starsRequired && (
                   <div style={{ color: "red" }}>{error.starsRequired}</div>
