@@ -8,11 +8,23 @@ import {
   Button,
   Card,
   CardContent,
+  makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateCreateRewardForm from "../../validations/createRewardForm";
 
+const useStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth: 600,
+    minHeight: 250,
+    padding: "20px 5px",
+    margin: "0 auto",
+    marginTop: theme.spacing(2),
+  },
+}));
+
 export default function CreateReward() {
+  const classes = useStyles();
   const [createForm, setCreateForm] = useState({
     rewardName: "",
     starsRequired: "",
@@ -64,15 +76,7 @@ export default function CreateReward() {
         </Typography>
       </div>
       <div>
-        <Card
-          style={{
-            maxWidth: 600,
-            minHeight: 250,
-            padding: "20px 5px",
-            margin: "0 auto",
-            marginTop: "20px",
-          }}
-        >
+        <Card className={classes.card}>
           <CardContent>
             <form onSubmit={createReward}>
               <div>
