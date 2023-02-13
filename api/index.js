@@ -3,7 +3,8 @@ const express = require("express");
 const connectDB = require("./config/db");
 require("dotenv").config();
 const cors = require("cors");
-const manageRewardsRoute = require("./routes/manageRewards");
+const manageRewardsRoute = require("./routes/manageRewards.routes");
+const rewardsRoute = require("./routes/rewards.routes");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get("/", (req, res) => res.send("Server up and running"));
 
 // routes
 app.use("/management/rewards", manageRewardsRoute);
+app.use("/rewards", rewardsRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;

@@ -6,7 +6,7 @@ const {
   getRewardSortedByStars,
   updateReward,
   getRewardsById,
-} = require("../controllers/manageRewards");
+} = require("../controllers/manageRewards.controller");
 
 const router = express.Router();
 
