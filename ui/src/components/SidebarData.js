@@ -1,45 +1,39 @@
-﻿
-import {
-    FaChartLine,
-    FaChartBar,
-    FaStar,
-    FaQuestion, FaBarcode, FaCross
-} from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+﻿import { AccessAlarm, Assessment, Star, QuestionMark, DeveloperBoard, History  } from '@mui/icons-material';
 
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({children}) => {
     const menuItem=[
         {
             path:"/",
             name:"Dashboard",
-            icon: <FaChartBar/>
+            icon: <AccessAlarm/>
 
         },
         {
             path:"/Achievements",
             name:"Achievements",
-            icon:<FaStar/>
+            icon:<Star/>
         },
         {
             path:"/FAQ",
             name:"FAQ",
-            icon:<FaQuestion/>
+            icon:<QuestionMark/>
         },
         {
             path:"/TrackProgress",
             name:"TrackProgress",
-            icon:<FaBarcode/>
+            icon:<DeveloperBoard/>
         },
         {
             path:"/History",
             name:"History",
-            icon:<FaChartLine/>
+            icon:<Assessment/>
         },
         {
             path:"/Merge",
             name:"Merge",
-            icon:<FaCross/>
+            icon:<History/>
         }
     ]
     return (
