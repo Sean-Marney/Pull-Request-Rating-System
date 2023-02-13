@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { PullRequestItem } from "./PullRequestItem";
 function App() {
     const [pullRequests, setPullRequests] = useState([]);
 
@@ -22,7 +23,8 @@ function App() {
             <div>
                 {pullRequests.map((pullRequest) => {
                     return (
-                    <li>{pullRequest._id}</li>
+                        <PullRequestItem key={pullRequest._id} pullRequest={pullRequest}/>
+                        // <h1>Hi</h1>
                     )})}
             </div>
         </div>
