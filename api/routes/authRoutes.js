@@ -9,14 +9,14 @@ router.post("/register", async (req, res) => {
     console.log(req);
     const user = req.body;
 
-    const takenName = await User.findOne({
+    const userName = await User.findOne({
         name: user.name.toLowerCase(),
     });
-    const takenEmail = await User.findOne({ email: user.email.toLowerCase() });
+    const userEmail = await User.findOne({ email: user.email.toLowerCase() });
 
-    if (takenName || takenEmail) {
+    if (userName || userEmail) {
         return res.status(401).send({
-            message: "Username or email has already been taken",
+            message: "Name or email has already been taken",
         });
     } else {
         user.password = await bcrypt.hash(req.body.password, 10);
@@ -61,6 +61,10 @@ router.post("/login", (req, res) => {
                                 });
                             }
                         );
+                    } else {
+                        return res.status(401).send({
+                            message: "Invalid email or password",
+                        });
                     }
                 });
         }
