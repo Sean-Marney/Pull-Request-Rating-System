@@ -42,7 +42,27 @@ router.post("/login", (req, res) => {
                     message: "Invalid email or password",
                 });
             }
-            bcrypt.compare(userLoggingIn.password, dbUser.password);
+            bcrypt
+                .compare(userLoggingIn.password, dbUser.password)
+                .then((isCorrect) => {
+                    if (isCorrect) {
+                        const payload = {
+                            id: dbUser._id,
+                            email: dbUser.email,
+                        };
+                        jwt.sign(
+                            payload,
+                            process.env.PASSPORTSECRET,
+                            { expiresIn: 86400 },
+                            (err, token) => {
+                                return res.json({
+                                    message: "Success",
+                                    token: "Bearer " + token,
+                                });
+                            }
+                        );
+                    }
+                });
         }
     );
 });
