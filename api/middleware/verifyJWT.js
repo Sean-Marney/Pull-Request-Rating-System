@@ -14,7 +14,18 @@ function verifyJWTToken(req, res, next) {
         });
     }
 
-    
+    // Verify the JWT with the secret key and decode its payload
+    jwt.verify(token, process.env.PASSPORTSECRET, (err, decoded) => {
+        // If the token is invalid, return an error response
+        if (err) {
+            return res.json({
+                isLoggedIn: false,
+                message: "Failed To Authenticate",
+            });
+        }
+
+        
+    });
 }
 
 module.exports = verifyJWTToken;
