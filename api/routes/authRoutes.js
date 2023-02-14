@@ -20,43 +20,33 @@ router.post("/register", async (req, res) => {
     res.json({ message: "Success" });
 });
 
-router.post("/login", (req, res) => {
-    const userLoggingIn = req.body;
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
 
-    User.findOne({ email: userLoggingIn.email.toLowerCase() }).then(
-        (dbUser) => {
-            if (!dbUser) {
-                return res.status(401).send({
-                    message: "Invalid email or password",
-                });
-            }
-            bcrypt
-                .compare(userLoggingIn.password, dbUser.password)
-                .then((isCorrect) => {
-                    if (isCorrect) {
-                        const payload = {
-                            id: dbUser._id,
-                            email: dbUser.email,
-                        };
-                        jwt.sign(
-                            payload,
-                            process.env.PASSPORTSECRET,
-                            { expiresIn: 86400 },
-                            (err, token) => {
-                                return res.json({
-                                    message: "Success",
-                                    token: "Bearer " + token,
-                                });
-                            }
-                        );
-                    } else {
-                        return res.status(401).send({
-                            message: "Invalid email or password",
-                        });
-                    }
-                });
-        }
-    );
+    try {
+        const user = await User.findOne({ email: email.toLowerCase() });
+        if (!user)
+            return res
+                .status(401)
+                .json({ message: "Invalid email or password" });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch)
+            return res
+                .status(401)
+                .json({ message: "Invalid email or password" });
+
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.PASSPORTSECRET,
+            { expiresIn: 86400 }
+        );
+
+        res.json({ message: "Success", token: `Bearer ${token}` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
 });
 
 module.exports = router;
