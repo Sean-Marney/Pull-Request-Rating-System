@@ -19,6 +19,9 @@ router.post("/register", async (req, res) => {
             message: "Username or email has already been taken",
         });
     }
+    else {
+        user.password = await bcrypt.hash(req.body.password, 10);
+    }
 });
 
 module.exports = router;
