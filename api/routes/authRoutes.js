@@ -28,6 +28,9 @@ router.post("/register", async (req, res) => {
         email: user.email.toLowerCase(),
         password: user.password,
     });
+
+    dbUser.save();
+    return res.json({ message: "Success" });
 });
 
 module.exports = router;
