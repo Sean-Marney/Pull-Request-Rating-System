@@ -20,6 +20,8 @@ npm i
 ##### Installed NPM Packages
 
 - `react` package - React is a JavaScript library for creating user interfaces. **Learn more [here](https://www.npmjs.com/package/react)**
+- `Moment JS` package - Moment is a JavaScript library which helps is parsing, validating, manipulating and displaying date/time in JavaScript in a very easy way. **Learn more [here](https://momentjs.com/)**
+- `Material UI` package - MUI offers a comprehensive suite of UI tools to help you ship new features faster.  **Learn more [here](https://mui.com/)**
 
 
 ## Available Commands
