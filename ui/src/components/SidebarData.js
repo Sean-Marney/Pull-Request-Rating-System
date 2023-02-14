@@ -1,4 +1,4 @@
-﻿import { AccessAlarm, Assessment, Star, QuestionMark, DeveloperBoard, History  } from '@mui/icons-material';
+﻿import { AccessAlarm, Assessment, Star, QuestionMark, DeveloperBoard, History, Help  } from '@mui/icons-material';
 
 import { NavLink } from 'react-router-dom';
 
@@ -34,7 +34,12 @@ const Sidebar = ({children}) => {
             path:"/Merge",
             name:"Merge",
             icon:<History/>
-        }
+        },
+        {
+        path:"/ManagerHelp",
+        name:"MangerHelp",
+        icon:<Help/>
+}
     ]
     return (
         <div className="container">

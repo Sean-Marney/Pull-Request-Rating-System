@@ -9,10 +9,11 @@ import TrackProgress from "./routes/TrackProgress";
 import Merge from "./routes/Merge";
 
 
-import Home from "./components/HomePage/Home";
+import Home from "./routes/Home";
 import ManageRewards from "./components/ManageRewardsPage/ManageRewards";
 import CreateReward from "./components/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/ManageRewardsPage/UpdateRewardForm";
+import ManagerHelp from "./routes/ManagerHelp";
 
 const App = () => {
     return (
@@ -29,6 +30,7 @@ const App = () => {
                     <Route path="/management/rewards" element={<ManageRewards />} />
                     <Route path="/management/rewards/create" element={<CreateReward />} />
                     <Route path="/management/rewards/update/:id" element={<UpdateReward />} />
+                    <Route path="/ManagerHelp" element={<ManagerHelp />} />
                 </Routes>
             </Sidebar>
         </BrowserRouter>
