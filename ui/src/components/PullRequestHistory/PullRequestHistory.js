@@ -20,13 +20,11 @@ function App() {
     return (
         <div className="App">
             <h1>History</h1>
-            <div>
                 {pullRequests.map((pullRequest) => {
                     return (
                         <PullRequestItem key={pullRequest._id} pullRequest={pullRequest}/>
                         // <h1>Hi</h1>
                     )})}
-            </div>
         </div>
     );
 }
