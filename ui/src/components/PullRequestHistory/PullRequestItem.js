@@ -5,7 +5,8 @@ import {
   Button,
   CardActions,
   Grid,
-  Link
+  Link,
+  Box
 } from "@material-ui/core";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
@@ -19,7 +20,7 @@ export class PullRequestItem extends React.Component {
     return (
         <div>
           <Card variant="outlined">
-          <Grid container spacing={0}>
+          <Grid container spacing={0} >
             <Grid item xs={0}>
               <AccessTimeIcon sx={{ fontSize: 20 }}/>
             </Grid>

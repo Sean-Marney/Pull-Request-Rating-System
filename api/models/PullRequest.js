@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-
+// Model for the pull request
 const PullRequestSchema = new mongoose.Schema({
-  pullRequestID: {
+  git_id: {
     type: String,
     required: true,
   },
@@ -13,11 +13,11 @@ const PullRequestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  userID: {
+  user_id: {
     type: String,
     required: true,
   },
-  ratingComplete: {
+  rating_complete: {
     type: Boolean,
     required: true,
   },
