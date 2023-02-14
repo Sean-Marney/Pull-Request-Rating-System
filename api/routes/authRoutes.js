@@ -18,8 +18,7 @@ router.post("/register", async (req, res) => {
         return res.status(401).send({
             message: "Username or email has already been taken",
         });
-    }
-    else {
+    } else {
         user.password = await bcrypt.hash(req.body.password, 10);
     }
 
@@ -31,6 +30,20 @@ router.post("/register", async (req, res) => {
 
     dbUser.save();
     return res.json({ message: "Success" });
+});
+
+router.post("/login", (req, res) => {
+    const userLoggingIn = req.body;
+
+    User.findOne({ email: userLoggingIn.email.toLowerCase() }).then(
+        (dbUser) => {
+            if (!dbUser) {
+                return res.status(401).send({
+                    message: "Invalid email or password",
+                });
+            }
+        }
+    );
 });
 
 module.exports = router;
