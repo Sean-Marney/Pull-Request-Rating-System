@@ -19,6 +19,7 @@ app.use(
 );
 app.use(express.json({ extended: false }));
 
+// routes
 app.use("/", authRoutes);
 
 // setting up port

@@ -1,11 +1,6 @@
-const express = require("express");
-const router = express.Router();
-const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
-const jwt = require("jsonwebtoken");
-const verifyJWT = require("../middleware/verifyJWT");
 
-router.post("/register", async (req, res) => {
+const registerUser = async (req, res) => {
     const name = req.body.name.toLowerCase();
     const email = req.body.email.toLowerCase();
     const existingUser = await User.findOne({ $or: [{ name }, { email }] });
@@ -18,9 +13,9 @@ router.post("/register", async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
     res.json({ message: "Success" });
-});
+};
 
-router.post("/login", async (req, res) => {
+const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -47,6 +42,9 @@ router.post("/login", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Server Error" });
     }
-});
+};
 
-module.exports = router;
+module.exports = {
+    registerUser,
+    loginUser,
+};
