@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { PullRequestItem } from "./PullRequestItem";
 import {
-    Card,
     Typography,
-    Button,
-    CardActions,
-    Grid,
-    Link,
     Box
   } from "@material-ui/core";
 function App() {
@@ -17,6 +12,9 @@ function App() {
         getPullRequests();
     }, []);
 
+
+    // Gets the Pull Requests through calling api backend
+    // TODO: Integrate with ID of user who is logged in
     const getPullRequests = async () => {
         const res = await axios.get("http://localhost:8000/pullrequests/history/1");
         console.log(res.data);
@@ -36,7 +34,6 @@ function App() {
                 {pullRequests.map((pullRequest) => {
                     return (
                         <PullRequestItem key={pullRequest._id} pullRequest={pullRequest}/>
-                        // <h1>Hi</h1>
                     )})}
         </div>
     );

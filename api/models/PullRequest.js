@@ -17,8 +17,20 @@ const PullRequestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
   rating_complete: {
     type: Boolean,
+    required: true,
+  },
+  ratings: {
+    type: Object,
     required: true,
   },
 });

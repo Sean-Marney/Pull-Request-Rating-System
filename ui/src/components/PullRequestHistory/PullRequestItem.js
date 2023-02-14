@@ -6,7 +6,6 @@ import {
   CardActions,
   Grid,
   Link,
-  Box
 } from "@material-ui/core";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
@@ -16,6 +15,8 @@ moment().format();
 
 export class PullRequestItem extends React.Component {
   render() {
+
+    //  checks whether the pull request has been rated or not and then displays necessary information
     function rated(rating) {
        return <Grid container >
             <Grid item>
@@ -29,7 +30,7 @@ export class PullRequestItem extends React.Component {
     function notRated(){
       return <Typography variant="h5" component="div" >Pending rating</Typography>
     }
-    var day = moment(this.props.pullRequest.date).format('DD/MM/YYYY  HH:mm:ss');
+
     let rating;
     if (this.props.pullRequest.rating_complete == true) {
       console.log("rated");
@@ -38,7 +39,13 @@ export class PullRequestItem extends React.Component {
       console.log("not");
       rating = notRated();
     }
+    
+    // converts the date to a readable format
+    var day = moment(this.props.pullRequest.date).format('DD/MM/YYYY  HH:mm:ss');
+
     return (
+
+      // Each item in the list of pull requests
         <div>
           <Card variant="outlined">
           <Grid container spacing={0} >
@@ -57,7 +64,7 @@ export class PullRequestItem extends React.Component {
                 {rating}
               </Grid>
             </Grid>
-            <CardActions><Button size="small" href={this.props.pullRequest.url}>#{this.props.pullRequest._id}</Button></CardActions>
+            <CardActions><Button size="small" href={this.props.pullRequest.url}>#{this.props.pullRequest.git_id}</Button></CardActions>
           </Card>
         </div>
     );
