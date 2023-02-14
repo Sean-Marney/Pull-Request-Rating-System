@@ -24,7 +24,11 @@ function verifyJWTToken(req, res, next) {
             });
         }
 
-        
+        // Set the decoded user information on the request object
+        req.user = { id: decoded.id, name: decoded.name };
+
+        // Call the next middleware function
+        next();
     });
 }
 
