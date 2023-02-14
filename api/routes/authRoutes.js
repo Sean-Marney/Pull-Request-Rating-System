@@ -42,6 +42,7 @@ router.post("/login", (req, res) => {
                     message: "Invalid email or password",
                 });
             }
+            bcrypt.compare(userLoggingIn.password, dbUser.password);
         }
     );
 });
