@@ -18,7 +18,7 @@ function App() {
     }, []);
 
     const getPullRequests = async () => {
-        const res = await axios.get("http://localhost:8000/pullrequests/history/2");
+        const res = await axios.get("http://localhost:8000/pullrequests/history/1");
         console.log(res.data);
         setPullRequests(res.data);
     };
