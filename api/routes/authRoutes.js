@@ -6,30 +6,18 @@ const jwt = require("jsonwebtoken");
 const verifyJWT = require("../middleware/verifyJWT");
 
 router.post("/register", async (req, res) => {
-    console.log(req);
-    const user = req.body;
-
-    const userName = await User.findOne({
-        name: user.name.toLowerCase(),
-    });
-    const userEmail = await User.findOne({ email: user.email.toLowerCase() });
-
-    if (userName || userEmail) {
-        return res.status(401).send({
-            message: "Name or email has already been taken",
-        });
-    } else {
-        user.password = await bcrypt.hash(req.body.password, 10);
+    const name = req.body.name.toLowerCase();
+    const email = req.body.email.toLowerCase();
+    const existingUser = await User.findOne({ $or: [{ name }, { email }] });
+    if (existingUser) {
+        return res
+            .status(401)
+            .json({ message: "Name or email has already been taken" });
     }
-
-    const dbUser = new User({
-        name: user.name.toLowerCase(),
-        email: user.email.toLowerCase(),
-        password: user.password,
-    });
-
-    dbUser.save();
-    return res.json({ message: "Success" });
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
+    res.json({ message: "Success" });
 });
 
 router.post("/login", (req, res) => {
