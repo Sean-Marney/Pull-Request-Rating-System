@@ -22,6 +22,12 @@ router.post("/register", async (req, res) => {
     else {
         user.password = await bcrypt.hash(req.body.password, 10);
     }
+
+    const dbUser = new User({
+        name: user.name.toLowerCase(),
+        email: user.email.toLowerCase(),
+        password: user.password,
+    });
 });
 
 module.exports = router;
