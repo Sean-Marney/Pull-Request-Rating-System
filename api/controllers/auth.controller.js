@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
     // Extract the name and email values from the request body and convert to lowercase
@@ -20,7 +22,7 @@ const registerUser = async (req, res) => {
 
     // Save the new user to the database and return a success response
     await newUser.save();
-    res.json({ message: "Success" });
+    res.json({ message: "Success" , isRegistered:true});
 };
 
 const loginUser = async (req, res) => {
