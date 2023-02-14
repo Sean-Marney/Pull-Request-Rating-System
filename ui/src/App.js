@@ -9,6 +9,10 @@ import TrackProgress from "./routes/TrackProgress";
 import Merge from "./routes/Merge";
 
 
+import Home from "./components/HomePage/Home";
+import ManageRewards from "./components/ManageRewardsPage/ManageRewards";
+import CreateReward from "./components/ManageRewardsPage/CreateRewardForm";
+import UpdateReward from "./components/ManageRewardsPage/UpdateRewardForm";
 
 const App = () => {
     return (
@@ -22,6 +26,9 @@ const App = () => {
                     <Route path="/History" element={<History />} />
                     <Route path="/TrackProgress" element={<TrackProgress />} />
                     <Route path="/Merge" element={<Merge />} />
+                    <Route path="/management/rewards" element={<ManageRewards />} />
+                    <Route path="/management/rewards/create" element={<CreateReward />} />
+                    <Route path="/management/rewards/update/:id" element={<UpdateReward />} />
                 </Routes>
             </Sidebar>
         </BrowserRouter>
