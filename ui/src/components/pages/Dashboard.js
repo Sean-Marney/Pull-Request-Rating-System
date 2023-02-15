@@ -1,25 +1,32 @@
 import { useEffect } from "react";
-import axios from "axios";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import useAxiosInstance from "../../useAxiosInstance";
 
 function Dashboard() {
-    const [cookies, setCookie] = useCookies([]);
+    const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+    const { request } = useAxiosInstance();
 
-    useEffect(async () => {
-        const response = await axios.get(
-            `${process.env.REACT_APP_API_ENDPOINT}/users`,
-            {
-                headers: {
-                    "x-access-token": cookies.token.split(" ")[1],
-                },
-            }
-        );
-        console.log(response);
-    }, []);
+    function logout() {
+        removeCookie("token");
+        navigate("/login");
+    }
+
+    // async function fetchUsers() {
+    //     const response = await request({
+    //         method: "get",
+    //         url: "/users",
+    //     });
+    // }
+
+    // useEffect(() => {
+    //     fetchUsers();
+    // }, []);
 
     return (
         <div>
-            <h1>Redirected after login</h1>
+            <button onClick={logout}>Logout</button>
         </div>
     );
 }
