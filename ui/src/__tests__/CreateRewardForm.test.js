@@ -27,7 +27,7 @@ describe("Testing CreateReward component", () => {
 
     // wait for validation to complete and display error message
     await waitFor(() => {
-      const errorMessage = screen.getByText("rewardName is a required field");
+      const errorMessage = screen.getByText("You must enter a reward name");
       expect(errorMessage).toBeInTheDocument();
     });
   });
@@ -50,7 +50,7 @@ describe("Testing CreateReward component", () => {
     // wait for validation to complete and display error message
     await waitFor(() => {
       const errorMessage = screen.getByText(
-        "starsRequired is a required field"
+        "You must enter a star requirement"
       );
       expect(errorMessage).toBeInTheDocument();
     });
