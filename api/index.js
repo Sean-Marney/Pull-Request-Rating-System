@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 require("dotenv").config();
 const cors = require("cors");
 const manageRewardsRoute = require("./routes/manageRewards");
+const pullRequestsRoute = require("./routes/pullRequests");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json({ extended: false }));
 app.use(cors());
 
 app.get("/", (req, res) => res.send("Server up and running"));
+app.use("/pullrequests", pullRequestsRoute);
 
 // routes
 app.use("/management/rewards", manageRewardsRoute);
