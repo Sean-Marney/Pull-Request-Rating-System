@@ -6,7 +6,6 @@ import ManageRewards from "./components/ManageRewardsPage/ManageRewards";
 import CreateReward from "./components/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/ManageRewardsPage/UpdateRewardForm";
 import History from "./components/PullRequestHistory/PullRequestHistory";
-import PullRequest from "./components/PullRequest/PullRequest";
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
             path="/management/rewards/update/:id"
             element={<UpdateReward />}
           />
-          <Route path="/pullrequest/:id" element={<PullRequest />}/>
           <Route path="/history" element={<History />} />
         </Routes>
       </BrowserRouter>
