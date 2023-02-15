@@ -13,6 +13,8 @@ const getPullRequestsForUser = async (req, res) => {
   }
 };
 
+
 module.exports = {
     getPullRequestsForUser,
+    getPullRequest
 };

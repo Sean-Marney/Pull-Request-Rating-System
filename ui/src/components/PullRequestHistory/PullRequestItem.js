@@ -42,12 +42,11 @@ export class PullRequestItem extends React.Component {
     
     // converts the date to a readable format
     var day = moment(this.props.pullRequest.date).format('DD/MM/YYYY  HH:mm:ss');
-
+    var link = "/pullrequest/" + this.props.pullRequest._id;
     return (
 
       // Each item in the list of pull requests
         <div>
-          <Card variant="outlined">
           <Grid container spacing={0} >
             <Grid item xs={0}>
               <AccessTimeIcon sx={{ fontSize: 20 }}/>
@@ -58,14 +57,13 @@ export class PullRequestItem extends React.Component {
           </Grid>
             <Grid container spacing={0}>
               <Grid item xs={11}>
-                <Typography variant="h4" component="div" align="left"><Link href={this.props.pullRequest._id} underline="always">{this.props.pullRequest.title}</Link></Typography>
+                <Typography variant="h4" component="div" align="left">{this.props.pullRequest.title}</Typography>
               </Grid>
               <Grid item xs={1}>
                 {rating}
               </Grid>
             </Grid>
-            <CardActions><Button size="small" href={this.props.pullRequest.url}>#{this.props.pullRequest.git_id}</Button></CardActions>
-          </Card>
+            <CardActions><Button size="small" href={this.props.pullRequest.url}>View in GitHub</Button></CardActions>
         </div>
     );
   }
