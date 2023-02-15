@@ -29,7 +29,8 @@ npm i
 - `axios` package - Axios is a JavaScript library that provides an easy-to-use interface for creating HTTP requests from a web browser or Node.js environment. It can be used to send and recieve data from a variety of HTTP-based endpoints, such as REST APIs. **Learn more [here](https://www.npmjs.com/package/axios)**
 - `@material-ui/core` package - Material UI is a library of React components that are designed to implement Google's Material Design principles, and includes a range of pre-made components that can be implemented. **Learn more [here](https://www.npmjs.com/package/@material-ui/core)**
 - `@material-ui/icons` package - Material UI Icons is a package that provides a collection of pre-made Material Design icons to use with Material UI. **Learn more [here](https://www.npmjs.com/package/@material-ui/icons)**
-- `yup` package - Yup is a JavaScript library that allows developers to validate object schemas, usually to ensure data conforms to a particular format or set of requirements. **Learn more [here](https://www.npmjs.com/package/yup)**
+- `yup` package - Yup is a JavaScript library that allows developers to validate object schemas, usually to ensure data conforms to a particular format or set of requirements. **Learn more [here](https://www.npmjs.com/package/yup)**- `Moment JS` package - Moment is a JavaScript library which helps is parsing, validating, manipulating and displaying date/time in JavaScript in a very easy way. **Learn more [here](https://momentjs.com/)**
+- `Material UI` package - MUI offers a comprehensive suite of UI tools to help you ship new features faster. **Learn more [here](https://mui.com/)**
 
 ## Available Commands
 
