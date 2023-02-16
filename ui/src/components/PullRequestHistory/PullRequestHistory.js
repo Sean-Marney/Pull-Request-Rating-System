@@ -41,9 +41,11 @@ function App() {
     const getPullRequests = async () => {
         const res = await axios.get("http://localhost:8000/pullrequests/history/1");
         setPullRequests(res.data);
-        // handleSelection(res.data[0].rating_complete, res.data[0].ratings, res.data[0]._id)
     };
     
+    // Handles the selection of a pull request
+    // Changes the background color of the selected pull request
+    // Displays the ratings
     function handleSelection(rated,ratings,id) {
         try{
             let newRequest = document.getElementById(id);
@@ -71,6 +73,7 @@ function App() {
                 </Typography>
             </Box>
             <Grid container spacing={0} className={classes.container} >
+                {/* Section to display the pull requests */}
                 <Grid item xs={6} className={classes.padding} variant="outlined" style={{maxHeight: '80vh', overflow: 'auto'}}>
                     {pullRequests.map((pullRequest) => {
                     return (
@@ -80,6 +83,7 @@ function App() {
                         
                     )})}
                 </Grid>
+                {/* Section to display the ratings */}
                 <Grid item xs={6} className={classes.padding}>
                     <Card className={classes.height}>
                         <Ratings ratings={ratings} rated={rated}/>
