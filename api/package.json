@@ -24,6 +24,7 @@
         "mongodb-memory-server": "^8.11.4",
         "mongoose": "^6.9.0",
         "nodemon": "^2.0.20",
-        "sinon": "^15.0.1"
+        "sinon": "^15.0.1",
+        "supertest": "^6.3.3"
     }
 }
