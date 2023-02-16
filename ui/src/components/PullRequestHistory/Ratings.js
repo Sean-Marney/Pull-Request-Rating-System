@@ -22,7 +22,7 @@ export class Ratings extends React.Component {
         let list = [];
         list.push(title);
         for (rating in ratings) {
-            let item = <Rating category={rating} score={ratings[rating]}/>
+            let item = <Rating key={rating} category={rating} score={ratings[rating]}/>
             list.push(item);
         }
         return list;

@@ -29,6 +29,7 @@ function App() {
     const [pullRequests, setPullRequests] = useState([]);
     const [ratings, setRatings] = useState([]);
     const [rated, setRated] = useState();
+    const [selected, setSelected] = useState();
     useEffect(() => {
         getPullRequests();
         setRated("blank");
@@ -40,12 +41,27 @@ function App() {
     const getPullRequests = async () => {
         const res = await axios.get("http://localhost:8000/pullrequests/history/1");
         setPullRequests(res.data);
+        // handleSelection(res.data[0].rating_complete, res.data[0].ratings, res.data[0]._id)
     };
     
-    function handleSelection(rated,ratings) {
+    function handleSelection(rated,ratings,id) {
+        try{
+            let newRequest = document.getElementById(id);
+            if (newRequest){
+                newRequest.style.background = "#f5f5f5"
+            }
+            let oldRequest = document.getElementById(selected);
+            if (oldRequest){
+                oldRequest.style.background = "#ffffff"
+            }
+        }catch(err){
+            console.log(err);
+        }
+        setSelected(id);
         setRated(rated);
         setRatings(ratings);
     }
+
 
     return (
         <div className="App">
@@ -58,7 +74,7 @@ function App() {
                 <Grid item xs={6} className={classes.padding} variant="outlined">
                     {pullRequests.map((pullRequest) => {
                     return (
-                        <Card className={classes.clickable} onClick={() => handleSelection(pullRequest.rating_complete, pullRequest.ratings)}>
+                        <Card id ={pullRequest._id}   className={classes.clickable} onClick={() => handleSelection(pullRequest.rating_complete, pullRequest.ratings, pullRequest._id)}>
                             <PullRequestItem key={pullRequest._id} pullRequest={pullRequest}/>
                         </Card>
                         
