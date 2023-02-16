@@ -1,10 +1,12 @@
 // server.js
-require("dotenv").config();
-const express = require("express");
 const connectDB = require("./config/db");
 const cors = require("cors");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
+const express = require("express");
+require("dotenv").config();
+const rewardsRoute = require("./routes/rewards.routes");
+const pullRequestsRoute = require("./routes/pullRequests");
 
 const app = express();
 
@@ -23,12 +25,20 @@ app.use(express.json({ extended: false }));
 // routes
 app.use("/", authRoutes);
 app.use("/", userRoutes);
+app.use(cors());
+
+app.get("/", (req, res) => res.send("Server up and running"));
+app.use("/pullrequests", pullRequestsRoute);
+
+// routes
+app.use("/management/rewards", rewardsRoute);
+app.use("/rewards", rewardsRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-    console.log(`server is running on http://localhost:${PORT}`);
+  console.log(`server is running on http://localhost:${PORT}`);
 });
 
 module.exports = app;
