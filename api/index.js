@@ -21,7 +21,7 @@ app.use("/pullrequests", pullRequestsRoute);
 // routes
 app.use("/management/rewards", rewardsRoute);
 app.use("/rewards", rewardsRoute);
-app.use("/repositories", repositoriesRoute);
+app.use("/management/repositories", repositoriesRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;

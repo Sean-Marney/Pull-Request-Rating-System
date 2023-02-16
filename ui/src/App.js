@@ -35,7 +35,7 @@ const App = () => {
           />
           <Route path="/rewards" element={<Rewards />} />
           <Route path="/ManagerHelp" element={<ManagerHelp />} />
-          <Route path="/repositories" element={<RepositoryList />} />
+          <Route path="/management/repositories" element={<RepositoryList />} />
         </Routes>
       </Sidebar>
     </BrowserRouter>
