@@ -20,9 +20,8 @@ describe("GET /pullrequest/history/:id", () => {
   
     beforeEach((done) => {
       pullRequest = new PullRequest(
-        {git_id:"1",url:"https://git.cardiff.ac.uk/",assignee:"Owain Lansdowne",user_id:"1",rating_complete:true,date:"2023/02/14",title:"Nav Bar has been fixed"
-      });
-  
+        {git_id:"1",url:"https://git.cardiff.ac.uk/",assignee:"Owain Lansdowne",user_id:"1",rating_complete:true,ratings:{overall:15,code_quality:5,following_naming_convention:5,bug_free:5,additional_innovation:5,code_readibility:5},date:"2023/02/14",title:"Nav Bar has been fixed"});
+
       pullRequest.save((err) => {
         if (err) return done(err);
         done();
