@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         padding : theme.spacing(2)
     },
     height: {
-        height: "75%"
+        height: "40vh"
     },
 }));
 
@@ -48,7 +48,7 @@ function App() {
         try{
             let newRequest = document.getElementById(id);
             if (newRequest){
-                newRequest.style.background = "#f5f5f5"
+                newRequest.style.background = "#C9C5C5"
             }
             let oldRequest = document.getElementById(selected);
             if (oldRequest){
@@ -70,8 +70,8 @@ function App() {
                 <b>History</b>
                 </Typography>
             </Box>
-            <Grid container spacing={0} className={classes.container}>
-                <Grid item xs={6} className={classes.padding} variant="outlined">
+            <Grid container spacing={0} className={classes.container} >
+                <Grid item xs={6} className={classes.padding} variant="outlined" style={{maxHeight: '80vh', overflow: 'auto'}}>
                     {pullRequests.map((pullRequest) => {
                     return (
                         <Card id ={pullRequest._id}   className={classes.clickable} onClick={() => handleSelection(pullRequest.rating_complete, pullRequest.ratings, pullRequest._id)}>

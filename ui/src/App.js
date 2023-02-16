@@ -4,7 +4,7 @@ import Dashboard from "./routes/Dashboard";
 import "./App.css";
 import Achievements from "./routes/Achievements";
 import FAQ from "./routes/FAQ";
-import History from "./routes/History";
+import History from "./components/PullRequestHistory/PullRequestHistory";
 import TrackProgress from "./routes/TrackProgress";
 import Merge from "./routes/Merge";
 

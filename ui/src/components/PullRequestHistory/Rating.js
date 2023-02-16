@@ -6,6 +6,7 @@ import {
   CardActions,
   Grid,
   Link,
+  Divider
 } from "@material-ui/core";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 var moment = require('moment');  
@@ -23,13 +24,13 @@ export class Rating extends React.Component {
         <div>
             <Grid container >
                 <Grid  item xs={1}>
-                <Typography variant="h4" component="div" sx={{color: 'success.main'}}>{this.props.score}</Typography>
+                <Typography variant="h5" component="div" sx={{color: 'success.main'}}>{this.props.score}</Typography>
                 </Grid>  
                 <Grid  item xs={1}>
-                    <StarOutlineIcon  sx={{ fontSize: 40 }}/>
+                    <StarOutlineIcon  sx={{ fontSize: 35 }}/>
                 </Grid>  
                 <Grid  item xs={9}>
-                <Typography variant="h4" component="div" align="left">{title}</Typography>
+                <Typography variant="h5" component="div" align="left">{title}</Typography>
                 </Grid> 
             </Grid>
         </div>

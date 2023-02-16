@@ -1,11 +1,7 @@
 import React from "react";
 import {
-  Card,
   Typography,
-  Button,
-  CardActions,
-  Grid,
-  Link,
+  Divider
 } from "@material-ui/core";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
@@ -18,9 +14,10 @@ export class Ratings extends React.Component {
   render() {
     //  checks whether the pull request has been rated or not and then displays necessary information
     function rated(ratings) {
-        let title = <Typography variant="h4" component="div">Ratings</Typography>;
+        let title = <Typography variant="h4" component="div" align="center">Ratings</Typography>;
         let list = [];
         list.push(title);
+        list.push(<Divider />);
         for (rating in ratings) {
             let item = <Rating key={rating} category={rating} score={ratings[rating]}/>
             list.push(item);
@@ -29,7 +26,7 @@ export class Ratings extends React.Component {
     }
     function notRated(){
         return <div>
-          <Typography variant="h4" component="div">Pending Rating</Typography>
+          <Typography variant="h4" component="div" align="center">Pending Rating</Typography>
         </div>
         
     }
