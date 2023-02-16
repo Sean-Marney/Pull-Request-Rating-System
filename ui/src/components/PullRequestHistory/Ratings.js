@@ -16,10 +16,11 @@ moment().format();
 
 export class Ratings extends React.Component {
   render() {
-
     //  checks whether the pull request has been rated or not and then displays necessary information
     function rated(ratings) {
+        let title = <Typography variant="h4" component="div">Ratings</Typography>;
         let list = [];
+        list.push(title);
         for (rating in ratings) {
             let item = <Rating category={rating} score={ratings[rating]}/>
             list.push(item);
@@ -27,7 +28,10 @@ export class Ratings extends React.Component {
         return list;
     }
     function notRated(){
-        return <Typography variant="h5" component="div">Pending rating</Typography>
+        return <div>
+          <Typography variant="h4" component="div">Pending Rating</Typography>
+        </div>
+        
     }
     let rating;
     if (this.props.rated == true) {

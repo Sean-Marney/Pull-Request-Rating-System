@@ -22,14 +22,14 @@ export class Rating extends React.Component {
       // Each item in the list of pull requests
         <div>
             <Grid container >
-                <Grid item>
-                <Typography variant="h4" component="div" align="right">{this.props.score}</Typography>
+                <Grid  item xs={1}>
+                <Typography variant="h4" component="div" sx={{color: 'success.main'}}>{this.props.score}</Typography>
                 </Grid>  
-                <Grid item>
+                <Grid  item xs={1}>
                     <StarOutlineIcon  sx={{ fontSize: 40 }}/>
                 </Grid>  
-                <Grid item>
-                <Typography variant="h4" component="div" align="right">{title}</Typography>
+                <Grid  item xs={9}>
+                <Typography variant="h4" component="div" align="left">{title}</Typography>
                 </Grid> 
             </Grid>
         </div>

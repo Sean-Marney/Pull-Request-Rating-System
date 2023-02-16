@@ -12,15 +12,13 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 var moment = require('moment');  
 moment().format();
 
-
 export class PullRequestItem extends React.Component {
   render() {
-
     //  checks whether the pull request has been rated or not and then displays necessary information
     function rated(rating) {
-       return <Grid container >
+       return <Grid container>
             <Grid item>
-              <Typography variant="h4" component="div" align="right">{rating}</Typography>
+              <Typography variant="h4" component="div">{rating}</Typography>
             </Grid>  
             <Grid item>
             <StarOutlineIcon  sx={{ fontSize: 40 }}/>
@@ -54,14 +52,14 @@ export class PullRequestItem extends React.Component {
             </Grid>
           </Grid>
             <Grid container spacing={0}>
-              <Grid item xs={8}>
+              <Grid item xs={10}>
                 <Typography variant="h4" component="div" align="left">{this.props.pullRequest.title}</Typography>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 {rating}
               </Grid>
             </Grid>
-            <CardActions><Button size="small" href={this.props.pullRequest.url}>View in GitHub</Button></CardActions>
+            <CardActions><Button size="small" href={this.props.pullRequest.url} variant="outlined">View in GitHub</Button></CardActions>
         </div>
     );
   }

@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
         "background-color": "#f5f5f5", 
         padding : theme.spacing(2)
     },
+    height: {
+        height: "75%"
+    },
 }));
 
 
@@ -25,9 +28,10 @@ function App() {
     const classes = useStyles();
     const [pullRequests, setPullRequests] = useState([]);
     const [ratings, setRatings] = useState([]);
-    const [rated, setRated] = useState([]);
+    const [rated, setRated] = useState();
     useEffect(() => {
         getPullRequests();
+        setRated("blank");
     }, []);
 
 
@@ -60,8 +64,10 @@ function App() {
                         
                     )})}
                 </Grid>
-                <Grid item xs={6}>
-                    <Ratings ratings={ratings} rated={rated}/>
+                <Grid item xs={6} className={classes.padding}>
+                    <Card className={classes.height}>
+                        <Ratings ratings={ratings} rated={rated}/>
+                    </Card>
                 </Grid>                        
             </Grid>    
         </div>
