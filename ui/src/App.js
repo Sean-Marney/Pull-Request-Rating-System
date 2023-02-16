@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/SidebarData";
-import Dashboard from "./routes/Dashboard";
+import Dashboard from "../src/components/pages/Dashboard";
 import "./App.css";
 import Achievements from "./routes/Achievements";
 import FAQ from "./routes/FAQ";
