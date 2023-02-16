@@ -1,3 +1,4 @@
+import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -85,11 +86,12 @@ export default function CreateReward() {
           <CardContent>
             <form onSubmit={createReward}>
               <div>
-                <InputLabel>Reward Name</InputLabel>
+                <InputLabel htmlFor="rewardName">Reward Name</InputLabel>
                 <Input
                   onChange={updateCreateFormField}
                   value={createForm.rewardName}
                   name="rewardName"
+                  id="rewardName"
                   inputProps={{
                     style: { textAlign: "center" },
                   }}
@@ -100,11 +102,12 @@ export default function CreateReward() {
                 )}
               </div>
               <div style={{ marginTop: "20px" }}>
-                <InputLabel>Stars Required</InputLabel>
+                <InputLabel htmlFor="starsRequired">Stars Required</InputLabel>
                 <Input
                   onChange={updateCreateFormField}
                   value={createForm.starsRequired}
                   name="starsRequired"
+                  id="starsRequired"
                   inputProps={{
                     style: { textAlign: "center" },
                   }}

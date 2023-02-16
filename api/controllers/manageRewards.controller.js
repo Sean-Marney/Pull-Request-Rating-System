@@ -1,4 +1,4 @@
-const Reward = require("../models/Reward");
+const Reward = require("../models/reward.model");
 
 // CRUD methods for rewards
 
