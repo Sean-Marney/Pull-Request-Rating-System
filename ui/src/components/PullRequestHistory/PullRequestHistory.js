@@ -6,9 +6,23 @@ import {
     Typography,
     Box,
     Grid,
-    Card
+    Card,
+    makeStyles
   } from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
+    clickable: {
+        cursor: "pointer",
+        "margin-bottom": "20px"
+    },
+    padding: {
+        "background-color": "#f5f5f5", 
+        padding : theme.spacing(2)
+    },
+}));
+
+
 function App() {
+    const classes = useStyles();
     const [pullRequests, setPullRequests] = useState([]);
     const [ratings, setRatings] = useState([]);
     const [rated, setRated] = useState([]);
@@ -36,11 +50,11 @@ function App() {
                 <b>History</b>
                 </Typography>
             </Box>
-            <Grid container spacing={0} >
-                <Grid item xs={6}>
+            <Grid container spacing={0} className={classes.container}>
+                <Grid item xs={6} className={classes.padding} variant="outlined">
                     {pullRequests.map((pullRequest) => {
                     return (
-                        <Card onClick={() => handleSelection(pullRequest.rating_complete, pullRequest.ratings)}>
+                        <Card className={classes.clickable} onClick={() => handleSelection(pullRequest.rating_complete, pullRequest.ratings)}>
                             <PullRequestItem key={pullRequest._id} pullRequest={pullRequest}/>
                         </Card>
                         

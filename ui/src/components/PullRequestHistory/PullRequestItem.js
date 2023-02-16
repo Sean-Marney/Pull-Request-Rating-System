@@ -33,10 +33,8 @@ export class PullRequestItem extends React.Component {
 
     let rating;
     if (this.props.pullRequest.rating_complete == true) {
-      console.log("rated");
       rating = rated(this.props.pullRequest.ratings.overall);
     }else{
-      console.log("not");
       rating = notRated();
     }
     
@@ -56,10 +54,10 @@ export class PullRequestItem extends React.Component {
             </Grid>
           </Grid>
             <Grid container spacing={0}>
-              <Grid item xs={11}>
+              <Grid item xs={8}>
                 <Typography variant="h4" component="div" align="left">{this.props.pullRequest.title}</Typography>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={4}>
                 {rating}
               </Grid>
             </Grid>

@@ -29,11 +29,10 @@ export class Ratings extends React.Component {
     function notRated(){
         return <Typography variant="h5" component="div">Pending rating</Typography>
     }
-
     let rating;
     if (this.props.rated == true) {
       rating = rated(this.props.ratings);
-    }else{
+    }else if (this.props.rated == false){
       rating = notRated();
     }
 
