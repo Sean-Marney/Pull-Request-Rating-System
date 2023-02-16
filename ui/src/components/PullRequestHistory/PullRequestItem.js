@@ -16,7 +16,7 @@ export class PullRequestItem extends React.Component {
   render() {
     //  checks whether the pull request has been rated or not and then displays necessary information
     function rated(rating) {
-       return <Grid container>
+       return <Grid container >
             <Grid item>
               <Typography variant="h4" component="div">{rating}</Typography>
             </Grid>  

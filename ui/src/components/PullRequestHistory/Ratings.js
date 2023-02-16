@@ -30,6 +30,7 @@ export class Ratings extends React.Component {
     function notRated(){
         return <div>
           <Typography variant="h4" component="div" align="center">Pending Rating</Typography>
+          <Typography variant="h6" component="div" >Your manager will review this soon.</Typography>
         </div>
         
     }
