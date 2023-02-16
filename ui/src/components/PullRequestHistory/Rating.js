@@ -17,20 +17,22 @@ export class Rating extends React.Component {
   render() {
     let title = this.props.category.replaceAll("_", " ");
     title = title.charAt(0).toUpperCase() + title.slice(1);
-
+    let stars = [];
+    for (let i = 0; i < 5; i++) {
+        if (i < this.props.score) {
+            stars.push(<Grid  item><StarOutlineIcon style={{color: '#FFD700'}} sx={{ fontSize: 35 }}/></Grid>);
+        }else{
+          console.log("black");
+            stars.push(<Grid  item><StarOutlineIcon sx={{ fontSize: 35 }}/></Grid>);
+        }
+    }
     return (
-
       // Each item in the list of pull requests
         <div>
             <Grid container >
-                <Grid  item xs={1}>
-                <Typography variant="h5" component="div" sx={{color: 'success.main'}}>{this.props.score}</Typography>
-                </Grid>  
-                <Grid  item xs={1}>
-                    <StarOutlineIcon  sx={{ fontSize: 35 }}/>
-                </Grid>  
-                <Grid  item xs={9}>
-                <Typography variant="h5" component="div" align="left">{title}</Typography>
+                {stars}
+                <Grid  item xs={7}>
+                <Typography variant="h5" component="div" style ={{"padding-left":"50px"}}>{title}</Typography>
                 </Grid> 
             </Grid>
         </div>

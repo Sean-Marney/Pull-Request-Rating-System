@@ -18,9 +18,12 @@ export class Ratings extends React.Component {
         let list = [];
         list.push(title);
         list.push(<Divider />);
-        for (rating in ratings) {
-            let item = <Rating key={rating} category={rating} score={ratings[rating]}/>
-            list.push(item);
+        let displaylist = ratings;
+        for (rating in displaylist) {
+            if (rating != "overall") {
+              let item = <Rating key={rating} category={rating} score={ratings[rating]}/>
+              list.push(item);
+            }
         }
         return list;
     }

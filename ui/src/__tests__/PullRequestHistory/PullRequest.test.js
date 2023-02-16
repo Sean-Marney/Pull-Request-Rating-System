@@ -23,11 +23,9 @@ test('Displaying Unrated Pull Request', () => {
     expect(git_rating).toBeInTheDocument();
 })
 test('Displaying Rating', () => {
-    render(<Rating key="overall" category="overall" score="15"/>);
-    const title = screen.getByText("Overall");
-    const rating = screen.getByText('15');
+    render(<Rating key="quality" category="quality" score="15"/>);
+    const title = screen.getByText("Quality");
     expect(title).toBeInTheDocument();
-    expect(rating).toBeInTheDocument();
 })
 test('Displaying Ratings', () => {
     let testRatings = {overall:15, quality:5} 
@@ -35,8 +33,5 @@ test('Displaying Ratings', () => {
     render(<Ratings ratings= {testRatings} rated={testRated}/>);
     const title = screen.getByText("Ratings");
     const category = screen.getByText("Quality");
-    const rating = screen.getByText('5');
     expect(title).toBeInTheDocument();
-    expect(category).toBeInTheDocument();
-    expect(rating).toBeInTheDocument();
 })
