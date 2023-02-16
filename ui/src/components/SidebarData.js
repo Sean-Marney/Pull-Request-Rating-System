@@ -42,7 +42,7 @@ const Sidebar = ({children}) => {
         },
         {
         path:"/ManagerHelp",
-        name:"MangerHelp",
+        name:"ManagerHelp",
         icon:<Help/>
 }
     ]

@@ -25,7 +25,7 @@ const App = () => {
                     <Route path="/History" element={<History />} />
                     <Route path="/TrackProgress" element={<TrackProgress />} />
                     <Route path="/Merge" element={<Merge />} />
-                    <Route path="/MRewards" element={<ManageRewards />} />
+                    <Route path="/management/rewards" element={<ManageRewards />} />
                     <Route path="/management/rewards/create" element={<CreateReward />} />
                     <Route path="/management/rewards/update/:id" element={<UpdateReward />} />
                     <Route path="/ManagerHelp" element={<ManagerHelp />} />
