@@ -1,4 +1,5 @@
 const express = require("express");
+
 const {
   createReward,
   deleteReward,
@@ -6,11 +7,10 @@ const {
   getRewardSortedByStars,
   updateReward,
   getRewardsById,
-} = require("../controllers/manageRewards");
+} = require("../controllers/manageRewards.controller");
 
 const router = express.Router();
 
-// CRUD routes for /manage/rewards
 router.get("/", getRewards);
 router.get("/:id", getRewardsById);
 router.get("/sort/byStars", getRewardSortedByStars);

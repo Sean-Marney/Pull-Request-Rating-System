@@ -1,7 +1,7 @@
 const chai = require("chai");
 const request = require("supertest");
 const app = require("../../index");
-const Reward = require("../../models/Reward");
+const Reward = require("../../models/reward.model");
 
 describe("GET /management/rewards", () => {
   it("should return all rewards and status code 200", (done) => {
