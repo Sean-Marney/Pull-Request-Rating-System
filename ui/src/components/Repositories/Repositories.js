@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   List,
   ListItem,
   ListItemText,
@@ -16,12 +15,13 @@ const RepositoryList = () => {
   const [pullRequests, setPullRequests] = useState([]);
 
   const getPullRequests = async (repositoryName) => {
-    const token = "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"; // replace with your own GitHub token
+    // Requires access token as its a private repository (generated on GitHub)
+    const token = "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";
     const headers = {
       Authorization: `Token ${token}`,
-      "User-Agent": "mern-github-app",
     };
 
+    // Calls GitHub API to get pending pull requests from a repository
     try {
       const response = await axios.get(
         `https://api.github.com/repos/${repositoryName}/pulls`,
@@ -33,6 +33,7 @@ const RepositoryList = () => {
     }
   };
 
+  // Event handler to show the correct data depending on which repository is selected
   const handleRepositoryChange = (event) => {
     setSelectedRepository(event.target.value);
     getPullRequests(event.target.value);
@@ -40,6 +41,7 @@ const RepositoryList = () => {
 
   useEffect(() => {
     async function getRepositories() {
+      // Sends GET request to API to get all repositories and sets to state variable
       try {
         const response = await axios.get(
           "http://localhost:8000/management/repositories"
@@ -51,6 +53,11 @@ const RepositoryList = () => {
     }
     getRepositories();
   }, []);
+
+  // Event handler to navigate to GitHub page for a specific pull request when user clicks the pull request
+  const handlePullRequestClick = (pullRequestUrl) => {
+    window.open(pullRequestUrl, "_blank");
+  };
 
   return (
     <div>
@@ -71,7 +78,11 @@ const RepositoryList = () => {
       {pullRequests.length > 0 && (
         <List>
           {pullRequests.map((pullRequest) => (
-            <ListItem key={pullRequest.id}>
+            <ListItem
+              key={pullRequest.id}
+              button
+              onClick={() => handlePullRequestClick(pullRequest.html_url)}
+            >
               <ListItemText
                 primary={pullRequest.title}
                 secondary={`#${pullRequest.number} opened by ${pullRequest.user.login}`}
