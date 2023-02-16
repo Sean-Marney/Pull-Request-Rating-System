@@ -1,33 +1,43 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Sidebar from "./components/SidebarData";
+import Dashboard from "./routes/Dashboard";
 import "./App.css";
-import Home from "./components/HomePage/Home";
+import Achievements from "./routes/Achievements";
+import FAQ from "./routes/FAQ";
+import History from "./routes/History";
+import TrackProgress from "./routes/TrackProgress";
+import Merge from "./routes/Merge";
+
 import ManageRewards from "./components/ManageRewardsPage/ManageRewards";
 import CreateReward from "./components/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/RewardsPage/Rewards";
-import History from "./components/PullRequestHistory/PullRequestHistory";
+import ManagerHelp from "./routes/ManagerHelp";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <BrowserRouter>
+    <BrowserRouter>
+      <Sidebar>
         <Routes>
-          {/* Routes for managers to manage rewards */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Achievements" element={<Achievements />} />
+          <Route path="/FAQ" element={<FAQ />} />
+          <Route path="/History" element={<History />} />
+          <Route path="/TrackProgress" element={<TrackProgress />} />
+          <Route path="/Merge" element={<Merge />} />
           <Route path="/management/rewards" element={<ManageRewards />} />
           <Route path="/management/rewards/create" element={<CreateReward />} />
           <Route
             path="/management/rewards/update/:id"
             element={<UpdateReward />}
           />
-          {/* Routes for developers to view rewards */}
           <Route path="/rewards" element={<Rewards />} />
-          <Route path="/history" element={<History />} />
+          <Route path="/ManagerHelp" element={<ManagerHelp />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </Sidebar>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
