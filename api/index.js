@@ -7,6 +7,7 @@ const express = require("express");
 require("dotenv").config();
 const rewardsRoute = require("./routes/rewards.routes");
 const pullRequestsRoute = require("./routes/pullRequests");
+const userRoute = require("./routes/user.routes");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/pullrequests", pullRequestsRoute);
 // routes
 app.use("/management/rewards", rewardsRoute);
 app.use("/rewards", rewardsRoute);
+app.use("/users", userRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;
