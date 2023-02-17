@@ -6,7 +6,7 @@ const userRoutes = require("./routes/user.routes");
 const express = require("express");
 require("dotenv").config();
 const rewardsRoute = require("./routes/rewards.routes");
-const pullRequestsRoute = require("./routes/pullRequests");
+const pullRequestsRoute = require("./routes/pullRequests.routes");
 
 const app = express();
 

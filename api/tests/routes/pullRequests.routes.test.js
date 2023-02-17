@@ -1,7 +1,7 @@
 const chai = require("chai");
 const request = require("supertest");
 const app = require("../../index");
-const PullRequest = require("../../models/PullRequest");
+const PullRequest = require("../../models/pullRequest.model");
 
 describe("GET /pullrequests/history", () => {
   it("should return the list of pull requests and status code 200", (done) => {

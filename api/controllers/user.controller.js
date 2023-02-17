@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const User = require("../models/user.model");
 
 // Get all rewards
 const getUsers = async (req, res) => {
