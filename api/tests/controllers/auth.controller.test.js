@@ -2,7 +2,7 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const auth = require("../../controllers/auth.controller");
 const sinon = require("sinon");
-var User = require("../../models/userModel");
+var User = require("../../models/user.model");
 const jwt = require("jsonwebtoken");
 
 chai.use(chaiHttp);

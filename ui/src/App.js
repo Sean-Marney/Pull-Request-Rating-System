@@ -1,16 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-
-import Sidebar from "./components/SidebarData";
-import Dashboard from "../src/components/Dashboard/Dashboard";
-import PullRequestHistory from "./components/PullRequestHistory/PullRequestHistory";
+import Sidebar from "./components/reusable/SidebarData";
+import Dashboard from "./components/pages/Dashboard/Dashboard";
+import PullRequestHistory from "./components/pages/PullRequestHistory/PullRequestHistory";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
-import ManageRewards from "./components/ManageRewardsPage/ManageRewards";
-import CreateReward from "./components/ManageRewardsPage/CreateRewardForm";
-import UpdateReward from "./components/ManageRewardsPage/UpdateRewardForm";
-import Rewards from "./components/RewardsPage/Rewards";
-
+import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
+import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
+import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
+import Rewards from "./components/pages/RewardsPage/Rewards";
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 
