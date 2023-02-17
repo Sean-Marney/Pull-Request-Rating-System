@@ -1,4 +1,4 @@
-const PullRequest = require("../models/PullRequest");
+const PullRequest = require("../models/pullRequest.model");
 
 // Reads the pull request for a user
 // Takes in the id as a parameter and then returns the pull requests

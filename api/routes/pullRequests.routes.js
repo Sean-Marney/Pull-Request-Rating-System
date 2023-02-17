@@ -1,5 +1,5 @@
 const express = require("express");
-const {getPullRequestsForUser} = require("../controllers/pullRequests");
+const {getPullRequestsForUser} = require("../controllers/pullRequests.controller");
 
 const router = express.Router();
 
