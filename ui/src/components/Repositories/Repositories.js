@@ -6,6 +6,7 @@ import {
   Select,
   Typography,
   MenuItem,
+  Chip,
 } from "@material-ui/core";
 import axios from "axios";
 
@@ -15,16 +16,16 @@ const RepositoryList = () => {
   const [pullRequests, setPullRequests] = useState([]);
 
   const getPullRequests = async (repositoryName) => {
-    // Requires access token as its a private repository (generated on GitHub)
+    // Requires access token as it's a private repository (generated on GitHub)
     const token = "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";
     const headers = {
       Authorization: `Token ${token}`,
     };
 
-    // Calls GitHub API to get pending pull requests from a repository
+    // Calls GitHub API to get pull requests from a repository
     try {
       const response = await axios.get(
-        `https://api.github.com/repos/${repositoryName}/pulls`,
+        `https://api.github.com/repos/${repositoryName}/pulls?state=all`,
         { headers }
       );
       setPullRequests(response.data);
@@ -59,10 +60,19 @@ const RepositoryList = () => {
     window.open(pullRequestUrl, "_blank");
   };
 
+  // Helper function to determine the status of a pull request based on its "merged_at" property
+  const getPullRequestStatus = (pullRequest) => {
+    if (pullRequest.merged_at) {
+      return "Merged";
+    } else {
+      return "Pending";
+    }
+  };
+
   return (
     <div>
       <Typography variant="h4">
-        <b>Pending Pull Requests</b>
+        <b>All Pull Requests</b>
       </Typography>
       <Select value={selectedRepository} onChange={handleRepositoryChange}>
         <MenuItem value="" disabled>
@@ -86,6 +96,14 @@ const RepositoryList = () => {
               <ListItemText
                 primary={pullRequest.title}
                 secondary={`#${pullRequest.number} opened by ${pullRequest.user.login}`}
+              />
+              <Chip
+                label={getPullRequestStatus(pullRequest)}
+                color={
+                  getPullRequestStatus(pullRequest) === "Pending"
+                    ? "secondary"
+                    : "primary"
+                }
               />
             </ListItem>
           ))}
