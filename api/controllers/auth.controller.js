@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
 
     // Hash the password with bcrypt and create a new User document with the name, email, and hashed password
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = new User({ name, email, password: hashedPassword });
+    const newUser = new User({ name, email, password: hashedPassword, hasRole: "Manager" });
 
     // Save the new user to the database and return a success response
     await newUser.save();
@@ -32,19 +32,22 @@ const loginUser = async (req, res) => {
     try {
         // Look up the user in the database using the provided email (convert to lowercase to ensure consistency)
         const user = await User.findOne({ email: email.toLowerCase() });
-        if (!user)
+        if (!user){
             // If user is not found, return a 401 response with an error message
             return res
                 .status(401)
                 .json({ message: "Invalid email or password" });
+        }
+        
 
         // Compare the password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch)
+        if (!isMatch) {
             // If the passwords don't match, return a 401 response with an error message
             return res
                 .status(401)
                 .json({ message: "Invalid email or password" });
+        }
 
         // Generate a JSON Web Token (JWT) with the user's ID and email and sign it with a secret key
         const token = jwt.sign(
@@ -54,7 +57,7 @@ const loginUser = async (req, res) => {
         );
 
         // Return a success response with the JWT included as a Bearer token
-        res.json({ message: "Success", token: `Bearer ${token}` });
+        res.json({ message: "Success", token: `Bearer ${token}`, hasRole: user.hasRole});
     } catch (error) {
         // If there is an error, log it to the console and return a 500 response with an error message
         console.error(error);
