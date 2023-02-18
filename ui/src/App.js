@@ -13,6 +13,7 @@ import CreateReward from "./components/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/RewardsPage/Rewards";
 import ManagerHelp from "./routes/ManagerHelp";
+import FAQList from "./components/ManageFAQPage/FAQList";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           />
           <Route path="/rewards" element={<Rewards />} />
           <Route path="/ManagerHelp" element={<ManagerHelp />} />
+          <Route exact path='/' element={<FAQList />} />
         </Routes>
       </Sidebar>
     </BrowserRouter>

@@ -22,6 +22,7 @@ app.use("/pullrequests", pullRequestsRoute);
 // routes
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/manageFaqs", manageFaqs);
+app.use("/faqs", manageFaqs);
 app.use("/rewards", rewardsRoute);
 
 // setting up port
