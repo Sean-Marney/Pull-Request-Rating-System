@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const RepositoryList = () => {
   const classes = useStyles();
   const [repositories, setRepositories] = useState([]);
-  const [selectedRepository, setSelectedRepository] = useState("");
+  const [selectedRepository, setSelectedRepository] = useState();
   const [pullRequests, setPullRequests] = useState([]);
 
   // Gets pull requests for a given repository
@@ -132,6 +132,11 @@ const RepositoryList = () => {
     }
   };
 
+  // When the page loads, it will call this function so that all pull requests are displayed by default
+  useEffect(() => {
+    handleAllPullRequestsClick();
+  }, []);
+
   return (
     <div className={classes.root}>
       <Typography variant="h4">
@@ -141,7 +146,7 @@ const RepositoryList = () => {
         className={classes.select}
         value={selectedRepository}
         onChange={handleRepositoryChange}
-        displayEmpty={true}
+        defaultValue="all"
       >
         <MenuItem value="all" onClick={handleAllPullRequestsClick}>
           All Pull Requests
