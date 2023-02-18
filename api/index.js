@@ -17,7 +17,7 @@ connectDB();
 app.use(
     cors({
         origin: ["http://localhost:3000"],
-        methods: ["GET", "POST", "PUT", "DELETE"],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
     })
 );
@@ -34,7 +34,7 @@ app.use("/pullrequests", pullRequestsRoute);
 // routes
 app.use("/management/rewards", rewardsRoute);
 app.use("/rewards", rewardsRoute);
-app.use("/users", userRoute);
+app.use("/management/users", userRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;
