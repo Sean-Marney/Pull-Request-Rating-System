@@ -7,17 +7,45 @@ import {
   Typography,
   MenuItem,
   Chip,
+  makeStyles,
 } from "@material-ui/core";
 import axios from "axios";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 700,
+    margin: "auto",
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  select: {
+    minWidth: "300px",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    fontSize: "20px",
+    textAlign: "center",
+  },
+  listItem: {
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#f5f5f5",
+    },
+  },
+  chip: {
+    marginLeft: "auto",
+  },
+}));
+
 const RepositoryList = () => {
+  const classes = useStyles();
   const [repositories, setRepositories] = useState([]);
   const [selectedRepository, setSelectedRepository] = useState("");
   const [pullRequests, setPullRequests] = useState([]);
 
   const getPullRequests = async (repositoryName) => {
-    // Requires access token as it's a private repository (generated on GitHub)
+    // Requires access token (generated on GitHub) as it's a private repository
     const token = "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";
+    // Access token is inserted into the header
     const headers = {
       Authorization: `Token ${token}`,
     };
@@ -25,6 +53,7 @@ const RepositoryList = () => {
     // Calls GitHub API to get pull requests from a repository
     try {
       const response = await axios.get(
+        // pulls?state=all ensures that all pull requests are retrieved, even ones that have been merged
         `https://api.github.com/repos/${repositoryName}/pulls?state=all`,
         { headers }
       );
@@ -42,11 +71,12 @@ const RepositoryList = () => {
 
   useEffect(() => {
     async function getRepositories() {
-      // Sends GET request to API to get all repositories and sets to state variable
+      // Sends GET request to API to get all repositories
       try {
         const response = await axios.get(
           "http://localhost:8000/management/repositories"
         );
+        // Sets to state
         setRepositories(response.data);
       } catch (error) {
         console.error(error);
@@ -63,22 +93,26 @@ const RepositoryList = () => {
   // Helper function to determine the status of a pull request based on its "merged_at" property
   const getPullRequestStatus = (pullRequest) => {
     if (pullRequest.merged_at) {
-      return "Merged";
+      return "Merged"; // Pull request has been merged on GitHub
     } else {
-      return "Pending";
+      return "Pending"; // Pull request has been created on GitHub
     }
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <Typography variant="h4">
-        <b>All Pull Requests</b>
+        <b>Pull Requests</b>
       </Typography>
-      <Select value={selectedRepository} onChange={handleRepositoryChange}>
+      <Select
+        className={classes.select}
+        value={selectedRepository}
+        onChange={handleRepositoryChange}
+        displayEmpty={true}
+      >
         <MenuItem value="" disabled>
           Select a repository
         </MenuItem>
-
         {repositories.map((repository) => (
           <MenuItem key={repository.id} value={repository.full_name}>
             {repository.name}
@@ -92,12 +126,14 @@ const RepositoryList = () => {
               key={pullRequest.id}
               button
               onClick={() => handlePullRequestClick(pullRequest.html_url)}
+              className={classes.listItem}
             >
               <ListItemText
                 primary={pullRequest.title}
                 secondary={`#${pullRequest.number} opened by ${pullRequest.user.login}`}
               />
               <Chip
+                className={classes.chip}
                 label={getPullRequestStatus(pullRequest)}
                 color={
                   getPullRequestStatus(pullRequest) === "Pending"
