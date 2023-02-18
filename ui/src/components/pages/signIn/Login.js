@@ -46,7 +46,8 @@ export default function SignIn() {
             });
             if (response.data.token) {
                 setCookie("token", response.data.token, { path: "/" });
-                navigate("/dashboard");
+                setCookie("role", response.data.hasRole, { path: "/" });
+                navigate("/");
             } else {
                 alert(response.data.message);
             }

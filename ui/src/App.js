@@ -17,7 +17,6 @@ import ProtectedRoute from "./routes/ProtectedRoutes";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-    console.log(cookies);
     return (
         <BrowserRouter>
             <Sidebar removeCookie={removeCookie} role={cookies.role}>
@@ -88,7 +87,15 @@ const App = () => {
                     />
                     <Route
                         path="/management/rewards/update/:id"
-                        element={<UpdateReward />}
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdateReward />
+                            </ProtectedRoute>
+                        }
                     />
                     <Route path="/rewards" element={<Rewards />} />
                 </Routes>
