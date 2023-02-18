@@ -42,6 +42,7 @@ const RepositoryList = () => {
   const [selectedRepository, setSelectedRepository] = useState("");
   const [pullRequests, setPullRequests] = useState([]);
 
+  // Gets pull requests for a given repository
   const getPullRequests = async (repositoryName) => {
     // Requires access token (generated on GitHub) as it's a private repository
     const token = "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";
@@ -63,10 +64,30 @@ const RepositoryList = () => {
     }
   };
 
+  // Gets all pull requests across all repositories
+  const getAllPullRequests = async () => {
+    try {
+      const response = await axios.get(
+        // Sends GET request to API to get all pull requests in all repositories
+        "http://localhost:8000/management/repositories/allPulls"
+      );
+      setPullRequests(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Event handler to show the correct data depending on which repository is selected
   const handleRepositoryChange = (event) => {
-    setSelectedRepository(event.target.value);
-    getPullRequests(event.target.value);
+    const value = event.target.value;
+    setSelectedRepository(value);
+    if (value === "all") {
+      // If user clicks "All Pull Requests" (has "all" value), display all pull requests across all repositories
+      getAllPullRequests();
+      // Else, show pull requests for the repository that they click
+    } else {
+      getPullRequests(value);
+    }
   };
 
   useEffect(() => {
@@ -90,6 +111,18 @@ const RepositoryList = () => {
     window.open(pullRequestUrl, "_blank");
   };
 
+  // Event handler to get all pull requests from all repositories when user selects "All Pull Requests"
+  const handleAllPullRequestsClick = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/management/repositories/allPulls"
+      );
+      setPullRequests(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Helper function to determine the status of a pull request based on its "merged_at" property
   const getPullRequestStatus = (pullRequest) => {
     if (pullRequest.merged_at) {
@@ -110,9 +143,10 @@ const RepositoryList = () => {
         onChange={handleRepositoryChange}
         displayEmpty={true}
       >
-        <MenuItem value="" disabled>
-          Select a repository
+        <MenuItem value="all" onClick={handleAllPullRequestsClick}>
+          All Pull Requests
         </MenuItem>
+        {/* Displays all pull requests in the selected repository */}
         {repositories.map((repository) => (
           <MenuItem key={repository.id} value={repository.full_name}>
             {repository.name}
@@ -130,8 +164,9 @@ const RepositoryList = () => {
             >
               <ListItemText
                 primary={pullRequest.title}
-                secondary={`#${pullRequest.number} opened by ${pullRequest.user.login}`}
+                secondary={`Pull Request #${pullRequest.number} from ${pullRequest.base.repo.name}`}
               />
+              {/* Tag tells user if pull request is "Merged" or "Pending" */}
               <Chip
                 className={classes.chip}
                 label={getPullRequestStatus(pullRequest)}
