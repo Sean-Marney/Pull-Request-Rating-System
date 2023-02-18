@@ -8,7 +8,9 @@ import {
   MenuItem,
   Chip,
   makeStyles,
+  ListItemIcon,
 } from "@material-ui/core";
+import ClockIcon from "@material-ui/icons/AccessTime";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -168,8 +170,36 @@ const RepositoryList = () => {
               className={classes.listItem}
             >
               <ListItemText
-                primary={pullRequest.title}
-                secondary={`Pull Request #${pullRequest.number} from ${pullRequest.base.repo.name}`}
+                primary={
+                  <Typography variant="h6">{pullRequest.title}</Typography>
+                }
+                secondary={
+                  <>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="textSecondary"
+                    >
+                      {`Pull Request #${pullRequest.number} from ${pullRequest.base.repo.name}`}
+                    </Typography>
+                    <br />
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      {`Created by ${pullRequest.user.login}`}
+                    </Typography>
+                    <br />
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      {`${pullRequest.created_at}`}
+                    </Typography>
+                  </>
+                }
               />
               {/* Tag tells user if pull request is "Merged" or "Pending" */}
               <Chip
