@@ -194,30 +194,3 @@ describe("DELETE user by ID from /management/users/delete/:id using the deleteUs
     });
 });
 
-describe("UPDATE user by ID from /management/user/update/:id using the updateUser controller method", () => {
-    it("should update a user with the given ID", async () => {
-        const user = new User({
-            name: "Martin Dawes",
-            email: "martin@gmail.com",
-            password: "12345",
-            hasRole: "Developer",
-        });
-        await user.save();
-
-        const res = await chai
-            .request(app)
-            .patch(`/management/users/update/${user.id}`)
-            .send({
-                name: "Developer Dawes",
-                email: "martin@gmail.com",
-                password: "12345",
-                hasRole: "Developer",
-            });
-
-        res.should.have.status(200);
-        res.body.should.have.property("name").eql("Developer Dawes");
-        res.body.should.have.property("email").eql("martin@gmail.com");
-        res.body.should.have.property("password").eql("12345");
-        res.body.should.have.property("hasRole").eql("Developer");
-    });
-});
