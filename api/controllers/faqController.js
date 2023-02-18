@@ -1,4 +1,4 @@
-const Faq = require("../models/Faq.js");
+const Faq = require("../models/FaqModel.js");
 
 // CRUD methods for FAQs
 
@@ -43,7 +43,7 @@ const createFAQs = async (req, res) => {
     }
 };
 
-// Update a reward
+// Update a FAQs
 const updateFAQs = async (req, res) => {
     try {
         const faq = await Faq.findById(req.params.id);
