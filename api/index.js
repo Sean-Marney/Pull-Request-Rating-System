@@ -2,7 +2,6 @@
 require("dotenv").config(); 
 const express = require("express");
 const connectDB = require("./config/db");
-require("dotenv").config();
 const cors = require("cors");
 const manageFaqs = require("./routes/manageFaqs.js");
 const rewardsRoute = require("./routes/rewards.routes");
