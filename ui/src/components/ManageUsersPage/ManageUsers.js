@@ -17,6 +17,7 @@ import {
     Box,
     IconButton,
 } from "@material-ui/core";
+import useAxiosInstance from "../../useAxiosInstance";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ManageUsers() {
+    const { request } = useAxiosInstance();
     const classes = useStyles();
     const [users, setUsers] = useState(null);
 
@@ -50,10 +52,15 @@ export default function ManageUsers() {
 
     const getUsers = async () => {
         // Get users
-        const res = await axios.get("http://localhost:8000/management/users");
-
-        // Set to state
-        setUsers(res.data);
+        try {
+            const response = await request({
+                method: "get",
+                url: "/management/users/roles/Developer",
+            });
+            setUsers(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const deleteUser = async (_id) => {

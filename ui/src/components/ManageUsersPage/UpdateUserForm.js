@@ -53,7 +53,6 @@ export default function UpdateUser() {
         const res = await axios.get(
             `http://localhost:8000/management/users/${id}`
         );
-
         // Set to state (fills in textboxes)
         setUpdateForm({
             name: res.data.name,

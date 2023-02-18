@@ -11,6 +11,18 @@ const getUsers = async (req, res) => {
     }
 };
 
+// Get all users
+const getUsersByRole = async (req, res) => {
+    try {
+        const users = await User.find({
+            hasRole: req.params.role,
+        });
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
 // Get a user by ID
 const getUserById = async (req, res) => {
     try {
@@ -85,6 +97,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
     getUsers,
+    getUsersByRole,
     getUserById,
     createUser,
     updateUser,

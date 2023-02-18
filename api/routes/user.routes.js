@@ -2,16 +2,15 @@ const express = require("express");
 const router = express.Router();
 const {
     getUsers,
+    getUsersByRole,
     getUserById,
     createUser,
     updateUser,
     deleteUser,
 } = require("../controllers/manageUsers.controller");
-const verifyJWTToken = require("../middleware/verifyJWT");
 
-
-// router.get("/users", verifyJWTToken, getUsers);
 router.get("/", getUsers);
+router.get("/roles/:role", getUsersByRole);
 router.get("/:id", getUserById);
 router.post("/create", createUser);
 router.patch("/update/:id", updateUser);
