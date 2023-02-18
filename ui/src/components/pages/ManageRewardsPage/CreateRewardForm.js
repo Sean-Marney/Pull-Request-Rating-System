@@ -12,8 +12,7 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateRewardForm from "../../validations/createRewardForm";
-
+import validateCreateRewardForm from "../../../validations/createRewardForm";
 const useStyles = makeStyles((theme) => ({
     card: {
         maxWidth: 600,

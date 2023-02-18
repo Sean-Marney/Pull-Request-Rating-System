@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { PullRequestItem } from "./PullRequestItem";
+import { PullRequestItem } from "../PullRequestHistory/PullRequestItem";
 import {
     Typography,
     Box
