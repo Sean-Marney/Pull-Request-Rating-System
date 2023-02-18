@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     Typography,
     InputLabel,
@@ -12,7 +12,8 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateRewardForm from "../../../validations/createRewardForm";
+import validateCreateUserForm from "../../../validations/createUserForm";
+
 const useStyles = makeStyles((theme) => ({
     card: {
         maxWidth: 600,
@@ -30,40 +31,58 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CreateReward() {
+export default function UpdateUser() {
     const classes = useStyles();
-    const [createForm, setCreateForm] = useState({
-        rewardName: "",
-        starsRequired: "",
+    const [updateForm, setUpdateForm] = useState({
+        name: "",
+        email: "",
+        password: "",
     });
 
     const [error, setError] = useState({});
 
+    const { id } = useParams(); // Get user ID from URL
     const navigate = useNavigate();
 
-    const updateCreateFormField = (e) => {
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    const getUser = async () => {
+        // Get user by id
+        const res = await axios.get(
+            `http://localhost:8000/management/users/${id}`
+        );
+        // Set to state (fills in textboxes)
+        setUpdateForm({
+            name: res.data.name,
+            email: res.data.email,
+            password: res.data.password,
+        });
+    };
+
+    const updateEditFormField = (e) => {
         const { name, value } = e.target;
 
-        setCreateForm({
-            ...createForm, // Duplicates object
+        setUpdateForm({
+            ...updateForm,
             [name]: value,
         });
     };
 
-    const createReward = async (e) => {
-        e.preventDefault(); // Prevents refresh after submit
+    const updateUser = async (e) => {
+        e.preventDefault();
 
         try {
-            await validateCreateRewardForm.validate(createForm, {
+            await validateCreateUserForm.validate(updateForm, {
                 abortEarly: false,
             });
-            // Create new reward
-            await axios.post(
-                "http://localhost:8000/management/rewards/create",
-                createForm
+            await axios.patch(
+                `http://localhost:8000/management/users/update/${id}`,
+                updateForm
             );
 
-            navigate("/management/rewards"); // Redirects after reward is created
+            navigate("/management/users");
         } catch (error) {
             const validationErrors = {};
             if (error instanceof yup.ValidationError) {
@@ -80,54 +99,65 @@ export default function CreateReward() {
             <div>
                 <Card className={classes.card}>
                     <Typography variant="h4">
-                        <b>Create New Reward</b>
+                        <b>Update User</b>
                     </Typography>
                     <CardContent>
-                        <form onSubmit={createReward}>
+                        <form onSubmit={updateUser}>
                             <div>
-                                <InputLabel htmlFor="rewardName">
-                                    Reward Name
-                                </InputLabel>
+                                <InputLabel>User Name</InputLabel>
                                 <Input
-                                    onChange={updateCreateFormField}
-                                    value={createForm.rewardName}
-                                    name="rewardName"
-                                    id="rewardName"
+                                    onChange={updateEditFormField}
+                                    value={updateForm.name}
+                                    name="name"
                                     inputProps={{
                                         style: { textAlign: "center" },
                                     }}
                                     className={classes.input}
                                 />
-                                {error.rewardName && (
+                                {error.name && (
                                     <div style={{ color: "red" }}>
-                                        {error.rewardName}
+                                        {error.name}
+                                    </div>
+                                )}
+                            </div>
+                            <div>
+                                <InputLabel>Email</InputLabel>
+                                <Input
+                                    onChange={updateEditFormField}
+                                    value={updateForm.email}
+                                    name="email"
+                                    inputProps={{
+                                        style: { textAlign: "center" },
+                                    }}
+                                    className={classes.input}
+                                />
+                                {error.email && (
+                                    <div style={{ color: "red" }}>
+                                        {error.email}
                                     </div>
                                 )}
                             </div>
                             <div style={{ marginTop: "20px" }}>
-                                <InputLabel htmlFor="starsRequired">
-                                    Stars Required
-                                </InputLabel>
+                                <InputLabel>Password</InputLabel>
                                 <Input
-                                    onChange={updateCreateFormField}
-                                    value={createForm.starsRequired}
-                                    name="starsRequired"
-                                    id="starsRequired"
+                                    onChange={updateEditFormField}
+                                    value={updateForm.password}
+                                    name="password"
                                     inputProps={{
                                         style: { textAlign: "center" },
                                     }}
                                     className={classes.input}
                                 />
-                                {error.starsRequired && (
+                                {error.password && (
                                     <div style={{ color: "red" }}>
-                                        {error.starsRequired}
+                                        {error.password}
                                     </div>
                                 )}
                             </div>
                             <div style={{ marginTop: "20px" }}>
                                 <Button
                                     onClick={() =>
-                                        navigate("/management/rewards")
+                                        navigate("/management/users")
                                     }
                                     variant="contained"
                                 >
@@ -139,7 +169,7 @@ export default function CreateReward() {
                                     variant="contained"
                                     color="primary"
                                 >
-                                    Create Reward
+                                    Update User
                                 </Button>
                             </div>
                         </form>
