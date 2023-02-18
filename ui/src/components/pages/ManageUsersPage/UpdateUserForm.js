@@ -12,7 +12,7 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateUserForm from "../../validations/createUserForm";
+import validateCreateUserForm from "../../../validations/createUserForm";
 
 const useStyles = makeStyles((theme) => ({
     card: {

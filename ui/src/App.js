@@ -6,6 +6,9 @@ import PullRequestHistory from "./components/pages/PullRequestHistory/PullReques
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
 import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
+import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers"
+import CreateUser from "./components/pages/ManageUsersPage/CreateUserForm";
+import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";

@@ -17,7 +17,7 @@ import {
     Box,
     IconButton,
 } from "@material-ui/core";
-import useAxiosInstance from "../../useAxiosInstance";
+import useAxiosInstance from "../../../useAxiosInstance";
 
 const useStyles = makeStyles((theme) => ({
     table: {
