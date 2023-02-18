@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-
 import Sidebar from "./components/SidebarData";
 import Dashboard from "../src/components/Dashboard/Dashboard";
 import PullRequestHistory from "./components/PullRequestHistory/PullRequestHistory";
@@ -18,27 +17,58 @@ import ProtectedRoute from "./routes/ProtectedRoutes";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+    console.log(cookies);
     return (
         <BrowserRouter>
-            <Sidebar removeCookie={removeCookie}>
+            <Sidebar removeCookie={removeCookie} role={cookies.role}>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/history" element={<PullRequestHistory />} />
-                    <Route path="/management/users" element={<ManageUsers />} />
+                    <Route
+                        path="/management/users"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <ManageUsers />
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route
                         path="/management/users/create"
-                        element={<CreateUser />}
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <CreateUser />
+                            </ProtectedRoute>
+                        }
                     />
                     <Route
                         path="/management/users/update/:id"
-                        element={<UpdateUser />}
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdateUser />
+                            </ProtectedRoute>
+                        }
                     />
                     <Route
                         path="/management/rewards"
                         element={
-                            <ProtectedRoute token={cookies.token}>
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
                                 {" "}
                                 <ManageRewards />
                             </ProtectedRoute>
@@ -47,7 +77,10 @@ const App = () => {
                     <Route
                         path="/management/rewards/create"
                         element={
-                            <ProtectedRoute token={cookies.token}>
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
                                 {" "}
                                 <CreateReward />
                             </ProtectedRoute>
