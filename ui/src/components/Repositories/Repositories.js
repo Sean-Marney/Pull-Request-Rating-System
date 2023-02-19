@@ -10,15 +10,16 @@ import {
   makeStyles,
   ListItemIcon,
 } from "@material-ui/core";
-import ClockIcon from "@material-ui/icons/AccessTime";
+import Scrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 700,
-    margin: "auto",
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    height: "900px",
+    maxWidth: "100%",
+    backgroundColor: theme.palette.background.paper,
+    overflow: "auto",
   },
   select: {
     minWidth: "300px",
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RepositoryList = () => {
   const classes = useStyles();
+
   const [repositories, setRepositories] = useState([]);
   const [selectedRepository, setSelectedRepository] = useState();
   const [pullRequests, setPullRequests] = useState([]);
