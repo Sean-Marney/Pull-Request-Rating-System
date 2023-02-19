@@ -9,7 +9,6 @@ import {
   Chip,
   makeStyles,
 } from "@material-ui/core";
-import "react-perfect-scrollbar/dist/css/styles.css";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
