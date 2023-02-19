@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/reusable/SidebarData";
 import Dashboard from "./components/pages/Dashboard/Dashboard";
-import PullRequestHistory from "./components/pages/PullRequestHistory/PullRequestHistory";
+import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
 import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
@@ -24,7 +24,7 @@ const App = () => {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/history" element={<PullRequestHistory />} />
+                    <Route path="/history" element={<History />} />
                     <Route
                         path="/management/users"
                         element={
