@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
 const sinon = require("sinon");
-const Reward = require("../../models/Reward");
+const Reward = require("../../models/reward.model");
 const manageRewards = require("../../controllers/manageRewards.controller");
 const app = require("../../index");
 const chai = require("chai");
