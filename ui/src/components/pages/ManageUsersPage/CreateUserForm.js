@@ -12,7 +12,8 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateRewardForm from "../../../validations/createRewardForm";
+import validateCreateUserForm from "../../../validations/createUserForm";
+
 const useStyles = makeStyles((theme) => ({
     card: {
         maxWidth: 600,
@@ -30,11 +31,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CreateReward() {
+export default function CreateUser() {
     const classes = useStyles();
     const [createForm, setCreateForm] = useState({
-        rewardName: "",
-        starsRequired: "",
+        name: "",
+        email: "",
+        password: "",
     });
 
     const [error, setError] = useState({});
@@ -50,20 +52,20 @@ export default function CreateReward() {
         });
     };
 
-    const createReward = async (e) => {
+    const createUser = async (e) => {
         e.preventDefault(); // Prevents refresh after submit
 
         try {
-            await validateCreateRewardForm.validate(createForm, {
+            await validateCreateUserForm.validate(createForm, {
                 abortEarly: false,
             });
-            // Create new reward
+            // Create new user
             await axios.post(
-                "http://localhost:8000/management/rewards/create",
+                "http://localhost:8000/management/users/create",
                 createForm
             );
 
-            navigate("/management/rewards"); // Redirects after reward is created
+            navigate("/management/users"); // Redirects after user is created
         } catch (error) {
             const validationErrors = {};
             if (error instanceof yup.ValidationError) {
@@ -80,54 +82,73 @@ export default function CreateReward() {
             <div>
                 <Card className={classes.card}>
                     <Typography variant="h4">
-                        <b>Create New Reward</b>
+                        <b>Create New User</b>
                     </Typography>
                     <CardContent>
-                        <form onSubmit={createReward}>
+                        <form onSubmit={createUser}>
                             <div>
-                                <InputLabel htmlFor="rewardName">
-                                    Reward Name
-                                </InputLabel>
+                                <InputLabel htmlFor="name">Name</InputLabel>
                                 <Input
                                     onChange={updateCreateFormField}
-                                    value={createForm.rewardName}
-                                    name="rewardName"
-                                    id="rewardName"
+                                    value={createForm.name}
+                                    name="name"
+                                    id="name"
                                     inputProps={{
                                         style: { textAlign: "center" },
                                     }}
                                     className={classes.input}
                                 />
-                                {error.rewardName && (
+                                {error.name && (
                                     <div style={{ color: "red" }}>
-                                        {error.rewardName}
+                                        {error.name}
                                     </div>
                                 )}
                             </div>
-                            <div style={{ marginTop: "20px" }}>
-                                <InputLabel htmlFor="starsRequired">
-                                    Stars Required
-                                </InputLabel>
+
+                            <div>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input
                                     onChange={updateCreateFormField}
-                                    value={createForm.starsRequired}
-                                    name="starsRequired"
-                                    id="starsRequired"
+                                    value={createForm.email}
+                                    name="email"
+                                    id="email"
                                     inputProps={{
                                         style: { textAlign: "center" },
                                     }}
                                     className={classes.input}
                                 />
-                                {error.starsRequired && (
+                                {error.email && (
                                     <div style={{ color: "red" }}>
-                                        {error.starsRequired}
+                                        {error.email}
                                     </div>
                                 )}
                             </div>
+
+                            <div>
+                                <InputLabel htmlFor="password">
+                                    Password
+                                </InputLabel>
+                                <Input
+                                    onChange={updateCreateFormField}
+                                    value={createForm.password}
+                                    name="password"
+                                    id="password"
+                                    inputProps={{
+                                        style: { textAlign: "center" },
+                                    }}
+                                    className={classes.input}
+                                />
+                                {error.password && (
+                                    <div style={{ color: "red" }}>
+                                        {error.password}
+                                    </div>
+                                )}
+                            </div>
+
                             <div style={{ marginTop: "20px" }}>
                                 <Button
                                     onClick={() =>
-                                        navigate("/management/rewards")
+                                        navigate("/management/users")
                                     }
                                     variant="contained"
                                 >
@@ -139,7 +160,7 @@ export default function CreateReward() {
                                     variant="contained"
                                     color="primary"
                                 >
-                                    Create Reward
+                                    Create User
                                 </Button>
                             </div>
                         </form>
