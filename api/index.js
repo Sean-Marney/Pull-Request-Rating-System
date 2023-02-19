@@ -1,34 +1,43 @@
 // server.js
-require("dotenv").config(); 
 const express = require("express");
 const connectDB = require("./config/db");
+require("dotenv").config();
 const cors = require("cors");
 const manageFaqs = require("./routes/manageFaqs.js");
 const rewardsRoute = require("./routes/rewards.routes");
-const pullRequestsRoute = require("./routes/pullRequests");
+const historyRoute = require("./routes/history.routes");
+const userRoute = require("./routes/user.routes");
 
 const app = express();
 
 // connect database
-connectDB(); 
+connectDB();
 
+app.use(
+    cors({
+        origin: ["http://localhost:3000"],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        credentials: true,
+    })
+);
 app.use(express.json({ extended: false }));
-app.use(cors());
 
 app.get("/", (req, res) => res.send("Server up and running"));
-app.use("/pullrequests", pullRequestsRoute);
+app.use("/pullrequests", historyRoute);
 
 // routes
+app.use("/", authRoutes);
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/manageFaqs", manageFaqs);
 app.use("/faqs", manageFaqs);
 app.use("/rewards", rewardsRoute);
+app.use("/management/users", userRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-    console.log(`server is running on http://localhost:${PORT}`);
+  console.log(`server is running on http://localhost:${PORT}`);
 });
 
 module.exports = app;

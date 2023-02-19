@@ -1,45 +1,108 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Sidebar from "./components/SidebarData";
-import Dashboard from "./routes/Dashboard";
 import "./App.css";
-import Achievements from "./routes/Achievements";
-import FAQ from "./routes/FAQ";
-import History from "./routes/History";
-import TrackProgress from "./routes/TrackProgress";
-import Merge from "./routes/Merge";
-
-import ManageRewards from "./components/ManageRewardsPage/ManageRewards";
-import CreateReward from "./components/ManageRewardsPage/CreateRewardForm";
-import UpdateReward from "./components/ManageRewardsPage/UpdateRewardForm";
-import Rewards from "./components/RewardsPage/Rewards";
-import ManagerHelp from "./routes/ManagerHelp";
+import Sidebar from "./components/reusable/SidebarData";
+import Dashboard from "./components/pages/Dashboard/Dashboard";
+import History from "./components/pages/History/History";
+import Register from "./components/pages/signIn/Register";
+import Login from "./components/pages/signIn/Login";
+import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
+import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers"
+import CreateUser from "./components/pages/ManageUsersPage/CreateUserForm";
+import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
+import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
+import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
+import Rewards from "./components/pages/RewardsPage/Rewards";
+import { useCookies } from "react-cookie";
+import ProtectedRoute from "./routes/ProtectedRoutes";
 import FAQList from "./components/ManageFAQPage/FAQList";
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Sidebar>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/Achievements" element={<Achievements />} />
-          <Route path="/FAQ" element={<FAQ />} />
-          <Route path="/History" element={<History />} />
-          <Route path="/TrackProgress" element={<TrackProgress />} />
-          <Route path="/Merge" element={<Merge />} />
-          <Route path="/management/rewards" element={<ManageRewards />} />
-          <Route path="/management/rewards/create" element={<CreateReward />} />
-          <Route
-            path="/management/rewards/update/:id"
-            element={<UpdateReward />}
-          />
-          <Route path="/rewards" element={<Rewards />} />
-          <Route path="/ManagerHelp" element={<ManagerHelp />} />
-          <Route exact path='/' element={<FAQList />} />
-        </Routes>
-      </Sidebar>
-    </BrowserRouter>
-  );
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+    return (
+        <BrowserRouter>
+            <Sidebar removeCookie={removeCookie} role={cookies.role}>
+                <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/history" element={<History />} />
+                    <Route
+                        path="/management/users"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <ManageUsers />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/management/users/create"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <CreateUser />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/management/users/update/:id"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdateUser />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/management/rewards"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <ManageRewards />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/management/rewards/create"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <CreateReward />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/management/rewards/update/:id"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdateReward />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path="/rewards" element={<Rewards />} />
+                </Routes>
+            </Sidebar>
+        </BrowserRouter>
+    );
 };
 
 export default App;
