@@ -1,26 +1,22 @@
 import React from "react";
 import {
-  Card,
   Typography,
   Button,
   CardActions,
-  Grid,
-  Link,
+  Grid
 } from "@material-ui/core";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 var moment = require('moment');  
 moment().format();
 
-
-export class PullRequestItem extends React.Component {
+export class PullRequestHistory extends React.Component {
   render() {
-
     //  checks whether the pull request has been rated or not and then displays necessary information
     function rated(rating) {
        return <Grid container >
             <Grid item>
-              <Typography variant="h4" component="div" align="right">{rating}</Typography>
+              <Typography variant="h4" component="div">{rating}</Typography>
             </Grid>  
             <Grid item>
             <StarOutlineIcon  sx={{ fontSize: 40 }}/>
@@ -33,21 +29,18 @@ export class PullRequestItem extends React.Component {
 
     let rating;
     if (this.props.pullRequest.rating_complete == true) {
-      console.log("rated");
       rating = rated(this.props.pullRequest.ratings.overall);
     }else{
-      console.log("not");
       rating = notRated();
     }
     
     // converts the date to a readable format
     var day = moment(this.props.pullRequest.date).format('DD/MM/YYYY  HH:mm:ss');
-
+    var link = "/pullrequest/" + this.props.pullRequest._id;
     return (
 
       // Each item in the list of pull requests
         <div>
-          <Card variant="outlined">
           <Grid container spacing={0} >
             <Grid item xs={0}>
               <AccessTimeIcon sx={{ fontSize: 20 }}/>
@@ -57,15 +50,14 @@ export class PullRequestItem extends React.Component {
             </Grid>
           </Grid>
             <Grid container spacing={0}>
-              <Grid item xs={11}>
-                <Typography variant="h4" component="div" align="left"><Link href={this.props.pullRequest._id} underline="always">{this.props.pullRequest.title}</Link></Typography>
+              <Grid item xs={10}>
+                <Typography variant="h4" component="div" align="left">{this.props.pullRequest.title}</Typography>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2}>
                 {rating}
               </Grid>
             </Grid>
-            <CardActions><Button size="small" href={this.props.pullRequest.url}>#{this.props.pullRequest.git_id}</Button></CardActions>
-          </Card>
+            <CardActions><Button size="small" href={this.props.pullRequest.url} variant="outlined">View in GitHub</Button></CardActions>
         </div>
     );
   }

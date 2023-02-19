@@ -6,7 +6,7 @@ const authRoutes = require("./routes/auth.routes");
 const express = require("express");
 require("dotenv").config();
 const rewardsRoute = require("./routes/rewards.routes");
-const pullRequestsRoute = require("./routes/pullRequests.routes");
+const historyRoute = require("./routes/history.routes");
 const userRoute = require("./routes/user.routes");
 
 const app = express();
@@ -24,7 +24,7 @@ app.use(
 app.use(express.json({ extended: false }));
 
 app.get("/", (req, res) => res.send("Server up and running"));
-app.use("/pullrequests", pullRequestsRoute);
+app.use("/pullrequests", historyRoute);
 
 // routes
 app.use("/", authRoutes);
