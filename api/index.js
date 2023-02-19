@@ -3,6 +3,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 require("dotenv").config();
 const cors = require("cors");
+const authRoutes = require("./routes/auth.routes");
 const manageFaqs = require("./routes/manageFaqs.js");
 const rewardsRoute = require("./routes/rewards.routes");
 const historyRoute = require("./routes/history.routes");
@@ -28,9 +29,9 @@ app.use("/pullrequests", historyRoute);
 // routes
 app.use("/", authRoutes);
 app.use("/management/rewards", rewardsRoute);
+app.use("/rewards", rewardsRoute);
 app.use("/management/manageFaqs", manageFaqs);
 app.use("/faqs", manageFaqs);
-app.use("/rewards", rewardsRoute);
 app.use("/management/users", userRoute);
 
 // setting up port

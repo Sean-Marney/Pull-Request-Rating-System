@@ -12,9 +12,9 @@ import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
+import FAQ from "./components/pages/FAQPage/FAQ";
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
-import FAQList from "./components/ManageFAQPage/FAQList";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -99,6 +99,7 @@ const App = () => {
                         }
                     />
                     <Route path="/rewards" element={<Rewards />} />
+                    <Route path="/FAQ" element={<FAQ />} />
                 </Routes>
             </Sidebar>
         </BrowserRouter>
