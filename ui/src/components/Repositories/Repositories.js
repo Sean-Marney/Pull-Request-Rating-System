@@ -8,9 +8,7 @@ import {
   MenuItem,
   Chip,
   makeStyles,
-  ListItemIcon,
 } from "@material-ui/core";
-import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import axios from "axios";
 
