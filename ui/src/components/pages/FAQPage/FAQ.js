@@ -53,7 +53,7 @@ export default function ManageFaqs() {
         <div>
             <Box padding={3}>
                 <Typography variant="h4">
-                    <b>FAq</b>
+                    <b>FAQ</b>
                 </Typography>
                 </Box>
 

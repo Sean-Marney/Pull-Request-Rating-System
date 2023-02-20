@@ -13,6 +13,7 @@ import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm"
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
 import FAQ from "./components/pages/FAQPage/FAQ";
+import CreateFAQ from "./components/pages/ManageFAQPage/CreateFAQFormForm";
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 
@@ -100,6 +101,18 @@ const App = () => {
                     />
                     <Route path="/rewards" element={<Rewards />} />
                     <Route path="/FAQ" element={<FAQ />} />
+                    <Route
+                        path="/management/manageFaqs/create"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <CreateFAQ />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
             </Sidebar>
         </BrowserRouter>
