@@ -137,7 +137,7 @@ export default function UpdateUser() {
                                     </div>
                                 )}
                             </div>
-                            <div style={{ marginTop: "20px" }}>
+                            {/* <div style={{ marginTop: "20px" }}>
                                 <InputLabel>Password</InputLabel>
                                 <Input
                                     onChange={updateEditFormField}
@@ -153,7 +153,7 @@ export default function UpdateUser() {
                                         {error.password}
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
                             <div style={{ marginTop: "20px" }}>
                                 <Button
                                     onClick={() =>

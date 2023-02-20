@@ -102,7 +102,7 @@ export default function ManageUsers() {
                                         <b>Email</b>
                                     </TableCell>
                                     <TableCell className={classes.tableHeaders}>
-                                        <b>Password</b>
+                                        <b>Role</b>
                                     </TableCell>
                                     <TableCell className={classes.tableHeaders}>
                                         <b>Actions</b>
@@ -126,7 +126,7 @@ export default function ManageUsers() {
                                         <TableCell
                                             className={classes.tableContent}
                                         >
-                                            {user.password}
+                                            {user.hasRole}
                                         </TableCell>
                                         <TableCell>
                                             <IconButton

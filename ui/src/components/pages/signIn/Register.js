@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useNavigate } from "react-router-dom";
+import validateRegistrationForm from "../../../validations/RegisterForm";
 
 const theme = createTheme();
 
@@ -42,6 +43,10 @@ export default function SignUp() {
         }
 
         try {
+            // await validateRegistrationForm.validate(createForm, {
+            //     abortEarly: false,
+            // });
+
             const response = await request({
                 method: "post",
                 url: "/register",
