@@ -1,18 +1,20 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     Typography,
     InputLabel,
+    Input,
     Button,
     Card,
     CardContent,
     makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateFAQForm from "../../../validations/createFAQForm";
+import validateCreateRewardForm from "../../../validations/createRewardForm";
 import TextField from "@mui/material/TextField";
+
 const useStyles = makeStyles((theme) => ({
     card: {
         maxWidth: 600,
@@ -30,40 +32,58 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CreateFAQ() {
+export default function UpdateFAQs() {
     const classes = useStyles();
-    const [createForm, setCreateForm] = useState({
+    const [updateForm, setUpdateForm] = useState({
         question: "",
         answer: "",
     });
 
     const [error, setError] = useState({});
 
+    const { id } = useParams(); // Get faq ID from URL
     const navigate = useNavigate();
 
-    const updateCreateFormField = (e) => {
+    useEffect(() => {
+        getFaqs();
+    }, []);
+
+    const getFaqs = async () => {
+        // Get FAQ by id
+        const res = await axios.get(
+            `http://localhost:8000/management/manageFaqs/${id}`
+        );
+
+        // Set to state (fills in textboxes)
+        setUpdateForm({
+            question: res.data.question,
+            answer: res.data.answer,
+        });
+    };
+
+    const updateEditFormField = (e) => {
         const { name, value } = e.target;
 
-        setCreateForm({
-            ...createForm, // Duplicates object
+        setUpdateForm({
+            ...updateForm,
             [name]: value,
         });
     };
 
-    const createFAQ = async (e) => {
-        e.preventDefault(); // Prevents refresh after submit
+    const UpdateFAQs = async (e) => {
+        e.preventDefault();
 
         try {
-            await validateCreateFAQForm.validate(createForm, {
+            await validateCreateRewardForm.validate(updateForm, {
                 abortEarly: false,
             });
-            // Create new faq
-            await axios.post(
-                "http://localhost:8000/management/manageFaqs/create",
-                createForm
+            // Update reward
+            await axios.patch(
+                `http://localhost:8000/management/manageFaqs/update/${id}`,
+                updateForm
             );
 
-            navigate("/management/manageFaqs"); // Redirects after reward is created
+            navigate("/management/manageFaqs");
         } catch (error) {
             const validationErrors = {};
             if (error instanceof yup.ValidationError) {
@@ -80,60 +100,47 @@ export default function CreateFAQ() {
             <div>
                 <Card className={classes.card}>
                     <Typography variant="h4">
-                        <b>Create New FAQ</b>
+                        <b>Update FAQ</b>
                     </Typography>
                     <CardContent>
-                        <form onSubmit={createFAQ}>
+                        <form onSubmit={UpdateFAQs}>
                             <div>
-                                <InputLabel htmlFor="question">
-                                    Question
-                                </InputLabel>
-
+                                <InputLabel>Question</InputLabel>
                                 <TextField
-                                    onChange={updateCreateFormField}
-                                    value={createForm.question}
-                                    name="question"
-                                    id="question"
                                     multiline
                                     rows={3}
+                                    onChange={updateEditFormField}
+                                    value={updateForm.question}
+                                    name="question"
                                     inputProps={{
                                         style: { textAlign: "left" },
                                     }}
                                     className={classes.input}
                                 />
                                 {error.question && (
-                                    <div style={{ color: "red" }}>
-                                        {error.question}
-                                    </div>
+                                    <div style={{ color: "red" }}>{error.question}</div>
                                 )}
                             </div>
                             <div style={{ marginTop: "20px" }}>
-                                <InputLabel htmlFor="answer">
-                                    Answer
-                                </InputLabel>
+                                <InputLabel>Answer</InputLabel>
                                 <TextField
-                                    onChange={updateCreateFormField}
-                                    value={createForm.answer}
-                                    name="answer"
-                                    id="answer"
                                     multiline
                                     rows={3}
+                                    onChange={updateEditFormField}
+                                    value={updateForm.answer}
+                                    name="answer"
                                     inputProps={{
                                         style: { textAlign: "left" },
                                     }}
                                     className={classes.input}
                                 />
                                 {error.answer && (
-                                    <div style={{ color: "red" }}>
-                                        {error.answer}
-                                    </div>
+                                    <div style={{ color: "red" }}>{error.answer}</div>
                                 )}
                             </div>
                             <div style={{ marginTop: "20px" }}>
                                 <Button
-                                    onClick={() =>
-                                        navigate("/management/manageFaqs")
-                                    }
+                                    onClick={() => navigate("/management/manageFaqs")}
                                     variant="contained"
                                 >
                                     Cancel
@@ -144,7 +151,7 @@ export default function CreateFAQ() {
                                     variant="contained"
                                     color="primary"
                                 >
-                                    Create FAQ
+                                    Update FAQ
                                 </Button>
                             </div>
                         </form>

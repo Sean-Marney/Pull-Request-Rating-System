@@ -6,14 +6,16 @@ import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
 import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
-import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers"
+import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers";
 import CreateUser from "./components/pages/ManageUsersPage/CreateUserForm";
 import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
 import FAQ from "./components/pages/FAQPage/FAQ";
-import CreateFAQ from "./components/pages/ManageFAQPage/CreateFAQFormForm";
+import CreateFAQ from "./components/pages/ManageFAQPage/CreateFAQForm";
+import ManageFAQ from "./components/pages/ManageFAQPage/ManageFAQs";
+import UpdateFAQs from "./components/pages/ManageFAQPage/UpdateFAQForm";
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 
@@ -102,6 +104,18 @@ const App = () => {
                     <Route path="/rewards" element={<Rewards />} />
                     <Route path="/FAQ" element={<FAQ />} />
                     <Route
+                        path="/management/manageFaqs"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <ManageFAQ />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
                         path="/management/manageFaqs/create"
                         element={
                             <ProtectedRoute
@@ -110,6 +124,18 @@ const App = () => {
                             >
                                 {" "}
                                 <CreateFAQ />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/management/manageFaqs/update/:id"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdateFAQs />
                             </ProtectedRoute>
                         }
                     />

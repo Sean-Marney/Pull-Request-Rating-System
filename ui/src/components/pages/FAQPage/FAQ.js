@@ -7,7 +7,7 @@ import {
     CardContent,
     CardActions,
 } from "@material-ui/core";
-import {ExpandMore} from "@material-ui/icons";
+// import {ExpandMore} from "@material-ui/icons";
 import {Collapse, IconButton} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -48,7 +48,6 @@ export default function ManageFaqs() {
             setExpanded(!expanded);
     };
 
-
         return (
         <div>
             <Box padding={3}>
@@ -60,13 +59,14 @@ export default function ManageFaqs() {
             <Box padding={5}>
                 {/* Get all FAQs from database and display on a card */}
                 {question &&(
-                <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: 345 }} key={question._id}>
                     <CardContent>
                         <Typography variant="body2" color="text.secondary">
                             Question
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             {question.question}
+                            test question
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
@@ -86,6 +86,7 @@ export default function ManageFaqs() {
                             <Typography variant="body2" color="text.secondary">ANSWER</Typography>
                             <Typography paragraph>
                                 {question.answer}
+                                test answer
                             </Typography>
 
                         </CardContent>
