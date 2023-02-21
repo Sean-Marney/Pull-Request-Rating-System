@@ -20,6 +20,7 @@ const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     return (
         <BrowserRouter>
+            {cookies.token && (
             <Sidebar removeCookie={removeCookie} role={cookies.role}>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
@@ -112,7 +113,14 @@ const App = () => {
                         }
                     />
                 </Routes>
-            </Sidebar>
+                </Sidebar>
+            )}
+            {!cookies.token && (
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Routes>
+            )}
         </BrowserRouter>
     );
 };
