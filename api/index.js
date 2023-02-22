@@ -9,6 +9,7 @@ const rewardsRoute = require("./routes/rewards.routes");
 const historyRoute = require("./routes/history.routes");
 const userRoute = require("./routes/user.routes");
 
+
 const app = express();
 
 // connect database
