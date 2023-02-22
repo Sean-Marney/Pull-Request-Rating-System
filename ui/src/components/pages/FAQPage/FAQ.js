@@ -29,7 +29,6 @@ export default function ManageFaqs() {
     };
 
 
-
     const ExpandMore = styled((props) => {
         const { expand, ...other } = props;
         return <IconButton {...other} />;
