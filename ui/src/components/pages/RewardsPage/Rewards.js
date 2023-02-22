@@ -10,6 +10,7 @@ import {
   TableRow,
   Typography,
   Box,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -70,6 +71,7 @@ export default function ManageRewards() {
                   <TableCell className={classes.tableHeaders}>
                     <b>Stars Required</b>
                   </TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -80,6 +82,11 @@ export default function ManageRewards() {
                     </TableCell>
                     <TableCell className={classes.tableContent}>
                       {reward.starsRequired}
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="primary">
+                        Claim Reward
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
