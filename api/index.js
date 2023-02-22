@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth.routes");
 const express = require("express");
 require("dotenv").config();
 const rewardsRoute = require("./routes/rewards.routes");
+const repositoriesRoute = require("./routes/repositories.routes");
 const historyRoute = require("./routes/history.routes");
 const userRoute = require("./routes/user.routes");
 
@@ -15,11 +16,11 @@ const app = express();
 connectDB();
 
 app.use(
-    cors({
-        origin: ["http://localhost:3000"],
-        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-        credentials: true,
-    })
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+  })
 );
 app.use(express.json({ extended: false }));
 
@@ -30,6 +31,7 @@ app.use("/pullrequests", historyRoute);
 app.use("/", authRoutes);
 app.use("/management/rewards", rewardsRoute);
 app.use("/rewards", rewardsRoute);
+app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
 
 // setting up port
