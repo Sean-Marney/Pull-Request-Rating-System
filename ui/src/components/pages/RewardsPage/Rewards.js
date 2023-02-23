@@ -12,6 +12,7 @@ import {
   Box,
   Button,
 } from "@material-ui/core";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -38,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 export default function ManageRewards() {
   const classes = useStyles();
   const [rewards, setRewards] = useState(null);
+  const [cookies] = useCookies();
+
+  console.log(cookies.user);
 
   useEffect(() => {
     getRewards();
