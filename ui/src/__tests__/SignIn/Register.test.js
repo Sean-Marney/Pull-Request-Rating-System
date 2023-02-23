@@ -12,9 +12,10 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("SignUp component", () => {
-    
+
     // Test that the sign up form renders with all expected inputs and a submit button
     test("renders sign up form", async () => {
+
         // Render the SignUp component within a MemoryRouter
         await render(
             <MemoryRouter>
@@ -37,5 +38,40 @@ describe("SignUp component", () => {
         expect(passwordInput).toBeInTheDocument();
         expect(confirmPasswordInput).toBeInTheDocument();
         expect(submitButton).toBeInTheDocument();
+    });
+
+    // Test that validation errors are displayed when the form is submitted without input values
+    test("displays validation errors on submit", async () => {
+        
+        // Render the SignUp component within a MemoryRouter
+        await render(
+            <MemoryRouter>
+                <SignUp />
+            </MemoryRouter>
+        );
+
+        // Get the submit button by its role and name attribute
+        const submitButton = screen.getByRole("button", { name: /sign up/i });
+
+        // Simulate a click on the submit button to trigger form submission without input values
+        fireEvent.click(submitButton);
+
+        // Get each error message by its associated text
+        const nameError = await screen.findByText(
+            "Please enter your full name"
+        );
+        const emailError = await screen.findByText("Email is required");
+        const passwordError = await screen.findByText(
+            "Please provide a password"
+        );
+        const confirmPasswordError = await screen.findByText(
+            "Confirm Password is required"
+        );
+
+        // Assert that all error messages are present in the document
+        expect(nameError).toBeInTheDocument();
+        expect(emailError).toBeInTheDocument();
+        expect(passwordError).toBeInTheDocument();
+        expect(confirmPasswordError).toBeInTheDocument();
     });
 });
