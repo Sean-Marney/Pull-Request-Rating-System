@@ -5,7 +5,7 @@ const {
     createFAQs,
     updateFAQs,
     deleteFAQs,
-} = require("../controllers/faqController");
+} = require("../controllers/faq.controller");
 
 const router = express.Router();
 

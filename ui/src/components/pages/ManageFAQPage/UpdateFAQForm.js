@@ -5,15 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
     Typography,
     InputLabel,
-    Input,
+    TextField,
     Button,
     Card,
     CardContent,
     makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateRewardForm from "../../../validations/createRewardForm";
-import TextField from "@mui/material/TextField";
+import validateCreateFAQForm from "../../../validations/createFAQForm";
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -70,14 +69,14 @@ export default function UpdateFAQs() {
         });
     };
 
-    const UpdateFAQs = async (e) => {
+    const updateFAQs = async (e) => {
         e.preventDefault();
 
         try {
-            await validateCreateRewardForm.validate(updateForm, {
+            await validateCreateFAQForm.validate(updateForm, {
                 abortEarly: false,
             });
-            // Update reward
+            // Update faq
             await axios.patch(
                 `http://localhost:8000/management/manageFaqs/update/${id}`,
                 updateForm
@@ -103,7 +102,7 @@ export default function UpdateFAQs() {
                         <b>Update FAQ</b>
                     </Typography>
                     <CardContent>
-                        <form onSubmit={UpdateFAQs}>
+                        <form onSubmit={updateFAQs}>
                             <div>
                                 <InputLabel>Question</InputLabel>
                                 <TextField

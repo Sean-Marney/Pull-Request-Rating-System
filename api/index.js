@@ -4,7 +4,7 @@ const cors = require("cors");
 const express = require("express");
 require("dotenv").config();
 const authRoutes = require("./routes/auth.routes");
-const manageFaqs = require("./routes/manageFaqs.js");
+const manageFaqs = require("./routes/faq.routes");
 const rewardsRoute = require("./routes/rewards.routes");
 const repositoriesRoute = require("./routes/repositories.routes");
 const historyRoute = require("./routes/history.routes");
