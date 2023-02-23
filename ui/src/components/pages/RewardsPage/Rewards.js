@@ -12,7 +12,6 @@ import {
   Box,
   Button,
 } from "@material-ui/core";
-import StarIcon from "@material-ui/icons/Star";
 import ClaimIcon from "@material-ui/icons/Redeem";
 import { useCookies } from "react-cookie";
 
