@@ -68,7 +68,7 @@ async function writePullRequestsToDatabase(pullRequests) {
 
       const pullRequest = new PullRequestModel({
         git_id: pullRequests[index].id,
-        url: pullRequests[index].url,
+        url: pullRequests[index].html_url,
         repo: pullRequests[index].head.repo.name,
         user_id: pullRequests[index].user.id,
         title: pullRequests[index].title,
