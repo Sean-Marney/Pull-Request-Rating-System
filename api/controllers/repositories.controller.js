@@ -62,27 +62,27 @@ const getAllPullRequests = async (req, res) => {
 
 async function writePullRequestsToDatabase(pullRequests) {
   let index = 0;
+  // Needs to check that the pull request isn't in the database already
+  const list = await PullRequestModel.find(); 
   while(index < pullRequests.length){
-    try {
-      // Needs to check that the pull request isn't in the database already
-
-
-
-      // Converts the date string into a date object
-      let mergedDate = new Date(pullRequests[index].created_at);  
-
-      const pullRequest = new PullRequestModel({
-        git_id: pullRequests[index].id,
-        url: pullRequests[index].html_url,
-        repo: pullRequests[index].head.repo.name,
-        user_id: pullRequests[index].user.id,
-        title: pullRequests[index].title,
-        date: mergedDate,
-        rating_complete: false
-      });
-      await pullRequest.save(); 
-    } catch (error) {
-      console.log(error);
+    if (list.some((item) => item.git_id.toString() != pullRequests[index].id.toString())) {
+    } else {
+      try {
+        // Converts the date string into a date object
+        let mergedDate = new Date(pullRequests[index].created_at);  
+        const pullRequest = new PullRequestModel({
+          git_id: pullRequests[index].id,
+          url: pullRequests[index].html_url,
+          repo: pullRequests[index].head.repo.name,
+          user_id: pullRequests[index].user.id,
+          title: pullRequests[index].title,
+          date: mergedDate,
+          rating_complete: false
+        });
+        await pullRequest.save(); 
+      } catch (error) {
+        console.log(error);
+      }
     }
     index = index +1;
   }
