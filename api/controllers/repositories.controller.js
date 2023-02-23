@@ -64,6 +64,11 @@ async function writePullRequestsToDatabase(pullRequests) {
   let index = 0;
   while(index < pullRequests.length){
     try {
+      // Needs to check that the pull request isn't in the database already
+
+
+
+      // Converts the date string into a date object
       let mergedDate = new Date(pullRequests[index].created_at);  
 
       const pullRequest = new PullRequestModel({
@@ -79,10 +84,6 @@ async function writePullRequestsToDatabase(pullRequests) {
     } catch (error) {
       console.log(error);
     }
-
-
-
-
     index = index +1;
   }
 }
