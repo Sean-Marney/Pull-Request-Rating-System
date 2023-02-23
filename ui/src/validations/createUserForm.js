@@ -4,7 +4,11 @@ YupPassword(yup);
 
 // Used to validate the create user form and update form
 export default yup.object().shape({
-    name: yup.string().max(50).required("Please enter your full name"),
+    name: yup
+        .string()
+        .matches(/^[a-zA-Z ]*$/, "Please enter your full name")
+        .strict()
+        .required("Please enter your full name"),
     email: yup
         .string()
         .email("Please enter a valid email address")
