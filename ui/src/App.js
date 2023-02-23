@@ -12,6 +12,7 @@ import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
+import Repositories from "./components/pages/Repositories/Repositories"
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 
@@ -19,6 +20,7 @@ const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     return (
         <BrowserRouter>
+            {cookies.token && (
             <Sidebar removeCookie={removeCookie} role={cookies.role}>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
@@ -98,8 +100,27 @@ const App = () => {
                         }
                     />
                     <Route path="/rewards" element={<Rewards />} />
+                    <Route
+                        path="/management/repositories"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <Repositories />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
-            </Sidebar>
+                </Sidebar>
+            )}
+            {!cookies.token && (
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Routes>
+            )}
         </BrowserRouter>
     );
 };
