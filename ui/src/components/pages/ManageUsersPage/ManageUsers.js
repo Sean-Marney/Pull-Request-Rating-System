@@ -52,113 +52,118 @@ export default function ManageUsers() {
 
     const getUsers = async () => {
         // Get users
-        try {
-            const response = await request({
-                method: "get",
-                url: "/management/users/roles/Developer",
-            });
-            setUsers(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const deleteUser = async (_id) => {
-        // Delete user
-        await axios.delete(
-            `http://localhost:8000/management/users/delete/${_id}`
+        const res = await axios.get(
+            "http://localhost:8000/management/users/roles/Developer"
         );
 
-        getUsers(); // Get updated list of users
-    };
+        // Set to state
+        setUsers(res.data);
 
-    return (
-        <div className={classes.tableContainer}>
-            <Box padding={3}>
-                <Typography variant="h4">
-                    <b>Manage Users</b>
-                </Typography>
-            </Box>
-            <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<AddCircleIcon />}
-                onClick={() => navigate("/management/users/create")}
-            >
-                Add New User
-            </Button>
-            <Box>
-                {/* Get all users from database and display in a table */}
-                {users && (
-                    <TableContainer className={classes.table}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Name</b>
-                                    </TableCell>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Email</b>
-                                    </TableCell>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Password</b>
-                                    </TableCell>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Actions</b>
-                                    </TableCell>
-                                    <TableCell />
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {users.map((user) => (
-                                    <TableRow key={user._id}>
+        const deleteUser = async (_id) => {
+            // Delete user
+            await axios.delete(
+                `http://localhost:8000/management/users/delete/${_id}`
+            );
+
+            getUsers(); // Get updated list of users
+        };
+
+        return (
+            <div className={classes.tableContainer}>
+                <Box padding={3}>
+                    <Typography variant="h4">
+                        <b>Manage Users</b>
+                    </Typography>
+                </Box>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    startIcon={<AddCircleIcon />}
+                    onClick={() => navigate("/management/users/create")}
+                >
+                    Add New User
+                </Button>
+                <Box>
+                    {/* Get all users from database and display in a table */}
+                    {users && (
+                        <TableContainer className={classes.table}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
                                         <TableCell
-                                            className={classes.tableContent}
+                                            className={classes.tableHeaders}
                                         >
-                                            {user.name}
+                                            <b>Name</b>
                                         </TableCell>
                                         <TableCell
-                                            className={classes.tableContent}
+                                            className={classes.tableHeaders}
                                         >
-                                            {user.email}
+                                            <b>Email</b>
                                         </TableCell>
                                         <TableCell
-                                            className={classes.tableContent}
+                                            className={classes.tableHeaders}
                                         >
-                                            {user.password}
+                                            <b>Role</b>
                                         </TableCell>
-                                        <TableCell>
-                                            <IconButton
-                                                color="primary"
-                                                title="Edit User"
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/management/users/update/${user._id}`
-                                                    )
-                                                }
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
+                                        <TableCell
+                                            className={classes.tableHeaders}
+                                        >
+                                            <b>Actions</b>
                                         </TableCell>
-                                        <TableCell>
-                                            <IconButton
-                                                color="secondary"
-                                                title="Delete User"
-                                                onClick={() =>
-                                                    deleteUser(user._id)
-                                                }
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </TableCell>
+                                        <TableCell />
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                )}
-            </Box>
-        </div>
-    );
+                                </TableHead>
+                                <TableBody>
+                                    {users.map((user) => (
+                                        <TableRow key={user._id}>
+                                            <TableCell
+                                                className={classes.tableContent}
+                                            >
+                                                {user.name}
+                                            </TableCell>
+                                            <TableCell
+                                                className={classes.tableContent}
+                                            >
+                                                {user.email}
+                                            </TableCell>
+                                            <TableCell
+                                                className={classes.tableContent}
+                                            >
+                                                {user.hasRole}
+                                            </TableCell>
+                                            <TableCell>
+                                                <IconButton
+                                                    color="primary"
+                                                    title="Edit User"
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/management/users/update/${user._id}`
+                                                        )
+                                                    }
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell>
+                                                <IconButton
+                                                    color="secondary"
+                                                    title="Delete User"
+                                                    onClick={() =>
+                                                        deleteUser(user._id)
+                                                    }
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )}
+                </Box>
+            </div>
+        );
+    };
 }

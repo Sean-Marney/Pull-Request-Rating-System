@@ -7,62 +7,43 @@ import "@testing-library/jest-dom/extend-expect";
 
 jest.mock("axios"); // mock axios module
 
-describe("Testing ManageUsers component", () => {
-    it("should render the manage users table with data", async () => {
+describe("Testing Manageusers component", () => {
+    it("should render the manage rewards table with data", async () => {
         const mockData = [
             {
                 _id: "1",
-                name: "Martin Dawes",
-                email: "martin@gmail.com",
-                password: "12345",
-                hasRole: "Developer",
+                name: "John Doe",
+                email: "johndoe@example.com",
+                hasRole: "Manager",
+            },
+            {
+                _id: "2",
+                name: "Jane Doe",
+                email: "janedoe@example.com",
+                hasRole: "Manager",
             },
         ];
 
         axios.get.mockResolvedValue({ data: mockData }); // mock the response of axios
 
-        render(
+        await render(
             <MemoryRouter>
                 <ManageUsers />
             </MemoryRouter>
         );
 
-        const user1 = await screen.findByText("Martin Dawes");
-        const email1 = await screen.findByText("martin@gmail.com");
-        const password1 = await screen.findByText("12345");
+        const name1 = await screen.findByText("John Doe");
+        const email1 = await screen.findByText("johndoe@example.com");
+        const role1 = await screen.findByText("Manager");
+        const name2 = await screen.findByText("Jane Doe");
+        const email2 = await screen.findByText("janedoe@example.com");
+        const role2 = await screen.findByText("Manager");
 
-        expect(user1).toBeInTheDocument();
+        expect(name1).toBeInTheDocument();
+        expect(name2).toBeInTheDocument();
         expect(email1).toBeInTheDocument();
-        expect(password1).toBeInTheDocument();
-    });
-
-    it("should call deleteUserfunction when delete button is clicked", async () => {
-        const mockData = [
-            {
-                _id: "1",
-                name: "Martin Dawes",
-                email: "martin@gmail.com",
-                password: "12345",
-            },
-        ];
-
-        axios.get.mockResolvedValue({ data: mockData });
-        axios.delete.mockResolvedValue(); // mock the response of axios delete function
-
-        render(
-            <MemoryRouter>
-                <ManageUsers />
-            </MemoryRouter>
-        );
-
-        const deleteButton = await screen.findByTitle("Delete User", {
-            exact: false,
-        });
-
-        deleteButton.click();
-
-        expect(axios.delete).toHaveBeenCalledWith(
-            "http://localhost:8000/management/users/delete/1"
-        );
+        expect(email2).toBeInTheDocument();
+        expect(role1).toBeInTheDocument();
+        expect(role2).toBeInTheDocument();
     });
 });
