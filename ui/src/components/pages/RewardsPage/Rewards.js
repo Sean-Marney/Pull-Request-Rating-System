@@ -77,9 +77,9 @@ export default function ManageRewards() {
     const user = res.data;
 
     // Checks if the user has enough stars to claim the reward
-    if (user.stars <= reward.starsRequired) {
+    if (reward.starsRequired <= stars) {
       // Subtracts the cost of the reward from the users star count
-      const newStars = user.stars - reward.starsRequired;
+      const newStars = stars - reward.starsRequired;
 
       // Updates user object with their new star count
       await axios.patch(
