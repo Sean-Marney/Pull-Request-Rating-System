@@ -39,10 +39,13 @@ const useStyles = makeStyles((theme) => ({
 export default function ManageRewards() {
   const classes = useStyles();
   const [rewards, setRewards] = useState(null);
+  const [stars, setStars] = useState(null);
   const [cookies] = useCookies();
 
+  // Gets rewards and stars on page load
   useEffect(() => {
     getRewards();
+    getStars();
   }, []);
 
   const getRewards = async () => {
@@ -53,20 +56,28 @@ export default function ManageRewards() {
     setRewards(res.data);
   };
 
+  // Gets user's star count
+  const getStars = async () => {
+    // Get user object via getUserByEmail method
+    const res = await axios.get(
+      `http://localhost:8000/management/users/email/${cookies.user.email}`
+    );
+
+    // Set the star count
+    setStars(res.data.stars);
+  };
+
   // Logic for claiming a reward when user clicks "Claim Reward" button
   const claimReward = async (reward) => {
-    // Gets email of currently logged in user
-    const email = cookies.user.email;
-
-    // Gets user object via getUserByEmail method
+    // Gets user object via getUserByEmail method (uses email stored in cookies)
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${email}`
+      `http://localhost:8000/management/users/email/${cookies.user.email}`
     );
     // Sets response data to user
     const user = res.data;
 
     // Checks if the user has enough stars to claim the reward
-    if (user.stars >= reward.starsRequired) {
+    if (user.stars <= reward.starsRequired) {
       // Subtracts the cost of the reward from the users star count
       const newStars = user.stars - reward.starsRequired;
 
@@ -81,7 +92,8 @@ export default function ManageRewards() {
         }
       );
 
-      getRewards();
+      // Update star count on page
+      getStars();
 
       console.log(user);
     } else {
@@ -94,6 +106,7 @@ export default function ManageRewards() {
         <Typography variant="h4">
           <b>Rewards</b>
         </Typography>
+        <Typography variant="h5">You have {stars} stars</Typography>
       </Box>
       <Box>
         {/* Get all rewards from database and display in a table */}
