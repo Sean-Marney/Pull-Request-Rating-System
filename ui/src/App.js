@@ -16,6 +16,7 @@ import FAQ from "./components/pages/FAQPage/FAQ";
 import CreateFAQ from "./components/pages/ManageFAQPage/CreateFAQForm";
 import ManageFAQ from "./components/pages/ManageFAQPage/ManageFAQs";
 import UpdateFAQs from "./components/pages/ManageFAQPage/UpdateFAQForm";
+import Repositories from "./components/pages/Repositories/Repositories"
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 
@@ -23,6 +24,7 @@ const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     return (
         <BrowserRouter>
+            {cookies.token && (
             <Sidebar removeCookie={removeCookie} role={cookies.role}>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
@@ -140,7 +142,14 @@ const App = () => {
                         }
                     />
                 </Routes>
-            </Sidebar>
+                </Sidebar>
+            )}
+            {!cookies.token && (
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Routes>
+            )}
         </BrowserRouter>
     );
 };
