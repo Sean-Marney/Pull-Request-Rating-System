@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import CreateUser from "../components/pages/ManageUsersPage/CreateUserForm";
+import CreateUser from "../../components/pages/ManageUsersPage/CreateUserForm";
 import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
 import axios from "axios";
