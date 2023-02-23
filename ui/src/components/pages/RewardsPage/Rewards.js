@@ -41,7 +41,15 @@ export default function ManageRewards() {
   const [rewards, setRewards] = useState(null);
   const [cookies] = useCookies();
 
-  console.log(cookies.user);
+  const getCurrentUser = async () => {
+    const email = cookies.user.email;
+
+    const res = await axios.get(
+      `http://localhost:8000/management/users/email/${email}`
+    );
+    console.log(res.data);
+  };
+  getCurrentUser();
 
   useEffect(() => {
     getRewards();
