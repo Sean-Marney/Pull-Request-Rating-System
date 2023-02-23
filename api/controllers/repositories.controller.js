@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+const PullRequestModel = require("../models/pullRequest.model");
 // Get all repositories from the GitHub service account ('t7serviceaccount')
 const getAllRepositories = async (req, res) => {
   // Requires access token (generated on GitHub) as it's a private repository
@@ -49,7 +49,7 @@ const getAllPullRequests = async (req, res) => {
       // Takes all pull requests from API and spreads them into pullRequests array (this array shows all pull requests in all repositories)
       pullRequests.push(...pullRequestResponse.data);
     }
-
+    writePullRequestsToDatabase(pullRequests);
     res.status(200).send(pullRequests);
   } catch (err) {
     console.error(err);
@@ -58,5 +58,35 @@ const getAllPullRequests = async (req, res) => {
       .send({ error: "Failed to fetch pull requests from GitHub API" });
   }
 };
+
+
+async function writePullRequestsToDatabase(pullRequests) {
+  let index = 0;
+  while(index < pullRequests.length){
+    try {
+      let mergedDate = new Date(pullRequests[index].created_at);  
+
+      const pullRequest = new PullRequestModel({
+        git_id: pullRequests[index].id,
+        url: pullRequests[index].url,
+        repo: pullRequests[index].head.repo.name,
+        user_id: pullRequests[index].user.id,
+        title: pullRequests[index].title,
+        date: mergedDate,
+        rating_complete: false
+      });
+      await pullRequest.save(); 
+    } catch (error) {
+      console.log(error);
+    }
+
+
+
+
+    index = index +1;
+  }
+}
+
+
 
 module.exports = { getAllRepositories, getAllPullRequests };
