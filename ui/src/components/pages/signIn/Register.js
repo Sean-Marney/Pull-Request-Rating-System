@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import * as yup from "yup";
+import { InputLabel } from "@material-ui/core";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -43,12 +44,6 @@ export default function SignUp() {
 
         try {
             await validateRegisterForm.validate(user, { abortEarly: false });
-
-            // // If validation passes, continue with form submission
-            // if (user.password !== user.confirmPassword) {
-            //     alert("Passwords do not match");
-            //     return;
-            // }
 
             const response = await request({
                 method: "post",
@@ -96,11 +91,12 @@ export default function SignUp() {
                     >
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="name">Name</InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     id="name"
-                                    label="Name"
+                                   
                                     name="name"
                                     autoComplete="name"
                                     onChange={handleInputChange}
@@ -112,11 +108,12 @@ export default function SignUp() {
                                 )}
                             </Grid>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     id="email"
-                                    label="Email Address"
+                                  
                                     name="email"
                                     autoComplete="email"
                                     onChange={handleInputChange}
@@ -128,11 +125,14 @@ export default function SignUp() {
                                 )}
                             </Grid>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="password">
+                                    Password
+                                </InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     name="password"
-                                    label="Password"
+                                    
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
@@ -145,11 +145,14 @@ export default function SignUp() {
                                 )}
                             </Grid>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="confirmPassword">
+                                    Confirm Password
+                                </InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     name="confirmPassword"
-                                    label="Confirm Password"
+                              
                                     type="password"
                                     id="confirmPassword"
                                     onChange={handleInputChange}
