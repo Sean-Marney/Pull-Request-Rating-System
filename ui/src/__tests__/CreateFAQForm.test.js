@@ -67,7 +67,7 @@ describe("Testing CreateFaq component", () => {
             </MemoryRouter>
         );
 
-        // find the reward name input field and set it to a valid value
+        // find the faq name input field and set it to a valid value
         const questionInput = screen.getByLabelText("Question");
         fireEvent.change(questionInput, { target: { value: "New Question" } });
 
@@ -83,7 +83,7 @@ describe("Testing CreateFaq component", () => {
         await waitFor(() => {
             expect(mockPost).toHaveBeenCalledWith(
                 "http://localhost:8000/management/manageFaqs/create",
-                { question: "New Reward", answer: "New Answer" }
+                { question: "New Question", answer: "New Answer" }
             );
         });
 
