@@ -83,6 +83,7 @@ const updateUser = async (req, res) => {
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
+    user.stars = req.body.stars;
     await user.save();
 
     res.status(200).json(user);
