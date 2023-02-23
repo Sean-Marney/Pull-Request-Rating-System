@@ -12,6 +12,8 @@ import {
   Box,
   Button,
 } from "@material-ui/core";
+import StarIcon from "@material-ui/icons/Star";
+import ClaimIcon from "@material-ui/icons/Redeem";
 import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +35,22 @@ const useStyles = makeStyles((theme) => ({
   tableContent: {
     fontSize: "20px",
     textAlign: "center",
+  },
+  starCountBox: {
+    textAlign: "center",
+    fontSize: "20px",
+    color: "#b31010",
+    border: "1px solid",
+    width: 250,
+    borderColor: theme.palette.grey[400],
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.grey[100],
+    padding: theme.spacing(2),
+    margin: theme.spacing(2),
+  },
+  starIcon: {
+    marginRight: theme.spacing(3),
+    fontSize: "50px",
   },
 }));
 
@@ -106,7 +124,11 @@ export default function ManageRewards() {
         <Typography variant="h4">
           <b>Rewards</b>
         </Typography>
-        <Typography variant="h5">You have {stars} stars</Typography>
+      </Box>
+      <Box>
+        <Typography className={classes.starCountBox}>
+          <b>You have {stars} stars</b>
+        </Typography>
       </Box>
       <Box>
         {/* Get all rewards from database and display in a table */}
@@ -131,13 +153,16 @@ export default function ManageRewards() {
                       {reward.rewardName}
                     </TableCell>
                     <TableCell className={classes.tableContent}>
-                      {reward.starsRequired}
+                      {reward.starsRequired} <br />
                     </TableCell>
                     <TableCell>
                       <Button
                         onClick={() => claimReward(reward)}
+                        // Disable button if user doesn't have enough stars to claim reward
+                        disabled={reward.starsRequired > stars}
                         variant="contained"
                         color="primary"
+                        startIcon={<ClaimIcon />}
                       >
                         Claim Reward
                       </Button>
