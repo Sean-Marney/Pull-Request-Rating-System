@@ -1,5 +1,9 @@
 const axios = require("axios");
+const User = require("../models/user.model");
 const PullRequestModel = require("../models/pullRequest.model");
+
+
+
 // Get all repositories from the GitHub service account ('t7serviceaccount')
 const getAllRepositories = async (req, res) => {
   // Requires access token (generated on GitHub) as it's a private repository
@@ -70,11 +74,15 @@ async function writePullRequestsToDatabase(pullRequests) {
       try {
         // Converts the date string into a date object
         let mergedDate = new Date(pullRequests[index].created_at);  
+
+        // Retrieves the userID from git username
+        let userID = await readUserID(pullRequests[index].user.login);
+        
         const pullRequest = new PullRequestModel({
           git_id: pullRequests[index].id,
           url: pullRequests[index].html_url,
           repo: pullRequests[index].head.repo.name,
-          user_id: pullRequests[index].user.id,
+          user_id: userID,
           title: pullRequests[index].title,
           date: mergedDate,
           rating_complete: false
@@ -88,6 +96,13 @@ async function writePullRequestsToDatabase(pullRequests) {
   }
 }
 
-
+async function readUserID(gitUsername) {
+  try{
+    let user = await User.find({ git_username: gitUsername},{_id:1}); 
+    return(user[0]._id); 
+  }catch(error){
+    console.log(error);
+  }
+}  
 
 module.exports = { getAllRepositories, getAllPullRequests };
