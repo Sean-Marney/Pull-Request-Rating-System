@@ -58,112 +58,103 @@ export default function ManageUsers() {
 
         // Set to state
         setUsers(res.data);
-
-        const deleteUser = async (_id) => {
-            // Delete user
-            await axios.delete(
-                `http://localhost:8000/management/users/delete/${_id}`
-            );
-
-            getUsers(); // Get updated list of users
-        };
-
-        return (
-            <div className={classes.tableContainer}>
-                <Box padding={3}>
-                    <Typography variant="h4">
-                        <b>Manage Users</b>
-                    </Typography>
-                </Box>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    startIcon={<AddCircleIcon />}
-                    onClick={() => navigate("/management/users/create")}
-                >
-                    Add New User
-                </Button>
-                <Box>
-                    {/* Get all users from database and display in a table */}
-                    {users && (
-                        <TableContainer className={classes.table}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell
-                                            className={classes.tableHeaders}
-                                        >
-                                            <b>Name</b>
-                                        </TableCell>
-                                        <TableCell
-                                            className={classes.tableHeaders}
-                                        >
-                                            <b>Email</b>
-                                        </TableCell>
-                                        <TableCell
-                                            className={classes.tableHeaders}
-                                        >
-                                            <b>Role</b>
-                                        </TableCell>
-                                        <TableCell
-                                            className={classes.tableHeaders}
-                                        >
-                                            <b>Actions</b>
-                                        </TableCell>
-                                        <TableCell />
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {users.map((user) => (
-                                        <TableRow key={user._id}>
-                                            <TableCell
-                                                className={classes.tableContent}
-                                            >
-                                                {user.name}
-                                            </TableCell>
-                                            <TableCell
-                                                className={classes.tableContent}
-                                            >
-                                                {user.email}
-                                            </TableCell>
-                                            <TableCell
-                                                className={classes.tableContent}
-                                            >
-                                                {user.hasRole}
-                                            </TableCell>
-                                            <TableCell>
-                                                <IconButton
-                                                    color="primary"
-                                                    title="Edit User"
-                                                    onClick={() =>
-                                                        navigate(
-                                                            `/management/users/update/${user._id}`
-                                                        )
-                                                    }
-                                                >
-                                                    <EditIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell>
-                                                <IconButton
-                                                    color="secondary"
-                                                    title="Delete User"
-                                                    onClick={() =>
-                                                        deleteUser(user._id)
-                                                    }
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    )}
-                </Box>
-            </div>
-        );
     };
+    const deleteUser = async (_id) => {
+        // Delete user
+        await axios.delete(
+            `http://localhost:8000/management/users/delete/${_id}`
+        );
+
+        getUsers(); // Get updated list of users
+    };
+
+    return (
+        <div className={classes.tableContainer}>
+            <Box padding={3}>
+                <Typography variant="h4">
+                    <b>Manage Users</b>
+                </Typography>
+            </Box>
+            <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={<AddCircleIcon />}
+                onClick={() => navigate("/management/users/create")}
+            >
+                Add New User
+            </Button>
+            <Box>
+                {/* Get all users from database and display in a table */}
+                {users && (
+                    <TableContainer className={classes.table}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell className={classes.tableHeaders}>
+                                        <b>Name</b>
+                                    </TableCell>
+                                    <TableCell className={classes.tableHeaders}>
+                                        <b>Email</b>
+                                    </TableCell>
+                                    <TableCell className={classes.tableHeaders}>
+                                        <b>Role</b>
+                                    </TableCell>
+                                    <TableCell className={classes.tableHeaders}>
+                                        <b>Actions</b>
+                                    </TableCell>
+                                    <TableCell />
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {users.map((user) => (
+                                    <TableRow key={user._id}>
+                                        <TableCell
+                                            className={classes.tableContent}
+                                        >
+                                            {user.name}
+                                        </TableCell>
+                                        <TableCell
+                                            className={classes.tableContent}
+                                        >
+                                            {user.email}
+                                        </TableCell>
+                                        <TableCell
+                                            className={classes.tableContent}
+                                        >
+                                            {user.hasRole}
+                                        </TableCell>
+                                        <TableCell>
+                                            <IconButton
+                                                color="primary"
+                                                title="Edit User"
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/management/users/update/${user._id}`
+                                                    )
+                                                }
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                        <TableCell>
+                                            <IconButton
+                                                color="secondary"
+                                                title="Delete User"
+                                                onClick={() =>
+                                                    deleteUser(user._id)
+                                                }
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
+            </Box>
+        </div>
+    );
 }

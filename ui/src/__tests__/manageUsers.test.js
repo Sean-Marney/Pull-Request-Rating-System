@@ -8,7 +8,7 @@ import "@testing-library/jest-dom/extend-expect";
 jest.mock("axios"); // mock axios module
 
 describe("Testing Manageusers component", () => {
-    it("should render the manage rewards table with data", async () => {
+    it("should render the manage users table with data", async () => {
         const mockData = [
             {
                 _id: "1",
@@ -20,7 +20,7 @@ describe("Testing Manageusers component", () => {
                 _id: "2",
                 name: "Jane Doe",
                 email: "janedoe@example.com",
-                hasRole: "Manager",
+                hasRole: "Developer",
             },
         ];
 
@@ -37,7 +37,7 @@ describe("Testing Manageusers component", () => {
         const role1 = await screen.findByText("Manager");
         const name2 = await screen.findByText("Jane Doe");
         const email2 = await screen.findByText("janedoe@example.com");
-        const role2 = await screen.findByText("Manager");
+        const role2 = await screen.findByText("Developer");
 
         expect(name1).toBeInTheDocument();
         expect(name2).toBeInTheDocument();
