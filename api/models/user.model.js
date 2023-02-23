@@ -18,8 +18,8 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   stars: {
-    type: String,
-    default: "0",
+    type: Number,
+    default: 0,
   },
 });
 
