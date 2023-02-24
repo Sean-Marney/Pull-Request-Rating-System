@@ -36,34 +36,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+var moment = require('moment');  
+moment().format();
+
 const RepositoryList = () => {
   const classes = useStyles();
 
   const [repositories, setRepositories] = useState([]);
   const [selectedRepository, setSelectedRepository] = useState();
-  const [pullRequests, setPullRequests] = useState([]);
-
-  // Gets pull requests for a given repository
-  const getPullRequests = async (repositoryName) => {
-    // Requires access token (generated on GitHub) as it's a private repository
-    const token = "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";
-    // Access token is inserted into the header
-    const headers = {
-      Authorization: `Token ${token}`,
-    };
-
-    // Calls GitHub API to get pull requests from a repository
-    try {
-      const response = await axios.get(
-        // pulls?state=all ensures that all pull requests are retrieved, even ones that have been merged
-        `https://api.github.com/repos/${repositoryName}/pulls?state=all`,
-        { headers }
-      );
-      setPullRequests(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [allPullRequests, setAllPullRequests] = useState([]);
+  const [selectedPullRequests, setSelectedPullRequests] = useState([]);
 
   // Gets all pull requests across all repositories
   const getAllPullRequests = async () => {
@@ -72,7 +54,8 @@ const RepositoryList = () => {
         // Sends GET request to API to get all pull requests in all repositories
         "http://localhost:8000/management/repositories/allPulls"
       );
-      setPullRequests(response.data);
+      setSelectedPullRequests(response.data);
+      setAllPullRequests(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -84,10 +67,12 @@ const RepositoryList = () => {
     setSelectedRepository(value);
     if (value === "all") {
       // If user clicks "All Pull Requests" (has "all" value), display all pull requests across all repositories
-      getAllPullRequests();
+      setSelectedPullRequests(allPullRequests);
       // Else, show pull requests for the repository that they click
     } else {
-      getPullRequests(value);
+
+      let filteredPullRequests = allPullRequests.filter((pullRequest) => pullRequest.repo === value);
+      setSelectedPullRequests(filteredPullRequests);
     }
   };
 
@@ -105,6 +90,7 @@ const RepositoryList = () => {
       }
     }
     getRepositories();
+    getAllPullRequests();
   }, []);
 
   // Event handler to navigate to GitHub page for a specific pull request when user clicks the pull request
@@ -112,31 +98,16 @@ const RepositoryList = () => {
     window.open(pullRequestUrl, "_blank");
   };
 
-  // Event handler to get all pull requests from all repositories when user selects "All Pull Requests"
-  const handleAllPullRequestsClick = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8000/management/repositories/allPulls"
-      );
-      setPullRequests(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   // Helper function to determine the status of a pull request based on its "merged_at" property
   const getPullRequestStatus = (pullRequest) => {
-    if (pullRequest.merged_at) {
-      return "Merged"; // Pull request has been merged on GitHub
-    } else {
-      return "Pending"; // Pull request has been created on GitHub
-    }
+    return "Merged";
+    // if (pullRequest.merged_at) {
+    //   return "Merged"; // Pull request has been merged on GitHub
+    // } else {
+    //   return "Pending"; // Pull request has been created on GitHub
+    // }
   };
-
-  // When the page loads, it will call this function so that all pull requests are displayed by default
-  useEffect(() => {
-    handleAllPullRequestsClick();
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -149,23 +120,23 @@ const RepositoryList = () => {
         onChange={handleRepositoryChange}
         defaultValue="all"
       >
-        <MenuItem value="all" onClick={handleAllPullRequestsClick}>
+        <MenuItem value="all">
           All Pull Requests
         </MenuItem>
         {/* Displays all pull requests in the selected repository */}
         {repositories.map((repository) => (
-          <MenuItem key={repository.id} value={repository.full_name}>
+          <MenuItem key={repository.id} value={repository.name}>
             {repository.name}
           </MenuItem>
         ))}
       </Select>
-      {pullRequests.length > 0 && (
+      {selectedPullRequests.length > 0 && (
         <List>
-          {pullRequests.map((pullRequest) => (
+          {selectedPullRequests.map((pullRequest) => (
             <ListItem
-              key={pullRequest.id}
+              key={pullRequest.git_id}
               button
-              onClick={() => handlePullRequestClick(pullRequest.html_url)}
+              onClick={() => handlePullRequestClick(pullRequest.url)}
               className={classes.listItem}
             >
               <ListItemText
@@ -179,7 +150,7 @@ const RepositoryList = () => {
                       variant="body1"
                       color="textSecondary"
                     >
-                      {`Pull Request #${pullRequest.number} from ${pullRequest.base.repo.name}`}
+                      {`Pull Request #${pullRequest.git_id} from ${pullRequest.repo}`}
                     </Typography>
                     <br />
                     <Typography
@@ -187,7 +158,7 @@ const RepositoryList = () => {
                       variant="body2"
                       color="textSecondary"
                     >
-                      {`Created by ${pullRequest.user.login}`}
+                      {`Created by ${pullRequest.user_id}`}
                     </Typography>
                     <br />
                     <Typography
@@ -195,7 +166,7 @@ const RepositoryList = () => {
                       variant="body2"
                       color="textSecondary"
                     >
-                      {`${pullRequest.created_at}`}
+                      {moment(pullRequest.date).format('DD/MM/YYYY  HH:mm:ss')}
                     </Typography>
                   </>
                 }
