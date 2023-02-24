@@ -34,6 +34,11 @@ npm i
 - `chai-http` package - Chai HTTP is a plugin for the Chai library that provides a set of functions for making HTTP requests and assertions. **Learn more [here](https://www.npmjs.com/package/chai-http)**
 - `sinon` package - Sinon is a JavaScript library for mocking objects/test spies, and for stubbing and mocking functions and objects in unit tests. **Learn more [here](https://www.npmjs.com/package/sinon)**
 - `sinon-chai` package - Sinon-Chai is a plugin that integrates the Sinon library with the Chai assertion library, providing a set of Chai assertions that can be used to asert the behaviour of functions and methods that have been stubbed, mocked, or spied using Sinon. **Learn more [here](https://www.npmjs.com/package/sinon-chai)**
+- `bcrypt` package - A library to help in hashing passwords **Learn more [here](https://www.npmjs.com/package/bcrypt)**
+- `jsonwebtoken` package - Package to generate JSON Web Token (JWT) which is a compact, URL-safe means of representing claims to be transferred between two parties. **Learn more [here](https://www.npmjs.com/package/jsonwebtoken)**
+
+
+
 
 ## Setting up Environment Variables
 
