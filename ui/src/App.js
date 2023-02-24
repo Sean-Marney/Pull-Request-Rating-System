@@ -15,6 +15,7 @@ import Rewards from "./components/pages/RewardsPage/Rewards";
 import Repositories from "./components/pages/Repositories/Repositories"
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -26,7 +27,8 @@ const App = () => {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/history" element={<History />} />
+                        <Route path="/history" element={<History />} />
+                        <Route path="/ManagerHelp" element={<ManagerHelp />} />
                     <Route
                         path="/management/users"
                         element={

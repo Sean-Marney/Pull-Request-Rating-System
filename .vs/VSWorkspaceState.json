@@ -3,7 +3,9 @@
     "",
     "\\api",
     "\\api\\models",
-    "\\api\\routes"
+    "\\api\\routes",
+    "\\ui",
+    "\\ui\\src"
   ],
   "SelectedNode": "\\api\\index.js",
   "PreviewInSolutionExplorer": false
