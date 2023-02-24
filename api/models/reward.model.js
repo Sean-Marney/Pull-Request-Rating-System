@@ -6,7 +6,7 @@ const RewardSchema = new mongoose.Schema({
     required: true,
   },
   starsRequired: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
