@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import axios from "axios";
 import Rewards from "../components/pages/RewardsPage/Rewards";
 import "@testing-library/jest-dom/extend-expect";
@@ -30,5 +30,29 @@ describe("Testing developer's rewards page at /rewards", () => {
     expect(rewardName2).toBeInTheDocument();
     expect(starsRequired1).toBeInTheDocument();
     expect(starsRequired2).toBeInTheDocument();
+  });
+});
+
+describe("Testing logic for claiming a reward on /rewards page", () => {
+  it("should test claim button is clicked", async () => {
+    const mockData = [
+      { _id: "1", rewardName: "First Reward", starsRequired: 100 },
+    ];
+
+    const mockUser = {
+      email: "test@test.com",
+      stars: 200, // initial stars
+    };
+
+    axios.get.mockResolvedValue({ data: mockData }); // mock the response of axios
+    axios.post.mockResolvedValue({ data: { success: true } }); // mock the response of axios
+
+    // useCookies.mockReturnValue([{ user: { email: "test@test.com" } }]);
+    useCookies.mockReturnValue([{ user: mockUser }]);
+
+    render(<Rewards />);
+
+    const claimButton = await screen.findByText("Claim Reward");
+    fireEvent.click(claimButton);
   });
 });
