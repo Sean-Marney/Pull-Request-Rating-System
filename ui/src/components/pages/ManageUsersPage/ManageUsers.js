@@ -52,17 +52,13 @@ export default function ManageUsers() {
 
     const getUsers = async () => {
         // Get users
-        try {
-            const response = await request({
-                method: "get",
-                url: "/management/users/roles/Developer",
-            });
-            setUsers(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+        const res = await axios.get(
+            "http://localhost:8000/management/users/roles/Developer"
+        );
 
+        // Set to state
+        setUsers(res.data);
+    };
     const deleteUser = async (_id) => {
         // Delete user
         await axios.delete(
@@ -102,7 +98,7 @@ export default function ManageUsers() {
                                         <b>Email</b>
                                     </TableCell>
                                     <TableCell className={classes.tableHeaders}>
-                                        <b>Password</b>
+                                        <b>Role</b>
                                     </TableCell>
                                     <TableCell className={classes.tableHeaders}>
                                         <b>Actions</b>
@@ -126,7 +122,7 @@ export default function ManageUsers() {
                                         <TableCell
                                             className={classes.tableContent}
                                         >
-                                            {user.password}
+                                            {user.hasRole}
                                         </TableCell>
                                         <TableCell>
                                             <IconButton

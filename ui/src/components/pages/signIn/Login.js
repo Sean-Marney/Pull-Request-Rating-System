@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
+import { InputLabel } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -15,6 +16,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAxiosInstance from "../../../useAxiosInstance";
+import * as yup from "yup";
+import validateLoginForm from "../../../validations/loginForm";
+import { useState } from "react";
 
 const theme = createTheme();
 
@@ -22,6 +26,7 @@ export default function SignIn() {
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const { request } = useAxiosInstance();
+    const [error, setError] = useState({});
     const [user, setUser] = React.useState({
         email: "",
         password: "",
@@ -39,6 +44,8 @@ export default function SignIn() {
         event.preventDefault();
 
         try {
+            await validateLoginForm.validate(user, { abortEarly: false });
+
             const response = await request({
                 method: "post",
                 url: "/login",
@@ -48,12 +55,15 @@ export default function SignIn() {
                 setCookie("token", response.data.token, { path: "/" });
                 setCookie("role", response.data.hasRole, { path: "/" });
                 navigate("/");
-            } else {
-                alert(response.data.message);
             }
         } catch (error) {
-            console.log(error);
-            alert("Please check your credentials");
+            const errors = {};
+            if (error instanceof yup.ValidationError) {
+                error.inner.forEach((e) => {
+                    errors[e.path] = e.message;
+                });
+                setError(errors);
+            }
         }
     };
 
@@ -81,28 +91,34 @@ export default function SignIn() {
                         noValidate
                         sx={{ mt: 1 }}
                     >
+                        <InputLabel htmlFor="email">Email</InputLabel>
                         <TextField
                             margin="normal"
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
                             name="email"
                             onChange={handleInputChange}
                             autoComplete="email"
                             autoFocus
                         />
+                        {error.email && (
+                            <div style={{ color: "red" }}>{error.email}</div>
+                        )}
+                        <InputLabel htmlFor="password">Password</InputLabel>
                         <TextField
                             margin="normal"
                             required
                             fullWidth
                             name="password"
-                            label="Password"
                             type="password"
                             id="password"
                             onChange={handleInputChange}
                             autoComplete="current-password"
                         />
+                        {error.password && (
+                            <div style={{ color: "red" }}>{error.password}</div>
+                        )}
                         <FormControlLabel
                             control={
                                 <Checkbox value="remember" color="primary" />
