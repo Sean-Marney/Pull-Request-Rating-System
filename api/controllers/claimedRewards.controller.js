@@ -26,7 +26,8 @@ const getClaimedRewards = async (req, res) => {
   }
 };
 
+
 module.exports = {
-  getClaimedRewards,
   saveClaimedReward,
+  getClaimedRewards
 };
