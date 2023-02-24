@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\api",
+    "\\api\\controllers",
+    "\\api\\routes",
+    "\\api\\tests"
+  ],
+  "SelectedNode": "\\api\\controllers\\auth.controller.js",
+  "PreviewInSolutionExplorer": false
+}
