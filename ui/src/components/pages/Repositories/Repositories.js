@@ -54,8 +54,9 @@ const RepositoryList = () => {
         // Sends GET request to API to get all pull requests in all repositories
         "http://localhost:8000/management/repositories/allPulls"
       );
-      setSelectedPullRequests(response.data);
-      setAllPullRequests(response.data);
+      setSelectedPullRequests(response.data.pullRequests);
+      setAllPullRequests(response.data.pullRequests);
+      setRepositories(response.data.repos);
     } catch (error) {
       console.error(error);
     }
@@ -70,26 +71,12 @@ const RepositoryList = () => {
       setSelectedPullRequests(allPullRequests);
       // Else, show pull requests for the repository that they click
     } else {
-
       let filteredPullRequests = allPullRequests.filter((pullRequest) => pullRequest.repo === value);
       setSelectedPullRequests(filteredPullRequests);
     }
   };
 
   useEffect(() => {
-    async function getRepositories() {
-      // Sends GET request to API to get all repositories
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/management/repositories"
-        );
-        // Sets to state
-        setRepositories(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getRepositories();
     getAllPullRequests();
   }, []);
 
@@ -134,7 +121,7 @@ const RepositoryList = () => {
         <List>
           {selectedPullRequests.map((pullRequest) => (
             <ListItem
-              key={pullRequest.git_id}
+              key={pullRequest._id}
               button
               onClick={() => handlePullRequestClick(pullRequest.url)}
               className={classes.listItem}

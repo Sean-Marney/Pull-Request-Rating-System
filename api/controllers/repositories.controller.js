@@ -66,14 +66,14 @@ const getAllPullRequests = async (req, res) => {
 // Get all pull requests (including merged ones) from the GitHub service account ('t7serviceaccount')
 const getAllPullRequestsFromDB = async (req, res) => {
   try {
-    let apiPullRequests = await getAllPullRequestsFromAPI();
+    let response = await getAllPullRequestsFromAPI();
+    let apiPullRequests = response.pullRequests;
+    let repos = response.repos;
     await updatePullRequestsToDatabase(apiPullRequests);
     let databasePullRequests = await PullRequestModel.find();
     let pullRequests = await changeName(databasePullRequests);
-    console.log(pullRequests);
 
-
-    res.status(200).send(pullRequests);
+    res.status(200).send({"pullRequests": pullRequests, "repos": repos});
   } catch (err) {
     console.error(err);
     res.status(500).send({ error: "Failed to fetch pull requests from Database" });
@@ -91,10 +91,10 @@ async function getAllPullRequestsFromAPI(){
     const response = await axios.get("https://api.github.com/user/repos", {
       headers,
     });
-
+    let repos = response.data;
     // Loops through all repositories to get their pull requests
     const pullRequests = [];
-    for (const repo of response.data) {
+    for (const repo of repos) {
       const pullRequestResponse = await axios.get(
         // State is set to "all" so that it returns both merged and unmerged pull requests
         `https://api.github.com/repos/t7serviceaccount/${repo.name}/pulls?state=all`,
@@ -105,7 +105,7 @@ async function getAllPullRequestsFromAPI(){
       // Takes all pull requests from API and spreads them into pullRequests array (this array shows all pull requests in all repositories)
       pullRequests.push(...pullRequestResponse.data);
     }
-    return (pullRequests);
+    return ({"pullRequests": pullRequests, "repos": repos});
   } catch (err) {
     console.error(err);
   }
