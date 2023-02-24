@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import axios from "axios";
-import Rewards from "../components/RewardsPage/Rewards";
+import Rewards from "../components/pages/RewardsPage/Rewards";
 import "@testing-library/jest-dom/extend-expect";
 
 jest.mock("axios"); // mock axios module
