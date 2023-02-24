@@ -15,7 +15,7 @@ describe("Tests getting the repositories", () => {
     it("GET /management/repositories/allPulls", async () => {
       const res = await request(app).get("/management/repositories/allPulls");
       expect(res.status).to.equal(200);
-      expect(res.body).to.be.an("array");
+      expect(res.body).to.be.an("object");
     });
   });
 });

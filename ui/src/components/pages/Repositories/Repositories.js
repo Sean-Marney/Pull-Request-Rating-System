@@ -41,10 +41,13 @@ moment().format();
 
 const RepositoryList = () => {
   const classes = useStyles();
-
+  // Stores all the repositories
   const [repositories, setRepositories] = useState([]);
+  // Stores selected repository
   const [selectedRepository, setSelectedRepository] = useState();
+  // Stores all the Pull Requests
   const [allPullRequests, setAllPullRequests] = useState([]);
+  // Stores selected repository's pull requests
   const [selectedPullRequests, setSelectedPullRequests] = useState([]);
 
   // Gets all pull requests across all repositories
@@ -54,6 +57,7 @@ const RepositoryList = () => {
         // Sends GET request to API to get all pull requests in all repositories
         "http://localhost:8000/management/repositories/allPulls"
       );
+      // Sets the state of the pull requests and repositories
       setSelectedPullRequests(response.data.pullRequests);
       setAllPullRequests(response.data.pullRequests);
       setRepositories(response.data.repos);
