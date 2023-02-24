@@ -59,6 +59,7 @@ export default function CreateUser() {
             await validateCreateUserForm.validate(createForm, {
                 abortEarly: false,
             });
+            
             // Create new user
             await axios.post(
                 "http://localhost:8000/management/users/create",
@@ -133,6 +134,7 @@ export default function CreateUser() {
                                     value={createForm.password}
                                     name="password"
                                     id="password"
+                                    type="password"
                                     inputProps={{
                                         style: { textAlign: "center" },
                                     }}

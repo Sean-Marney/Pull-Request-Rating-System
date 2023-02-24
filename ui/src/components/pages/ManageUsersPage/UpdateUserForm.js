@@ -99,16 +99,19 @@ export default function UpdateUser() {
             <div>
                 <Card className={classes.card}>
                     <Typography variant="h4">
-                        <b>Update User</b>
+                        <b>Update Users</b>
                     </Typography>
                     <CardContent>
                         <form onSubmit={updateUser}>
                             <div>
-                                <InputLabel>User Name</InputLabel>
+                                <InputLabel htmlFor="name">
+                                    User Name
+                                </InputLabel>
                                 <Input
                                     onChange={updateEditFormField}
                                     value={updateForm.name}
                                     name="name"
+                                    id="name"
                                     inputProps={{
                                         style: { textAlign: "center" },
                                     }}
@@ -121,11 +124,12 @@ export default function UpdateUser() {
                                 )}
                             </div>
                             <div>
-                                <InputLabel>Email</InputLabel>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input
                                     onChange={updateEditFormField}
                                     value={updateForm.email}
                                     name="email"
+                                    id="email"
                                     inputProps={{
                                         style: { textAlign: "center" },
                                     }}
@@ -134,23 +138,6 @@ export default function UpdateUser() {
                                 {error.email && (
                                     <div style={{ color: "red" }}>
                                         {error.email}
-                                    </div>
-                                )}
-                            </div>
-                            <div style={{ marginTop: "20px" }}>
-                                <InputLabel>Password</InputLabel>
-                                <Input
-                                    onChange={updateEditFormField}
-                                    value={updateForm.password}
-                                    name="password"
-                                    inputProps={{
-                                        style: { textAlign: "center" },
-                                    }}
-                                    className={classes.input}
-                                />
-                                {error.password && (
-                                    <div style={{ color: "red" }}>
-                                        {error.password}
                                     </div>
                                 )}
                             </div>
