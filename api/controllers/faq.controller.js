@@ -1,4 +1,4 @@
-const Faq = require("../models/FAQ.js");
+const Faq = require("../models/FAQ.model.js");
 
 // CRUD methods for FAQs
 

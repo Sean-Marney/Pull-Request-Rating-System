@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
 const sinon = require("sinon");
-const Faq = require("../../models/FAQ");
+const Faq = require("../../models/FAQ.model");
 const manageFaqs = require("../../controllers/faq.controller");
 const app = require("../../index");
 const chai = require("chai");

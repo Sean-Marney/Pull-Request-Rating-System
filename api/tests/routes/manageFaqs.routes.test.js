@@ -1,7 +1,7 @@
 const chai = require("chai");
 const request = require("supertest");
 const app = require("../../index");
-const Faq = require("../../models/FAQ");
+const Faq = require("../../models/FAQ.model");
 
 describe("GET /management/manageFaqs", () => {
     it("should return all faqs and status code 200", (done) => {
