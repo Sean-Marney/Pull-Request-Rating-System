@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import axios from "axios";
 import { MemoryRouter } from "react-router-dom";
-import ManageFAQ from "../components/pages/ManageFAQPage/ManageFAQs";
+import ManageFAQ from "../../components/pages/ManageFAQPage/ManageFAQs";
 import "@testing-library/jest-dom/extend-expect";
 
 jest.mock("axios"); // mock axios module
