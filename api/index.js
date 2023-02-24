@@ -33,7 +33,6 @@ app.use("/management/rewards", rewardsRoute);
 app.use("/rewards", rewardsRoute);
 app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
-
 // setting up port
 const PORT = process.env.PORT || 8000;
 

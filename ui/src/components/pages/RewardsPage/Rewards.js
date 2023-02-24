@@ -112,7 +112,14 @@ export default function ManageRewards() {
       // Update star count on page
       getStars();
 
-      console.log(user);
+      // Save reward and user to claimedRewards table
+      await axios.post(
+        "http://localhost:8000/management/rewards/claimed/save",
+        {
+          rewardId: reward._id,
+          userId: user._id,
+        }
+      );
     } else {
       console.log("Sorry, you don't have enough stars to claim this reward.");
     }
