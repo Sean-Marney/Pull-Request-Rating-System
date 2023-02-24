@@ -14,10 +14,5 @@ export default yup.object().shape({
         .required("Email is required"),
     password: yup
         .string()
-        .min(8, "Password must be at least 8 characters long")
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
-            "Password must contain at least one uppercase letter, one lowercase letter, one number and one special case character"
-        )
-        .required("Please provide a password"),
+        .required("Please provide correct password"),
 });
