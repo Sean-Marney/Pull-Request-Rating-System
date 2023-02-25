@@ -128,8 +128,10 @@ async function readListOfFullNames() {
 async function changeName(pullRequests){
   let users = await readListOfFullNames();
   pullRequests.forEach(pullRequest => {
-    let user = users.find(user => user._id.toString() == "63f8cb63f910c75c3cc25ccb");
-    pullRequest.user_id = user.name;
+    let user = users.find(user => user._id.toString() == pullRequest.user_id.toString());
+    if (user != undefined){
+      pullRequest.user_id = user.name;
+    }
   });
   return pullRequests;
 }

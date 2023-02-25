@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
   },
   git_username: {
     type: String,
-    required: true}
+    required: false}
 });
 
 const User = mongoose.model("User", UserSchema);
