@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
 const sinon = require("sinon");
-const User = require("../../models/userModel");
+const User = require("../../models/user.model");
 const manageUsers = require("../../controllers/manageUsers.controller");
 const app = require("../../index");
 const chai = require("chai");
