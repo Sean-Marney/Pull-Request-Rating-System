@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 import {
   makeStyles,
   Table,
@@ -12,6 +13,8 @@ import {
   Box,
   Button,
 } from "@material-ui/core";
+import ArchiveIcon from "@material-ui/icons/Archive";
+import FolderIcon from "@material-ui/icons/Folder";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -55,6 +58,8 @@ export default function ManageRewards() {
   const classes = useStyles();
   const [claimedRewards, setClaimedRewards] = useState(null);
 
+  const navigate = useNavigate();
+
   // Gets claimed rewards on page load
   useEffect(() => {
     getClaimedRewards();
@@ -66,8 +71,21 @@ export default function ManageRewards() {
       "http://localhost:8000/management/rewards/claimed/get"
     );
 
+    // Filter results so that it doesn't display rewards that have been archived
+    const unarchivedRewards = res.data.filter((reward) => !reward.archived);
+
     // Set to state
-    setClaimedRewards(res.data);
+    setClaimedRewards(unarchivedRewards);
+  };
+
+  const archiveReward = async (claimedReward) => {
+    // Update reward's "archived" value to true
+    const res = await axios.patch(
+      `http://localhost:8000/management/rewards/claimed/update/${claimedReward._id}`
+    );
+    console.log(res.data);
+
+    getClaimedRewards();
   };
 
   return (
@@ -76,6 +94,15 @@ export default function ManageRewards() {
         <Typography variant="h4">
           <b>Claimed Rewards</b>
         </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<FolderIcon />}
+          onClick={() => navigate("/management/rewards/claimed/archived")}
+        >
+          Archived Rewards
+        </Button>
       </Box>
       <Box>
         {/* Get all claimed rewards from database and display in a table */}
@@ -93,6 +120,9 @@ export default function ManageRewards() {
                   <TableCell className={classes.tableHeaders}>
                     <b>Claimed At</b>
                   </TableCell>
+                  <TableCell className={classes.tableHeaders}>
+                    <b>Actions</b>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -106,6 +136,16 @@ export default function ManageRewards() {
                     </TableCell>
                     <TableCell className={classes.tableContent}>
                       {claimedReward.date_claimed} <br />
+                    </TableCell>
+                    <TableCell className={classes.tableContent}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<ArchiveIcon />}
+                        onClick={() => archiveReward(claimedReward)}
+                      >
+                        Archive
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

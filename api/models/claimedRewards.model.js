@@ -21,6 +21,10 @@ const ClaimedRewardsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  archived: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const ClaimedRewards = mongoose.model("ClaimedRewards", ClaimedRewardsSchema);

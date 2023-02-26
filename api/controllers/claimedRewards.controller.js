@@ -1,5 +1,24 @@
 const ClaimedRewards = require("../models/claimedRewards.model");
 
+// Gets all claimed rewards
+const getClaimedRewards = async (req, res) => {
+  try {
+    const claimedRewards = await ClaimedRewards.find();
+    res.status(200).json(claimedRewards);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getArchivedRewards = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // This method is called when the user clicks the "Claim Reward" button
 const saveClaimedReward = async (req, res) => {
   try {
@@ -18,17 +37,24 @@ const saveClaimedReward = async (req, res) => {
   }
 };
 
-const getClaimedRewards = async (req, res) => {
+// This method sets the claimed reward to be archived when user clicks the "Archive" button
+const updateArchiveStatus = async (req, res) => {
   try {
-    const claimedRewards = await ClaimedRewards.find();
-    res.status(200).json(claimedRewards);
+    const claimedReward = await ClaimedRewards.findById(req.params.id);
+    if (!claimedReward) {
+      return res.status(404).json({ message: "Reward with that ID not found" });
+    }
+
+    claimedReward.archived = true;
+    await claimedReward.save();
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
 
 module.exports = {
-  saveClaimedReward,
   getClaimedRewards,
+  getArchivedRewards,
+  saveClaimedReward,
+  updateArchiveStatus,
 };
