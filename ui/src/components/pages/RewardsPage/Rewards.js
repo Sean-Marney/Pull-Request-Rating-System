@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import ClaimIcon from "@material-ui/icons/Redeem";
 import { useCookies } from "react-cookie";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -112,12 +113,16 @@ export default function ManageRewards() {
       // Update star count on page
       getStars();
 
-      // Save reward and user to claimedRewards table
+      // Save reward and user to claimedRewards table with the current date
+      const currentDate = moment().format("DD/MM/YYYY, HH:mm:ss");
       await axios.post(
         "http://localhost:8000/management/rewards/claimed/save",
         {
           rewardId: reward._id,
+          rewardName: reward.rewardName,
           userId: user._id,
+          userEmail: user.email,
+          dateClaimed: currentDate,
         }
       );
     } else {

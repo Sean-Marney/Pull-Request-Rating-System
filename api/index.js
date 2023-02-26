@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth.routes");
 const express = require("express");
 require("dotenv").config();
 const rewardsRoute = require("./routes/rewards.routes");
+const claimedRewardsRoute = require("./routes/claimedRewards.routes");
 const repositoriesRoute = require("./routes/repositories.routes");
 const historyRoute = require("./routes/history.routes");
 const userRoute = require("./routes/user.routes");
@@ -30,6 +31,7 @@ app.use("/pullrequests", historyRoute);
 // routes
 app.use("/", authRoutes);
 app.use("/management/rewards", rewardsRoute);
+app.use("/management/rewards/claimed", claimedRewardsRoute);
 app.use("/rewards", rewardsRoute);
 app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
