@@ -13,6 +13,10 @@ import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm"
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
 import Repositories from "./components/pages/Repositories/Repositories"
+import ManageProfiles from "./components/pages/ProfilePage/Profile"
+import UpdatePassword from "./components/pages/ManageProfilePage/UpdatePasswordForm"
+import UpdateCompany from "./components/pages/ManageProfilePage/UpdateCompanyForm"
+import UpdateBio from "./components/pages/ManageProfilePage/UpdateBioForm"
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 
@@ -112,6 +116,55 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <ManageProfiles />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/profile/bio"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdateBio />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/profile/company"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdateCompany />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/profile/password"
+                        element={
+                            <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                                <UpdatePassword />
+                            </ProtectedRoute>
+                        }
+                    />
+
                 </Routes>
                 </Sidebar>
             )}
