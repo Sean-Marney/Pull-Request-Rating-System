@@ -101,7 +101,7 @@ export default function ManageRewards() {
           startIcon={<FolderIcon />}
           onClick={() => navigate("/management/rewards/claimed/archived")}
         >
-          Archived Rewards
+          View Archived Rewards
         </Button>
       </Box>
       <Box>

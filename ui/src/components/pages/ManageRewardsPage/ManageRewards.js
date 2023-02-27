@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ClaimIcon from "@material-ui/icons/Redeem";
 import {
   makeStyles,
   Table,
@@ -35,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tableContent: {
     fontSize: "20px",
+  },
+  button: {
+    marginLeft: theme.spacing(1),
   },
 }));
 
@@ -73,6 +77,7 @@ export default function ManageRewards() {
         </Typography>
       </Box>
       <Button
+        className={classes.button}
         variant="contained"
         color="primary"
         size="large"
@@ -80,6 +85,16 @@ export default function ManageRewards() {
         onClick={() => navigate("/management/rewards/create")}
       >
         Add New Reward
+      </Button>
+      <Button
+        className={classes.button}
+        variant="contained"
+        color="primary"
+        size="large"
+        startIcon={<ClaimIcon />}
+        onClick={() => navigate("/management/rewards/claimed")}
+      >
+        View Claimed Rewards
       </Button>
       <Box>
         {/* Get all rewards from database and display in a table */}
