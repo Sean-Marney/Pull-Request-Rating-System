@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
+import { Button } from "@mui/material";
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import Skeleton from '@mui/material/Skeleton';
+import Paper from '@mui/material/Paper';
+import Container from '@mui/material/Container';
+import {
+    makeStyles,
+} from "@material-ui/core";
 
-// const useStyles = makeStyles((theme) => ({
-//     Box: {
-//         width: 300,
-//         height: 300,
-//         backgroundColor: 'primary.dark'
-//     }
-// }));
+
 
 export default function ManageProfiles() {
 
     return (
         <div>
+            <Container fixed>
         <Box padding={3}>
         <h2>
             Manage Profile
         </h2>
         </Box>
-        <Box padding={3}>
+        <Stack direction="row" spacing={2} >
+        <Avatar/>
+        <Paper width={800} height={160} >
         <h4>
             Name
         </h4>
@@ -28,27 +34,24 @@ export default function ManageProfiles() {
         <h4>
             company
         </h4>
-        </Box>
+        <h4>
+            stars 
+        </h4>
+        </Paper>
+        </Stack>
         <Box padding={3}>
         <h4>
-            bio
+            Bio
         </h4>
+        <Skeleton variant="rectangular" width={800} height={160} />
         </Box>
-        <Box padding={3}>
-        <h4>
-            stars Aquired 
-        </h4>
-        </Box>
-        <Box padding={3}>
         <h4>
             Rewards Gotten
         </h4>
-        </Box>
-        <Box padding={3}>
-        <h4>
+        <Button>
             Change password
-        </h4>
-        </Box>
+        </Button>
+        </Container>
         </div>
     );
 }
