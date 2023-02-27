@@ -13,14 +13,10 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        marginTop: theme.spacing(4),
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-    },
-    table: {
-        minWidth: 650,
+    tableContainer: {
+        paddingLeft: theme.spacing(30),
+        paddingRight: theme.spacing(30),
+        textAlign: "center",
     },
 }));
 
@@ -36,7 +32,7 @@ function Leaderboard() {
     }, []);
 
     return (
-        <div className={classes.root}>
+        <div className={classes.tableContainer}>
             <Typography variant="h4" gutterBottom>
                 <b>Leaderboard</b>
             </Typography>
@@ -44,8 +40,8 @@ function Leaderboard() {
                 <Table className={classes.table} aria-label="leaderboard table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Stars</TableCell>
+                            <TableCell >Name</TableCell>
+                            <TableCell  >Stars</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -54,7 +50,7 @@ function Leaderboard() {
                                 <TableCell component="th" scope="row">
                                     {user.name}
                                 </TableCell>
-                                <TableCell align="right">{user.stars}</TableCell>
+                                <TableCell >{user.stars}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
