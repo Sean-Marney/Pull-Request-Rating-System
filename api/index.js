@@ -9,6 +9,7 @@ const repositoriesRoute = require("./routes/repositories.routes");
 const pullRequestHistoryRoute = require("./routes/pullRequestHistory.routes");
 const userRoute = require("./routes/user.routes");
 const trackerRoute = require("./routes/tracker.routes");
+const ratingRoute = require("./routes/rating.routes");
 
 const app = express();
 
@@ -25,7 +26,6 @@ app.use(
 app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("Server up and running"));
 
-
 // routes
 app.use("/", authRoutes);
 app.use("/management/rewards", rewardsRoute);
@@ -34,6 +34,7 @@ app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
 app.use("/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
+app.use("/pullrequests", ratingRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;
