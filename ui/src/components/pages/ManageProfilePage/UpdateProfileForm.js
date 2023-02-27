@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-export default function UpdateBio() {
+export default function UpdateProfile() {
     const classes = useStyles();
     const navigate = useNavigate();
     return (

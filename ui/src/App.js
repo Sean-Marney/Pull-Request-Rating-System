@@ -15,8 +15,7 @@ import Rewards from "./components/pages/RewardsPage/Rewards";
 import Repositories from "./components/pages/Repositories/Repositories"
 import ManageProfiles from "./components/pages/ProfilePage/Profile"
 import UpdatePassword from "./components/pages/ManageProfilePage/UpdatePasswordForm"
-import UpdateCompany from "./components/pages/ManageProfilePage/UpdateCompanyForm"
-import UpdateBio from "./components/pages/ManageProfilePage/UpdateBioForm"
+import UpdateProfile from "./components/pages/ManageProfilePage/UpdateProfileForm"
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 
@@ -129,26 +128,14 @@ const App = () => {
                         }
                     />
                     <Route
-                        path="/profile/bio"
+                        path="/profile/update"
                         element={
                             <ProtectedRoute
                                 token={cookies.token}
                                 role={cookies.role}
                             >
                                 {" "}
-                                <UpdateBio />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/profile/company"
-                        element={
-                            <ProtectedRoute
-                                token={cookies.token}
-                                role={cookies.role}
-                            >
-                                {" "}
-                                <UpdateCompany />
+                                <UpdateProfile />
                             </ProtectedRoute>
                         }
                     />

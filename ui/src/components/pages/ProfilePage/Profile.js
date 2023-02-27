@@ -46,14 +46,14 @@ export default function ManageProfiles() {
             Bio
         </h4>
         <Skeleton variant="rectangular" width={800} height={160} />
-        <Button onClick={() => navigate("/profile/bio")}>
+        <Button onClick={() => navigate("/profile/update")}>
             Edit Profile
         </Button>
         </Box>
         <h4>
             Rewards Gotten
         </h4>
-        <Button>
+        <Button onClick={() => navigate("/profile/password")}>
             Change password
         </Button>
         </Container>
