@@ -44,6 +44,9 @@ export default function ManageProfiles() {
             Bio
         </h4>
         <Skeleton variant="rectangular" width={800} height={160} />
+        <Button>
+            Edit Bio
+        </Button>
         </Box>
         <h4>
             Rewards Gotten
