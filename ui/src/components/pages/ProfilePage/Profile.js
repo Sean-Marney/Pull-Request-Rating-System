@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import { Button } from "@mui/material";
 import Stack from '@mui/material/Stack';
@@ -13,6 +14,7 @@ import {
 
 
 export default function ManageProfiles() {
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -44,8 +46,8 @@ export default function ManageProfiles() {
             Bio
         </h4>
         <Skeleton variant="rectangular" width={800} height={160} />
-        <Button>
-            Edit Bio
+        <Button onClick={() => navigate("/profile/bio")}>
+            Edit Profile
         </Button>
         </Box>
         <h4>

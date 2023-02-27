@@ -37,18 +37,42 @@ export default function UpdateBio() {
         <div>
           <Card className={classes.card}>
             <Typography variant="h4">
-              <b>Update Bio</b>
+              <b>Update Profile</b>
             </Typography>
             <CardContent>
               <form onSubmit={() => navigate("/profile")}>
+                {/* name */}
+              <div style={{ marginTop: "20px" }}>
+                <InputLabel>Name </InputLabel>
+                <Input
+                  name="name"
+                  inputProps={{
+                    style: { textAlign: "left" },
+                  }}
+                  className={classes.input}
+                />
+                </div>
+
+                  {/* company */}
+              <div style={{ marginTop: "20px" }}>
+                <InputLabel>Company </InputLabel>
+                <Input
+                  name="company"
+                  inputProps={{
+                    style: { textAlign: "left" },
+                  }}
+                  className={classes.input}
+                />
+                </div>
+                
+                {/* bio */}
                 <div>
                   <InputLabel>Bio</InputLabel>
                   <TextField
                     multiline
                     rows={5}
                     maxWidth
-                    onChange={() => navigate("/profile")}
-                    name="rewardName"
+                    name="bio"
                     inputProps={{
                       style: { textAlign: "left" },
                     }}
