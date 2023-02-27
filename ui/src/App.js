@@ -13,6 +13,7 @@ import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm"
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
 import ClaimedRewards from "./components/pages/ClaimedRewardsPage/ClaimedRewards";
+import ArchivedRewards from "./components/pages/ClaimedRewardsPage/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
@@ -88,6 +89,15 @@ const App = () => {
                 <ProtectedRoute token={cookies.token} role={cookies.role}>
                   {" "}
                   <ClaimedRewards />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/management/rewards/claimed/archived"
+              element={
+                <ProtectedRoute token={cookies.token} role={cookies.role}>
+                  {" "}
+                  <ArchivedRewards />
                 </ProtectedRoute>
               }
             />

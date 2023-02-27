@@ -22,13 +22,21 @@ const getArchivedRewards = async (req, res) => {
 // This method is called when the user clicks the "Claim Reward" button
 const saveClaimedReward = async (req, res) => {
   try {
-    const { rewardId, rewardName, userId, userEmail, dateClaimed } = req.body;
+    const {
+      rewardId,
+      rewardName,
+      userId,
+      userEmail,
+      dateClaimed,
+      dateArchived,
+    } = req.body;
     const claimedReward = new ClaimedRewards({
       reward_id: rewardId,
       reward_name: rewardName,
       user_id: userId,
       user_email: userEmail,
       date_claimed: dateClaimed,
+      date_archived: dateArchived,
     });
     await claimedReward.save();
     res.status(201).json(claimedReward);
