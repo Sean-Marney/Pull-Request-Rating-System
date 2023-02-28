@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.get("/", getAllRepositories);
+// router.get("/", getAllRepositories);
 router.get("/allPulls", getAllPullRequestsFromDB);
 
 module.exports = router;

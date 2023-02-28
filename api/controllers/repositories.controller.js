@@ -4,28 +4,28 @@ const PullRequestModel = require("../models/pullRequest.model");
 
 
 
-// Get all repositories from the GitHub service account ('t7serviceaccount')
-const getAllRepositories = async (req, res) => {
-  // Requires access token (generated on GitHub) as it's a private repository
-  const token = "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";
-  // Access token is inserted into the header
-  const headers = {
-    Authorization: `Token ${token}`,
-  };
+// // Get all repositories from the GitHub service account ('t7serviceaccount')
+// const getAllRepositories = async (req, res) => {
+//   // Requires access token (generated on GitHub) as it's a private repository
+//   const token = "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";
+//   // Access token is inserted into the header
+//   const headers = {
+//     Authorization: `Token ${token}`,
+//   };
 
-  try {
-    // Uses GitHub API to get all repositories
-    const response = await axios.get("https://api.github.com/user/repos", {
-      headers,
-    });
-    res.status(response.status).send(response.data);
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .send({ error: "Failed to fetch repositories from GitHub API" });
-  }
-};
+//   try {
+//     // Uses GitHub API to get all repositories
+//     const response = await axios.get("https://api.github.com/user/repos", {
+//       headers,
+//     });
+//     res.status(response.status).send(response.data);
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .send({ error: "Failed to fetch repositories from GitHub API" });
+//   }
+// };
 
 // Get all pull requests (including merged ones) from the GitHub service account ('t7serviceaccount')
 const getAllPullRequestsFromDB = async (req, res) => {
@@ -33,10 +33,8 @@ const getAllPullRequestsFromDB = async (req, res) => {
     let response = await getAllPullRequestsFromAPI();
     let apiPullRequests = response.pullRequests;
     let repos = response.repos;
-    await updatePullRequestsToDatabase(apiPullRequests);
-    let databasePullRequests = await PullRequestModel.find();
+    let databasePullRequests = await updatePullRequestsToDatabase(apiPullRequests);
     let pullRequests = await changeName(databasePullRequests);
-
     res.status(200).send({"pullRequests": pullRequests, "repos": repos});
   } catch (err) {
     console.error(err);
@@ -82,31 +80,39 @@ async function updatePullRequestsToDatabase(pullRequests) {
   // Needs to check that the pull request isn't in the database already
   const list = await PullRequestModel.find(); 
   while(index < pullRequests.length){
-    if (list.some((item) => item.git_id.toString() != pullRequests[index].id.toString())) {
-    } else {
+    let needToAdd = true;
+
+    list.forEach(item => {
+      if(item.git_id.toString() === pullRequests[index].id.toString()){
+        needToAdd = false;
+      } 
+    });
+    if (needToAdd === true)  {
       try {
         // Converts the date string into a date object
         let mergedDate = new Date(pullRequests[index].created_at);  
-
         // Retrieves the userID from git username
         let userID = await readUserID(pullRequests[index].user.login);
-        
-        const pullRequest = new PullRequestModel({
-          git_id: pullRequests[index].id,
-          url: pullRequests[index].html_url,
-          repo: pullRequests[index].head.repo.name,
-          user_id: userID,
-          title: pullRequests[index].title,
-          date: mergedDate,
-          rating_complete: false
-        });
-        await pullRequest.save(); 
+        if (userID != undefined){
+          const pullRequest = new PullRequestModel({
+            git_id: pullRequests[index].id,
+            url: pullRequests[index].html_url,
+            repo: pullRequests[index].head.repo.name,
+            user_id: userID,
+            title: pullRequests[index].title,
+            date: mergedDate,
+            rating_complete: false
+          });
+          await pullRequest.save(); 
+          list.push(pullRequest);
+        }  
       } catch (error) {
         console.log(error);
       }
     }
     index = index +1;
   }
+  return list;
 }
 
 async function readUserID(gitUsername) {
@@ -136,4 +142,4 @@ async function changeName(pullRequests){
   return pullRequests;
 }
 
-module.exports = { getAllRepositories, getAllPullRequestsFromDB };
+module.exports = { getAllPullRequestsFromDB, readUserID, readListOfFullNames, changeName, getAllPullRequestsFromAPI, updatePullRequestsToDatabase};
