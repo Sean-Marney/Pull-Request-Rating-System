@@ -64,6 +64,7 @@ export default function ManageRewards() {
   useEffect(() => {
     getRewards();
     getStars();
+    console.log(cookies.user);
   }, []);
 
   const getRewards = async () => {

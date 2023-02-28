@@ -5,14 +5,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
+import { useState } from "react";
 import Box from "@mui/material/Box";
+import * as yup from "yup";
+import { InputLabel } from "@material-ui/core";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useNavigate } from "react-router-dom";
-import validateRegistrationForm from "../../../validations/RegisterForm";
+import validateRegisterForm from "../../../validations/registerForm";
 
 const theme = createTheme();
 
@@ -26,6 +29,8 @@ export default function SignUp() {
         confirmPassword: "",
     });
 
+    const [error, setError] = useState({});
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setUser((prevUser) => ({
@@ -36,16 +41,9 @@ export default function SignUp() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        //Check that the passwords match
-        if (user.password !== user.confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
 
         try {
-            // await validateRegistrationForm.validate(createForm, {
-            //     abortEarly: false,
-            // });
+            await validateRegisterForm.validate(user, { abortEarly: false });
 
             const response = await request({
                 method: "post",
@@ -55,11 +53,15 @@ export default function SignUp() {
 
             if (response.data.isRegistered) {
                 navigate("/login");
-            } else {
-                alert("Email or name already exists");
             }
         } catch (error) {
-            console.log(error);
+            const errors = {};
+            if (error instanceof yup.ValidationError) {
+                error.inner.forEach((e) => {
+                    errors[e.path] = e.message;
+                });
+                setError(errors);
+            }
         }
     };
 
@@ -89,49 +91,73 @@ export default function SignUp() {
                     >
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="name">Name</InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     id="name"
-                                    label="Name"
                                     name="name"
                                     autoComplete="name"
                                     onChange={handleInputChange}
                                 />
+                                {error.name && (
+                                    <div style={{ color: "red" }}>
+                                        {error.name}
+                                    </div>
+                                )}
                             </Grid>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     id="email"
-                                    label="Email Address"
                                     name="email"
                                     autoComplete="email"
                                     onChange={handleInputChange}
                                 />
+                                {error.email && (
+                                    <div style={{ color: "red" }}>
+                                        {error.email}
+                                    </div>
+                                )}
                             </Grid>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="password">
+                                    Password
+                                </InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     name="password"
-                                    label="Password"
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
                                     onChange={handleInputChange}
                                 />
+                                {error.password && (
+                                    <div style={{ color: "red" }}>
+                                        {error.password}
+                                    </div>
+                                )}
                             </Grid>
                             <Grid item xs={12}>
+                                <InputLabel htmlFor="confirmPassword">
+                                    Confirm Password
+                                </InputLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     name="confirmPassword"
-                                    label="Confirm Password"
                                     type="password"
                                     id="confirmPassword"
                                     onChange={handleInputChange}
                                 />
+                                {error.confirmPassword && (
+                                    <div style={{ color: "red" }}>
+                                        {error.confirmPassword}
+                                    </div>
+                                )}
                             </Grid>
                         </Grid>
                         <Button

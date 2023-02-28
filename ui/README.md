@@ -31,6 +31,7 @@ npm i
 - `@material-ui/icons` package - Material UI Icons is a package that provides a collection of pre-made Material Design icons to use with Material UI. **Learn more [here](https://www.npmjs.com/package/@material-ui/icons)**
 - `yup` package - Yup is a JavaScript library that allows developers to validate object schemas, usually to ensure data conforms to a particular format or set of requirements. **Learn more [here](https://www.npmjs.com/package/yup)**- `Moment JS` package - Moment is a JavaScript library which helps is parsing, validating, manipulating and displaying date/time in JavaScript in a very easy way. **Learn more [here](https://momentjs.com/)**
 - `Material UI` package - MUI offers a comprehensive suite of UI tools to help you ship new features faster. **Learn more [here](https://mui.com/)**
+- `react-cookie` package - React cookie lets to set, remove and retrieve cookies in a React application. **Learn more [here](https://www.npmjs.com/package/react-cookie)**
 
 ## Available Commands
 
