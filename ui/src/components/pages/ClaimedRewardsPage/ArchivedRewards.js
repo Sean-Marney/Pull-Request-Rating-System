@@ -99,9 +99,6 @@ export default function ArchivedRewards() {
                   <TableCell className={classes.tableHeaders}>
                     <b>Claimed At</b>
                   </TableCell>
-                  <TableCell className={classes.tableHeaders}>
-                    <b>Archived At</b>
-                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -115,9 +112,6 @@ export default function ArchivedRewards() {
                     </TableCell>
                     <TableCell className={classes.tableContent}>
                       {claimedReward.date_claimed} <br />
-                    </TableCell>
-                    <TableCell className={classes.tableContent}>
-                      {claimedReward.date_archived} <br />
                     </TableCell>
                   </TableRow>
                 ))}
