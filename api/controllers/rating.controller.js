@@ -1,13 +1,22 @@
 const PullRequest = require("../models/pullRequest.model");
+const math = require("mathjs");
 
-// Method to set the rating for the pull request 
 const createRating = async (req, res) => {
     try {
+        let overall =
+            math.sum(Object.values(req.body.rating)) /
+            Object.keys(req.body.rating).length;
+        overall = math.ceil(overall);
+
         const pullRequest = await PullRequest.updateOne(
-            { _id: req.params.id },
+            { _id: req.params.id }, 
             {
                 $set: {
-                    ratings: req.body.rating,
+                    ratings: {
+                        ...req.body.rating,
+                        overall,
+                    },
+                    rating_complete: req.body.rating_complete,
                 },
             }
         );
@@ -22,7 +31,6 @@ const createRating = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 module.exports = {
     createRating,
