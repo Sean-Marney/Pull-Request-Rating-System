@@ -34,7 +34,7 @@ app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
 app.use("/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
-app.use("/pullrequests", ratingRoute);
+app.use("/ratings", ratingRoute);
 
 // setting up port
 const PORT = process.env.PORT || 8000;
