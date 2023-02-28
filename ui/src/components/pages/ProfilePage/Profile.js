@@ -21,23 +21,23 @@ export default function ManageProfiles() {
             <Container fixed>
         <Box padding={3}>
         <h2>
-            Manage Profile
+         Profile
         </h2>
         </Box>
         <Stack direction="row" spacing={2} >
         <Avatar/>
         <Paper width={800} height={160} >
         <h4>
-            Name
+            Name :
         </h4>
         <h4>
-            Status
+            Status :
         </h4>
         <h4>
-            company
+            company :
         </h4>
         <h4>
-            stars 
+            stars :
         </h4>
         </Paper>
         </Stack>

@@ -37,13 +37,23 @@ export default function UpdatePassword() {
         <div>
           <Card className={classes.card}>
             <Typography variant="h4">
-              <b>Update Password</b>
+              <b>Change Password</b>
             </Typography>
             <CardContent>
               <form onSubmit={() => navigate("/profile")}>
-                {/* name */}
+                {/* password */}
               <div style={{ marginTop: "20px" }}>
-                <InputLabel>Name </InputLabel>
+                <InputLabel>New Password </InputLabel>
+                <Input
+                  name="name"
+                  inputProps={{
+                    style: { textAlign: "left" },
+                  }}
+                  className={classes.input}
+                />
+
+                {/* password */}
+                <InputLabel>Confirm Password </InputLabel>
                 <Input
                   name="name"
                   inputProps={{
