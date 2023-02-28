@@ -31,7 +31,7 @@ export default function ManageProfiles() {
             Name :
         </h4>
         <h4>
-            Status :
+            Role :
         </h4>
         <h4>
             company :
