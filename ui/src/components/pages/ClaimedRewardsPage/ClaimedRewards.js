@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ManageRewards() {
+export default function ClaimedRewards() {
   const classes = useStyles();
   const [claimedRewards, setClaimedRewards] = useState(null);
 
