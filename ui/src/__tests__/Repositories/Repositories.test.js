@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import axios from "axios";
-import RepositoryList from "./../components/pages/Repositories/Repositories";
+import RepositoryList from "../../components/pages/Repositories/Repositories";
 import "@testing-library/jest-dom";
 
 jest.mock("axios");
