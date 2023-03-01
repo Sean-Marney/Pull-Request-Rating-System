@@ -6,27 +6,32 @@ import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
 import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
-import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers"
+import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers";
 import CreateUser from "./components/pages/ManageUsersPage/CreateUserForm";
 import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
-import Repositories from "./components/pages/Repositories/Repositories"
+import Repositories from "./components/pages/Repositories/Repositories";
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import PullRequestRating from "./components/pages/Repositories/PullRequestRating";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     return (
         <BrowserRouter>
-            {cookies.token && (
+            {/* {cookies.token && ( */}
             <Sidebar removeCookie={removeCookie} role={cookies.role}>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/history" element={<History />} />
+                    <Route
+                        path="/management/repositories/rating"
+                        element={<PullRequestRating />}
+                    />
                     <Route
                         path="/management/users"
                         element={
@@ -103,22 +108,22 @@ const App = () => {
                     <Route
                         path="/management/repositories"
                         element={
-                            <ProtectedRoute
-                                token={cookies.token}
-                                role={cookies.role}
-                            >
-                                {" "}
-                                <Repositories />
-                            </ProtectedRoute>
+                            // <ProtectedRoute
+                            //     token={cookies.token}
+                            //     role={cookies.role}
+                            // >
+                            //     {" "}
+                            <Repositories />
+                            // </ProtectedRoute>
                         }
                     />
                 </Routes>
-                </Sidebar>
-            )}
+            </Sidebar>
+            {/* )} */}
             {!cookies.token && (
                 <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+                    {/* <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} /> */}
                 </Routes>
             )}
         </BrowserRouter>
