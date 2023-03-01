@@ -66,9 +66,9 @@ const RepositoryList = () => {
     const [allPullRequests, setAllPullRequests] = useState([]);
     // Stores selected repository's pull requests
     const [selectedPullRequests, setSelectedPullRequests] = useState([]);
-    // Stores selected Pull request
+
     const [selectedPR, setSelectedPR] = useState(null);
-    // Stores the filtered
+
     const [filter, setFilter] = useState("pending");
 
     // Gets all pull requests across all repositories
@@ -79,9 +79,9 @@ const RepositoryList = () => {
                 "http://localhost:8000/management/repositories/allPulls"
             );
             // Sets the state of the pull requests and repositories
-            // setSelectedPullRequests(
-            //     filterList(response.data.databasePullRequests)
-            // );
+            setSelectedPullRequests(
+                filterList(response.data.databasePullRequests)
+            );
             setAllPullRequests(response.data.databasePullRequests);
             setRepositories(response.data.repos);
         } catch (error) {
@@ -103,7 +103,18 @@ const RepositoryList = () => {
         }
     };
 
-    
+    const filterList = (incomingList) => {
+        if (filter === "pending") {
+            let list = incomingList.filter(
+                (item) => !item.ratings || item.ratings == {}
+            );
+            return list;
+        } else if (filter === "reviewed") {
+            let list = incomingList.filter((item) => item.ratings);
+            return list;
+        }
+    };
+
     useEffect(() => {
         getAllPullRequests();
     }, [selectedPR, filter]);
@@ -161,7 +172,6 @@ const RepositoryList = () => {
                         marginLeft: "90px",
                     }}
                 >
-                    <label for="my-select">Filter by</label>
                     <Select
                         className={classes.select}
                         value={filter}
