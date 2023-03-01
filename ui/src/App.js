@@ -19,6 +19,7 @@ import UpdateFAQs from "./components/pages/ManageFAQPage/UpdateFAQForm";
 import Repositories from "./components/pages/Repositories/Repositories"
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -30,6 +31,7 @@ const App = () => {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/Leaderboard" element={<Leaderboard />} />
                     <Route path="/history" element={<History />} />
                     <Route
                         path="/management/users"
