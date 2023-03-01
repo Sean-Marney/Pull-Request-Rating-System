@@ -11,12 +11,8 @@
     "@mui/material": "^5.11.9",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
-    "axios": "^1.3.3",
-=======
     "axios": "^1.3.2",
     "axios-mock-adapter": "^1.21.2",
->>>>>>> 82229a243d42ec1d2ea4310fe577004940a8b4ed
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
