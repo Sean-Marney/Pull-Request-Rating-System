@@ -15,6 +15,8 @@ import {
 } from "@material-ui/core";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import FolderIcon from "@material-ui/icons/Folder";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -25,8 +27,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "20px",
   },
   tableContainer: {
-    paddingLeft: theme.spacing(25),
-    paddingRight: theme.spacing(25),
+    height: "900px",
+    maxWidth: "100%",
+    overflow: "auto",
+    // paddingLeft: theme.spacing(25),
+    // paddingRight: theme.spacing(25),
   },
   tableHeaders: {
     fontSize: "25px",
@@ -79,6 +84,7 @@ export default function ClaimedRewards() {
   };
 
   const archiveReward = async (claimedReward) => {
+    toast.success("Successfully archived reward");
     // Update reward's "archived" value to true
     const res = await axios.patch(
       `http://localhost:8000/management/rewards/claimed/update/${claimedReward._id}`
@@ -90,6 +96,7 @@ export default function ClaimedRewards() {
 
   return (
     <div className={classes.tableContainer}>
+      <ToastContainer />
       <Box padding={3}>
         <Typography variant="h4">
           <b>Claimed Rewards</b>
