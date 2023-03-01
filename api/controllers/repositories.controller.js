@@ -2,32 +2,7 @@ const axios = require("axios");
 const User = require("../models/user.model");
 const PullRequestModel = require("../models/pullRequest.model");
 
-
-
-// // Get all repositories from the GitHub service account ('t7serviceaccount')
-// const getAllRepositories = async (req, res) => {
-//   // Requires access token (generated on GitHub) as it's a private repository
-//   const token = "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";
-//   // Access token is inserted into the header
-//   const headers = {
-//     Authorization: `Token ${token}`,
-//   };
-
-//   try {
-//     // Uses GitHub API to get all repositories
-//     const response = await axios.get("https://api.github.com/user/repos", {
-//       headers,
-//     });
-//     res.status(response.status).send(response.data);
-//   } catch (err) {
-//     console.error(err);
-//     res
-//       .status(500)
-//       .send({ error: "Failed to fetch repositories from GitHub API" });
-//   }
-// };
-
-// Get all pull requests (including merged ones) from the GitHub service account ('t7serviceaccount')
+// Function that returns the list of repos and pull requests from the database
 const getAllPullRequestsFromDB = async (req, res) => {
   try {
     let response = await getAllPullRequestsFromAPI();
@@ -42,7 +17,7 @@ const getAllPullRequestsFromDB = async (req, res) => {
   }
 };
 
-
+// Reads list of Repositories and Pull Requests from GitHub API
 async function getAllPullRequestsFromAPI(){
   const token = "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";
   const headers = {
@@ -64,9 +39,10 @@ async function getAllPullRequestsFromAPI(){
           headers,
         }
       );
-      // Takes all pull requests from API and spreads them into pullRequests array (this array shows all pull requests in all repositories)
+      // Takes all pull requests from API and adds them into pullRequests array (this array shows all pull requests in all repositories)
       pullRequests.push(...pullRequestResponse.data);
     }
+    // Returns object containing arrays of pull requests and repositories
     return ({"pullRequests": pullRequests, "repos": repos});
   } catch (err) {
     console.error(err);
@@ -74,25 +50,27 @@ async function getAllPullRequestsFromAPI(){
 }
 
 
-
+// Compares the list of pull requests from the API to the list of pull requests in the databasea
+// If the pull request is not in the database, it adds it to the database
 async function updatePullRequestsToDatabase(pullRequests) {
   let index = 0;
-  // Needs to check that the pull request isn't in the database already
+  // Needs to check that each pull request isn't in the database already
   const list = await PullRequestModel.find(); 
   while(index < pullRequests.length){
     let needToAdd = true;
-
     list.forEach(item => {
       if(item.git_id.toString() === pullRequests[index].id.toString()){
         needToAdd = false;
       } 
     });
+    // If the pull request is not in the database, it adds it to the database
     if (needToAdd === true)  {
       try {
         // Converts the date string into a date object
         let mergedDate = new Date(pullRequests[index].created_at);  
         // Retrieves the userID from git username
         let userID = await readUserID(pullRequests[index].user.login);
+        // Doesn't add the pull request to the database if the user is not in the database
         if (userID != undefined){
           const pullRequest = new PullRequestModel({
             git_id: pullRequests[index].id,
@@ -104,6 +82,7 @@ async function updatePullRequestsToDatabase(pullRequests) {
             rating_complete: false
           });
           await pullRequest.save(); 
+          // Adds new pull request to the list of pull requests from the db
           list.push(pullRequest);
         }  
       } catch (error) {
@@ -115,6 +94,7 @@ async function updatePullRequestsToDatabase(pullRequests) {
   return list;
 }
 
+// Reads the userID from the git username
 async function readUserID(gitUsername) {
   try{
     let user = await User.find({ git_username: gitUsername},{_id:1}); 
@@ -123,6 +103,8 @@ async function readUserID(gitUsername) {
     console.log(error);
   }
 }
+
+// Reads the list of full names from the database
 async function readListOfFullNames() {
   try{
     let user = await User.find();
@@ -131,6 +113,8 @@ async function readListOfFullNames() {
     console.log(error);
   }
 }  
+
+// Changes the userID to the full name to make it more readable for the manager
 async function changeName(pullRequests){
   let users = await readListOfFullNames();
   pullRequests.forEach(pullRequest => {

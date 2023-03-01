@@ -3,7 +3,7 @@ const sinon = require("sinon");
 const { expect } = require("chai");
 // const PullRequestModel = require("../models/pullRequest.model");
 const User = require("../../models/user.model");
-const { readListOfFullNames, readUserID, changeName, updatePullRequestsToDatabase} = require("../../controllers/repositories.controller");
+const { readListOfFullNames, readUserID, changeName, updatePullRequestsToDatabase, getAllPullRequestsFromDB, getAllPullRequestsFromAPI} = require("../../controllers/repositories.controller");
 const PullRequest = require("../../models/pullRequest.model");
 
 describe("Getting list of users", () => {
@@ -143,6 +143,76 @@ describe("Updating the Database", () => {
   });
 
 });
+
+describe("Reading from GitHub Api", () => {
+  it("return pull request and repos", async () => {
+    let mockRepos = [{name:"name1"}];
+    let mockPullRequests = [{"git_id":"1"},{"git_id":"2"}];
+    const axiosGetStub = sinon.stub(axios, "get");
+    axiosGetStub.onFirstCall().resolves({status: 200, data: mockRepos});    
+    axiosGetStub.onSecondCall().resolves({status: 200, data: mockPullRequests});
+    let result = await getAllPullRequestsFromAPI();
+    expect(result.repos[0].name).to.equal(mockRepos[0].name);
+    expect(result.pullRequests[0].git_id).to.equal(mockPullRequests[0].git_id);
+    expect(result.pullRequests[1].git_id).to.equal(mockPullRequests[1].git_id);
+
+    axiosGetStub.restore();
+  });
+  it("return pull request and multiple repos", async () => {
+    let mockRepos = [{name:"name1"},{name:"name2"}];
+    let mockPullRequests1 = [{"git_id":"1"},{"git_id":"2"}];
+    let mockPullRequests2 = [{"git_id":"3"},{"git_id":"4"}];
+    const axiosGetStub = sinon.stub(axios, "get");
+    axiosGetStub.onFirstCall().resolves({status: 200, data: mockRepos});    
+    axiosGetStub.onSecondCall().resolves({status: 200, data: mockPullRequests1});
+    axiosGetStub.onThirdCall().resolves({status: 200, data: mockPullRequests2});
+    let result = await getAllPullRequestsFromAPI();
+    expect(result.repos[0].name).to.equal(mockRepos[0].name);
+    expect(result.repos[1].name).to.equal(mockRepos[1].name);
+    expect(result.pullRequests[0].git_id).to.equal(mockPullRequests1[0].git_id);
+    expect(result.pullRequests[1].git_id).to.equal(mockPullRequests1[1].git_id);
+    expect(result.pullRequests[2].git_id).to.equal(mockPullRequests2[0].git_id);
+    expect(result.pullRequests[3].git_id).to.equal(mockPullRequests2[1].git_id);
+    axiosGetStub.restore();
+  });
+});
+
+
+describe("Testing Controller on the whole", () => {
+  it("return pull request and repos", async () => {
+    let mockRepos = [{name:"name1"}];
+    let mockPullRequests = [{"id":"1"},{"id":"2"}];
+    const axiosGetStub = sinon.stub(axios, "get");
+    axiosGetStub.onFirstCall().resolves({status: 200, data: mockRepos});    
+    axiosGetStub.onSecondCall().resolves({status: 200, data: mockPullRequests});
+
+    const mockPRFromDB = [{"git_id":"1","user_id":"1"},{"git_id":"2","user_id":"1"}];
+    const readPullRequestsFromDBStub  = sinon.stub(PullRequest, "find").resolves(mockPRFromDB);
+
+    const mockSaving = new PullRequest({git_id: "1", url: "www.cardiff.ac.uk", user_id: "1", title: "title", repo: "name", date: "2020/02/27", rating_complete: "false" });
+    const savingStub = sinon.stub(PullRequest.prototype, "save").resolves(mockSaving);
+
+    const nameResponse = [ { _id: "1", name: "name1" }, { _id: "2", name: "name2" }];
+    const nameStub = sinon.stub(User, "find").resolves(nameResponse);
+
+
+  
+    const req = {};
+    const res = {
+        status: sinon.stub().returns({ json: sinon.stub() }),
+    };
+    
+    await getAllPullRequestsFromDB(req, res);
+    let mockResponse = {repos: mockRepos, pullRequests: [{"git_id":"1","user_id":"name1"},{"git_id":"2","user_id":"name2"}]};
+    expect(res.status.calledWith(200)).to.be.true;
+
+    axiosGetStub.restore();
+    readPullRequestsFromDBStub.restore();
+    savingStub.restore();
+    nameStub.restore();
+  });
+});
+
 
 
 
