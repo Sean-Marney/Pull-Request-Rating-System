@@ -11,14 +11,6 @@ const getClaimedRewards = async (req, res) => {
   }
 };
 
-const getArchivedRewards = async (req, res) => {
-  try {
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: error.message });
-  }
-};
-
 // This method is called when the user clicks the "Claim Reward" button
 const saveClaimedReward = async (req, res) => {
   try {
@@ -54,7 +46,6 @@ const updateArchiveStatus = async (req, res) => {
 
 module.exports = {
   getClaimedRewards,
-  getArchivedRewards,
   saveClaimedReward,
   updateArchiveStatus,
 };
