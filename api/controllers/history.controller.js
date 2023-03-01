@@ -7,7 +7,6 @@ const getPullRequestsForUser = async (req, res) => {
     const  parameter  = req.params;
     var sortByDate = { date: -1 };
     const pullRequests = await PullRequest.find(  { user_id: parameter.id} ).sort(sortByDate);
-    console.log(pullRequests);
     res.status(200).json(pullRequests);
   } catch (error) {
     console.log(error);
