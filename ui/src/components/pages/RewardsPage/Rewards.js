@@ -15,6 +15,8 @@ import {
 import ClaimIcon from "@material-ui/icons/Redeem";
 import { useCookies } from "react-cookie";
 import moment from "moment";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -111,6 +113,8 @@ export default function ManageRewards() {
         }
       );
 
+      toast.success("Congratulations, you have claimed a reward!");
+
       // Update star count on page
       getStars();
 
@@ -127,11 +131,12 @@ export default function ManageRewards() {
         }
       );
     } else {
-      console.log("Sorry, you don't have enough stars to claim this reward.");
+      console.log("User does not have enough stars to claim the reward");
     }
   };
   return (
     <div className={classes.tableContainer}>
+      <ToastContainer />
       <Box padding={3}>
         <Typography variant="h4">
           <b>Rewards</b>

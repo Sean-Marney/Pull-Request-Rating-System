@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "20px",
   },
   tableContainer: {
-    paddingLeft: theme.spacing(50),
-    paddingRight: theme.spacing(50),
+    paddingLeft: theme.spacing(25),
+    paddingRight: theme.spacing(25),
   },
   tableHeaders: {
     fontSize: "25px",
