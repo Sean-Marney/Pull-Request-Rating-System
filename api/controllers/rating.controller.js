@@ -3,35 +3,52 @@ const math = require("mathjs");
 
 const createRating = async (req, res) => {
     try {
-        let overall =
-            math.sum(Object.values(req.body.rating)) /
-            Object.keys(req.body.rating).length;
-        overall = math.ceil(overall);
+        // Validate input
+        if (!req.body.rating || !req.body.rating_complete) {
+            return res.status(400).json({ message: "Missing rating input fields" });
+        }
 
-        const pullRequest = await PullRequest.updateOne(
-            { _id: req.params.id }, 
+        // Calculate overall rating
+        const ratings = Object.values(req.body.rating);
+        const numRatings = ratings.length;
+        if (numRatings === 0) {
+            return res.status(400).json({ message: "No ratings provided" });
+        }
+        const overallRating = math.ceil(math.sum(ratings) / numRatings);
+
+        // Update pull request
+        const result = await PullRequest.updateOne(
+            { _id: req.params.id },
             {
                 $set: {
                     ratings: {
                         ...req.body.rating,
-                        overall,
+                        overall: overallRating,
                     },
                     rating_complete: req.body.rating_complete,
                 },
             }
         );
 
-        if (!pullRequest) {
+        // Check if pull request was found
+        if (result.nModified === 0) {
             return res
                 .status(404)
                 .json({ message: "Pull request with that ID not found" });
         }
-        res.status(200).json(pullRequest);
+
+        // Return success response
+        res.status(200).json({ message: "Rating updated successfully" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        // Handle errors
+        console.error(error);
+        res.status(500).json({
+            message: "An error occurred while updating rating",
+        });
     }
 };
 
 module.exports = {
     createRating,
 };
+
