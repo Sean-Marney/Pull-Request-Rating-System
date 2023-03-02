@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const PullRequestModel = require("../models/pullRequest.model");
 
 // Function that returns the list of repos and pull requests from the database
+// Function that returns the list of repos and pull requests from the database
 const getAllPullRequestsFromDB = async (req, res) => {
     try {
         let response = await getAllPullRequestsFromAPI();
@@ -99,6 +100,7 @@ async function updatePullRequestsToDatabase(pullRequests) {
 }
 
 // Reads the userID from the git username
+// Reads the userID from the git username
 async function readUserID(gitUsername) {
     try {
         let user = await User.find({ git_username: gitUsername }, { _id: 1 });
@@ -107,6 +109,8 @@ async function readUserID(gitUsername) {
         console.log(error);
     }
 }
+
+// Reads the list of full names from the database
 
 // Reads the list of full names from the database
 async function readListOfFullNames() {

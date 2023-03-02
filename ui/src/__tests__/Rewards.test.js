@@ -8,6 +8,12 @@ import { useCookies } from "react-cookie";
 jest.mock("axios"); // mock axios module
 jest.mock("react-cookie"); // mock useCookies hook
 
+// Mocking the toastify import because jest couldn't parse the syntax - this mock is unrelated to the tests
+jest.mock("react-toastify/dist/ReactToastify.css", () => ({
+  __esModule: true,
+  default: "",
+}));
+
 describe("Testing developer's rewards page at /rewards", () => {
   it("should render the rewards table with data", async () => {
     const mockData = [

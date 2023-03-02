@@ -5,11 +5,12 @@
     QuestionMark,
     DeveloperBoard,
     History,
-    Help,
+    Leaderboard,
     Stars,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+
 
 const Sidebar = ({ children, removeCookie }) => {
     const navigate = useNavigate();
@@ -56,9 +57,9 @@ const Sidebar = ({ children, removeCookie }) => {
             icon: <Stars />,
         },
         {
-            path: "/managerhelp",
-            name: "ManagerHelp",
-            icon: <Help />,
+            path: "/Leaderboard",
+            name: "Leaderboard",
+            icon: <Leaderboard />,
         },
     ];
     return (
