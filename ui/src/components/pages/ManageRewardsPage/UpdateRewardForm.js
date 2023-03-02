@@ -26,8 +26,27 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     padding: "5px 5px",
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    width: "100%",
+  },
+  formControl: {
+    marginTop: theme.spacing(2),
+    width: "100%",
+  },
+  error: {
+    color: "red",
+    marginBottom: theme.spacing(2),
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginTop: theme.spacing(4),
+  },
+
+  title: {
+    marginLeft: theme.spacing(2),
     marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(1),
   },
 }));
 
@@ -98,11 +117,11 @@ export default function UpdateReward() {
     <div>
       <div>
         <Card className={classes.card}>
-          <Typography variant="h4">
+          <Typography variant="h4" className={classes.title}>
             <b>Update Reward</b>
           </Typography>
           <CardContent>
-            <form onSubmit={updateReward}>
+            <form onSubmit={updateReward} className={classes.formControl}>
               <div>
                 <InputLabel>Reward Name</InputLabel>
                 <Input
@@ -133,7 +152,7 @@ export default function UpdateReward() {
                   <div style={{ color: "red" }}>{error.starsRequired}</div>
                 )}
               </div>
-              <div style={{ marginTop: "20px" }}>
+              <div className={classes.buttonContainer}>
                 <Button
                   onClick={() => navigate("/management/rewards")}
                   variant="contained"

@@ -11,33 +11,41 @@ import {
   Typography,
   Box,
   Button,
+  Paper,
 } from "@material-ui/core";
 import ClaimIcon from "@material-ui/icons/Redeem";
 import { useCookies } from "react-cookie";
+import moment from "moment";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles((theme) => ({
-  table: {
+  tableContainer: {
+    height: "calc(100vh - 100px)",
+    maxWidth: "90%",
+    margin: "0 auto",
+    overflow: "auto",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
+  paper: {
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
     boxShadow: theme.shadows[20],
-    paddingBottom: theme.spacing(0),
-    borderRadius: "20px",
-  },
-  tableContainer: {
-    paddingLeft: theme.spacing(50),
-    paddingRight: theme.spacing(50),
+    borderRadius: theme.shape.borderRadius,
   },
   tableHeaders: {
-    fontSize: "25px",
+    fontSize: "1.25rem",
     textAlign: "center",
+    fontWeight: "bold",
   },
   tableContent: {
-    fontSize: "20px",
+    fontSize: "1rem",
     textAlign: "center",
   },
   starCountBox: {
     textAlign: "center",
-    fontSize: "20px",
+    fontSize: "1rem",
     color: "#b31010",
     border: "1px solid",
     width: 250,
@@ -46,10 +54,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[100],
     padding: theme.spacing(2),
     margin: theme.spacing(2),
-  },
-  starIcon: {
-    marginRight: theme.spacing(3),
-    fontSize: "50px",
   },
 }));
 
@@ -63,6 +67,7 @@ export default function ManageRewards() {
   useEffect(() => {
     getRewards();
     getStars();
+    console.log(cookies.user);
   }, []);
 
   const getRewards = async () => {
@@ -109,70 +114,85 @@ export default function ManageRewards() {
         }
       );
 
+      toast.success("Congratulations, you have claimed a reward!");
+
       // Update star count on page
       getStars();
 
-      console.log(user);
+      // Save reward and user to claimedRewards table with the current date
+      const currentDate = moment().format("DD/MM/YYYY, HH:mm:ss");
+      await axios.post(
+        "http://localhost:8000/management/rewards/claimed/save",
+        {
+          rewardId: reward._id,
+          rewardName: reward.rewardName,
+          userId: user._id,
+          userEmail: user.email,
+          dateClaimed: currentDate,
+        }
+      );
     } else {
-      console.log("Sorry, you don't have enough stars to claim this reward.");
+      console.log("User does not have enough stars to claim the reward");
     }
   };
+
   return (
     <div className={classes.tableContainer}>
-      <Box padding={3}>
+      <ToastContainer />
+      <Paper className={classes.paper}>
         <Typography variant="h4">
           <b>Rewards</b>
         </Typography>
-      </Box>
-      <Box>
-        <Typography className={classes.starCountBox}>
-          <b>You have {stars} stars</b>
-        </Typography>
-      </Box>
-      <Box>
-        {/* Get all rewards from database and display in a table */}
-        {rewards && (
-          <TableContainer className={classes.table}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell className={classes.tableHeaders}>
-                    <b>Name</b>
-                  </TableCell>
-                  <TableCell className={classes.tableHeaders}>
-                    <b>Stars Required</b>
-                  </TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rewards.map((reward) => (
-                  <TableRow key={reward._id}>
-                    <TableCell className={classes.tableContent}>
-                      {reward.rewardName}
+        <Box>
+          <Typography className={classes.starCountBox}>
+            <b>You have {stars} stars</b>
+          </Typography>
+        </Box>
+        <Box>
+          {/* Get all rewards from database and display in a table */}
+          {rewards && (
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Name</b>
                     </TableCell>
-                    <TableCell className={classes.tableContent}>
-                      {reward.starsRequired} <br />
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Stars Required</b>
                     </TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={() => claimReward(reward)}
-                        // Disable button if user doesn't have enough stars to claim reward
-                        disabled={reward.starsRequired > stars}
-                        variant="contained"
-                        color="primary"
-                        startIcon={<ClaimIcon />}
-                      >
-                        Claim Reward
-                      </Button>
-                    </TableCell>
+                    <TableCell></TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-      </Box>
+                </TableHead>
+                <TableBody>
+                  {rewards.map((reward) => (
+                    <TableRow key={reward._id}>
+                      <TableCell className={classes.tableContent}>
+                        {reward.rewardName}
+                      </TableCell>
+                      <TableCell className={classes.tableContent}>
+                        {reward.starsRequired} <br />
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => claimReward(reward)}
+                          // Disable button if user doesn't have enough stars to claim reward
+                          disabled={reward.starsRequired > stars}
+                          variant="contained"
+                          color="primary"
+                          startIcon={<ClaimIcon />}
+                        >
+                          Claim Reward
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Box>
+      </Paper>
     </div>
   );
 }
