@@ -74,19 +74,19 @@ export default function ManageRewards() {
     // Get rewards
     const res = await axios.get("http://localhost:8000/management/rewards");
 
-    // Calculate remaining stars needed for reward
+    // Calculates remaining stars needed for reward
     const remainingStarsData = {};
     res.data.forEach((reward) => {
-      remainingStarsData[reward._id] = Math.max(
-        reward.starsRequired - stars,
-        0
-      );
-      setremainingStarsForReward(remainingStarsData);
-      // console.log(remainingStarsForReward);
+      const remainingStars = Math.max(reward.starsRequired - stars, 0);
+      remainingStarsData[reward._id] = remainingStars;
+      if (remainingStars === 0) {
+        remainingStarsData[reward._id] = "Reward can now be claimed";
+      }
     });
 
     // Set to state
     setRewards(res.data);
+    setremainingStarsForReward(remainingStarsData);
   };
 
   // Gets user's star count
@@ -188,7 +188,7 @@ export default function ManageRewards() {
                         {reward.starsRequired} <br />
                       </TableCell>
                       <TableCell className={classes.tableContent}>
-                        {remainingStarsForReward[reward._id]} more stars needed
+                        {remainingStarsForReward[reward._id]}
                       </TableCell>
                       <TableCell>
                         <Button
