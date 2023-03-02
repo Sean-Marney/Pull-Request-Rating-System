@@ -57,25 +57,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ManageRewards() {
+export default function Rewards() {
   const classes = useStyles();
+  const [cookies] = useCookies();
   const [rewards, setRewards] = useState(null);
   const [stars, setStars] = useState(null);
-  const [cookies] = useCookies();
+  const [remainingStarsForReward, setremainingStarsForReward] = useState({});
 
   // Gets rewards and stars on page load
   useEffect(() => {
     getRewards();
     getStars();
-    console.log(cookies.user);
-  }, []);
+  });
 
   const getRewards = async () => {
     // Get rewards
     const res = await axios.get("http://localhost:8000/management/rewards");
 
+    // Calculates remaining stars needed for reward
+    const remainingStarsData = {};
+    res.data.forEach((reward) => {
+      const remainingStars = Math.max(reward.starsRequired - stars, 0);
+      remainingStarsData[reward._id] = remainingStars;
+      if (remainingStars === 0) {
+        remainingStarsData[reward._id] = "Reward can now be claimed";
+      }
+    });
+
     // Set to state
     setRewards(res.data);
+    setremainingStarsForReward(remainingStarsData);
   };
 
   // Gets user's star count
@@ -161,6 +172,9 @@ export default function ManageRewards() {
                     <TableCell className={classes.tableHeaders}>
                       <b>Stars Required</b>
                     </TableCell>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Stars Remaining</b>
+                    </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -172,6 +186,9 @@ export default function ManageRewards() {
                       </TableCell>
                       <TableCell className={classes.tableContent}>
                         {reward.starsRequired} <br />
+                      </TableCell>
+                      <TableCell className={classes.tableContent}>
+                        {remainingStarsForReward[reward._id]}
                       </TableCell>
                       <TableCell>
                         <Button

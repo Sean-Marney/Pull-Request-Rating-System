@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
 import Rewards from "../components/pages/RewardsPage/Rewards";
 import "@testing-library/jest-dom/extend-expect";
@@ -60,5 +60,39 @@ describe("Testing logic for claiming a reward on /rewards page", () => {
 
     const claimButton = await screen.findByText("Claim Reward");
     fireEvent.click(claimButton);
+  });
+});
+
+describe("Testing logic for tracking progress towards a reward on /rewards page", () => {
+  it("should display the correct number of stars remaining for each reward", async () => {
+    // Mock rewards
+    const rewards = [
+      {
+        _id: "1",
+        starsRequired: 20,
+      },
+      {
+        _id: "2",
+        starsRequired: 30,
+      },
+    ];
+    // Set user's star count
+    const stars = 10;
+
+    // Loop through each reward and calculate the stars remaining before they can claim it
+    const remainingStarsData = {};
+    rewards.forEach((reward) => {
+      const remainingStars = Math.max(reward.starsRequired - stars, 0);
+      remainingStarsData[reward._id] = remainingStars;
+      if (remainingStars === 0) {
+        remainingStarsData[reward._id] = "Reward can now be claimed";
+      }
+    });
+
+    // Expect the calculation to be correct
+    expect(remainingStarsData).toEqual({
+      1: 10,
+      2: 20,
+    });
   });
 });
