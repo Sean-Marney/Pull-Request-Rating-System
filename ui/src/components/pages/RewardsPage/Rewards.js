@@ -59,20 +59,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ManageRewards() {
   const classes = useStyles();
+  const [cookies] = useCookies();
   const [rewards, setRewards] = useState(null);
   const [stars, setStars] = useState(null);
-  const [cookies] = useCookies();
+  const [remainingStarsForReward, setremainingStarsForReward] = useState({});
 
   // Gets rewards and stars on page load
   useEffect(() => {
     getRewards();
     getStars();
-    console.log(cookies.user);
-  }, []);
+  });
 
   const getRewards = async () => {
     // Get rewards
     const res = await axios.get("http://localhost:8000/management/rewards");
+
+    // Calculate remaining stars needed for reward
+    const remainingStarsData = {};
+    res.data.forEach((reward) => {
+      remainingStarsData[reward._id] = Math.max(
+        reward.starsRequired - stars,
+        0
+      );
+      setremainingStarsForReward(remainingStarsData);
+      // console.log(remainingStarsForReward);
+    });
 
     // Set to state
     setRewards(res.data);
@@ -161,6 +172,9 @@ export default function ManageRewards() {
                     <TableCell className={classes.tableHeaders}>
                       <b>Stars Required</b>
                     </TableCell>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Stars Remaining</b>
+                    </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -172,6 +186,9 @@ export default function ManageRewards() {
                       </TableCell>
                       <TableCell className={classes.tableContent}>
                         {reward.starsRequired} <br />
+                      </TableCell>
+                      <TableCell className={classes.tableContent}>
+                        {remainingStarsForReward[reward._id]} more stars needed
                       </TableCell>
                       <TableCell>
                         <Button
