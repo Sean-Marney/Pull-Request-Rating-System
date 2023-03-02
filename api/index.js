@@ -10,7 +10,7 @@ const repositoriesRoute = require("./routes/repositories.routes");
 const historyRoute = require("./routes/history.routes");
 const userRoute = require("./routes/user.routes");
 const leaderboardRoute = require("./routes/leaderboard.routes.js");
-
+const managerDashRoute = require("./routes/managerDash")
 const app = express();
 
 // connect database
@@ -35,7 +35,7 @@ app.use("/rewards", rewardsRoute);
 app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
 app.get("/leaderboard", leaderboardRoute);
-
+app.get("/requests", managerDashRoute );
 // setting up port
 const PORT = process.env.PORT || 8000;
 
