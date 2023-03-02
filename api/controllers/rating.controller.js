@@ -5,7 +5,9 @@ const createRating = async (req, res) => {
     try {
         // Validate input
         if (!req.body.rating || !req.body.rating_complete) {
-            return res.status(400).json({ message: "Missing rating input fields" });
+            return res
+                .status(400)
+                .json({ message: "Missing rating input fields" });
         }
 
         // Calculate overall rating
@@ -14,7 +16,8 @@ const createRating = async (req, res) => {
         if (numRatings === 0) {
             return res.status(400).json({ message: "No ratings provided" });
         }
-        const overallRating = math.ceil(math.sum(ratings) / numRatings);
+        const ratingAverage = math.ceil(math.sum(ratings) / numRatings);
+        const ratingSum = math.sum(ratings);
 
         // Update pull request
         const result = await PullRequest.updateOne(
@@ -23,7 +26,8 @@ const createRating = async (req, res) => {
                 $set: {
                     ratings: {
                         ...req.body.rating,
-                        overall: overallRating,
+                        overall: ratingSum,
+                        average: ratingAverage,
                     },
                     rating_complete: req.body.rating_complete,
                 },
@@ -51,4 +55,3 @@ const createRating = async (req, res) => {
 module.exports = {
     createRating,
 };
-

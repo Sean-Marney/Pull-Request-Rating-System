@@ -24,6 +24,9 @@ const PullRequestRatingStars = ({ rating }) => {
                     },
                 }}
             />
+            <h3 style={{ margin: "30px 0px", alignItems: "left" }}>
+                Total {rating?.overall ? rating.overall : 0}{" "}
+            </h3>
         </div>
     );
 };
