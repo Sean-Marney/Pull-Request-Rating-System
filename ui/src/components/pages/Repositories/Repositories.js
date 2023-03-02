@@ -9,10 +9,10 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
 
+// styles here
 const useStyles = makeStyles((theme) => ({
     root: {
         height: "900px",
@@ -22,13 +22,16 @@ const useStyles = makeStyles((theme) => ({
     },
     selectContainer: {
         display: "flex",
+        flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
         width: "100%",
         marginBottom: theme.spacing(2),
     },
     select: {
-        width: "100%",
+        width: "160px",
+        margin: "0px 20px",
+        backgroundColor: "grey",
+        padding: "0px 6px",
     },
     listItem: {
         cursor: "pointer",
@@ -47,8 +50,14 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: "auto",
     },
     container: {
-        width: "100%",
-        marginTop: theme.spacing(3),
+        display: "flex",
+        flexDirection: "row",
+        marginTop: theme.spacing(3),  
+    },
+    selectWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
     },
 }));
 
@@ -56,8 +65,8 @@ var moment = require("moment");
 moment().format();
 
 const RepositoryList = () => {
-    const navigate = useNavigate();
     const classes = useStyles();
+
     // Stores all the repositories
     const [repositories, setRepositories] = useState([]);
     // Stores selected repository
@@ -66,10 +75,12 @@ const RepositoryList = () => {
     const [allPullRequests, setAllPullRequests] = useState([]);
     // Stores selected repository's pull requests
     const [selectedPullRequests, setSelectedPullRequests] = useState([]);
-
+    // Stores selected Pull request
     const [selectedPR, setSelectedPR] = useState(null);
-
+    // Stores the filtered list
     const [filter, setFilter] = useState("pending");
+
+    // Helper functions
 
     // Gets all pull requests across all repositories
     const getAllPullRequests = async () => {
@@ -80,9 +91,9 @@ const RepositoryList = () => {
             );
             // Sets the state of the pull requests and repositories
             setSelectedPullRequests(
-                filterList(response.data.databasePullRequests)
+                filterList(response.data.pullRequests)
             );
-            setAllPullRequests(response.data.databasePullRequests);
+            setAllPullRequests(response.data.pullRequests);
             setRepositories(response.data.repos);
         } catch (error) {
             console.error(error);
@@ -104,31 +115,22 @@ const RepositoryList = () => {
     };
 
     const filterList = (incomingList) => {
+        let list;
         if (filter === "pending") {
-            let list = incomingList.filter(
+            list = incomingList.filter(
                 (item) => !item.ratings || item.ratings == {}
             );
-            return list;
         } else if (filter === "reviewed") {
-            let list = incomingList.filter((item) => item.ratings);
-            return list;
+            list = incomingList.filter((item) => item.ratings);
         }
+        return list;
     };
 
     useEffect(() => {
         getAllPullRequests();
     }, [selectedPR, filter]);
 
-    // // Event handler to navigate to GitHub page for a specific pull request when user clicks the pull request
-    // const handlePullRequestClick = (pullRequest) => {
-    //     // window.open(pullRequestUrl, "_blank");
-    //     navigate("/management/repositories/rating", {
-    //         state: {
-    //             pullRequest: pullRequest,
-    //         },
-    //     });
-    // };
-    // console.log(allPullRequests);
+    
 
     return (
         <div className={classes.root}>
@@ -136,16 +138,11 @@ const RepositoryList = () => {
                 <b>Pull Requests Rating</b>
             </Typography>
 
-            <div class="select-container">
+            <div className={classes.selectContainer}>
                 <div
-                    class="select-wrapper"
-                    style={{
-                        display: "inline-block",
-                        width: "550px",
-                        marginRight: "10px",
-                        marginLeft: "10px",
-                    }}
+                    className={classes.selectWrapper}
                 >
+                    <label style={{fontWeight: "bold"}}> Filter by Repository</label>
                     <Select
                         className={classes.select}
                         value={selectedRepository}
@@ -153,7 +150,6 @@ const RepositoryList = () => {
                         defaultValue="all"
                     >
                         <MenuItem value="all">All Pull Requests</MenuItem>
-                        {/* Displays all pull requests in the selected repository */}
                         {repositories?.map((repository) => (
                             <MenuItem
                                 key={repository.id}
@@ -165,13 +161,9 @@ const RepositoryList = () => {
                     </Select>
                 </div>
                 <div
-                    class="select-wrapper"
-                    style={{
-                        display: "inline-block",
-                        width: "300px",
-                        marginLeft: "90px",
-                    }}
+                    className={classes.selectWrapper}
                 >
+                    <label style={{fontWeight: "bold"}}> Filter by Status</label>
                     <Select
                         className={classes.select}
                         value={filter}
@@ -182,7 +174,6 @@ const RepositoryList = () => {
                     >
                         <MenuItem value="pending">Pending</MenuItem>
                         <MenuItem value="reviewed">Reviewed</MenuItem>
-                        {/* Displays all pull requests that are pending or rated */}
                     </Select>
                 </div>
             </div>
@@ -194,14 +185,11 @@ const RepositoryList = () => {
                             <ListItem
                                 key={pullRequest._id}
                                 button
-                                onClick={
-                                    () => {
-                                        if (filter === "pending")
-                                            setSelectedPR(pullRequest);
-                                        else return;
-                                    }
-                                    // handlePullRequestClick(pullRequest)
-                                }
+                                onClick={() => {
+                                    if (filter === "pending")
+                                        setSelectedPR(pullRequest);
+                                    else return;
+                                }}
                                 className={classes.listItem}
                             >
                                 <ListItemText
@@ -211,7 +199,7 @@ const RepositoryList = () => {
                                         </Typography>
                                     }
                                     secondary={
-                                        <>
+                                        <div>
                                             <Typography
                                                 component="span"
                                                 variant="body1"
@@ -243,7 +231,7 @@ const RepositoryList = () => {
                                             <PullRequestRatingStars
                                                 rating={pullRequest.ratings}
                                             />
-                                        </>
+                                        </div>
                                     }
                                 />
                             </ListItem>
