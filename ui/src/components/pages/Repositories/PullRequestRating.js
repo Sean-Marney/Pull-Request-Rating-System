@@ -54,7 +54,6 @@ export default function PullRequestRating(props) {
                 "http://localhost:8000/trackers"
             );
             setTracker([...response.data]);
-            console.log(response.data);
         } catch (error) {
             console.error(error);
         }
@@ -69,7 +68,6 @@ export default function PullRequestRating(props) {
     }, []);
 
     const handleSubmitClick = async () => {
-
         try {
             const response = await axios.put(
                 `http://localhost:8000/ratings/update/${props.pullRequest._id}`,
@@ -85,6 +83,10 @@ export default function PullRequestRating(props) {
         }
     };
 
+    const handleRatingFormClose = async () => {
+        props.setSelectedPR(null);
+    };
+
     const handleRating = (key, value) => {
         const newRating = { ...pullRequestRating, [key]: value };
         setPullRequestRating({ ...newRating });
@@ -95,11 +97,17 @@ export default function PullRequestRating(props) {
     return (
         <div>
             <div className={classes.ratingContainer}>
+                <Button
+                    style={{ align: "left", justifyContent: "left" }}
+                    onClick={handleRatingFormClose}
+                >
+                    X
+                </Button>
                 <h3 style={{ display: "flex", justifyContent: "center" }}>
                     Add your review
                 </h3>
                 <hr></hr>
-                <div style={{ padding: "10px 0px",  }}>
+                <div style={{ padding: "10px 0px" }}>
                     <Typography variant="h6">
                         {props.pullRequest.title}
                     </Typography>
