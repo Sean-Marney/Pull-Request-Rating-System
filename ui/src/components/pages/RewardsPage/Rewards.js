@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ManageRewards() {
+export default function Rewards() {
   const classes = useStyles();
   const [cookies] = useCookies();
   const [rewards, setRewards] = useState(null);
