@@ -4,6 +4,7 @@ import { Typography, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import { Rating } from "@mui/material";
 import Button from "@mui/material/Button";
+import { fontWeight } from "@material-ui/system";
 var moment = require("moment");
 moment().format();
 
@@ -19,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
     ratingContainer: {
         marginBottom: theme.spacing(2),
         width: "400px",
-        border: "1px solid black", 
-        margin: "15px",
-        padding: "20px",
+        border: "1px solid black",
+        margin: "10px",
+        padding: "10px",
     },
     ratingTitle: {
         width: "30%",
@@ -53,6 +54,7 @@ export default function PullRequestRating(props) {
                 "http://localhost:8000/trackers"
             );
             setTracker([...response.data]);
+            console.log(response.data);
         } catch (error) {
             console.error(error);
         }
@@ -67,7 +69,6 @@ export default function PullRequestRating(props) {
     }, []);
 
     const handleSubmitClick = async () => {
-        props.setSelectedPR(null);
 
         try {
             const response = await axios.put(
@@ -78,6 +79,7 @@ export default function PullRequestRating(props) {
                     rating_complete: true,
                 }
             );
+            props.setSelectedPR(null);
         } catch (error) {
             console.log(error);
         }
@@ -93,11 +95,31 @@ export default function PullRequestRating(props) {
     return (
         <div>
             <div className={classes.ratingContainer}>
-                <h2>Set your review</h2>
-                <br></br>
+                <h3 style={{ display: "flex", justifyContent: "center" }}>
+                    Add your review
+                </h3>
+                <hr></hr>
+                <div style={{ padding: "10px 0px",  }}>
+                    <Typography variant="h6">
+                        {props.pullRequest.title}
+                    </Typography>
+                    <Typography
+                        component="span"
+                        variant="body1"
+                        color="textSecondary"
+                    >
+                        {`Pull Request #${props.pullRequest.git_id} from ${props.pullRequest.repo}`}
+                    </Typography>
+                    <Typography>
+                        <a href={props.pullRequest.url} target={"_blank"}>
+                            View the pull request on Github
+                        </a>
+                    </Typography>
+                </div>
+                <hr></hr>
 
                 {tracker.map((item) => (
-                    <>
+                    <div key={item._id}>
                         <Typography component="legend">{item.name}</Typography>
                         <Rating
                             name="simple-controlled"
@@ -113,7 +135,7 @@ export default function PullRequestRating(props) {
                             }}
                             required
                         />{" "}
-                    </>
+                    </div>
                 ))}
                 <div className={classes.buttonContainer}>
                     <Button
