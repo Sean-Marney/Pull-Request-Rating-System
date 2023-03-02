@@ -12,7 +12,7 @@ const userRoute = require("./routes/user.routes");
 const trackerRoute = require("./routes/tracker.routes");
 const ratingRoute = require("./routes/rating.routes");
 const leaderboardRoute = require("./routes/leaderboard.routes.js");
-const managerDashRoute = require("./routes/managerDash")
+const managerDashRoute = require("./routes/managerDash");
 const app = express();
 
 // connect database
@@ -40,6 +40,7 @@ app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
 app.get("/leaderboard", leaderboardRoute);
 app.get("/requests", managerDashRoute );
+app.get("/archived-rewards", managerDashRoute);
 // setting up port
 const PORT = process.env.PORT || 8000;
 

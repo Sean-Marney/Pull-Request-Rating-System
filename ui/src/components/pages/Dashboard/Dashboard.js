@@ -1,7 +1,8 @@
 
+
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@material-ui/core';
 import axios from 'axios';
 
 const useStyles = makeStyles({
@@ -13,6 +14,7 @@ const useStyles = makeStyles({
 function Dashboard() {
   const classes = useStyles();
   const [requests, setRequests] = useState([]);
+  const [archivedRewards, setArchivedRewards] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:8000/requests')
@@ -22,27 +24,64 @@ function Dashboard() {
       .catch(error => {
         console.log(error);
       });
+
+    axios.get('http://localhost:8000/archived-rewards')
+      .then(response => {
+        setArchivedRewards(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="Requests Table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Rating Complete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {requests.map(request => (
-            <TableRow key={request._id}>
-              <TableCell component="th" scope="row">{request.title}</TableCell>
-              <TableCell>{request.rating_complete.toString()}</TableCell>
+    <div>
+      <Typography variant="h5" gutterBottom>
+                <b>Requests</b>
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="Requests Table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Rating Complete</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {requests.map(request => (
+              <TableRow key={request._id}>
+                <TableCell component="th" scope="row">{request.title}</TableCell>
+                <TableCell>{request.rating_complete.toString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Typography variant="h5" gutterBottom>
+                <b>Archived Rewards</b>
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="Archived Rewards Table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>User</TableCell>
+              <TableCell>Archived</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {archivedRewards.map(reward => (
+              <TableRow key={reward._id}>
+                <TableCell component="th" scope="row">{reward.reward_name}</TableCell>
+                <TableCell>{reward.user_id}</TableCell>
+                <TableCell>{reward.archived.toString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
 

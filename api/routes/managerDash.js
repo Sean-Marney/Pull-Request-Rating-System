@@ -1,9 +1,12 @@
-// managerDash.routes.js
-
 const express = require('express');
 const router = express.Router();
-const  managerDash = require('../controllers/managerDash.controller');
+const managerDashController = require('../controllers/managerDash.controller');
 
-router.get('/requests', managerDash.getRequests);
+
+// Requests route
+router.get('/requests', managerDashController.getRequests);
+
+// Archived rewards route
+router.get('/archived-rewards', managerDashController.getArchivedRewards);
 
 module.exports = router;
