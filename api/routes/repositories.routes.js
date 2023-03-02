@@ -1,13 +1,13 @@
 const express = require("express");
 
 const {
-  getAllRepositories,
-  getAllPullRequestsFromDB,
+    getAllPullRequestsFromAPI,
+    getAllPullRequestsFromDB,
 } = require("../controllers/repositories.controller");
 
 const router = express.Router();
 
-router.get("/", getAllRepositories);
+router.get("/", getAllPullRequestsFromAPI);
 router.get("/allPulls", getAllPullRequestsFromDB);
 
 module.exports = router;
