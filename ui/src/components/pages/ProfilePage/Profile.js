@@ -12,6 +12,7 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import axios from "axios";
+// import { getUserByEmail } from "../../../../../api/controllers/manageUsers.controller";
 
 
 
@@ -24,30 +25,29 @@ export default function ManageProfiles() {
 
     //Get user on page load
     useEffect(() =>{
-        getUserbyId();
+        getUserByEmail();
     }, []);
 
-    const getUserbyId = async (_id) => {
+    const getUserByEmail = async () => {
         //Get user by id
         const response = await axios.get(
-            `http://localhost:8000/management/users/${_id}`
+            `http://localhost:8000/management/users/email/:email${cookies.user.email}`
         );
         //Set to state 
-        setUser(response.data)
+        setUser(response.data.email)
     };
 
     
 
     return (
         <div>
-            <Container fixed>
         <Box padding={3}>
         <h2>
          Profile
         </h2>
         </Box>
-        {user.map(item => (
-            <div key={item._id}>
+        {user.map((item) => (
+            <div key={item.email}>
         <Stack direction="row" spacing={2} >
         <Avatar/>
         <Paper width={800} height={160} >
@@ -82,7 +82,6 @@ export default function ManageProfiles() {
         <Button onClick={() => navigate("/profile/password")}>
             Change password
         </Button>
-        </Container>
         </div>
     );
 }
