@@ -1,4 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import ProtectedRoute from "./routes/ProtectedRoutes";
+import PullRequestRating from "./components/pages/Repositories/PullRequestRating";
+import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import "./App.css";
 import Sidebar from "./components/reusable/SidebarData";
 import Dashboard from "./components/pages/Dashboard/Dashboard";
@@ -16,7 +20,9 @@ import FAQ from "./components/pages/FAQPage/FAQ";
 import CreateFAQ from "./components/pages/ManageFAQPage/CreateFAQForm";
 import ManageFAQ from "./components/pages/ManageFAQPage/ManageFAQs";
 import UpdateFAQs from "./components/pages/ManageFAQPage/UpdateFAQForm";
-import Repositories from "./components/pages/Repositories/Repositories"
+import ClaimedRewards from "./components/pages/ClaimedRewardsPage/ClaimedRewards";
+import ArchivedRewards from "./components/pages/ClaimedRewardsPage/ArchivedRewards";
+import Repositories from "./components/pages/Repositories/Repositories";
 import { useCookies } from "react-cookie";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
@@ -33,6 +39,10 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/Leaderboard" element={<Leaderboard />} />
                     <Route path="/history" element={<History />} />
+                    <Route
+                          path="/management/repositories/rating"
+                          element={<PullRequestRating />}
+                      />
                     <Route
                         path="/management/users"
                         element={
@@ -105,6 +115,30 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                          path="/management/rewards/claimed"
+                          element={
+                              <ProtectedRoute
+                                  token={cookies.token}
+                                  role={cookies.role}
+                              >
+                                  {" "}
+                                  <ClaimedRewards />
+                              </ProtectedRoute>
+                          }
+                      />
+                      <Route
+                          path="/management/rewards/claimed/archived"
+                          element={
+                              <ProtectedRoute
+                                  token={cookies.token}
+                                  role={cookies.role}
+                              >
+                                  {" "}
+                                  <ArchivedRewards />
+                              </ProtectedRoute>
+                          }
+                      />
                     <Route path="/rewards" element={<Rewards />} />
                     <Route path="/FAQ" element={<FAQ />} />
                     <Route
@@ -143,6 +177,18 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                          path="/management/repositories"
+                          element={
+                              <ProtectedRoute
+                                  token={cookies.token}
+                                  role={cookies.role}
+                              >
+                                  {" "}
+                                  <Repositories />
+                              </ProtectedRoute>
+                          }
+                      />
                 </Routes>
                 </Sidebar>
             )}
