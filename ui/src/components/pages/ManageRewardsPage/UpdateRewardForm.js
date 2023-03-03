@@ -43,7 +43,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     marginTop: theme.spacing(4),
   },
-
+  cancelButton: {
+    marginRight: theme.spacing(2),
+  },
   title: {
     marginLeft: theme.spacing(2),
     marginBottom: theme.spacing(1),
@@ -134,10 +136,10 @@ export default function UpdateReward() {
                   className={classes.input}
                 />
                 {error.rewardName && (
-                  <div style={{ color: "red" }}>{error.rewardName}</div>
+                  <div className={classes.error}>{error.rewardName}</div>
                 )}
               </div>
-              <div style={{ marginTop: "20px" }}>
+              <div>
                 <InputLabel>Stars Required</InputLabel>
                 <Input
                   onChange={updateEditFormField}
@@ -149,22 +151,18 @@ export default function UpdateReward() {
                   className={classes.input}
                 />
                 {error.starsRequired && (
-                  <div style={{ color: "red" }}>{error.starsRequired}</div>
+                  <div className={classes.error}>{error.starsRequired}</div>
                 )}
               </div>
               <div className={classes.buttonContainer}>
                 <Button
                   onClick={() => navigate("/management/rewards")}
                   variant="contained"
+                  className={classes.cancelButton}
                 >
                   Cancel
                 </Button>
-                <Button
-                  type="submit"
-                  style={{ marginLeft: "30px" }}
-                  variant="contained"
-                  color="primary"
-                >
+                <Button type="submit" variant="contained" color="primary">
                   Update Reward
                 </Button>
               </div>

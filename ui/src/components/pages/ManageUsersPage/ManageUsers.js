@@ -5,156 +5,171 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
-    makeStyles,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Button,
-    Typography,
-    Box,
-    IconButton,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  Typography,
+  Box,
+  IconButton,
+  Paper,
 } from "@material-ui/core";
 import useAxiosInstance from "../../../useAxiosInstance";
 
 const useStyles = makeStyles((theme) => ({
-    table: {
-        marginTop: theme.spacing(3),
-        padding: theme.spacing(2),
-        boxShadow: theme.shadows[20],
-        paddingBottom: theme.spacing(0),
-        borderRadius: "20px",
-    },
-    tableContainer: {
-        paddingLeft: theme.spacing(20),
-        paddingRight: theme.spacing(20),
-    },
-    tableHeaders: {
-        fontSize: "25px",
-    },
-    tableContent: {
-        fontSize: "20px",
-    },
+  tableContainer: {
+    height: "calc(100vh - 100px)",
+    maxWidth: "90%",
+    margin: "0 auto",
+    overflow: "auto",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(2),
+    boxShadow: theme.shadows[20],
+    borderRadius: theme.shape.borderRadius,
+  },
+  tableHeaders: {
+    fontSize: "1.25rem",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  tableContent: {
+    fontSize: "1rem",
+    textAlign: "center",
+  },
+  starCountBox: {
+    textAlign: "center",
+    fontSize: "1rem",
+    color: "#b31010",
+    border: "1px solid",
+    width: 250,
+    borderColor: theme.palette.grey[400],
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.grey[100],
+    padding: theme.spacing(2),
+    margin: theme.spacing(2),
+  },
+  button: {
+    marginLeft: theme.spacing(1),
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 export default function ManageUsers() {
-    const { request } = useAxiosInstance();
-    const classes = useStyles();
-    const [users, setUsers] = useState(null);
+  const { request } = useAxiosInstance();
+  const classes = useStyles();
+  const [users, setUsers] = useState(null);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        getUsers();
-    }, []);
+  useEffect(() => {
+    getUsers();
+  }, []);
 
-    const getUsers = async () => {
-        // Get users
-        const res = await axios.get(
-            "http://localhost:8000/management/users/roles/Developer"
-        );
-
-        // Set to state
-        setUsers(res.data);
-    };
-    const deleteUser = async (_id) => {
-        // Delete user
-        await axios.delete(
-            `http://localhost:8000/management/users/delete/${_id}`
-        );
-
-        getUsers(); // Get updated list of users
-    };
-
-    return (
-        <div className={classes.tableContainer}>
-            <Box padding={3}>
-                <Typography variant="h4">
-                    <b>Manage Users</b>
-                </Typography>
-            </Box>
-            <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<AddCircleIcon />}
-                onClick={() => navigate("/management/users/create")}
-            >
-                Add New User
-            </Button>
-            <Box>
-                {/* Get all users from database and display in a table */}
-                {users && (
-                    <TableContainer className={classes.table}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Name</b>
-                                    </TableCell>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Email</b>
-                                    </TableCell>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Role</b>
-                                    </TableCell>
-                                    <TableCell className={classes.tableHeaders}>
-                                        <b>Actions</b>
-                                    </TableCell>
-                                    <TableCell />
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {users.map((user) => (
-                                    <TableRow key={user._id}>
-                                        <TableCell
-                                            className={classes.tableContent}
-                                        >
-                                            {user.name}
-                                        </TableCell>
-                                        <TableCell
-                                            className={classes.tableContent}
-                                        >
-                                            {user.email}
-                                        </TableCell>
-                                        <TableCell
-                                            className={classes.tableContent}
-                                        >
-                                            {user.hasRole}
-                                        </TableCell>
-                                        <TableCell>
-                                            <IconButton
-                                                color="primary"
-                                                title="Edit User"
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/management/users/update/${user._id}`
-                                                    )
-                                                }
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell>
-                                            <IconButton
-                                                color="secondary"
-                                                title="Delete User"
-                                                onClick={() =>
-                                                    deleteUser(user._id)
-                                                }
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                )}
-            </Box>
-        </div>
+  const getUsers = async () => {
+    // Get users
+    const res = await axios.get(
+      "http://localhost:8000/management/users/roles/Developer"
     );
+
+    // Set to state
+    setUsers(res.data);
+  };
+  const deleteUser = async (_id) => {
+    // Delete user
+    await axios.delete(`http://localhost:8000/management/users/delete/${_id}`);
+
+    getUsers(); // Get updated list of users
+  };
+
+  return (
+    <div className={classes.tableContainer}>
+      <Paper className={classes.paper}>
+        <Box padding={3}>
+          <Typography variant="h4">
+            <b>Manage Users</b>
+          </Typography>
+        </Box>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<AddCircleIcon />}
+          onClick={() => navigate("/management/users/create")}
+        >
+          Add New User
+        </Button>
+        <Box>
+          {/* Get all users from database and display in a table */}
+          {users && (
+            <TableContainer className={classes.table}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Name</b>
+                    </TableCell>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Email</b>
+                    </TableCell>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Role</b>
+                    </TableCell>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Actions</b>
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {users.map((user) => (
+                    <TableRow key={user._id}>
+                      <TableCell className={classes.tableContent}>
+                        {user.name}
+                      </TableCell>
+                      <TableCell className={classes.tableContent}>
+                        {user.email}
+                      </TableCell>
+                      <TableCell className={classes.tableContent}>
+                        {user.hasRole}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          color="primary"
+                          title="Edit User"
+                          onClick={() =>
+                            navigate(`/management/users/update/${user._id}`)
+                          }
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          color="secondary"
+                          title="Delete User"
+                          onClick={() => deleteUser(user._id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Box>
+      </Paper>
+    </div>
+  );
 }
