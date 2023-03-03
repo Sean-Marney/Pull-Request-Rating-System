@@ -1,4 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import ProtectedRoute from "./routes/ProtectedRoutes";
+import PullRequestRating from "./components/pages/Repositories/PullRequestRating";
+import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import "./App.css";
 import Sidebar from "./components/reusable/SidebarData";
 import Dashboard from "./components/pages/Dashboard/Dashboard";
@@ -6,19 +10,19 @@ import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
 import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
-import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers"
+import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers";
 import CreateUser from "./components/pages/ManageUsersPage/CreateUserForm";
 import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
-import Repositories from "./components/pages/Repositories/Repositories"
-import ManageProfiles from "./components/pages/ProfilePage/Profile"
+import Repositories from "./components/pages/Repositories/Repositories";;
+import ManageProfiles from "./components/pages/ProfilePage/Profile";
 import UpdatePassword from "./components/pages/ManageProfilePage/UpdatePasswordForm"
 import UpdateProfile from "./components/pages/ManageProfilePage/UpdateProfileForm"
-import { useCookies } from "react-cookie";
-import ProtectedRoute from "./routes/ProtectedRoutes";
-import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
+import ClaimedRewards from "./components/pages/ClaimedRewardsPage/ClaimedRewards";
+import ArchivedRewards from "./components/pages/ClaimedRewardsPage/ArchivedRewards";
+
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -32,6 +36,10 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/Leaderboard" element={<Leaderboard />} />
                     <Route path="/history" element={<History />} />
+                    <Route
+                          path="/management/repositories/rating"
+                          element={<PullRequestRating />}
+                      />
                     <Route
                         path="/management/users"
                         element={
@@ -106,6 +114,30 @@ const App = () => {
                     />
                     <Route path="/rewards" element={<Rewards />} />
                     <Route
+                          path="/management/rewards/claimed"
+                          element={
+                              <ProtectedRoute
+                                  token={cookies.token}
+                                  role={cookies.role}
+                              >
+                                  {" "}
+                                  <ClaimedRewards />
+                              </ProtectedRoute>
+                          }
+                      />
+                      <Route
+                          path="/management/rewards/claimed/archived"
+                          element={
+                              <ProtectedRoute
+                                  token={cookies.token}
+                                  role={cookies.role}
+                              >
+                                  {" "}
+                                  <ArchivedRewards />
+                              </ProtectedRoute>
+                          }
+                      />
+                    <Route
                         path="/management/repositories"
                         element={
                             <ProtectedRoute
@@ -117,7 +149,7 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
-                    <Route
+                     <Route
                         path="/profile"
                         element={
                             <ProtectedRoute
@@ -153,7 +185,6 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
-
                 </Routes>
                 </Sidebar>
             )}

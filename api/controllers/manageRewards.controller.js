@@ -28,17 +28,6 @@ const getRewardsById = async (req, res) => {
   }
 };
 
-// // Get rewards, sorted by stars required
-// const getRewardSortedByStars = async (req, res) => {
-//   try {
-//     // TODO - Make method correctly sort by size of number
-//     const rewards = await Reward.find().sort({ starsRequired: 1 });
-//     res.status(200).json(rewards);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
 // Create a reward
 const createReward = async (req, res) => {
   try {
