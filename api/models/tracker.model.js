@@ -1,14 +1,9 @@
 const mongoose = require("mongoose");
-// Model for the tracker 
+// Model for the tracker
 const TrackerSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-    },
-    currently_used: {
-        type: Boolean,
-        required: true,
-        default: true,
     },
 });
 
