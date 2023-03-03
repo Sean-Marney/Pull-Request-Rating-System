@@ -16,7 +16,7 @@ import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
-import Repositories from "./components/pages/Repositories/Repositories";;
+import Repositories from "./components/pages/Repositories/Repositories";
 import ManageProfiles from "./components/pages/ProfilePage/Profile";
 import UpdatePassword from "./components/pages/ManageProfilePage/UpdatePasswordForm"
 import UpdateProfile from "./components/pages/ManageProfilePage/UpdateProfileForm"
