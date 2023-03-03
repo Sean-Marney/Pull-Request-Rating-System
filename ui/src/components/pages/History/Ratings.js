@@ -21,7 +21,7 @@ export class Ratings extends React.Component {
         // Iterates through all the ratings and then creates a rating component for each one
         // Doesn't display overall rating as it is already displayed in the pull request item
         for (rating in displaylist) {
-            if (rating != "overall") {
+            if (rating != "overall" && rating!= "average") {
               let item = <Rating key={rating} category={rating} score={ratings[rating]}/>
               list.push(item);
             }
