@@ -44,18 +44,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1rem",
     textAlign: "center",
   },
-  starCountBox: {
-    textAlign: "center",
-    fontSize: "1rem",
-    color: "#b31010",
-    border: "1px solid",
-    width: 250,
-    borderColor: theme.palette.grey[400],
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.grey[100],
-    padding: theme.spacing(2),
-    margin: theme.spacing(2),
-  },
+
   button: {
     marginLeft: theme.spacing(1),
     marginTop: theme.spacing(2),
@@ -124,9 +113,7 @@ export default function ManageUsers() {
                     <TableCell className={classes.tableHeaders}>
                       <b>Role</b>
                     </TableCell>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Actions</b>
-                    </TableCell>
+                    <TableCell></TableCell>
                     <TableCell />
                   </TableRow>
                 </TableHead>

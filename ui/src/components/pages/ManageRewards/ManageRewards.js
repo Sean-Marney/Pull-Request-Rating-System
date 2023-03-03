@@ -131,9 +131,7 @@ export default function ManageRewards() {
                     <TableCell className={classes.tableHeaders}>
                       <b>Stars Required</b>
                     </TableCell>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Actions</b>
-                    </TableCell>
+                    <TableCell></TableCell>
                     <TableCell />
                   </TableRow>
                 </TableHead>

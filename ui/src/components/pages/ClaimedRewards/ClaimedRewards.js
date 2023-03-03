@@ -120,7 +120,7 @@ export default function ClaimedRewards() {
         <Box>
           {/* Get all claimed rewards from database and display in a table */}
           {claimedRewards && (
-            <TableContainer>
+            <TableContainer className={classes.table}>
               <Table>
                 <TableHead>
                   <TableRow>
