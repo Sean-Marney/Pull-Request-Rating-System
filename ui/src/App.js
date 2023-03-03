@@ -23,9 +23,6 @@ import UpdateFAQs from "./components/pages/ManageFAQPage/UpdateFAQForm";
 import ClaimedRewards from "./components/pages/ClaimedRewardsPage/ClaimedRewards";
 import ArchivedRewards from "./components/pages/ClaimedRewardsPage/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
-import { useCookies } from "react-cookie";
-import ProtectedRoute from "./routes/ProtectedRoutes";
-import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
