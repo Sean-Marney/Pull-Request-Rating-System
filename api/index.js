@@ -12,19 +12,19 @@ const pullRequestHistoryRoute = require("./routes/pullRequestHistory.routes");
 const userRoute = require("./routes/user.routes");
 const trackerRoute = require("./routes/tracker.routes");
 const ratingRoute = require("./routes/rating.routes");
-const leaderboardRoute = require("./routes/leaderboard.routes.js");
-const managerDashRoute = require("./routes/managerDash");
+const leaderboardRoute = require("./routes/leaderboard.routes");
+const managerDashboardRoute = require("./routes/managerDashboard.routes");
 const app = express();
 
 // connect database
 connectDB();
 
 app.use(
-    cors({
-        origin: ["http://localhost:3000"],
-        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-        credentials: true,
-    })
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+  })
 );
 app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("Server up and running"));
@@ -42,13 +42,13 @@ app.use("/management/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
 app.get("/leaderboard", leaderboardRoute);
-app.get("/requests", managerDashRoute );
-app.get("/archived-rewards", managerDashRoute);
+app.get("/requests", managerDashboardRoute);
+app.get("/archived-rewards", managerDashboardRoute);
 // setting up port
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-    console.log(`server is running on http://localhost:${PORT}`);
+  console.log(`server is running on http://localhost:${PORT}`);
 });
 
 module.exports = app;
