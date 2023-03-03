@@ -35,7 +35,7 @@ app.use("/management/rewards/claimed", claimedRewardsRoute);
 app.use("/rewards", rewardsRoute);
 app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
-app.use("/trackers", trackerRoute);
+app.use("/management/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
 app.get("/leaderboard", leaderboardRoute);
