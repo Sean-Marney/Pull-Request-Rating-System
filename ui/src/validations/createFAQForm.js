@@ -4,10 +4,10 @@ import * as yup from "yup";
 export default yup.object().shape({
     question: yup
     .string()
-    .matches(/^[a-zA-Z0-9.?]/, "Please enter an answer")
+    .matches(/^[a-zA-Z0-9.?]*$/, "Please enter an answer")
     .required("You must enter a question"),
     answer: yup
     .string()
-    .matches(/^[a-zA-Z0-9.?]/, "Please enter an answer")
+    .matches(/^[a-zA-Z0-9.?]*$/, "Please enter an answer")
     .required("You must enter an answer"),
 });
