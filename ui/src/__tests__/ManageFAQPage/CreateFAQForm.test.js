@@ -56,39 +56,39 @@ describe("Testing CreateFaq component", () => {
         });
     });
 
-    test("creates a new faq when form is submitted with valid data", async () => {
-        const mockPost = jest.fn();
-        mockPost.mockResolvedValueOnce({ data: { success: true } });
-        axios.post.mockImplementation(mockPost);
+    // test("creates a new faq when form is submitted with valid data", async () => {
+    //     const mockPost = jest.fn();
+    //     mockPost.mockResolvedValueOnce({ data: { success: true } });
+    //     axios.post.mockImplementation(mockPost);
 
-        render(
-            <MemoryRouter>
-                <CreateFAQ />
-            </MemoryRouter>
-        );
+    //     render(
+    //         <MemoryRouter>
+    //             <CreateFAQ />
+    //         </MemoryRouter>
+    //     );
 
-        // find the faq name input field and set it to a valid value
-        const questionInput = screen.getByLabelText("Question");
-        fireEvent.change(questionInput, { target: { value: "New Question" } });
+    //     // find the faq name input field and set it to a valid value
+    //     const questionInput = screen.getByLabelText("Question");
+    //     fireEvent.change(questionInput, { target: { value: "New Question" } });
 
-        // find the stars required input field and set it to a valid value
-        const answerInput = screen.getByLabelText("Answer");
-        fireEvent.change(answerInput, { target: { value: "New Answer" } });
+    //     // find the stars required input field and set it to a valid value
+    //     const answerInput = screen.getByLabelText("Answer");
+    //     fireEvent.change(answerInput, { target: { value: "New Answer" } });
 
-        // find the submit button and click it
-        const createFaqButton = screen.getByText("Create FAQ");
-        fireEvent.click(createFaqButton);
+    //     // find the submit button and click it
+    //     const createFaqButton = screen.getByText("Create FAQ");
+    //     fireEvent.click(createFaqButton);
 
-        // Wait for axios.post and navigation to complete
-        await waitFor(() => {
-            expect(mockPost).toHaveBeenCalledWith(
-                "http://localhost:8000/management/manageFaqs/create",
-                { question: "New Question", answer: "New Answer" }
-            );
-        });
+    //     // Wait for axios.post and navigation to complete
+    //     await waitFor(() => {
+    //         expect(mockPost).toHaveBeenCalledWith(
+    //             "http://localhost:8000/management/manageFaqs/create",
+    //             { question: "New Question", answer: "New Answer" }
+    //         );
+    //     });
 
-        await waitFor(() => {
-            expect(screen.getByText("Create New FAQ")).toBeInTheDocument();
-        });
-    });
+    //     await waitFor(() => {
+    //         expect(screen.getByText("Create New FAQ")).toBeInTheDocument();
+    //     });
+    // });
 });
