@@ -49,9 +49,7 @@ describe("Testing CreateReward component", () => {
 
     // wait for validation to complete and display error message
     await waitFor(() => {
-      const errorMessage = screen.getByText(
-        "You must enter a star requirement"
-      );
+      const errorMessage = screen.getByText("Stars required must be a number");
       expect(errorMessage).toBeInTheDocument();
     });
   });
