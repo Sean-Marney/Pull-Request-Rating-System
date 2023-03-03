@@ -11,10 +11,13 @@ import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
 import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
 import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers";
+import ManageTrackers from "./components/pages/ManageTrackersPage/ManageTrackers"
 import CreateUser from "./components/pages/ManageUsersPage/CreateUserForm";
 import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
+import CreateTracker from "./components/pages/ManageTrackersPage/CreateTrackerForm";
 import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
+import UpdateTracker from "./components/pages/ManageTrackersPage/UpdateTrackerForm";
 import Rewards from "./components/pages/RewardsPage/Rewards";
 import FAQ from "./components/pages/FAQPage/FAQ";
 import CreateFAQ from "./components/pages/ManageFAQPage/CreateFAQForm";
@@ -183,6 +186,34 @@ const App = () => {
                               >
                                   {" "}
                                   <Repositories />
+                              </ProtectedRoute>
+                          }
+                      />
+                      <Route
+                          path="/management/trackers"
+                          element={<ManageTrackers />}
+                      />
+                      <Route
+                          path="/management/trackers/create"
+                          element={
+                              <ProtectedRoute
+                                  token={cookies.token}
+                                  role={cookies.role}
+                              >
+                                  {" "}
+                                  <CreateTracker />
+                              </ProtectedRoute>
+                          }
+                      />
+                      <Route
+                          path="/management/trackers/update/:id"
+                          element={
+                              <ProtectedRoute
+                                  token={cookies.token}
+                                  role={cookies.role}
+                              >
+                                  {" "}
+                                  <UpdateTracker />
                               </ProtectedRoute>
                           }
                       />
