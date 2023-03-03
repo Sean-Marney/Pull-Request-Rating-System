@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth.routes");
 const express = require("express");
 require("dotenv").config();
+const manageFaqs = require("./routes/faq.routes");
 const rewardsRoute = require("./routes/rewards.routes");
 const claimedRewardsRoute = require("./routes/claimedRewards.routes");
 const repositoriesRoute = require("./routes/repositories.routes");
@@ -12,7 +13,7 @@ const userRoute = require("./routes/user.routes");
 const trackerRoute = require("./routes/tracker.routes");
 const ratingRoute = require("./routes/rating.routes");
 const leaderboardRoute = require("./routes/leaderboard.routes.js");
-
+const managerDashRoute = require("./routes/managerDash");
 const app = express();
 
 // connect database
@@ -33,13 +34,16 @@ app.use("/", authRoutes);
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/rewards/claimed", claimedRewardsRoute);
 app.use("/rewards", rewardsRoute);
+app.use("/management/manageFaqs", manageFaqs);
+app.use("/faqs", manageFaqs);
 app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
 app.use("/management/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
 app.get("/leaderboard", leaderboardRoute);
-
+app.get("/requests", managerDashRoute );
+app.get("/archived-rewards", managerDashRoute);
 // setting up port
 const PORT = process.env.PORT || 8000;
 
