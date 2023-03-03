@@ -51,7 +51,7 @@ export default function PullRequestRating(props) {
         try {
             const response = await axios.get(
                 // Sends GET request to API to get all trackers
-                "http://localhost:8000/trackers"
+                "http://localhost:8000/management/trackers"
             );
             setTracker([...response.data]);
         } catch (error) {
