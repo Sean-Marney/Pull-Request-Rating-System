@@ -19,7 +19,7 @@ describe("GET /management/manageFaqs/:id", () => {
     let faq;
 
     beforeEach((done) => {
-        faq = new FAQ({
+        faq = new Faq({
             question: "Test question",
             answer: "Test answer",
         });
@@ -31,7 +31,7 @@ describe("GET /management/manageFaqs/:id", () => {
     });
 
     afterEach((done) => {
-        faq.deleteMany({}, (err) => {
+        Faq.deleteMany({}, (err) => {
             if (err) return done(err);
             done();
         });
