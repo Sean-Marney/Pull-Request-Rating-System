@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
-import Rewards from "../components/pages/RewardsPage/Rewards";
+import Rewards from "../../components/pages/Rewards/Rewards";
 import "@testing-library/jest-dom/extend-expect";
 import { useCookies } from "react-cookie";
 

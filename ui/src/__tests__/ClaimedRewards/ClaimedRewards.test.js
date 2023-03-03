@@ -2,8 +2,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import axios from "axios";
 import { MemoryRouter } from "react-router-dom";
-import ClaimedRewards from "../components/pages/ClaimedRewardsPage/ClaimedRewards";
-import ArchivedRewards from "../components/pages/ClaimedRewardsPage/ArchivedRewards";
+import ClaimedRewards from "../../components/pages/ClaimedRewards/ClaimedRewards";
+import ArchivedRewards from "../../components/pages/ClaimedRewards/ArchivedRewards";
 import "@testing-library/jest-dom";
 
 // Mocking the toastify import because jest couldn't parse the syntax - this mock is unrelated to the tests

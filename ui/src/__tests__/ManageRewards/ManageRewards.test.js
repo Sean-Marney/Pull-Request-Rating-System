@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import axios from "axios";
 import { MemoryRouter } from "react-router-dom";
-import ManageRewards from "../components/pages/ManageRewardsPage/ManageRewards";
+import ManageRewards from "../../components/pages/ManageRewards/ManageRewards";
 import "@testing-library/jest-dom/extend-expect";
 
 jest.mock("axios"); // mock axios module

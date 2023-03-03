@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import CreateReward from "../components/pages/ManageRewardsPage/CreateRewardForm";
+import CreateReward from "../../components/pages/ManageRewards/CreateRewardForm";
 import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
 import axios from "axios";
