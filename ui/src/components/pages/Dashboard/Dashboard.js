@@ -37,14 +37,14 @@ function Dashboard() {
   return (
     <div>
       <Typography variant="h5" gutterBottom>
-                <b>Requests</b>
+                <b>Pending Requests</b>
       </Typography>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="Requests Table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Rating Complete</TableCell>
+              <TableCell>Pull Request Title</TableCell>
+              <TableCell>Rating Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,8 +65,8 @@ function Dashboard() {
         <Table className={classes.table} aria-label="Archived Rewards Table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>User</TableCell>
+              <TableCell>Reward Name</TableCell>
+              <TableCell>User ID</TableCell>
               <TableCell>Archived</TableCell>
             </TableRow>
           </TableHead>

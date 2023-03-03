@@ -11,9 +11,14 @@ const getRequests = async (req, res) => {
   }
 };
 
+
 const getArchivedRewards = async (req, res) => {
   try {
-    const rewards = await ClaimedReward.find({ 'archived': true }).lean().exec();
+    const rewards = await ClaimedReward.find({ archived: true })
+      .sort({ createdAt: 'desc' })
+      .limit(3)
+      .lean()
+      .exec();
     res.json(rewards);
   } catch (err) {
     console.error(err);
@@ -24,3 +29,4 @@ module.exports = {
   getRequests,
   getArchivedRewards,
 };
+
