@@ -41,7 +41,9 @@ const createRating = async (req, res) => {
       );
       const user = getUserById.data;
 
+      //
       const updatedStarCount = user.stars + ratingSum;
+      const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
 
       // Update user object with added stars
       await axios.patch(
@@ -52,6 +54,7 @@ const createRating = async (req, res) => {
           password: user.password,
           hasRole: user.hasRole,
           stars: updatedStarCount,
+          totalStarsEarned: updatedTotalStarCount,
         }
       );
     } catch (error) {
