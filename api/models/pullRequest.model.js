@@ -33,6 +33,10 @@ const PullRequestSchema = new mongoose.Schema({
     type: Object,
     required: false,
   },
+  name: {
+    type: String,
+    required: false,
+  },
 });
 
 const PullRequest = mongoose.model("PullRequest", PullRequestSchema);

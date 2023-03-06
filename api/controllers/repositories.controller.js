@@ -69,6 +69,7 @@ async function updatePullRequestsToDatabase(pullRequests) {
         });
         // If the pull request is not in the database, it adds it to the database
         if (needToAdd === true) {
+            console.log("Adding to database " + pullRequests[index].id);
             try {
                 // Converts the date string into a date object
                 let mergedDate = new Date(pullRequests[index].created_at);
@@ -130,7 +131,7 @@ async function changeName(pullRequests) {
             (user) => user._id.toString() == pullRequest.user_id.toString()
         );
         if (user != undefined) {
-            pullRequest.user_id = user.name;
+            pullRequest.name = user.name;
         }
     });
     return pullRequests;
