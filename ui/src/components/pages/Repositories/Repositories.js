@@ -197,7 +197,7 @@ const RepositoryList = () => {
                         variant="body2"
                         color="textSecondary"
                       >
-                        {`Created by ${pullRequest.user_id}`}
+                        {`Created by ${pullRequest.users_name}`}
                       </Typography>
                       <br />
                       <Typography

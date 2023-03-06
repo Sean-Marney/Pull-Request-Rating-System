@@ -62,8 +62,8 @@ describe("change name", () => {
     const mockResponse = [ { _id: "1", name: "name1" }, { _id: "2", name: "name2" }];
     const userIDStub = sinon.stub(User, "find").resolves(mockResponse);
     let result = await changeName([{user_id:"1"},{user_id:"2"}]);
-    expect(result[0].user_id).to.equal('name1');
-    expect(result[1].user_id).to.equal('name2');
+    expect(result[0].users_name).to.equal('name1');
+    expect(result[1].users_name).to.equal('name2');
     userIDStub.restore();
   });
   it("user not in list", async () => {

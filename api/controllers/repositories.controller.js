@@ -130,7 +130,7 @@ async function changeName(pullRequests) {
             (user) => user._id.toString() == pullRequest.user_id.toString()
         );
         if (user != undefined) {
-            pullRequest.user_id = user.name;
+            pullRequest.users_name = user.name;
         }
     });
     return pullRequests;
