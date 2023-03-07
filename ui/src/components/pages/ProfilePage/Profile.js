@@ -42,22 +42,34 @@ export default function ManageProfiles() {
             <Paper width={800} height={160}>
               <h4>Name : {user.name}</h4>
               <h4>Role : {user.hasRole}</h4>
-              <h4>stars : {user.stars}</h4>
+              <h4>Email : {user.email}</h4>
+              <h4>Total stars Recived : {user.stars}</h4>
             </Paper>
           </Stack>
-        </div>
-      )}
-      <Box padding={3}>
+
+          {/* bio */}
+          <Box padding={3}>
         <h4>Bio</h4>
         <Skeleton variant="rectangular" width={800} height={160} />
+        {/* Bio box */}
+        <box>
+        <h4>Bio : {user.bio}</h4>
+        </box>
         <Button onClick={() => navigate("/profile/update")}>
           Edit Profile
         </Button>
-      </Box>
-      <h4>Rewards Gotten</h4>
+
+        {/* rewards */}
+        <h4>Rewards Gotten</h4>
       <Button onClick={() => navigate("/profile/password")}>
         Change password
       </Button>
+      <Button style={{ color: "red" }}>
+        Delete Account
+      </Button>
+      </Box>
+        </div>
+      )}
     </div>
   );
 }
