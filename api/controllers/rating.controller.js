@@ -53,6 +53,9 @@ const createRating = async (req, res) => {
           email: user.email,
           password: user.password,
           hasRole: user.hasRole,
+          git_username: user.git_username,
+
+          // Fields updated:
           stars: updatedStarCount,
           totalStarsEarned: updatedTotalStarCount,
         }
