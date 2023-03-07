@@ -32,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
 export default function UpdateProfile() {
     const classes = useStyles();
     const navigate = useNavigate();
+
+    
     return (
         <div>
         <div>
@@ -53,17 +55,17 @@ export default function UpdateProfile() {
                 />
                 </div>
 
-                  {/* company */}
-              <div style={{ marginTop: "20px" }}>
-                <InputLabel>Company </InputLabel>
+                <div>
+                <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
-                  name="company"
-                  inputProps={{
-                    style: { textAlign: "left" },
-                  }}
-                  className={classes.input}
+                    name="email"
+                    id="email"
+                    inputProps={{
+                        style: { textAlign: "left" },
+                    }}
+                    className={classes.input}
                 />
-                </div>
+            </div>
                 
                 {/* bio */}
                 <div>
