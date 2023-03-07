@@ -16,7 +16,7 @@ const PullRequestRatingStars = ({ rating }) => {
         <div className={classes.root}>
             <Rating
                 name="pull-request-rating"
-                value={rating?.overall ? rating.overall : 0}
+                value={rating?.average ? rating.average: 0}
                 readOnly
                 sx={{
                     "& .MuiRating-iconEmpty": {
@@ -25,7 +25,7 @@ const PullRequestRatingStars = ({ rating }) => {
                 }}
             />
             <h3 style={{ margin: "30px 0px", alignItems: "left" }}>
-                Total {rating?.overall ? rating.overall : 0}{" "}
+                Total {rating?.overall ? rating.overall: 0}{" "}
             </h3>
         </div>
     );

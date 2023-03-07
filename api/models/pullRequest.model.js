@@ -33,7 +33,7 @@ const PullRequestSchema = new mongoose.Schema({
     type: Object,
     required: false,
   },
-  name: {
+  users_name: {
     type: String,
     required: false,
   },

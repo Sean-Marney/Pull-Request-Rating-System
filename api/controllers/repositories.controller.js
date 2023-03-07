@@ -131,7 +131,7 @@ async function changeName(pullRequests) {
             (user) => user._id.toString() == pullRequest.user_id.toString()
         );
         if (user != undefined) {
-            pullRequest.name = user.name;
+            pullRequest.users_name = user.name;
         }
     });
     return pullRequests;
@@ -145,3 +145,4 @@ module.exports = {
     getAllPullRequestsFromAPI,
     updatePullRequestsToDatabase,
 };
+git a
