@@ -20,20 +20,23 @@ describe("GET all users from /management/users using the getUsers controller met
                 email: "martin@gmail.com",
                 password: "12345",
                 hasRole: "Developer",
+                git_username: "Martin Dawes",
             },
             {
-                _id: "1",
+                _id: "2",
                 name: "Martin Dawes",
                 email: "martin@gmail.com",
                 password: "12345",
                 hasRole: "Developer",
+                git_username: "Martin Dawes",
             },
             {
-                _id: "1",
+                _id: "3",
                 name: "Martin Dawes",
                 email: "martin@gmail.com",
                 password: "12345",
                 hasRole: "Developer",
+                git_username: "Martin Dawes",
             },
         ];
         sinon.stub(User, "find").resolves(mockUsers);
@@ -72,11 +75,13 @@ describe("GET all users from /management/users using the getUsers controller met
             expect(user).to.have.property("email");
             expect(user).to.have.property("password");
             expect(user).to.have.property("hasRole");
+            expect(user).to.have.property("git_username");
             expect(user._id).to.be.a("string");
             expect(user.name).to.be.a("string");
             expect(user.email).to.be.a("string");
             expect(user.password).to.be.a("string");
             expect(user.hasRole).to.be.a("string");
+            expect(user.git_username).to.be.a("string");
         });
     });
 });
@@ -85,14 +90,14 @@ describe("GET user by ID from /management/users using the getUsers controller me
     let mockUser;
 
     beforeEach(() => {
-        mockUser = 
-        {
-                _id: "1",
-                name: "Martin Dawes",
-                email: "martin@gmail.com",
-                password: "12345",
-                hasRole: "Developer",
-            };
+        mockUser = {
+            _id: "1",
+            name: "Martin Dawes",
+            email: "martin@gmail.com",
+            password: "12345",
+            hasRole: "Developer",
+            git_username: "Martin Dawes",
+        };
         sinon.stub(User, "findById").resolves(mockUser);
     });
 
@@ -140,11 +145,13 @@ describe("GET user by ID from /management/users using the getUsers controller me
         expect(mockUser).to.have.property("email");
         expect(mockUser).to.have.property("password");
         expect(mockUser).to.have.property("hasRole");
+        expect(mockUser).to.have.property("git_username");
         expect(mockUser._id).to.be.a("string");
         expect(mockUser.name).to.be.a("string");
         expect(mockUser.email).to.be.a("string");
         expect(mockUser.password).to.be.a("string");
         expect(mockUser.hasRole).to.be.a("string");
+        expect(mockUser.git_username).to.be.a("string");
     });
 });
 
@@ -155,6 +162,7 @@ describe("CREATE user at /management/users/create using the createUser controlle
             email: "martin@gmail.com",
             password: "12345",
             hasRole: "Developer",
+            git_username: "Martin Dawes",
         };
         const req = { body: userData };
         const res = {
@@ -193,4 +201,3 @@ describe("DELETE user by ID from /management/users/delete/:id using the deleteUs
         sinon.assert.calledOnceWithExactly(res.status, 200);
     });
 });
-
