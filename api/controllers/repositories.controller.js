@@ -145,4 +145,3 @@ module.exports = {
     getAllPullRequestsFromAPI,
     updatePullRequestsToDatabase,
 };
-git a

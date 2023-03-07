@@ -19,7 +19,6 @@ describe('getPullRequestsForUser', () => {
       sort: sinon.stub().withArgs(sortByDate).returns(pullRequests)
     });
 
-    // Create fake request and response objects
     const req = { params: parameter };
     const res = {
       status: sinon.stub().returnsThis(),
@@ -29,7 +28,7 @@ describe('getPullRequestsForUser', () => {
     // Call the getPullRequestsForUser function
     await getPullRequestsForUser(req, res);
 
-    // Make sure the correct methods were called and the correct data was returned
+    // The tests
     expect(findUserStub.calledOnceWith({ email: parameter.id }, { _id: 1 })).to.be.true;
     expect(findPullRequestStub.calledOnceWith({ user_id: user._id })).to.be.true;
     expect(res.status.calledOnceWith(200)).to.be.true;
@@ -46,7 +45,6 @@ describe('getPullRequestsForUser', () => {
     // Create stubs for User
     const findUserStub = sinon.stub(User, 'findOne').returns(user);
 
-    // Create fake request and response objects
     const req = { params: parameter };
     const res = {
       status: sinon.stub().returnsThis(),
@@ -56,7 +54,7 @@ describe('getPullRequestsForUser', () => {
     // Call the getPullRequestsForUser function
     await getPullRequestsForUser(req, res);
 
-    // Make sure the correct methods were called and the correct data was returned
+    // The tests
     expect(findUserStub.calledOnceWith({ email: parameter.id }, { _id: 1 })).to.be.true;
     expect(res.status.calledOnceWith(404)).to.be.true;
 

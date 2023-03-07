@@ -41,7 +41,7 @@ function App() {
     // Gets the Pull Requests through calling api backend
     // TODO: Integrate with ID of user who is logged in
     const getPullRequests = async () => {
-        let email = cookies.user.email;
+        let email = cookies.user;
         const res = await axios.get("http://localhost:8000/pullrequests/history/" + email.toLowerCase());
         setPullRequests(res.data);
     };
