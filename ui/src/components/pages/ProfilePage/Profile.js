@@ -42,7 +42,6 @@ export default function ManageProfiles() {
             <Paper width={800} height={160}>
               <h4>Name : {user.name}</h4>
               <h4>Role : {user.hasRole}</h4>
-              <h4>company :</h4>
               <h4>stars : {user.stars}</h4>
             </Paper>
           </Stack>
