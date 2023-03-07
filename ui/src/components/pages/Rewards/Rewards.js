@@ -122,6 +122,7 @@ export default function Rewards() {
           email: user.email,
           password: user.password,
           stars: newStars, // Updated
+          totalStarsEarned: user.totalStarsEarned,
         }
       );
 
