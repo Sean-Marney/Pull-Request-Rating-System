@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   box: {
-    height: `calc(20vh - ${theme.mixins.toolbar.minHeight}px)`,
+    height: "auto",
+    flexShrink: 0,
     width: `calc((70vw - ${theme.spacing(6)}px) / 3)`,
     margin: theme.spacing(1),
     padding: theme.spacing(3),
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2rem",
     fontWeight: 700,
     textAlign: "center",
+    wordWrap: "break-word",
   },
 }));
 
