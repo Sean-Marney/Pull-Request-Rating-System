@@ -85,7 +85,6 @@ const updateUser = async (req, res) => {
 
         user.name = req.body.name;
         user.email = req.body.email;
-        user.password = req.body.password;
         user.stars = req.body.stars;
         user.git_username = req.body.git_username;
         await user.save();

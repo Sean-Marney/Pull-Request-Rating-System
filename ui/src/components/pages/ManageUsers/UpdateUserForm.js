@@ -12,7 +12,7 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateUserForm from "../../../validations/createUserForm";
+import validateUpdateUserForm from "../../../validations/updateUserForm";
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -57,12 +57,9 @@ export default function UpdateUser() {
     const [updateForm, setUpdateForm] = useState({
         name: "",
         email: "",
-        password: "",
         git_username: "",
     });
-
     const [error, setError] = useState({});
-
     const { id } = useParams(); // Get user ID from URL
     const navigate = useNavigate();
 
@@ -71,15 +68,16 @@ export default function UpdateUser() {
     }, []);
 
     const getUser = async () => {
+        console.log(getUser);
         // Get user by id
         const res = await axios.get(
             `http://localhost:8000/management/users/${id}`
         );
+        console.log(res);
         // Set to state (fills in textboxes)
         setUpdateForm({
             name: res.data.name,
             email: res.data.email,
-            password: res.data.password,
             git_username: res.data.git_username,
         });
     };
@@ -95,18 +93,19 @@ export default function UpdateUser() {
 
     const updateUser = async (e) => {
         e.preventDefault();
-
+        console.log(updateUser);
         try {
-            await validateCreateUserForm.validate(updateForm, {
+            await validateUpdateUserForm.validate(updateForm, {
                 abortEarly: false,
             });
             await axios.patch(
                 `http://localhost:8000/management/users/update/${id}`,
                 updateForm
             );
-
+            console.log("User updated successfully");
             navigate("/management/users");
         } catch (error) {
+            console.error(error);
             const validationErrors = {};
             if (error instanceof yup.ValidationError) {
                 error.inner.forEach((error) => {
