@@ -36,7 +36,7 @@ const loginUser = async (req, res) => {
             // If user is not found, return a 401 response with an error message
             return res
                 .status(401)
-                .json({ message: "Invalid email or password" });
+                .json({ message: "User not found with the entered email" });
         }
         
 
@@ -46,7 +46,9 @@ const loginUser = async (req, res) => {
             // If the passwords don't match, return a 401 response with an error message
             return res
                 .status(401)
-                .json({ message: "Invalid email or password" });
+                .json({
+                    message: "Incorrect password",
+                });
         }
 
         // Generate a JSON Web Token (JWT) with the user's ID and email and sign it with a secret key

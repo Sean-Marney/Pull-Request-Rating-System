@@ -1,6 +1,4 @@
 import * as yup from "yup";
-import YupPassword from "yup-password";
-YupPassword(yup);
 
 // Used to validate the create user form and update form
 export default yup.object().shape({
@@ -17,15 +15,6 @@ export default yup.object().shape({
             "Please enter a valid email address"
         )
         .required("Please provide your email"),
-    password: yup
-        .string()
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
-            "Password may only contain at least one uppercase letter, one lowercase letter, one number and one special case character"
-        )
-        .min(8, "Password must be at least 8 characters long")
-        .max(50, "Password must be max 50 characters long")
-        .required("Please provide a password"),
     git_username: yup
         .string()
         .matches(
