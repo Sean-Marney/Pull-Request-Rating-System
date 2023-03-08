@@ -64,11 +64,11 @@ export default function UpdateProfile() {
   };
   
   const updateEditFormField = (e) => {
-      const { name, value } = e.target;
+      const { email, value } = e.target;
   
       setUpdateForm({
           ...updateForm,
-          [name]: value,
+          [email]: value,
       });
   };
   
@@ -80,11 +80,12 @@ export default function UpdateProfile() {
               abortEarly: false,
           });
           await axios.patch(
-              `http://localhost:8000/management/users/update/${cookies.user.email}`,
+              // `http://localhost:8000/management/users/update/${id}`,
+              `http://localhost:8000/management/users/update/email/${cookies.user.email}`,
               updateForm
           );
   
-          navigate("/management/users");
+          navigate("/profile");
       } catch (error) {
           const validationErrors = {};
           if (error instanceof yup.ValidationError) {

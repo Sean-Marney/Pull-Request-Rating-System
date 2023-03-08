@@ -108,6 +108,29 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// Update a user by email
+const updateUserByEmail = async (req, res) => {
+  try {
+    const user = await User.findOne(e= req.params.email);
+    if (!user) {
+      return res.status(404).json({ message: "User with that email was not found" });
+    }
+
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.stars = req.body.stars;
+    user.git_username = req.body.git_username;
+    user.bio = req.body.bio;
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getUsers,
   getUsersByRole,
@@ -116,4 +139,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  updateUserByEmail,
 };

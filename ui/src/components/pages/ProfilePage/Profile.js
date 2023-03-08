@@ -64,7 +64,7 @@ export default function ManageProfiles() {
       <Button onClick={() => navigate("/profile/password")}>
         Change password
       </Button>
-      <Button style={{ color: "red" }}>
+      <Button  onClick={() => navigate("/login")} style={{ color: "red" }}>
         Delete Account
       </Button>
       </Box>

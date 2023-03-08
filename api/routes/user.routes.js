@@ -8,6 +8,7 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  updateUserByEmail,
 } = require("../controllers/manageUsers.controller");
 
 router.get("/", getUsers);
@@ -17,5 +18,6 @@ router.get("/email/:email", getUserByEmail);
 router.post("/create", createUser);
 router.patch("/update/:id", updateUser);
 router.delete("/delete/:id", deleteUser);
+router.patch("/update/email/:email", updateUserByEmail);
 
 module.exports = router;
