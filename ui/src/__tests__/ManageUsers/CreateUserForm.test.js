@@ -51,7 +51,7 @@ describe("Testing CreateUser component", () => {
 
         // wait for validation to complete and display error message
         await waitFor(() => {
-            const errorMessage = screen.getByText("Email is required");
+            const errorMessage = screen.getByText("Please provide your email");
             expect(errorMessage).toBeInTheDocument();
         });
     });
@@ -95,12 +95,21 @@ describe("Testing CreateUser component", () => {
 
         // find the email required input field and set it to a valid value
         const emailRequiredInput = screen.getByLabelText("Email");
-        fireEvent.change(emailRequiredInput, { target: { value: "joe@gmail.com" } });
+        fireEvent.change(emailRequiredInput, {
+            target: { value: "joe@gmail.com" },
+        });
 
         // find the password required input field and set it to a valid value
         const passwordRequiredInput = screen.getByLabelText("Password");
         fireEvent.change(passwordRequiredInput, {
             target: { value: "Password%1" },
+        });
+
+        // find the password required input field and set it to a valid value
+        const githubUsernameRequiredInput =
+            screen.getByLabelText("GitHub Username");
+        fireEvent.change(githubUsernameRequiredInput, {
+            target: { value: "JoeAn" },
         });
 
         // find the submit button and click it
@@ -111,7 +120,12 @@ describe("Testing CreateUser component", () => {
         await waitFor(() => {
             expect(mockPost).toHaveBeenCalledWith(
                 "http://localhost:8000/management/users/create",
-                { name: "Joe An", email: "joe@gmail.com", password: "Password%1" }
+                {
+                    name: "Joe An",
+                    email: "joe@gmail.com",
+                    password: "Password%1",
+                    git_username: "JoeAn"
+                }
             );
         });
 

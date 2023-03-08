@@ -10,25 +10,23 @@ jest.mock("axios");
 
 // Begin describing the test suite
 describe("Testing Manageusers component", () => {
-
-    // Begin describing the individual test case
-    it("should render the manage users table with data", async () => {
-        
-        // Create mock data to be returned by axios
-        const mockData = [
-            {
-                _id: "1",
-                name: "John Doe",
-                email: "johndoe@example.com",
-                hasRole: "Manager",
-            },
-            {
-                _id: "2",
-                name: "Jane Doe",
-                email: "janedoe@example.com",
-                hasRole: "Developer",
-            },
-        ];
+  // Begin describing the individual test case
+  it("should render the manage users table with data", async () => {
+    // Create mock data to be returned by axios
+    const mockData = [
+        {
+            _id: "1",
+            name: "John Doe",
+            email: "johndoe@example.com",
+            hasRole: "Manager",
+        },
+        {
+            _id: "2",
+            name: "Jane Doe",
+            email: "janedoe@example.com",
+            hasRole: "Developer",
+        },
+    ];
 
         // Mock the response of axios with the mock data
         axios.get.mockResolvedValue({ data: mockData });
