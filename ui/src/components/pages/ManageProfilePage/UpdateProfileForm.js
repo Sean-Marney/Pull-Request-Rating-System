@@ -64,11 +64,11 @@ export default function UpdateProfile() {
   };
 
   const updateEditFormField = (e) => {
-    const { email, value } = e.target;
+    const { name, value } = e.target;
 
     setUpdateForm({
       ...updateForm,
-      [email]: value,
+      [name]: value,
     });
   };
 
@@ -122,6 +122,7 @@ export default function UpdateProfile() {
                 {error.name && <div style={{ color: "red" }}>{error.name}</div>}
               </div>
 
+              {/* email */}
               <div>
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
