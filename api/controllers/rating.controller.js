@@ -101,6 +101,9 @@ const createRating = async (req, res) => {
         //     .json({ message: "An error occurred while updating rating" });
         // }
 
+        // Calling the method getUserByPullRequestRating to update the users stars and totalStarsEarned
+        getUserByPullRequestRating(ratingSum, req.params.id);
+
         // Check if pull request was found
         if (result.nModified === 0) {
             return res
