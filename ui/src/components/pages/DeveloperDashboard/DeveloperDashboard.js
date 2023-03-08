@@ -1,6 +1,9 @@
 import React from "react";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import StarIcon from "@material-ui/icons/Stars";
+import TrophyIcon from "@material-ui/icons/EmojiEvents";
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   box: {
     height: "auto",
     flexShrink: 0,
-    width: `calc((70vw - ${theme.spacing(6)}px) / 3)`,
+    width: `calc((70vw - ${theme.spacing(10)}px) / 3)`,
     margin: theme.spacing(1),
     padding: theme.spacing(3),
     display: "flex",
@@ -37,11 +40,34 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     textAlign: "center",
   },
+  boxTitle2: {
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(4),
+    fontWeight: 600,
+    textAlign: "center",
+  },
   boxValue: {
     fontSize: "2rem",
     fontWeight: 700,
     textAlign: "center",
     wordWrap: "break-word",
+    paddingTop: theme.spacing(5),
+  },
+  boxValue2: {
+    fontSize: "2rem",
+    fontWeight: 700,
+    textAlign: "center",
+    wordWrap: "break-word",
+    paddingTop: theme.spacing(5),
+  },
+  icon1: {
+    paddingBottom: theme.spacing(4),
+    fontSize: "5.5rem",
+  },
+  icon2: {
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(5),
+    fontSize: "4.5rem",
   },
 }));
 
@@ -55,6 +81,7 @@ export default function DeveloperDashboard() {
       </Typography>
       <div className={classes.boxContainer}>
         <Paper elevation={3} className={classes.box}>
+          <StarIcon className={classes.icon1} />
           <Typography variant="h6" className={classes.boxTitle}>
             Current Star Count
           </Typography>
@@ -63,6 +90,7 @@ export default function DeveloperDashboard() {
           </Typography>
         </Paper>
         <Paper elevation={3} className={classes.box}>
+          <TrophyIcon className={classes.icon1} />
           <Typography variant="h6" className={classes.boxTitle}>
             Total Stars Achieved
           </Typography>
@@ -71,10 +99,11 @@ export default function DeveloperDashboard() {
           </Typography>
         </Paper>
         <Paper elevation={3} className={classes.box}>
-          <Typography variant="h6" className={classes.boxTitle}>
+          <GitHubIcon className={classes.icon2} />
+          <Typography variant="h6" className={classes.boxTitle2}>
             Status of Latest Pull Request
           </Typography>
-          <Typography variant="h4" className={classes.boxValue}>
+          <Typography variant="h4" className={classes.boxValue2}>
             Reviewed
           </Typography>
         </Paper>
