@@ -1,8 +1,7 @@
 const User = require("../models/user.model");
-
 exports.getLeaderboard = async (req, res) => {
     try {
-        const leaderboard = await User.find().sort({ stars: -1 }).limit(10).select("name stars");
+        const leaderboard = await User.find({ hasRole: "Developer" }).sort({ stars: -1 }).limit(10).select("name stars");
         res.json(leaderboard);
     } catch (err) {
         console.error(err.message);
