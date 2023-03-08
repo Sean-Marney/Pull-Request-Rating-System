@@ -3,9 +3,10 @@ const math = require("mathjs");
 const axios = require("axios");
 const User = require("../models/user.model");
 
+// This function updates a user's star and totalStarEarned count based on a rating given to one of their pull requests
 const getUserByPullRequestRating = async (ratingSum, id) => {
     try {
-        // Get user who's pull request is being rated
+        // Get rated pull request from the DB
         const pullRequest = await PullRequest.findById(id);
         if (!pullRequest) {
             return res
@@ -13,15 +14,17 @@ const getUserByPullRequestRating = async (ratingSum, id) => {
                 .json({ message: "Pull request with that ID not found" });
         }
 
+        // Get user whose pull request is being rated
         const user = await User.findById(pullRequest.user_id);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Update user object with added stars
+        // Calculating updatedStarCount and UpdatedTotalStarCount
         const updatedStarCount = user.stars + ratingSum;
         const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
 
+        // Updating user model fields stars and totalStarsEarned in DB
         await User.updateOne(
             { _id: user._id },
             {
