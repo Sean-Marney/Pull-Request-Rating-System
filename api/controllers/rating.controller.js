@@ -61,7 +61,9 @@ const createRating = async (req, res) => {
         }
       );
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res
+        .status(500)
+        .json({ message: "An error occurred while updating rating" });
     }
 
     // Check if pull request was found
