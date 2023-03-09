@@ -6,7 +6,7 @@ YupPassword(yup);
 export default yup.object().shape({
     name: yup
         .string()
-        .matches(/^[a-zA-Z ]*$/, "Please enter your full name")
+        .matches(/^[a-zA-Z ]*$/, "Full name may only contain letters")
         .strict()
         .required("Please enter your full name"),
     email: yup
@@ -14,19 +14,20 @@ export default yup.object().shape({
         .email("Please enter a valid email address")
         .matches(
             /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
-            "Please enter your email"
+            "Please enter a valid email address"
         )
-        .required("Email is required"),
+        .required("Please enter your email"),
     password: yup
         .string()
-        .min(8, "Password must be at least 8 characters long")
         .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
-            "Password must contain at least one uppercase letter, one lowercase letter, one number and one special case character"
+            "Password may only contain at least one uppercase letter, one lowercase letter, one number and one special case character"
         )
-        .required("Please provide a password"),
+        .required("Please provide a password")
+        .min(8, "Password must be at least 8 characters long")
+        .max(50, "Password must be max 50 characters long"),
     confirmPassword: yup
         .string()
         .oneOf([yup.ref("password"), null], "Passwords must match")
         .required("Confirm Password is required"),
-})
+});

@@ -9,7 +9,7 @@
     Stars,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link} from "react-router-dom";
 
 
 const Sidebar = ({ children, removeCookie }) => {
@@ -66,9 +66,10 @@ const Sidebar = ({ children, removeCookie }) => {
         <div className="container">
             <div style={{ width: "200px" }} className="sidebar">
                 <div className="top_section">
-                    <h1 style={{ display: "block" }} className="logo">
-                        GRAPHIUM
-                    </h1>
+                <Link to="/"
+                    className="link">
+                    <h1 style={{ display: "block" }} className="logo">GRAPHIUM</h1>
+                </Link>
                 </div>
                 {menuItem.map((item, index) => (
                     <NavLink
