@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Stars";
 import TrophyIcon from "@material-ui/icons/EmojiEvents";
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     transition: "transform 0.3s ease-in-out",
     "&:hover": {
       transform: "scale(1.05)",
+      boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.5)",
     },
   },
   boxTitle: {
@@ -48,20 +49,35 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     wordWrap: "break-word",
   },
+  boxDescription: {
+    paddingTop: theme.spacing(5),
+  },
   icon: {
     paddingBottom: theme.spacing(4),
     fontSize: "3.5rem",
+  },
+  progressBar: {
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: theme.palette.grey[300],
+    "& .MuiLinearProgress-bar": {
+      borderRadius: 5,
+      backgroundColor: "#ff6b6b",
+    },
   },
 }));
 
 export default function DeveloperDashboard() {
   const classes = useStyles();
+  const [hoveredBox, setHoveredBox] = useState(null);
+
   const [cookies] = useCookies();
   const [user, setUser] = useState();
   const [currentStarCount, setCurrentStarCount] = useState();
   const [totalStarsAchieved, setTotalStarsAchieved] = useState();
   const [latestPullRequestStatus, setLatestPullRequestStatus] = useState();
 
+  // Renders all data on page load
   useEffect(() => {
     getUserByEmail();
     getUsersCurrentStarCount();
@@ -78,14 +94,17 @@ export default function DeveloperDashboard() {
     setUser(res.data);
   };
 
+  // Gets user's current star count
   const getUsersCurrentStarCount = async () => {
     setCurrentStarCount(user.stars);
   };
 
+  // Gets user's total star count
   const getUsersTotalStarsAchieved = async () => {
     setTotalStarsAchieved(user.totalStarsEarned);
   };
 
+  // Gets status of user's most recent pull request
   const getUsersLatestPullRequestStatus = async () => {
     try {
       // Passes userId of currently logged in user to my API which gets their most recent pull request
@@ -123,33 +142,77 @@ export default function DeveloperDashboard() {
         Dashboard
       </Typography>
       <div className={classes.boxContainer}>
-        <Paper elevation={3} className={classes.box}>
-          <StarIcon className={classes.icon} />
-          <Typography variant="h6" className={classes.boxTitle}>
-            Current Star Count
-          </Typography>
-          <Typography variant="h4" className={classes.boxValue}>
-            {currentStarCount}
-          </Typography>
-        </Paper>
-        <Paper elevation={3} className={classes.box}>
-          <TrophyIcon className={classes.icon} />
-          <Typography variant="h6" className={classes.boxTitle}>
-            Total Stars Achieved
-          </Typography>
-          <Typography variant="h4" className={classes.boxValue}>
-            {totalStarsAchieved}
-          </Typography>
-        </Paper>
-        <Paper elevation={3} className={classes.box}>
-          <CalanderIcon className={classes.icon} />
-          <Typography variant="h6" className={classes.boxTitle}>
-            Status of Latest Pull Request
-          </Typography>
-          <Typography variant="h4" className={classes.boxValue}>
-            {latestPullRequestStatus}
-          </Typography>
-        </Paper>
+        <div>
+          <Paper
+            elevation={3}
+            className={classes.box}
+            // More information is displayed when user hovers over box
+            onMouseEnter={() => setHoveredBox("currentStarCount")}
+            onMouseLeave={() => setHoveredBox(null)}
+          >
+            <StarIcon className={classes.icon} />
+            <Typography variant="h6" className={classes.boxTitle}>
+              Current Star Count
+            </Typography>
+            <Typography variant="h4" className={classes.boxValue}>
+              {currentStarCount}
+            </Typography>
+            {/* Content displayed when hovering */}
+            {hoveredBox === "currentStarCount" && (
+              <Typography variant="body1" className={classes.boxDescription}>
+                Description of current star count
+              </Typography>
+            )}
+          </Paper>
+        </div>
+
+        <div>
+          <Paper
+            elevation={3}
+            className={classes.box}
+            // More information is displayed when user hovers over box
+            onMouseEnter={() => setHoveredBox("totalStarsAchieved")}
+            onMouseLeave={() => setHoveredBox(null)}
+          >
+            <TrophyIcon className={classes.icon} />
+            <Typography variant="h6" className={classes.boxTitle}>
+              Total Stars Achieved
+            </Typography>
+            <Typography variant="h4" className={classes.boxValue}>
+              {totalStarsAchieved}
+            </Typography>
+            {/* Content displayed when hovering */}
+            {hoveredBox === "totalStarsAchieved" && (
+              <Typography variant="body1" className={classes.boxDescription}>
+                Description of total stars achieved
+              </Typography>
+            )}
+          </Paper>
+        </div>
+
+        <div>
+          <Paper
+            elevation={3}
+            className={classes.box}
+            // More information is displayed when user hovers over box
+            onMouseEnter={() => setHoveredBox("latestPullRequestStatus")}
+            onMouseLeave={() => setHoveredBox(null)}
+          >
+            <CalanderIcon className={classes.icon} />
+            <Typography variant="h6" className={classes.boxTitle}>
+              Status of Latest Pull Request
+            </Typography>
+            <Typography variant="h4" className={classes.boxValue}>
+              {latestPullRequestStatus}
+            </Typography>
+            {/* Content displayed when hovering */}
+            {hoveredBox === "latestPullRequestStatus" && (
+              <Typography variant="body1" className={classes.boxDescription}>
+                Description of latest pull request status
+              </Typography>
+            )}
+          </Paper>
+        </div>
       </div>
     </div>
   );
