@@ -54,7 +54,7 @@ export default function SignIn() {
       if (response.data.token) {
         setCookie("token", response.data.token, { path: "/" });
         setCookie("role", response.data.hasRole, { path: "/" });
-        setCookie("user", user, { path: "/" });
+        setCookie("user", user.email, { path: "/" });
         navigate("/");
       }
     } catch (error) {
