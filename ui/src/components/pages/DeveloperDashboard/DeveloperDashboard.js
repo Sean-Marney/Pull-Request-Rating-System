@@ -83,10 +83,39 @@ export default function DeveloperDashboard() {
   };
 
   const getUsersTotalStarsAchieved = async () => {
-    setTotalStarsAchieved(user.totalStarsAchieved);
+    setTotalStarsAchieved(user.totalStarsEarned);
   };
 
-  const getUsersLatestPullRequestStatus = async () => {};
+  const getUsersLatestPullRequestStatus = async () => {
+    try {
+      // Passes userId of currently logged in user to my API which gets their most recent pull request
+      const res = await axios.get(
+        `http://localhost:8000/dashboard/recent-pull-request/${user._id}`
+      );
+
+      // Condition for if the user has not got a pull request stored in our database
+      if (!res.data) {
+        console.log(
+          "No pull requests were found on the system for user: " + user.name
+        );
+      }
+
+      const latestPullRequest = res.data;
+
+      if (latestPullRequest.rating_complete === true) {
+        // If the "rating_complete" value is true, this means the pull request has been reviewed
+        setLatestPullRequestStatus("Reviewed");
+      } else if (latestPullRequest.rating_complete === false) {
+        // If the "rating_complete" value is false, this means the pull request is pending a review
+        setLatestPullRequestStatus("Pending");
+      } else {
+        // Else, user has no pull requests in our system
+        setLatestPullRequestStatus("You Have No Pull Requests");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -109,7 +138,7 @@ export default function DeveloperDashboard() {
             Total Stars Achieved
           </Typography>
           <Typography variant="h4" className={classes.boxValue}>
-            250
+            {totalStarsAchieved}
           </Typography>
         </Paper>
         <Paper elevation={3} className={classes.box}>
@@ -118,7 +147,7 @@ export default function DeveloperDashboard() {
             Status of Latest Pull Request
           </Typography>
           <Typography variant="h4" className={classes.boxValue}>
-            Reviewed
+            {latestPullRequestStatus}
           </Typography>
         </Paper>
       </div>
