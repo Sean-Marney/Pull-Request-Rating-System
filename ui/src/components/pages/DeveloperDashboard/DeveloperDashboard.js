@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Stars";
 import TrophyIcon from "@material-ui/icons/EmojiEvents";
 import CalanderIcon from "@material-ui/icons/CalendarToday";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,12 +50,43 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     paddingBottom: theme.spacing(4),
-    fontSize: "5rem",
+    fontSize: "3.5rem",
   },
 }));
 
 export default function DeveloperDashboard() {
   const classes = useStyles();
+  const [cookies] = useCookies();
+  const [user, setUser] = useState();
+  const [currentStarCount, setCurrentStarCount] = useState();
+  const [totalStarsAchieved, setTotalStarsAchieved] = useState();
+  const [latestPullRequestStatus, setLatestPullRequestStatus] = useState();
+
+  useEffect(() => {
+    getUserByEmail();
+    getUsersCurrentStarCount();
+    getUsersTotalStarsAchieved();
+    getUsersLatestPullRequestStatus();
+  });
+
+  // Use email provided by cookie to get the whole user object for the user that is currently logged in
+  const getUserByEmail = async () => {
+    const res = await axios.get(
+      `http://localhost:8000/management/users/email/${cookies.user.email}`
+    );
+    // Set user object to state
+    setUser(res.data);
+  };
+
+  const getUsersCurrentStarCount = async () => {
+    setCurrentStarCount(user.stars);
+  };
+
+  const getUsersTotalStarsAchieved = async () => {
+    setTotalStarsAchieved(user.totalStarsAchieved);
+  };
+
+  const getUsersLatestPullRequestStatus = async () => {};
 
   return (
     <div className={classes.root}>
@@ -67,7 +100,7 @@ export default function DeveloperDashboard() {
             Current Star Count
           </Typography>
           <Typography variant="h4" className={classes.boxValue}>
-            100
+            {currentStarCount}
           </Typography>
         </Paper>
         <Paper elevation={3} className={classes.box}>
