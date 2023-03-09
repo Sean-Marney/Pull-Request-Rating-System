@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
         flexDirection: "row",
-        // marginTop: theme.spacing(3),
     },
     selectWrapper: {
         display: "flex",
@@ -70,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         flexBasis: "48%",
-        // backgroundColor: "#00ab84",
     },
 }));
 
@@ -92,10 +90,8 @@ const RepositoryList = () => {
     const [selectedPR, setSelectedPR] = useState(null);
     // Stores the filtered list
     const [filter, setFilter] = useState("pending");
-    // Stores the loading and non-loading state
+    // Stores the loading and non-loading state for loaders 
     const [loading, setLoading] = useState(false);
-
-    // Helper functions
 
     // Gets all pull requests across all repositories
     const getAllPullRequests = async () => {
@@ -327,8 +323,7 @@ const RepositoryList = () => {
                         />
                     )}
                 </div>
-            )  
-            }
+            )}
         </div>
     );
 };
