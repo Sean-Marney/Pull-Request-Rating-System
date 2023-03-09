@@ -78,6 +78,7 @@ export default function PullRequestRating(props) {
                 }
             );
             props.setSelectedPR(null);
+            props.reloadList();
         } catch (error) {
             console.log(error);
         }
@@ -117,11 +118,6 @@ export default function PullRequestRating(props) {
                         color="textSecondary"
                     >
                         {`Pull Request #${props.pullRequest.git_id} from ${props.pullRequest.repo}`}
-                    </Typography>
-                    <Typography>
-                        <a href={props.pullRequest.url} target={"_blank"}>
-                            View the pull request on Github
-                        </a>
                     </Typography>
                 </div>
                 <hr></hr>
