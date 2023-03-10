@@ -7,18 +7,16 @@
     History,
     Leaderboard,
     Stars,
+    Logout
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 import { NavLink, Link} from "react-router-dom";
 
 
 const Sidebar = ({ children, removeCookie }) => {
-    const navigate = useNavigate();
-
     function logout() {
         removeCookie("token", {path: "/"});
         removeCookie("role", { path: "/" });
-        navigate("/login");
+        removeCookie("user", { path: "/" });
     }
     const menuItem = [
         {
@@ -64,7 +62,7 @@ const Sidebar = ({ children, removeCookie }) => {
     ];
     return (
         <div className="container">
-            <div style={{ width: "200px" }} className="sidebar">
+            <div style={{ width: "200px", position:"fixed"}} className="sidebar">
                 <div className="top_section">
                 <Link to="/"
                     className="link">
@@ -84,9 +82,18 @@ const Sidebar = ({ children, removeCookie }) => {
                         </div>
                     </NavLink>
                 ))}
-                <button onClick={logout}>Logout</button>
+                <Link
+                    onClick={logout}
+                    to="/login"
+                    key="logout"
+                    className="link"
+                    activeclassName="active"
+                >
+                <div className="icon"><Logout/></div>
+                <div style={{ display: "block" }} className="link_text">Logout</div>  
+                </Link>
             </div>
-            <main>{children}</main>
+            <main style={{ marginLeft: "200px" }}>{children}</main>
         </div>
     );
 };
