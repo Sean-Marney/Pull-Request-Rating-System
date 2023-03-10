@@ -14,18 +14,18 @@ describe("Testing Manageusers component", () => {
   it("should render the manage users table with data", async () => {
     // Create mock data to be returned by axios
     const mockData = [
-      {
-        _id: "1",
-        name: "John Doe",
-        email: "johndoe@example.com",
-        hasRole: "Manager",
-      },
-      {
-        _id: "2",
-        name: "Jane Doe",
-        email: "janedoe@example.com",
-        hasRole: "Developer",
-      },
+        {
+            _id: "1",
+            name: "John Doe",
+            email: "johndoe@example.com",
+            hasRole: "Manager",
+        },
+        {
+            _id: "2",
+            name: "Jane Doe",
+            email: "janedoe@example.com",
+            hasRole: "Developer",
+        },
     ];
 
     // Mock the response of axios with the mock data

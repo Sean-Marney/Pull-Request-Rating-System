@@ -69,6 +69,7 @@ async function updatePullRequestsToDatabase(pullRequests) {
         });
         // If the pull request is not in the database, it adds it to the database
         if (needToAdd === true) {
+            console.log("Adding to database " + pullRequests[index].id);
             try {
                 // Converts the date string into a date object
                 let mergedDate = new Date(pullRequests[index].created_at);

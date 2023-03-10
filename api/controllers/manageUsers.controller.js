@@ -63,6 +63,7 @@ const createUser = async (req, res) => {
       email: req.body.email,
       password: await bcrypt.hash(req.body.password, 10),
       hasRole: "Developer",
+      git_username: req.body.git_username,
     });
     await user.save();
 
@@ -84,6 +85,8 @@ const updateUser = async (req, res) => {
     user.email = req.body.email;
     user.password = req.body.password;
     user.stars = req.body.stars;
+    user.totalStarsEarned = req.body.totalStarsEarned;
+    user.git_username = req.body.git_username;
     await user.save();
 
     res.status(200).json(user);

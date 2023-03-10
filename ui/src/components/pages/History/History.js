@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Ratings } from "./Ratings";
 import { PullRequestHistory } from "../History/PullRequestHistory";
+import { useCookies } from "react-cookie";
 import {
     Typography,
     Box,
@@ -30,6 +31,7 @@ function App() {
     const [ratings, setRatings] = useState([]);
     const [rated, setRated] = useState();
     const [selected, setSelected] = useState();
+    const [cookies] = useCookies();
     useEffect(() => {
         getPullRequests();
         setRated("blank");
@@ -39,7 +41,8 @@ function App() {
     // Gets the Pull Requests through calling api backend
     // TODO: Integrate with ID of user who is logged in
     const getPullRequests = async () => {
-        const res = await axios.get("http://localhost:8000/pullrequests/history/63f75d080a5710ca68ac2c63");
+        let email = cookies.user;
+        const res = await axios.get("http://localhost:8000/pullrequests/history/" + email.toLowerCase());
         setPullRequests(res.data);
     };
     
