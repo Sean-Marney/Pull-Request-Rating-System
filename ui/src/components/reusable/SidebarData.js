@@ -1,13 +1,13 @@
 ﻿import {
     AccessAlarm,
-    Assessment,
     Star,
     QuestionMark,
     DeveloperBoard,
     History,
     Leaderboard,
-    Stars,
-    Logout
+    Logout,
+    Dashboard,
+    LiveHelp
 } from "@mui/icons-material";
 import { NavLink, Link} from "react-router-dom";
 
@@ -22,7 +22,7 @@ const Sidebar = ({ children, removeCookie }) => {
         {
             path: "/",
             name: "Dashboard",
-            icon: <AccessAlarm />,
+            icon: <Dashboard />,
         },
         {
             path: "/rewards",
@@ -30,29 +30,14 @@ const Sidebar = ({ children, removeCookie }) => {
             icon: <Star />,
         },
         {
-            path: "/faq",
-            name: "FAQ",
-            icon: <QuestionMark />,
-        },
-        {
-            path: "/trackprogress",
-            name: "TrackProgress",
-            icon: <DeveloperBoard />,
-        },
-        {
             path: "/history",
             name: "History",
-            icon: <Assessment />,
-        },
-        {
-            path: "/merge",
-            name: "Merge",
             icon: <History />,
         },
         {
-            path: "/myrewards",
-            name: "My Rewards",
-            icon: <Stars />,
+            path: "/faq",
+            name: "FAQ",
+            icon: <LiveHelp />,
         },
         {
             path: "/Leaderboard",
