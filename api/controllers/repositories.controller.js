@@ -101,10 +101,10 @@ async function updatePullRequestsToDatabase(pullRequests) {
 }
 
 // Reads the userID from the git username
-// Reads the userID from the git username
 async function readUserID(gitUsername) {
     try {
         let user = await User.find({ git_username: gitUsername }, { _id: 1 });
+        if (user == undefined || user.length == 0) return undefined;
         return user[0]._id;
     } catch (error) {
         console.log(error);
@@ -132,6 +132,8 @@ async function changeName(pullRequests) {
         );
         if (user != undefined) {
             pullRequest.users_name = user.name;
+        }else{
+            pullRequest.users_name = pullRequest.user_id;
         }
     });
     return pullRequests;
