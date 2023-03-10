@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Typography, Tooltip } from "@material-ui/core";
+import { Paper, Typography, Tooltip, Link, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Stars";
 import TrophyIcon from "@material-ui/icons/EmojiEvents";
@@ -7,6 +7,7 @@ import CalanderIcon from "@material-ui/icons/CalendarToday";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +54,11 @@ const useStyles = makeStyles((theme) => ({
     wordWrap: "break-word",
   },
   boxDescription: {
-    paddingTop: theme.spacing(5),
+    paddingTop: theme.spacing(3),
+  },
+  boxDescription2: {
+    paddingTop: theme.spacing(3),
+    color: "#FF3333",
   },
   icon: {
     paddingBottom: theme.spacing(4),
@@ -90,7 +95,7 @@ export default function DeveloperDashboard() {
     getUsersCurrentStarCount();
     getUsersTotalStarsAchieved();
     getUsersLatestPullRequestStatus();
-  });
+  }, [user]);
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
   const getUserByEmail = async () => {
@@ -269,7 +274,29 @@ export default function DeveloperDashboard() {
             {/* Content displayed when hovering */}
             {hoveredBox === "latestPullRequestStatus" && (
               <Typography variant="body1" className={classes.boxDescription}>
-                Click here to view your latest pull request
+                <Link href={latestPullRequest.url}>
+                  View pull request on GitHub
+                </Link>
+                <Box>
+                  <Typography
+                    variant="body1"
+                    className={classes.boxDescription}
+                  >
+                    <b>Pull Request:</b> {latestPullRequest.title}
+                  </Typography>
+                  <Typography>
+                    <b>From Repository:</b> {latestPullRequest.repo}
+                  </Typography>
+                  <i>
+                    <Typography className={classes.boxDescription2}>
+                      {latestPullRequest.rating_complete
+                        ? "You earned " +
+                          latestPullRequest.ratings.overall +
+                          " stars from this pull request"
+                        : "Pull request has not been reviewed yet"}
+                    </Typography>
+                  </i>
+                </Box>
               </Typography>
             )}
           </Paper>
