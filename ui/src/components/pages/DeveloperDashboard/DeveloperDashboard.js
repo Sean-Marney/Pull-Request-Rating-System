@@ -7,7 +7,6 @@ import CalanderIcon from "@material-ui/icons/CalendarToday";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
   },
   boxDescription2: {
     paddingTop: theme.spacing(3),
-    color: "#FF3333",
+    color: "#b30000",
+    fontWeight: "bold",
   },
   icon: {
     paddingBottom: theme.spacing(4),
@@ -167,6 +167,7 @@ export default function DeveloperDashboard() {
             <Typography variant="h6" className={classes.boxTitle}>
               Current Star Count
               <Tooltip
+                // Description box appears when user hovers over info icon
                 title={
                   <div className={classes.infoBox}>
                     <Typography variant="body2">
@@ -208,6 +209,7 @@ export default function DeveloperDashboard() {
             <Typography variant="h6" className={classes.boxTitle}>
               Total Stars Achieved
               <Tooltip
+                // Description box appears when user hovers over info icon
                 title={
                   <div className={classes.infoBox}>
                     <Typography variant="body2">
@@ -249,6 +251,7 @@ export default function DeveloperDashboard() {
             <Typography variant="h6" className={classes.boxTitle}>
               Status of Latest Pull Request
               <Tooltip
+                // Description box appears when user hovers over info icon
                 title={
                   <div className={classes.infoBox}>
                     <Typography variant="body2">
@@ -274,7 +277,11 @@ export default function DeveloperDashboard() {
             {/* Content displayed when hovering */}
             {hoveredBox === "latestPullRequestStatus" && (
               <Typography variant="body1" className={classes.boxDescription}>
-                <Link href={latestPullRequest.url}>
+                <Link
+                  href={latestPullRequest.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   View pull request on GitHub
                 </Link>
                 <Box>
