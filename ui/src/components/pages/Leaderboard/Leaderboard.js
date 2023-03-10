@@ -26,7 +26,7 @@ function Leaderboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/leaderboard")
+      .get("http://localhost:8000/management/leaderboard")
       .then((res) => setLeaderboardData(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -41,7 +41,7 @@ function Leaderboard() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Stars</TableCell>
+              <TableCell>Total Stars Earned</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
