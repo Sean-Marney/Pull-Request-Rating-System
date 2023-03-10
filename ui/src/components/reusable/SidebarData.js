@@ -57,7 +57,7 @@ const Sidebar = ({ children, removeCookie }) => {
             icon: <Stars />,
         },
         {
-            path: "/Leaderboard",
+            path: "/management/Leaderboard",
             name: "Leaderboard",
             icon: <Leaderboard />,
         },

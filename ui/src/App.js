@@ -37,12 +37,21 @@ const App = () => {
             <Route path="/" element={<ManagerDashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/Leaderboard" element={<Leaderboard />} />
+            
             <Route path="/history" element={<History />} />
             <Route
               path="/management/repositories/rating"
               element={<PullRequestRating />}
             />
+            <Route 
+              path="/management/Leaderboard" 
+              element={
+                <ProtectedRoute token={cookies.token} role={cookies.role}>
+                  {" "}
+                <Leaderboard />
+                </ProtectedRoute>
+              } 
+              />
             <Route
               path="/management/users"
               element={
