@@ -1,8 +1,8 @@
-const User = require("../models/user.model");
 
+const User = require("../models/user.model");
 exports.getLeaderboard = async (req, res) => {
   try {
-    const leaderboard = await User.find()
+    const leaderboard = await User.find({ hasRole: "Developer" })
       .sort({ totalStarsEarned: -1 })
       .limit(10)
       .select("name totalStarsEarned");

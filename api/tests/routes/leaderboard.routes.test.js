@@ -11,6 +11,6 @@ describe('Leaderboard API', () => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
         expect(res.body[0]).to.have.property('name');
-        expect(res.body[0]).to.have.property('stars');
+        expect(res.body[0]).to.have.property('totalStarsEarned');
     });
 });
