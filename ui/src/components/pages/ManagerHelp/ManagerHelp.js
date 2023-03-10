@@ -4,22 +4,17 @@ import axios from 'axios';
 
 const ManagerHelp = () => {
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            alert('Invalid email address');
-            return;
-        }
+        
         const formData = {
             name,
-            email,
+            
             message,
         };
-        axios.post('http://localhost:8000/send-email', formData)
+        axios.post('http://localhost:8000/management/ManagerHelp', formData)
             .then((response) => {
                 if (response.status === 200) {
                     alert('Email sent successfully');
@@ -37,7 +32,7 @@ const ManagerHelp = () => {
     return (
         <div className="cForm">
             <Typography gutterBottom variant="h3" align="center">
-                React-App
+                Manager Help
             </Typography>
             <Grid>
                 <Card style={{ maxWidth: 450, padding: "20px 5px", margin: "0 auto" }}>
@@ -52,10 +47,6 @@ const ManagerHelp = () => {
                             <Grid container spacing={1}>
                                 <Grid item xs={12}>
                                     <TextField placeholder="Enter first name" label="Name" value={name} variant="outlined" onChange={(event) => setName(event.target.value)} fullWidth required />
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <TextField label="Email" multiline rows={4} placeholder="Type your email here" value={email} variant="outlined" onChange={(event) => setEmail(event.target.value)} fullWidth required />
                                 </Grid>
 
                                 <Grid item xs={12}>

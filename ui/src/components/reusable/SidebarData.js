@@ -56,7 +56,7 @@ const Sidebar = ({ children, removeCookie }) => {
             icon: <Stars />,
         },
         {
-            path: "/managerhelp",
+            path: "/management/ManagerHelp",
             name: "ManagerHelp",
             icon: <Help />,
         },

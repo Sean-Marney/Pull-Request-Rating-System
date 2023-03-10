@@ -10,7 +10,7 @@ const rewardsRoute = require("./routes/rewards.routes");
 const repositoriesRoute = require("./routes/repositories.routes");
 const historyRoute = require("./routes/history.routes");
 const userRoute = require("./routes/user.routes");
-
+const emailRouter = require("./routes/ManagerHelp.routes");
 const app = express();
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
@@ -33,26 +33,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-app.post('/send-email', (req, res) => {
-    const { name, email, message } = req.body;
 
-    const mailOptions = {
-        from: email,
-        to: 'tinmsipa2@gmail.com',
-        subject: 'New Contact Form Submission',
-        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-            res.status(500).send('Error sending email');
-        } else {
-            console.log('Email sent: ' + info.response);
-            res.status(200).send('Email sent');
-        }
-    });
-});
 
 
 
@@ -81,6 +62,9 @@ app.use("/management/rewards", rewardsRoute);
 app.use("/rewards", rewardsRoute);
 app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
+
+app.post("/management/ManagerHelp", emailRouter);
+
 
 // setting up port
 const PORT = process.env.PORT || 8000;

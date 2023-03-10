@@ -28,7 +28,7 @@ const App = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                         <Route path="/history" element={<History />} />
-                        <Route path="/ManagerHelp" element={<ManagerHelp />} />
+                        
                     <Route
                         path="/management/users"
                         element={
@@ -41,6 +41,18 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                     path="/management/ManagerHelp" 
+                     element={
+                        <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                     <ManagerHelp />
+                     </ProtectedRoute>
+                    } 
+                     />
                     <Route
                         path="/management/users/create"
                         element={
