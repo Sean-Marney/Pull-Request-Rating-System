@@ -93,7 +93,7 @@ export default function Rewards() {
   const getStars = async () => {
     // Get user object via getUserByEmail method
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user.email}`
+      `http://localhost:8000/management/users/email/${cookies.user}`
     );
 
     // Set the star count
@@ -104,7 +104,7 @@ export default function Rewards() {
   const claimReward = async (reward) => {
     // Gets user object via getUserByEmail method (uses email stored in cookies)
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user.email}`
+      `http://localhost:8000/management/users/email/${cookies.user}`
     );
     // Sets response data to user
     const user = res.data;
