@@ -43,7 +43,7 @@ app.use("/management/users", userRoute);
 app.use("/management/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
-app.get("/leaderboard", leaderboardRoute);
+app.get("/management/Leaderboard", leaderboardRoute);
 app.get("/requests", managerDashboardRoute);
 app.get("/archived-rewards", managerDashboardRoute);
 // setting up port

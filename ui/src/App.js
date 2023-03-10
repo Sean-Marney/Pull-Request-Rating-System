@@ -25,7 +25,7 @@ import UpdateFAQs from "./components/pages/ManageFAQ/UpdateFAQForm";
 import ClaimedRewards from "./components/pages/ClaimedRewards/ClaimedRewards";
 import ArchivedRewards from "./components/pages/ClaimedRewards/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const App = () => {
@@ -39,12 +39,21 @@ const App = () => {
             <Route path="/management" element={<ManagerDashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/Leaderboard" element={<Leaderboard />} />
+            
             <Route path="/history" element={<History />} />
             <Route
               path="/management/repositories/rating"
               element={<PullRequestRating />}
             />
+            <Route 
+              path="/management/Leaderboard" 
+              element={
+                <ProtectedRoute token={cookies.token} role={cookies.role}>
+                  {" "}
+                <Leaderboard />
+                </ProtectedRoute>
+              } 
+              />
             <Route
               path="/management/users"
               element={
@@ -120,7 +129,7 @@ const App = () => {
             <Route path="/rewards" element={<Rewards />} />
             <Route path="/FAQ" element={<FAQ />} />
             <Route
-              path="/management/manageFaqs"
+              path="/management/faqs"
               element={
                 <ProtectedRoute token={cookies.token} role={cookies.role}>
                   {" "}
@@ -179,6 +188,7 @@ const App = () => {
       )}
       {!cookies.token && (
         <Routes>
+          <Route path="" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
