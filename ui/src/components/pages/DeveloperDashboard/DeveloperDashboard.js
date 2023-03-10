@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Stars";
 import TrophyIcon from "@material-ui/icons/EmojiEvents";
 import CalanderIcon from "@material-ui/icons/CalendarToday";
+import InfoOutlinedIcon from "@material-ui/icons/Info";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   box: {
+    backgroundColor: "#eaeaea",
     height: "auto",
     flexShrink: 0,
     width: `calc((70vw - ${theme.spacing(6)}px) / 3)`,
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boxTitle: {
     marginBottom: theme.spacing(1),
+    marginLeft: theme.spacing(4),
     fontWeight: 600,
     textAlign: "center",
   },
@@ -56,14 +59,17 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
     fontSize: "3.5rem",
   },
-  progressBar: {
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: theme.palette.grey[300],
-    "& .MuiLinearProgress-bar": {
-      borderRadius: 5,
-      backgroundColor: "#ff6b6b",
+  infoIcon: {
+    marginLeft: theme.spacing(2),
+    cursor: "default",
+    color: "#2196f3",
+    transition: "opacity 0.3s ease-in-out",
+    "&:hover": {
+      opacity: 0.8,
     },
+  },
+  infoBox: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -76,6 +82,7 @@ export default function DeveloperDashboard() {
   const [currentStarCount, setCurrentStarCount] = useState();
   const [totalStarsAchieved, setTotalStarsAchieved] = useState();
   const [latestPullRequestStatus, setLatestPullRequestStatus] = useState();
+  const [latestPullRequest, setLatestPullRequest] = useState();
 
   // Renders all data on page load
   useEffect(() => {
@@ -88,7 +95,7 @@ export default function DeveloperDashboard() {
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
   const getUserByEmail = async () => {
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user.email}`
+      `http://localhost:8000/management/users/email/${cookies.user}`
     );
     // Set user object to state
     setUser(res.data);
@@ -119,7 +126,8 @@ export default function DeveloperDashboard() {
         );
       }
 
-      const latestPullRequest = res.data;
+      // Storing pull request to state so more information can be displayed in the description
+      setLatestPullRequest(res.data);
 
       if (latestPullRequest.rating_complete === true) {
         // If the "rating_complete" value is true, this means the pull request has been reviewed
@@ -153,6 +161,23 @@ export default function DeveloperDashboard() {
             <StarIcon className={classes.icon} />
             <Typography variant="h6" className={classes.boxTitle}>
               Current Star Count
+              <Tooltip
+                title={
+                  <div className={classes.infoBox}>
+                    <Typography variant="body2">
+                      This is the number of stars you have available to spend on
+                      rewards
+                      <br /> <br />
+                      Visit the rewards page to claim a reward
+                    </Typography>
+                  </div>
+                }
+                placement="right"
+              >
+                <span className={classes.infoIcon}>
+                  <InfoOutlinedIcon />
+                </span>
+              </Tooltip>
             </Typography>
             <Typography variant="h4" className={classes.boxValue}>
               {currentStarCount}
@@ -177,6 +202,23 @@ export default function DeveloperDashboard() {
             <TrophyIcon className={classes.icon} />
             <Typography variant="h6" className={classes.boxTitle}>
               Total Stars Achieved
+              <Tooltip
+                title={
+                  <div className={classes.infoBox}>
+                    <Typography variant="body2">
+                      This is the number of stars you have achieved in total
+                      <br /> <br />
+                      Your manager can view your total stars on their
+                      leaderboard page
+                    </Typography>
+                  </div>
+                }
+                placement="right"
+              >
+                <span className={classes.infoIcon}>
+                  <InfoOutlinedIcon />
+                </span>
+              </Tooltip>
             </Typography>
             <Typography variant="h4" className={classes.boxValue}>
               {totalStarsAchieved}
@@ -201,6 +243,25 @@ export default function DeveloperDashboard() {
             <CalanderIcon className={classes.icon} />
             <Typography variant="h6" className={classes.boxTitle}>
               Status of Latest Pull Request
+              <Tooltip
+                title={
+                  <div className={classes.infoBox}>
+                    <Typography variant="body2">
+                      This is the status of your most recently submitted pull
+                      request on GitHub
+                      <br /> <br />
+                      It will display a status of 'Reviewed' if your pull
+                      request has been rated, or 'Pending' if it hasn't been
+                      rated yet
+                    </Typography>
+                  </div>
+                }
+                placement="right"
+              >
+                <span className={classes.infoIcon}>
+                  <InfoOutlinedIcon />
+                </span>
+              </Tooltip>
             </Typography>
             <Typography variant="h4" className={classes.boxValue}>
               {latestPullRequestStatus}
@@ -208,7 +269,7 @@ export default function DeveloperDashboard() {
             {/* Content displayed when hovering */}
             {hoveredBox === "latestPullRequestStatus" && (
               <Typography variant="body1" className={classes.boxDescription}>
-                Description of latest pull request status
+                Click here to view your latest pull request
               </Typography>
             )}
           </Paper>

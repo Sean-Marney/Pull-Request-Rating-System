@@ -62,7 +62,7 @@ export default function Rewards() {
   const [cookies] = useCookies();
   const [rewards, setRewards] = useState(null);
   const [stars, setStars] = useState(null);
-  const [remainingStarsForReward, setremainingStarsForReward] = useState({});
+  const [remainingStarsForReward, setRemainingStarsForReward] = useState({});
 
   // Gets rewards and stars on page load
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function Rewards() {
 
     // Set to state
     setRewards(res.data);
-    setremainingStarsForReward(remainingStarsData);
+    setRemainingStarsForReward(remainingStarsData);
   };
 
   // Gets user's star count
