@@ -38,12 +38,7 @@ const Sidebar = ({ children, removeCookie }) => {
             path: "/faq",
             name: "FAQ",
             icon: <LiveHelp />,
-        },
-        {
-            path: "/Leaderboard",
-            name: "Leaderboard",
-            icon: <Leaderboard />,
-        },
+        }
     ];
     return (
         <div className="container">
