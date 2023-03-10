@@ -66,7 +66,7 @@ const Sidebar = ({ children, removeCookie }) => {
                 <div className="top_section">
                 <Link to="/"
                     className="link">
-                    <h1 style={{ display: "block" }} className="logo">GRAPHIUM</h1>
+                    <h1 style={{ display: "block" }} className="logo">PullMaster.io</h1>
                 </Link>
                 </div>
                 {menuItem.map((item, index) => (
