@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#eaeaea",
     height: "auto",
     flexShrink: 0,
-    width: `calc((70vw - ${theme.spacing(6)}px) / 3)`,
+    width: `calc((65vw - ${theme.spacing(6)}px) / 3)`,
     margin: theme.spacing(1),
     padding: theme.spacing(3),
     display: "flex",
@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
   },
   boxTitle: {
     marginBottom: theme.spacing(1),
-    marginLeft: theme.spacing(4),
     fontWeight: 600,
     textAlign: "center",
   },
@@ -51,18 +50,21 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     textAlign: "center",
     wordWrap: "break-word",
+    marginLeft: theme.spacing(4),
   },
   boxDescription: {
     paddingTop: theme.spacing(3),
+    textAlign: "center",
   },
   boxDescription2: {
     paddingTop: theme.spacing(3),
     color: "#b30000",
     fontWeight: "bold",
+    textAlign: "center",
   },
   icon: {
-    paddingBottom: theme.spacing(4),
-    fontSize: "3.5rem",
+    paddingBottom: theme.spacing(1.5),
+    fontSize: "2.5rem",
   },
   infoIcon: {
     marginLeft: theme.spacing(2),
@@ -166,6 +168,9 @@ export default function DeveloperDashboard() {
             <StarIcon className={classes.icon} />
             <Typography variant="h6" className={classes.boxTitle}>
               Current Star Count
+            </Typography>
+            <Typography variant="h4" className={classes.boxValue}>
+              {currentStarCount}
               <Tooltip
                 // Description box appears when user hovers over info icon
                 title={
@@ -184,9 +189,6 @@ export default function DeveloperDashboard() {
                   <InfoOutlinedIcon />
                 </span>
               </Tooltip>
-            </Typography>
-            <Typography variant="h4" className={classes.boxValue}>
-              {currentStarCount}
             </Typography>
             {/* Content displayed when hovering */}
             {hoveredBox === "currentStarCount" && (
@@ -208,6 +210,9 @@ export default function DeveloperDashboard() {
             <TrophyIcon className={classes.icon} />
             <Typography variant="h6" className={classes.boxTitle}>
               Total Stars Achieved
+            </Typography>
+            <Typography variant="h4" className={classes.boxValue}>
+              {totalStarsAchieved}
               <Tooltip
                 // Description box appears when user hovers over info icon
                 title={
@@ -226,9 +231,6 @@ export default function DeveloperDashboard() {
                   <InfoOutlinedIcon />
                 </span>
               </Tooltip>
-            </Typography>
-            <Typography variant="h4" className={classes.boxValue}>
-              {totalStarsAchieved}
             </Typography>
             {/* Content displayed when hovering */}
             {hoveredBox === "totalStarsAchieved" && (
@@ -249,7 +251,10 @@ export default function DeveloperDashboard() {
           >
             <CalanderIcon className={classes.icon} />
             <Typography variant="h6" className={classes.boxTitle}>
-              Status of Latest Pull Request
+              Latest Pull Request
+            </Typography>
+            <Typography variant="h4" className={classes.boxValue}>
+              {latestPullRequestStatus}
               <Tooltip
                 // Description box appears when user hovers over info icon
                 title={
@@ -270,9 +275,6 @@ export default function DeveloperDashboard() {
                   <InfoOutlinedIcon />
                 </span>
               </Tooltip>
-            </Typography>
-            <Typography variant="h4" className={classes.boxValue}>
-              {latestPullRequestStatus}
             </Typography>
             {/* Content displayed when hovering */}
             {hoveredBox === "latestPullRequestStatus" && (
