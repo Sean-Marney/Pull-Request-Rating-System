@@ -7,6 +7,10 @@ import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import Skeleton from "@mui/material/Skeleton";
 import Paper from "@mui/material/Paper";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SyncLockIcon from '@mui/icons-material/SyncLock';
+import EditIcon from '@mui/icons-material/Edit';
+import Card from '@mui/material/Card';
 import Container from "@mui/material/Container";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
@@ -32,6 +36,7 @@ export default function ManageProfiles() {
   };
   return (
     <div>
+      <Container>
       <Box padding={3}>
         <h2>Profile</h2>
       </Box>
@@ -39,37 +44,63 @@ export default function ManageProfiles() {
         <div>
           <Stack direction="row" spacing={2}>
             <Avatar />
-            <Paper width={800} height={160}>
-              <h4>Name : {user.name}</h4>
-              <h4>Role : {user.hasRole}</h4>
-              <h4>Email : {user.email}</h4>
-              <h4>Total stars Recived : {user.stars}</h4>
-            </Paper>
+            <Card >
+              <h3>Name : {user.name}</h3>
+              <h3>Role : {user.hasRole}</h3>
+              <h3>Email : {user.email}</h3>
+              <h3>Total stars Recived : {user.stars}</h3>
+            </Card>
           </Stack>
 
           {/* bio */}
-          <Box padding={3}>
-        <h4>Bio</h4>
-        <Skeleton variant="rectangular" width={800} height={160} />
-        {/* Bio box */}
-        <box>
-        <h4>Bio : {user.bio}</h4>
-        </box>
-        <Button onClick={() => navigate("/profile/update")}>
-          Edit Profile
-        </Button>
+        <Card  
+        component="div"
+        sx={{
+          whiteSpace: 'normal',
+          my: 2,
+          p: 1,
+          orientation: 'vertical',
+          // maxWidth: '100%', 
+          overflow: 'auto',
+          bgcolor: (theme) =>
+            theme.palette.mode === 'white' ? '#101010' : 'white.100',
+          color: (theme) =>
+            theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800',
+          borderRadius: 2,
+          fontSize: '0.975rem',
+          fontWeight: '700',
+        }}
+        >
+        <h3>Bio :</h3> 
+        {user.bio}
+        </Card>
 
         {/* rewards */}
-        <h4>Rewards Gotten</h4>
-      <Button onClick={() => navigate("/profile/password")}>
+        <Card>
+          <h4>Rewards Gotten</h4>
+          table
+        </Card>
+
+        {/* Edit button  */}
+        <Button onClick={() => navigate("/profile/update")} startIcon={<EditIcon />}>
+          Edit Profile
+        </Button>
+       
+       {/* Change password button  */}
+      <Button onClick={() => navigate("/profile/password")} startIcon={<SyncLockIcon />}>
         Change password
       </Button>
-      <Button  onClick={() => navigate("/login")} style={{ color: "red" }}>
+      <br></br>
+
+      {/* delete account button  */}
+      <Button  onClick={() => navigate("/login")} startIcon={<DeleteIcon />} style={{ color: "red" }}>
         Delete Account
       </Button>
-      </Box>
+      {/* </Stack> */}
+      {/* </Box> */}
         </div>
       )}
+      </Container>
     </div>
   );
 }

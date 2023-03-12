@@ -168,7 +168,7 @@ export default function UpdatePassword() {
                     variant="contained"
                     color="primary"
                   >
-                    Update Bio
+                    Update Password
                   </Button>
                 </div>
               </form>
