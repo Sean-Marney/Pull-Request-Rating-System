@@ -5,23 +5,23 @@ import PullRequestRating from "./components/pages/Repositories/PullRequestRating
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import "./App.css";
 import Sidebar from "./components/reusable/SidebarData";
-import Dashboard from "./components/pages/Dashboard/Dashboard";
+import Dashboard from "./components/pages/ManagerDashboard/ManagerDashboard";
 import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
-import ManageRewards from "./components/pages/ManageRewardsPage/ManageRewards";
-import ManageUsers from "./components/pages/ManageUsersPage/ManageUsers";
-import CreateUser from "./components/pages/ManageUsersPage/CreateUserForm";
-import UpdateUser from "./components/pages/ManageUsersPage/UpdateUserForm";
-import CreateReward from "./components/pages/ManageRewardsPage/CreateRewardForm";
-import UpdateReward from "./components/pages/ManageRewardsPage/UpdateRewardForm";
-import Rewards from "./components/pages/RewardsPage/Rewards";
+import ManageRewards from "./components/pages/ManageRewards/ManageRewards";
+import ManageUsers from "./components/pages/ManageUsers/ManageUsers";
+import CreateUser from "./components/pages/ManageUsers/CreateUserForm";
+import UpdateUser from "./components/pages/ManageUsers/UpdateUserForm";
+import CreateReward from "./components/pages/ManageRewards/CreateRewardForm";
+import UpdateReward from "./components/pages/ManageRewards/UpdateRewardForm";
+import Rewards from "./components/pages/Rewards/Rewards";
 import Repositories from "./components/pages/Repositories/Repositories";
-import ManageProfiles from "./components/pages/ProfilePage/Profile";
-import UpdatePassword from "./components/pages/ManageProfilePage/UpdatePasswordForm"
-import UpdateProfile from "./components/pages/ManageProfilePage/UpdateProfileForm"
-import ClaimedRewards from "./components/pages/ClaimedRewardsPage/ClaimedRewards";
-import ArchivedRewards from "./components/pages/ClaimedRewardsPage/ArchivedRewards";
+import ManageProfiles from "./components/pages/Profile/Profile";
+import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm"
+import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm"
+import ClaimedRewards from "./components/pages/ClaimedRewards/ClaimedRewards";
+import ArchivedRewards from "./components/pages/ClaimedRewards/ArchivedRewards";
 
 
 const App = () => {

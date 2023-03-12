@@ -122,10 +122,8 @@ export default function CreateReward() {
                   <div className={classes.error}>{error.rewardName}</div>
                 )}
               </div>
-              <div className={classes.inputGroup}>
-                <InputLabel htmlFor="starsRequired" className={classes.label}>
-                  Stars Required
-                </InputLabel>
+              <div>
+                <InputLabel htmlFor="starsRequired">Stars Required</InputLabel>
                 <Input
                   onChange={updateCreateFormField}
                   value={createForm.starsRequired}
@@ -159,3 +157,4 @@ export default function CreateReward() {
     </div>
   );
 }
+
