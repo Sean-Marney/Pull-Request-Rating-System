@@ -122,19 +122,13 @@ const updateUserByEmail = async (req, res) => {
         .status(404)
         .json({ message: "User with that email was not found" });
     }
-    console.log(user);
-    console.log("Editing this user")
-
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log(hashedPassword);
-
 
     user.name = req.body.name;
     user.email = req.body.email;
     user.bio = req.body.bio;
-    user.password = hashedPassword;
-    user.stars = user.stars;
-    user.git_username = user.git_username;
+    // user.password =  user.password;
+    // user.stars = user.stars;
+    // user.git_username = user.git_username;
 
     await user.save();
 
