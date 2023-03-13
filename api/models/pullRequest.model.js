@@ -9,15 +9,15 @@ const PullRequestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  assignee: {
-    type: String,
-    required: true,
-  },
   user_id: {
     type: String,
     required: true,
   },
   title: {
+    type: String,
+    required: true,
+  },
+  repo: {
     type: String,
     required: true,
   },
@@ -31,7 +31,11 @@ const PullRequestSchema = new mongoose.Schema({
   },
   ratings: {
     type: Object,
-    required: true,
+    required: false,
+  },
+  users_name: {
+    type: String,
+    required: false,
   },
 });
 

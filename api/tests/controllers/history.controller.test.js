@@ -1,46 +1,64 @@
-const expect = require("chai").expect;
-const sinon = require("sinon");
-const PullRequest = require("../../models/pullRequest.model");
-const {getPullRequestsForUser} = require("../../controllers/history.controller");
-const app = require("../../index");
-const chai = require("chai");
-const chaiHttp = require("chai-http");
+const sinon = require('sinon');
+const chai = require('chai');
+const { expect } = chai;
+const PullRequest = require('../../models/pullRequest.model');
+const User = require('../../models/user.model');
+const { getPullRequestsForUser } = require('../../controllers/pullRequestHistory.controller');
 
-chai.use(chaiHttp);
-chai.should();
 
-describe("GET all pull requests for a user", () => {
-  let pullRequests;
+describe('getPullRequestsForUser', () => {
+  it('should return an array of pull requests', async () => {
+    const parameter = { id: 'test@example.com' };
+    const user = { _id: '1' };
+    const pullRequests = [{id:"1"}, {id:"2"}, {id:"3"}];
+    const sortByDate = { date: -1 };
 
-  beforeEach(() => {
-    mockPullRequests = [
-      {_id:"1",url:"https://git.cardiff.ac.uk/",assignee:"Owain Lansdowne",user_id:"1",rating_complete:true,ratings:{overall:15,code_quality:5,following_naming_convention:5,bug_free:5,additional_innovation:5,code_readibility:5},date:"2022-02-16T00:00:00.000+00:00",title:"Nav Bar has been fixed"},
-      {_id:"2",url:"https://git.cardiff.ac.uk/",assignee:"Owain Lansdowne",user_id:"1",rating_complete:true,ratings:{overall:15,code_quality:5,following_naming_convention:5,bug_free:5,additional_innovation:5,code_readibility:5},date:"2022-02-16T00:00:00.000+00:00",title:"Nav Bar has been fixed"},
-      {_id:"3",url:"https://git.cardiff.ac.uk/",assignee:"Owain Lansdowne",user_id:"2",rating_complete:true,ratings:{overall:15,code_quality:5,following_naming_convention:5,bug_free:5,additional_innovation:5,code_readibility:5},date:"2022-02-16T00:00:00.000+00:00",title:"Nav Bar has been fixed"},
-      {_id:"4",url:"https://git.cardiff.ac.uk/",assignee:"Owain Lansdowne",user_id:"3",rating_complete:true,ratings:{overall:15,code_quality:5,following_naming_convention:5,bug_free:5,additional_innovation:5,code_readibility:5},date:"2022-02-16T00:00:00.000+00:00",title:"Nav Bar has been fixed"}
-    ];
-    sinon.stub(PullRequest, "find").resolves(mockPullRequests);
-  });
+    // Create stubs for User and PullRequest methods
+    const findUserStub = sinon.stub(User, 'findOne').returns(user);
+    const findPullRequestStub = sinon.stub(PullRequest, 'find').returns({
+      sort: sinon.stub().withArgs(sortByDate).returns(pullRequests)
+    });
 
-  afterEach(() => {
-    PullRequest.find.restore();
-  });
-
-  it("should return a 200 status code", async () => {
-    const req = { params: { id: "1" } };;
+    const req = { params: parameter };
     const res = {
-      status: sinon.stub().returns({ json: sinon.stub() }),
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub()
     };
-    await getPullRequestsForUser(req, res);    
-    expect(res.status.calledWith(200)).to.be.true;
-  });
-  it("should return 2 pull requests for user 1", async () => {
-    const req = { params: { id: "1" } };;
-    const res = {
-      status: sinon.stub().returns({ json: sinon.stub() }),
-    };
-    await getPullRequestsForUser(req, res);   
-    expect(res.status().json.calledWith(mockPullRequests)).to.be.true; 
-  });
 
-} );  
+    // Call the getPullRequestsForUser function
+    await getPullRequestsForUser(req, res);
+
+    // The tests
+    expect(findUserStub.calledOnceWith({ email: parameter.id }, { _id: 1 })).to.be.true;
+    expect(findPullRequestStub.calledOnceWith({ user_id: user._id })).to.be.true;
+    expect(res.status.calledOnceWith(200)).to.be.true;
+    expect(res.json.calledOnceWith(pullRequests)).to.be.true;
+
+    // Restore the original methods
+    findUserStub.restore();
+    findPullRequestStub.restore();
+  });
+  it('should return an empty array', async () => {
+    const parameter = { id: 'test@example.com' };
+    const user = undefined;
+
+    // Create stubs for User
+    const findUserStub = sinon.stub(User, 'findOne').returns(user);
+
+    const req = { params: parameter };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub()
+    };
+
+    // Call the getPullRequestsForUser function
+    await getPullRequestsForUser(req, res);
+
+    // The tests
+    expect(findUserStub.calledOnceWith({ email: parameter.id }, { _id: 1 })).to.be.true;
+    expect(res.status.calledOnceWith(404)).to.be.true;
+
+    // Restore the original methods
+    findUserStub.restore();
+  });
+});

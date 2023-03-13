@@ -3,14 +3,18 @@ const connectDB = require("./config/db");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const authRoutes = require("./routes/auth.routes");
-// const userRoutes = require("./routes/user.routes");
 const express = require("express");
 require("dotenv").config();
+const manageFaqs = require("./routes/faq.routes");
 const rewardsRoute = require("./routes/rewards.routes");
+const claimedRewardsRoute = require("./routes/claimedRewards.routes");
 const repositoriesRoute = require("./routes/repositories.routes");
-const historyRoute = require("./routes/history.routes");
+const pullRequestHistoryRoute = require("./routes/pullRequestHistory.routes");
 const userRoute = require("./routes/user.routes");
-const emailRouter = require("./routes/ManagerHelp.routes");
+const trackerRoute = require("./routes/tracker.routes");
+const ratingRoute = require("./routes/rating.routes");
+const leaderboardRoute = require("./routes/leaderboard.routes");
+const managerDashboardRoute = require("./routes/managerDashboard.routes");
 const app = express();
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
@@ -50,22 +54,23 @@ app.use(
   })
 );
 app.use(express.json({ extended: false }));
-app.use(cors());
-app.use(express.json())
-
 app.get("/", (req, res) => res.send("Server up and running"));
-app.use("/pullrequests", historyRoute);
 
 // routes
 app.use("/", authRoutes);
 app.use("/management/rewards", rewardsRoute);
+app.use("/management/rewards/claimed", claimedRewardsRoute);
 app.use("/rewards", rewardsRoute);
+app.use("/management/manageFaqs", manageFaqs);
+app.use("/faqs", manageFaqs);
 app.use("/management/repositories", repositoriesRoute);
 app.use("/management/users", userRoute);
-
-app.post("/management/ManagerHelp", emailRouter);
-
-
+app.use("/management/trackers", trackerRoute);
+app.use("/pullrequests", pullRequestHistoryRoute);
+app.use("/ratings", ratingRoute);
+app.get("/management/Leaderboard", leaderboardRoute);
+app.get("/requests", managerDashboardRoute);
+app.get("/archived-rewards", managerDashboardRoute);
 // setting up port
 const PORT = process.env.PORT || 8000;
 

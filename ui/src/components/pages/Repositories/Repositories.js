@@ -1,221 +1,331 @@
 import React, { useEffect, useState } from "react";
 import {
-  List,
-  ListItem,
-  ListItemText,
-  Select,
-  Typography,
-  MenuItem,
-  Chip,
-  makeStyles,
+    List,
+    ListItem,
+    ListItemText,
+    Select,
+    Typography,
+    MenuItem,
+    makeStyles,
 } from "@material-ui/core";
+import Button from "@mui/material/Button";
+import { Skeleton } from "@mui/material";
 import axios from "axios";
+import PullRequestRating from "./PullRequestRating";
+import PullRequestRatingStars from "./PullRequestRatingStars";
 
+// styles here
 const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "900px",
-    maxWidth: "100%",
-    backgroundColor: theme.palette.background.paper,
-    overflow: "auto",
-  },
-  select: {
-    minWidth: "300px",
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    fontSize: "20px",
-    textAlign: "center",
-  },
-  listItem: {
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: "#f5f5f5",
+    root: {
+        height: "900px",
+        maxWidth: "100%",
+        backgroundColor: theme.palette.background.paper,
+        overflow: "auto",
     },
-  },
-  chip: {
-    marginLeft: "auto",
-  },
+    selectContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+        marginBottom: theme.spacing(2),
+    },
+    select: {
+        width: "160px",
+        margin: "0px 20px",
+        backgroundColor: "grey",
+        padding: "0px 6px",
+    },
+    listItem: {
+        cursor: "pointer",
+        "&:hover": {
+            backgroundColor: "#f5f5f5",
+        },
+        border: "1px solid black",
+        width: "550px",
+        margin: "8px",
+    },
+    ul: {
+        margin: 0,
+        padding: 5,
+    },
+    chip: {
+        marginLeft: "auto",
+    },
+    container: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    selectWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    buttonContainer: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: theme.spacing(2),
+        width: "275px",
+        fontFamily: "roboto",
+    },
+    button: {
+        flexBasis: "48%",
+    },
 }));
 
+var moment = require("moment");
+moment().format();
+
 const RepositoryList = () => {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  const [repositories, setRepositories] = useState([]);
-  const [selectedRepository, setSelectedRepository] = useState();
-  const [pullRequests, setPullRequests] = useState([]);
+    // Stores all the repositories
+    const [repositories, setRepositories] = useState([]);
+    // Stores selected repository
+    const [selectedRepository, setSelectedRepository] = useState();
+    // Stores all the Pull Requests
+    const [allPullRequests, setAllPullRequests] = useState([]);
+    // Stores selected repository's pull requests
+    const [selectedPullRequests, setSelectedPullRequests] = useState([]);
+    // Stores selected Pull request
+    const [selectedPR, setSelectedPR] = useState(null);
+    // Stores the filtered list
+    const [filter, setFilter] = useState("pending");
+    // Stores the loading and non-loading state for loaders 
+    const [loading, setLoading] = useState(false);
 
-  // Gets pull requests for a given repository
-  const getPullRequests = async (repositoryName) => {
-    // Requires access token (generated on GitHub) as it's a private repository
-    const token = "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";
-    // Access token is inserted into the header
-    const headers = {
-      Authorization: `Token ${token}`,
+    // Gets all pull requests across all repositories
+    const getAllPullRequests = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get(
+                // Sends GET request to API to get all pull requests in all repositories
+                "http://localhost:8000/management/repositories/allPulls"
+            );
+            // Sets the state of the pull requests and repositories
+            setSelectedPullRequests(filterList(response.data.pullRequests));
+            setAllPullRequests(response.data.pullRequests);
+            setRepositories(response.data.repos);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+        }
     };
 
-    // Calls GitHub API to get pull requests from a repository
-    try {
-      const response = await axios.get(
-        // pulls?state=all ensures that all pull requests are retrieved, even ones that have been merged
-        `https://api.github.com/repos/${repositoryName}/pulls?state=all`,
-        { headers }
-      );
-      setPullRequests(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    // Event handler to navigate to GitHub page for a specific pull request when user clicks the pull request
+    const handleGitHubLinkClick = (pullRequestUrl) => {
+        window.open(pullRequestUrl, "_blank");
+    };
 
-  // Gets all pull requests across all repositories
-  const getAllPullRequests = async () => {
-    try {
-      const response = await axios.get(
-        // Sends GET request to API to get all pull requests in all repositories
-        "http://localhost:8000/management/repositories/allPulls"
-      );
-      setPullRequests(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    // Event handler to show the correct data depending on which repository is selected
+    const handleRepositoryChange = (event) => {
+        if (event.target.value === "all") {
+            // If user clicks "All Pull Requests" (has "all" value), display all pull requests across all repositories
+            setSelectedPullRequests(allPullRequests);
+            // Else, show pull requests for the repository that they click
+        } else {
+            let filteredPullRequests = allPullRequests.filter(
+                (pullRequest) => pullRequest.repo === event.target.value
+            );
+            setSelectedPullRequests(filteredPullRequests);
+        }
+    };
 
-  // Event handler to show the correct data depending on which repository is selected
-  const handleRepositoryChange = (event) => {
-    const value = event.target.value;
-    setSelectedRepository(value);
-    if (value === "all") {
-      // If user clicks "All Pull Requests" (has "all" value), display all pull requests across all repositories
-      getAllPullRequests();
-      // Else, show pull requests for the repository that they click
-    } else {
-      getPullRequests(value);
-    }
-  };
+    const filterList = (incomingList) => {
+        let list;
+        if (filter === "pending") {
+            list = incomingList.filter(
+                (item) => !item.ratings || item.ratings == {}
+            );
+        } else if (filter === "reviewed") {
+            list = incomingList.filter((item) => item.ratings);
+        }
+        return list;
+    };
 
-  useEffect(() => {
-    async function getRepositories() {
-      // Sends GET request to API to get all repositories
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/management/repositories"
-        );
-        // Sets to state
-        setRepositories(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getRepositories();
-  }, []);
+    useEffect(() => {
+        getAllPullRequests();
+    }, [filter]);
 
-  // Event handler to navigate to GitHub page for a specific pull request when user clicks the pull request
-  const handlePullRequestClick = (pullRequestUrl) => {
-    window.open(pullRequestUrl, "_blank");
-  };
+    return (
+        <div className={classes.root}>
+            <Typography variant="h4">
+                <b>Pull Requests Rating</b>
+            </Typography>
 
-  // Event handler to get all pull requests from all repositories when user selects "All Pull Requests"
-  const handleAllPullRequestsClick = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8000/management/repositories/allPulls"
-      );
-      setPullRequests(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Helper function to determine the status of a pull request based on its "merged_at" property
-  const getPullRequestStatus = (pullRequest) => {
-    if (pullRequest.merged_at) {
-      return "Merged"; // Pull request has been merged on GitHub
-    } else {
-      return "Pending"; // Pull request has been created on GitHub
-    }
-  };
-
-  // When the page loads, it will call this function so that all pull requests are displayed by default
-  useEffect(() => {
-    handleAllPullRequestsClick();
-  }, []);
-
-  return (
-    <div className={classes.root}>
-      <Typography variant="h4">
-        <b>Pull Requests</b>
-      </Typography>
-      <Select
-        className={classes.select}
-        value={selectedRepository}
-        onChange={handleRepositoryChange}
-        defaultValue="all"
-      >
-        <MenuItem value="all" onClick={handleAllPullRequestsClick}>
-          All Pull Requests
-        </MenuItem>
-        {/* Displays all pull requests in the selected repository */}
-        {repositories.map((repository) => (
-          <MenuItem key={repository.id} value={repository.full_name}>
-            {repository.name}
-          </MenuItem>
-        ))}
-      </Select>
-      {pullRequests.length > 0 && (
-        <List>
-          {pullRequests.map((pullRequest) => (
-            <ListItem
-              key={pullRequest.id}
-              button
-              onClick={() => handlePullRequestClick(pullRequest.html_url)}
-              className={classes.listItem}
-            >
-              <ListItemText
-                primary={
-                  <Typography variant="h6">{pullRequest.title}</Typography>
-                }
-                secondary={
-                  <>
-                    <Typography
-                      component="span"
-                      variant="body1"
-                      color="textSecondary"
+            <div className={classes.selectContainer}>
+                <div className={classes.selectWrapper}>
+                    <label style={{ fontWeight: "bold" }}>
+                        {" "}
+                        Filter by Repository
+                    </label>
+                    <Select
+                        className={classes.select}
+                        value={selectedRepository}
+                        onChange={handleRepositoryChange}
+                        defaultValue="all"
                     >
-                      {`Pull Request #${pullRequest.number} from ${pullRequest.base.repo.name}`}
-                    </Typography>
-                    <br />
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textSecondary"
+                        <MenuItem value="all">All Pull Requests</MenuItem>
+                        {repositories?.map((repository) => (
+                            <MenuItem
+                                key={repository.id}
+                                value={repository.name}
+                            >
+                                {repository.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </div>
+                <div className={classes.selectWrapper}>
+                    <label style={{ fontWeight: "bold" }}>
+                        {" "}
+                        Filter by Status
+                    </label>
+                    <Select
+                        className={classes.select}
+                        value={filter}
+                        onChange={(event) => {
+                            setFilter(event.target.value);
+                            if (event.target.value === "reviewed")
+                                setSelectedPR(null);
+                        }}
+                        defaultValue="pending"
                     >
-                      {`Created by ${pullRequest.user.login}`}
-                    </Typography>
-                    <br />
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textSecondary"
-                    >
-                      {`${pullRequest.created_at}`}
-                    </Typography>
-                  </>
-                }
-              />
-              {/* Tag tells user if pull request is "Merged" or "Pending" */}
-              <Chip
-                className={classes.chip}
-                label={getPullRequestStatus(pullRequest)}
-                color={
-                  getPullRequestStatus(pullRequest) === "Pending"
-                    ? "secondary"
-                    : "primary"
-                }
-              />
-            </ListItem>
-          ))}
-        </List>
-      )}
-    </div>
-  );
+                        <MenuItem value="pending">Pending</MenuItem>
+                        <MenuItem value="reviewed">Reviewed</MenuItem>
+                    </Select>
+                </div>
+            </div>
+
+            {selectedPullRequests?.length > 0 && (
+                <div className={classes.container}>
+                    <List>
+                        {!loading ? (
+                            selectedPullRequests?.map((pullRequest) => (
+                                <ListItem
+                                    key={pullRequest._id}
+                                    className={classes.listItem}
+                                >
+                                    <ListItemText
+                                        primary={
+                                            <Typography variant="h6">
+                                                {pullRequest.title}
+                                            </Typography>
+                                        }
+                                        secondary={
+                                            <div>
+                                                <Typography
+                                                    component="span"
+                                                    variant="body1"
+                                                    color="textSecondary"
+                                                >
+                                                    {`Pull Request #${pullRequest.git_id} from ${pullRequest.repo}`}
+                                                </Typography>
+                                                <br />
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textSecondary"
+                                                >
+                                                    {`Created by ${pullRequest.users_name}`}
+                                                </Typography>
+                                                <br />
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textSecondary"
+                                                >
+                                                    {moment(
+                                                        pullRequest.date
+                                                    ).format(
+                                                        "DD/MM/YYYY  HH:mm:ss"
+                                                    )}
+                                                </Typography>
+                                                <div
+                                                    className={
+                                                        classes.buttonContainer
+                                                    }
+                                                >
+                                                    <Button
+                                                        onClick={() =>
+                                                            handleGitHubLinkClick(
+                                                                pullRequest.url
+                                                            )
+                                                        }
+                                                        className={
+                                                            classes.button
+                                                        }
+                                                        variant="text"
+                                                        size="small"
+                                                    >
+                                                        GitHub Link
+                                                    </Button>
+                                                    {filter === "pending" && (
+                                                        <Button
+                                                            onClick={() => {
+                                                                if (
+                                                                    filter ===
+                                                                    "pending"
+                                                                )
+                                                                    setSelectedPR(
+                                                                        pullRequest
+                                                                    );
+                                                                else return;
+                                                            }}
+                                                            className={
+                                                                classes.button
+                                                            }
+                                                            variant="text"
+                                                            size="small"
+                                                        >
+                                                            Add rating
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                                <br />
+                                                <PullRequestRatingStars
+                                                    rating={pullRequest.ratings}
+                                                />
+                                            </div>
+                                        }
+                                    />
+                                </ListItem>
+                            ))
+                        ) : (
+                            <>
+                                <Skeleton
+                                    variant="rectangular"
+                                    width={550}
+                                    height={125}
+                                    style={{ margin: "8px 0px" }}
+                                />
+                                <Skeleton
+                                    variant="rectangular"
+                                    width={550}
+                                    height={125}
+                                    style={{ margin: "8px 0px" }}
+                                />
+                                <Skeleton
+                                    variant="rectangular"
+                                    width={550}
+                                    height={125}
+                                    style={{ margin: "8px 0px" }}
+                                />
+                            </>
+                        )}
+                    </List>
+
+                    {selectedPR && (
+                        <PullRequestRating
+                            pullRequest={selectedPR}
+                            setSelectedPR={setSelectedPR}
+                            reloadList={getAllPullRequests}
+                        />
+                    )}
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default RepositoryList;
