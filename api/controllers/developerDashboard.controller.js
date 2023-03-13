@@ -18,10 +18,13 @@ const getUsersLatestPullRequest = async (req, res) => {
   }
 };
 
+// Given a userId, this method returns all of that user's claimed rewards
 const getUsersClaimedRewards = async (req, res) => {
+  // Get userId from request params - this will be the userId of the currently logged in user (via cookies)
   const { userId } = req.params;
 
   try {
+    // Find all of the claimed rewards that contain the given userId
     const claimedRewards = await ClaimedRewards.find({ user_id: userId });
 
     res.status(200).json(claimedRewards);

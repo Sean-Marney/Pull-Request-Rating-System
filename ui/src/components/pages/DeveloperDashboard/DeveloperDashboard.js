@@ -99,17 +99,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DeveloperDashboard() {
   const classes = useStyles();
-  const [hoveredBox, setHoveredBox] = useState(null);
+  const [hoveredBox, setHoveredBox] = useState(null); // Keeps track of if the user is hovering over a box
 
-  const [cookies] = useCookies();
-  const [user, setUser] = useState(null);
-  const [currentStarCount, setCurrentStarCount] = useState(null);
-  const [totalStarsAchieved, setTotalStarsAchieved] = useState(null);
-  const [latestPullRequestStatus, setLatestPullRequestStatus] = useState(null);
-  const [latestPullRequest, setLatestPullRequest] = useState(null);
-  const [claimableReward, setClaimableReward] = useState(null);
-  const [canClaimReward, setCanClaimReward] = useState(false);
-  const [claimedRewards, setClaimedRewards] = useState(null);
+  const [cookies] = useCookies(); // Stores the email of the currently logged in user
+  const [user, setUser] = useState(null); // User object, obtained from useCookies
+  const [currentStarCount, setCurrentStarCount] = useState(null); // Value in user's "stars" field
+  const [totalStarsAchieved, setTotalStarsAchieved] = useState(null); // Value in user's "totalStarsEarned" field
+  const [latestPullRequest, setLatestPullRequest] = useState(null); // User's most recent pull request object
+  const [latestPullRequestStatus, setLatestPullRequestStatus] = useState(null); // Whether pull request is "Pending" or "Reviewed"
+  const [canClaimReward, setCanClaimReward] = useState(false); // Tracks whether user has enough stars to claim any rewards
+  const [claimedRewards, setClaimedRewards] = useState(null); // List of user's claimed rewards
 
   // Renders all data on page load
   useEffect(() => {
@@ -178,28 +177,28 @@ export default function DeveloperDashboard() {
     }
   };
 
+  // Checks if user has enough stars to claim any rewards
   const checkIfUserCanClaimReward = async () => {
     // Get rewards
     const res = await axios.get("http://localhost:8000/management/rewards");
 
-    // Calculates remaining stars needed for reward
+    // Calculates remaining stars needed for each reward
     const remainingStarsData = {};
     res.data.forEach((reward) => {
       const remainingStars = Math.max(reward.starsRequired - user.stars, 0);
       remainingStarsData[reward._id] = remainingStars;
       // If a user has enough stars to claim any reward, they will be informed in the description box of "Current Star Count"
       if (remainingStars === 0) {
-        setClaimableReward(`http://localhost:3000/rewards`);
         setCanClaimReward(true);
       }
     });
   };
 
+  // Gets list of user's claimed rewards
   const getUsersClaimedRewards = async () => {
     const res = await axios.get(
       `http://localhost:8000/dashboard/claimed-rewards/${user._id}`
     );
-
     setClaimedRewards(res.data);
   };
 
@@ -250,12 +249,16 @@ export default function DeveloperDashboard() {
                     variant="body1"
                     className={classes.boxDescription2}
                   >
+                    {/* If user has enough stars to claim any rewards: */}
                     {canClaimReward ? (
                       <>
                         <p>You have available rewards to claim</p> <br />
-                        <a href={claimableReward}>Click here to claim</a>
+                        <a href="http://localhost:3000/rewards">
+                          Click here to claim
+                        </a>
                       </>
                     ) : (
+                      // If user doesn't have enough stars to claim any rewards:
                       <p>You do not have enough stars to claim a reward.</p>
                     )}
                   </Typography>
