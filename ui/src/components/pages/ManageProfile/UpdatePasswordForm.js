@@ -81,7 +81,7 @@ export default function UpdatePassword() {
         });
         await axios.patch(
           // `http://localhost:8000/management/users/update/${id}`,
-          `http://localhost:8000/management/users/update/email/${cookies.user.email}`,
+          `http://localhost:8000/management/users/updatePassword/email/${cookies.user.email}`,
           updateForm
         );
         navigate("/profile");

@@ -123,11 +123,16 @@ const updateUserByEmail = async (req, res) => {
         .json({ message: "User with that email was not found" });
     }
     console.log(user);
+    console.log("Editing this user")
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log(hashedPassword);
+
 
     user.name = req.body.name;
     user.email = req.body.email;
     user.bio = req.body.bio;
-    user.password = user.password;
+    user.password = hashedPassword;
     user.stars = user.stars;
     user.git_username = user.git_username;
 
@@ -157,6 +162,28 @@ const deleteUserByEmail = async (req, res) => {
     }
 };
 
+const updateUsersPasswordByEmail = async (req, res) => {
+    try {
+        const user = await User.findOne({ e: req.params.email });
+        if (!user) {
+          return res
+            .status(404)
+            .json({ message: "User with that email was not found" });
+        }
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    
+        user.password = hashedPassword;
+    
+        await user.save();
+    
+        res.status(200).json(user);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+
+
+}
+
 module.exports = {
   getUsers,
   getUsersByRole,
@@ -166,6 +193,6 @@ module.exports = {
   updateUser,
   deleteUser,
   updateUserByEmail,
-  deleteUserByEmail, 
-    
+  deleteUserByEmail,
+  updateUsersPasswordByEmail
 };
