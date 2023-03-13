@@ -7,7 +7,8 @@
     Leaderboard,
     Logout,
     Dashboard,
-    LiveHelp
+    LiveHelp,
+    Help
 } from "@mui/icons-material";
 import { NavLink, Link} from "react-router-dom";
 

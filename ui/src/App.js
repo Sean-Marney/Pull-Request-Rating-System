@@ -26,6 +26,7 @@ import ArchivedRewards from "./components/pages/ClaimedRewards/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
+import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);

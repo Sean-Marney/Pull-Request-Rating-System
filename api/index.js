@@ -15,33 +15,13 @@ const trackerRoute = require("./routes/tracker.routes");
 const ratingRoute = require("./routes/rating.routes");
 const leaderboardRoute = require("./routes/leaderboard.routes");
 const managerDashboardRoute = require("./routes/managerDashboard.routes");
+const managerHelpRoute = require("./routes/ManagerHelp.routes");
 const app = express();
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 
 
 app.use(bodyParser.json());
-
-
-
-
-
-
-//Nodemailer code
-//Currently only sending email though postman.
-const transporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-        user: 'tinom101@outlook.com', //dummy email address
-        pass: 'templejax12',
-    },
-});
-
-
-
-
-
-
 
 // connect database
 connectDB();
@@ -71,7 +51,7 @@ app.use("/ratings", ratingRoute);
 app.get("/management/Leaderboard", leaderboardRoute);
 app.get("/requests", managerDashboardRoute);
 app.get("/archived-rewards", managerDashboardRoute);
-// setting up port
+app.post("/management/ManagerHelp", managerHelpRoute);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
