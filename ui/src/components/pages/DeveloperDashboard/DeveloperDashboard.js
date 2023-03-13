@@ -85,11 +85,11 @@ export default function DeveloperDashboard() {
   const [hoveredBox, setHoveredBox] = useState(null);
 
   const [cookies] = useCookies();
-  const [user, setUser] = useState();
-  const [currentStarCount, setCurrentStarCount] = useState();
-  const [totalStarsAchieved, setTotalStarsAchieved] = useState();
-  const [latestPullRequestStatus, setLatestPullRequestStatus] = useState();
-  const [latestPullRequest, setLatestPullRequest] = useState();
+  const [user, setUser] = useState(null);
+  const [currentStarCount, setCurrentStarCount] = useState(null);
+  const [totalStarsAchieved, setTotalStarsAchieved] = useState(null);
+  const [latestPullRequestStatus, setLatestPullRequestStatus] = useState(null);
+  const [latestPullRequest, setLatestPullRequest] = useState(null);
 
   // Renders all data on page load
   useEffect(() => {
@@ -128,9 +128,13 @@ export default function DeveloperDashboard() {
 
       // Condition for if the user has not got a pull request stored in our database
       if (!res.data) {
-        console.log(
-          "No pull requests were found on the system for user: " + user.name
-        );
+        // If the user has no pull requests linked to their account, set the title and repo to "N/A" and the status to "No Pull Requets"
+        setLatestPullRequest({
+          title: "N/A",
+          repo: "N/A",
+        });
+        setLatestPullRequestStatus("No Pull Requests");
+        return;
       }
 
       // Storing pull request to state so more information can be displayed in the description
