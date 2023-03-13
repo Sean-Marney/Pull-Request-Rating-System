@@ -19,6 +19,6 @@ export default yup.object().shape({
         .string()
         .matches(
           /^[a-zA-Z0-9 .!()]*$/,
-          "Reward name cannot contain special characters except for the % sign"
+          "Bio cannot contain special characters except for . ! ()"
         ),
 });

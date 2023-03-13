@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import axios from "axios";
 import { MemoryRouter } from "react-router-dom";
-import UpdateProfile from "../components/pages/ManageProfile/updateProfileForm";
+import UpdateProfile from "../../components/pages/ManageProfile/updateProfileForm";
 jest.mock("axios"); // mock axios module
 
 describe("Testing ManageRewards component", () => {
@@ -17,7 +17,7 @@ describe("Testing ManageRewards component", () => {
          // Find form input fields and submit button by their associated label or text content
          const nameInput = screen.getByLabelText("Name");
          const emailInput = screen.getByLabelText("Email");
-         const bioInput = screen.getByLabelText("Bio")
+         const bioInput = screen.getByLabelText("Bio");
          const updateButton = screen.getByText("Update Profile");
  
          // Assert that all necessary form elements are present in the rendered component
