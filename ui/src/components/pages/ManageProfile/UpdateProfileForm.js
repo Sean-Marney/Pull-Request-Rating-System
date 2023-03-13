@@ -174,7 +174,7 @@ export default function UpdateProfile() {
                   variant="contained"
                   color="primary"
                 >
-                  Update Bio
+                  Update Profile
                 </Button>
               </div>
             </form>

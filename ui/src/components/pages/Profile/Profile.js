@@ -5,20 +5,38 @@ import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
-import Skeleton from "@mui/material/Skeleton";
-import Paper from "@mui/material/Paper";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SyncLockIcon from '@mui/icons-material/SyncLock';
 import EditIcon from '@mui/icons-material/Edit';
 import Card from '@mui/material/Card';
 import Container from "@mui/material/Container";
+import Typography from '@mui/material/Typography';
+import { Modal, IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 
 export default function ManageProfiles() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [cookies] = useCookies();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   //Get user on page load
   useEffect(() => {
@@ -87,11 +105,11 @@ export default function ManageProfiles() {
         {user.bio}
         </Card>
 
-        {/* rewards */}
+        {/* rewards
         <Card>
-          <h4>Rewards Gotten</h4>
+          <h4>Rewards Claimed</h4>
           table
-        </Card>
+        </Card> */}
 
         {/* Edit button  */}
         <Button onClick={() => navigate("/profile/update")} startIcon={<EditIcon />}>
@@ -104,10 +122,35 @@ export default function ManageProfiles() {
       </Button>
       <br></br>
 
-      {/* delete account button  */}
-      <Button  onClick={() => deleteUserByEmail(cookies.user.email)} startIcon={<DeleteIcon />} style={{ color: "red" }}>
+      {/* delete account modal button  */}
+      <Button  onClick={handleOpen} startIcon={<DeleteIcon />} style={{ color: "red" }}>
         Delete Account
       </Button>
+
+      {/* delete account modal  */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <h4 onClick={handleClose} style={{ color: "black" ,  Align: "right", position: 'absolute', top: 1, right: 1, alignItems: 'center'}}>
+            <CloseIcon />
+          </h4>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+             <h4>Delete Account</h4>
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Are you sure you want to delete this account ?
+          </Typography><br></br>
+          <Button  onClick={() => deleteUserByEmail(user.email)} startIcon={<DeleteIcon />} style={{ color: "red" }}>
+          Delete Account
+          </Button>
+        </Box>
+      </Modal>
+
+
         </div>
       )}
       </Container>
