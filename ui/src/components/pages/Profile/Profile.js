@@ -34,6 +34,18 @@ export default function ManageProfiles() {
     //Set to state
     setUser(res.data);
   };
+
+  const deleteUserByEmail = async (e) => {
+    // e.preventDefault();
+
+    // try {
+    // Delete user
+    await axios.delete(
+        `http://localhost:8000/management/users/delete/email/${cookies.user.email}`
+    );
+    navigate("/login");
+  // } catch(){}
+  };
   return (
     <div>
       <Container>
@@ -93,11 +105,9 @@ export default function ManageProfiles() {
       <br></br>
 
       {/* delete account button  */}
-      <Button  onClick={() => navigate("/login")} startIcon={<DeleteIcon />} style={{ color: "red" }}>
+      <Button  onClick={() => deleteUserByEmail(cookies.user.email)} startIcon={<DeleteIcon />} style={{ color: "red" }}>
         Delete Account
       </Button>
-      {/* </Stack> */}
-      {/* </Box> */}
         </div>
       )}
       </Container>

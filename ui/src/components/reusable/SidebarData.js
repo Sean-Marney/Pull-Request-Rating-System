@@ -8,6 +8,7 @@
     Leaderboard,
     Stars,
 } from "@mui/icons-material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
@@ -60,6 +61,11 @@ const Sidebar = ({ children, removeCookie }) => {
             path: "/Leaderboard",
             name: "Leaderboard",
             icon: <Leaderboard />,
+        },
+        {
+            path: "/profile",
+            name: "Profile",
+            icon: <AccountCircleIcon />,
         },
     ];
     return (

@@ -48,7 +48,7 @@ export default function UpdatePassword() {
     }, []);
 
     const getUser = async () => {
-      // Get user by id
+      // Get user by email
       const res = await axios.get(
         `http://localhost:8000/management/users/email/${cookies.user.email}`
       );
@@ -84,8 +84,8 @@ export default function UpdatePassword() {
           `http://localhost:8000/management/users/update/email/${cookies.user.email}`,
           updateForm
         );
-  
         navigate("/profile");
+        
       } catch (error) {
         const validationErrors = {};
         if (error instanceof yup.ValidationError) {

@@ -50,7 +50,7 @@ export default function UpdateProfile() {
   }, []);
 
   const getUser = async () => {
-    // Get user by id
+    // Get user by email
     const res = await axios.get(
       `http://localhost:8000/management/users/email/${cookies.user.email}`
     );

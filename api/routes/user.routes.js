@@ -9,6 +9,7 @@ const {
   updateUser,
   deleteUser,
   updateUserByEmail,
+  deleteUserByEmail, 
 } = require("../controllers/manageUsers.controller");
 
 router.get("/", getUsers);
@@ -19,5 +20,5 @@ router.post("/create", createUser);
 router.patch("/update/:id", updateUser);
 router.delete("/delete/:id", deleteUser);
 router.patch("/update/email/:email", updateUserByEmail);
-
+router.delete("/delete/email/:email", deleteUserByEmail)
 module.exports = router;
