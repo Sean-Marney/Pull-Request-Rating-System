@@ -1,4 +1,5 @@
 const PullRequest = require("../models/pullRequest.model");
+const ClaimedRewards = require("../models/claimedRewards.model");
 
 // Given a userId, this method returns the most recent pull request created by that user
 const getUsersLatestPullRequest = async (req, res) => {
@@ -17,4 +18,16 @@ const getUsersLatestPullRequest = async (req, res) => {
   }
 };
 
-module.exports = { getUsersLatestPullRequest };
+const getUsersClaimedRewards = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const claimedRewards = await ClaimedRewards.find({ user_id: userId });
+
+    res.status(200).json(claimedRewards);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getUsersLatestPullRequest, getUsersClaimedRewards };

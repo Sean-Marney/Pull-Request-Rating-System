@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   box: {
-    backgroundColor: "#eaeaea",
+    backgroundColor: "#e6e6e6",
     height: "auto",
     flexShrink: 0,
     width: `calc((65vw - ${theme.spacing(6)}px) / 3)`,
@@ -62,9 +62,20 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     textAlign: "center",
   },
-  icon: {
+  icon1: {
     paddingBottom: theme.spacing(1.5),
     fontSize: "2.5rem",
+    color: "#E6C200",
+  },
+  icon2: {
+    paddingBottom: theme.spacing(1.5),
+    fontSize: "2.5rem",
+    color: "#A97142",
+  },
+  icon3: {
+    paddingBottom: theme.spacing(1.5),
+    fontSize: "2.5rem",
+    color: "#809fff",
   },
   infoIcon: {
     marginLeft: theme.spacing(2),
@@ -77,6 +88,12 @@ const useStyles = makeStyles((theme) => ({
   },
   infoBox: {
     padding: theme.spacing(2),
+  },
+  scrollbox: {
+    paddingTop: theme.spacing(3),
+    overflowY: "scroll",
+    maxHeight: "100px",
+    color: "black",
   },
 }));
 
@@ -92,6 +109,7 @@ export default function DeveloperDashboard() {
   const [latestPullRequest, setLatestPullRequest] = useState(null);
   const [claimableReward, setClaimableReward] = useState(null);
   const [canClaimReward, setCanClaimReward] = useState(false);
+  const [claimedRewards, setClaimedRewards] = useState(null);
 
   // Renders all data on page load
   useEffect(() => {
@@ -100,6 +118,7 @@ export default function DeveloperDashboard() {
     getUsersTotalStarsAchieved();
     getUsersLatestPullRequestStatus();
     checkIfUserCanClaimReward();
+    getUsersClaimedRewards();
   }, [user]);
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
@@ -159,7 +178,6 @@ export default function DeveloperDashboard() {
     }
   };
 
-  // TODO - might not need all the logic from other method
   const checkIfUserCanClaimReward = async () => {
     // Get rewards
     const res = await axios.get("http://localhost:8000/management/rewards");
@@ -175,6 +193,14 @@ export default function DeveloperDashboard() {
         setCanClaimReward(true);
       }
     });
+  };
+
+  const getUsersClaimedRewards = async () => {
+    const res = await axios.get(
+      `http://localhost:8000/dashboard/claimed-rewards/${user._id}`
+    );
+
+    setClaimedRewards(res.data);
   };
 
   return (
@@ -193,7 +219,7 @@ export default function DeveloperDashboard() {
                 onMouseEnter={() => setHoveredBox("currentStarCount")}
                 onMouseLeave={() => setHoveredBox(null)}
               >
-                <StarIcon className={classes.icon} />
+                <StarIcon className={classes.icon1} />
                 <Typography variant="h6" className={classes.boxTitle}>
                   Current Star Count
                 </Typography>
@@ -245,7 +271,7 @@ export default function DeveloperDashboard() {
                 onMouseEnter={() => setHoveredBox("totalStarsAchieved")}
                 onMouseLeave={() => setHoveredBox(null)}
               >
-                <TrophyIcon className={classes.icon} />
+                <TrophyIcon className={classes.icon2} />
                 <Typography variant="h6" className={classes.boxTitle}>
                   Total Stars Achieved
                 </Typography>
@@ -274,9 +300,19 @@ export default function DeveloperDashboard() {
                 {hoveredBox === "totalStarsAchieved" && (
                   <Typography
                     variant="body1"
-                    className={classes.boxDescription}
+                    className={classes.boxDescription2}
                   >
-                    You have the Xrd highest number of stars
+                    These are all of the rewards you have claimed
+                    <Typography className={classes.scrollbox}>
+                      {claimedRewards &&
+                        claimedRewards.map((reward, index) => (
+                          <div key={index}>
+                            <Typography variant="h6">
+                              {reward.reward_name}
+                            </Typography>
+                          </div>
+                        ))}
+                    </Typography>
                   </Typography>
                 )}
               </Paper>
@@ -290,7 +326,7 @@ export default function DeveloperDashboard() {
                 onMouseEnter={() => setHoveredBox("latestPullRequestStatus")}
                 onMouseLeave={() => setHoveredBox(null)}
               >
-                <CalanderIcon className={classes.icon} />
+                <CalanderIcon className={classes.icon3} />
                 <Typography variant="h6" className={classes.boxTitle}>
                   Latest Pull Request
                 </Typography>
