@@ -32,7 +32,7 @@ const style = {
 export default function ManageProfiles() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [cookies] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -59,9 +59,13 @@ export default function ManageProfiles() {
     await axios.delete(
         `http://localhost:8000/management/users/deleteUser/email/${cookies.user.email}`
     );
-    getUserByEmail();
+    console.log("removing cookies")
+    removeCookie("role");
+    removeCookie("user");
+    removeCookie("token");
     navigate("/login");
   } catch(error){
+    console.log(error)
     navigate("/profile");
   }
   };
