@@ -123,7 +123,7 @@ export default function UpdateProfile() {
               </div>
 
               {/* email */}
-              <div>
+              {/* <div>
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
                   onChange={updateEditFormField}
@@ -138,7 +138,7 @@ export default function UpdateProfile() {
                 {error.email && (
                   <div style={{ color: "red" }}>{error.email}</div>
                 )}
-              </div>
+              </div> */}
 
               {/* bio */}
               <div>

@@ -53,13 +53,13 @@ export default function ManageProfiles() {
     setUser(res.data);
   };
 
-  const deleteUserByEmail = async (e) => {
+  const deleteUserByEmail = async () => {
     // e.preventDefault();
 
     // try {
     // Delete user
     await axios.delete(
-        `http://localhost:8000/management/users/delete/email/${cookies.user.email}`
+        `http://localhost:8000/management/users/deleteUser/email/${cookies.user.email}`
     );
     navigate("/login");
   // } catch(){}

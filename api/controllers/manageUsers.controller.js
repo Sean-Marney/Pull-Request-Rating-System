@@ -141,7 +141,7 @@ const updateUserByEmail = async (req, res) => {
 // Delete a user
 const deleteUserByEmail = async (req, res) => {
     try {
-        const user = await User.findOne(req.params.email);
+        const user = await User.findOne({e: req.params.email });
         if (!user) {
             return res
                 .status(404)
