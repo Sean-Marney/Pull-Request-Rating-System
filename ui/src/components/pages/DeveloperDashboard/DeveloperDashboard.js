@@ -122,21 +122,33 @@ export default function DeveloperDashboard() {
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
   const getUserByEmail = async () => {
-    const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user}`
-    );
-    // Set user object to state
-    setUser(res.data);
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/management/users/email/${cookies.user}`
+      );
+      // Set user object to state
+      setUser(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Gets user's current star count
   const getUsersCurrentStarCount = async () => {
-    setCurrentStarCount(user.stars);
+    try {
+      setCurrentStarCount(user.stars);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Gets user's total star count
   const getUsersTotalStarsAchieved = async () => {
-    setTotalStarsAchieved(user.totalStarsEarned);
+    try {
+      setTotalStarsAchieved(user.totalStarsEarned);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Gets status of user's most recent pull request
@@ -179,27 +191,35 @@ export default function DeveloperDashboard() {
 
   // Checks if user has enough stars to claim any rewards
   const checkIfUserCanClaimReward = async () => {
-    // Get rewards
-    const res = await axios.get("http://localhost:8000/management/rewards");
+    try {
+      // Get rewards
+      const res = await axios.get("http://localhost:8000/management/rewards");
 
-    // Calculates remaining stars needed for each reward
-    const remainingStarsData = {};
-    res.data.forEach((reward) => {
-      const remainingStars = Math.max(reward.starsRequired - user.stars, 0);
-      remainingStarsData[reward._id] = remainingStars;
-      // If a user has enough stars to claim any reward, they will be informed in the description box of "Current Star Count"
-      if (remainingStars === 0) {
-        setCanClaimReward(true);
-      }
-    });
+      // Calculates remaining stars needed for each reward
+      const remainingStarsData = {};
+      res.data.forEach((reward) => {
+        const remainingStars = Math.max(reward.starsRequired - user.stars, 0);
+        remainingStarsData[reward._id] = remainingStars;
+        // If a user has enough stars to claim any reward, they will be informed in the description box of "Current Star Count"
+        if (remainingStars === 0) {
+          setCanClaimReward(true);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Gets list of user's claimed rewards
   const getUsersClaimedRewards = async () => {
-    const res = await axios.get(
-      `http://localhost:8000/dashboard/claimed-rewards/${user._id}`
-    );
-    setClaimedRewards(res.data);
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/dashboard/claimed-rewards/${user._id}`
+      );
+      setClaimedRewards(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
