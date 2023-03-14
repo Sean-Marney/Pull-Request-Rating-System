@@ -69,6 +69,7 @@ async function updatePullRequestsToDatabase(pullRequests) {
         });
         // If the pull request is not in the database, it adds it to the database
         if (needToAdd === true) {
+            console.log("Adding to database " + pullRequests[index].id);
             try {
                 // Converts the date string into a date object
                 let mergedDate = new Date(pullRequests[index].created_at);
@@ -100,10 +101,10 @@ async function updatePullRequestsToDatabase(pullRequests) {
 }
 
 // Reads the userID from the git username
-// Reads the userID from the git username
 async function readUserID(gitUsername) {
     try {
         let user = await User.find({ git_username: gitUsername }, { _id: 1 });
+        if (user == undefined || user.length == 0) return undefined;
         return user[0]._id;
     } catch (error) {
         console.log(error);
@@ -130,7 +131,9 @@ async function changeName(pullRequests) {
             (user) => user._id.toString() == pullRequest.user_id.toString()
         );
         if (user != undefined) {
-            pullRequest.user_id = user.name;
+            pullRequest.users_name = user.name;
+        }else{
+            pullRequest.users_name = pullRequest.user_id;
         }
     });
     return pullRequests;

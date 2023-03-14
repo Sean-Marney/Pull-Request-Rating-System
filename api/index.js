@@ -38,9 +38,9 @@ app.use("/management/users", userRoute);
 app.use("/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
-app.get("/leaderboard", leaderboardRoute);
-app.get("/requests", managerDashRoute );
-app.get("/archived-rewards", managerDashRoute);
+app.get("/management/Leaderboard", leaderboardRoute);
+app.get("/requests", managerDashboardRoute);
+app.get("/archived-rewards", managerDashboardRoute);
 // setting up port
 const PORT = process.env.PORT || 8000;
 
