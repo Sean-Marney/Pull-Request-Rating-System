@@ -1,4 +1,0 @@
-# # Define the Docker image to use for the pipeline jobs
-# image: node:latest
-
-
