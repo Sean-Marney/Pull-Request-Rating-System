@@ -305,7 +305,7 @@ export default function DeveloperDashboard() {
                     variant="body1"
                     className={classes.boxDescription2}
                   >
-                    These are all of the rewards you have claimed
+                    Claimed Rewards:
                     <Typography className={classes.scrollbox}>
                       {claimedRewards &&
                         claimedRewards.map((reward, index) => (
@@ -362,33 +362,35 @@ export default function DeveloperDashboard() {
                     variant="body1"
                     className={classes.boxDescription}
                   >
-                    <Link
-                      href={latestPullRequest.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View pull request on GitHub
-                    </Link>
-                    <Box>
-                      <Typography
-                        variant="body1"
-                        className={classes.boxDescription}
+                    {latestPullRequest ? (
+                      <Link
+                        href={latestPullRequest.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <b>Pull Request:</b> {latestPullRequest.title}
+                        View pull request on GitHub
+                      </Link>
+                    ) : (
+                      <Typography>"No pull requests"</Typography>
+                    )}
+                    <Typography
+                      variant="body1"
+                      className={classes.boxDescription}
+                    >
+                      <b>Pull Request:</b> {latestPullRequest.title}
+                    </Typography>
+                    <Typography>
+                      <b>From Repository:</b> {latestPullRequest.repo}
+                    </Typography>
+                    <i>
+                      <Typography className={classes.boxDescription2}>
+                        {latestPullRequest.rating_complete
+                          ? "You earned " +
+                            latestPullRequest.ratings.overall +
+                            " stars from this pull request"
+                          : "Pull request has not been reviewed yet"}
                       </Typography>
-                      <Typography>
-                        <b>From Repository:</b> {latestPullRequest.repo}
-                      </Typography>
-                      <i>
-                        <Typography className={classes.boxDescription2}>
-                          {latestPullRequest.rating_complete
-                            ? "You earned " +
-                              latestPullRequest.ratings.overall +
-                              " stars from this pull request"
-                            : "Pull request has not been reviewed yet"}
-                        </Typography>
-                      </i>
-                    </Box>
+                    </i>
                   </Typography>
                 )}
               </Paper>
