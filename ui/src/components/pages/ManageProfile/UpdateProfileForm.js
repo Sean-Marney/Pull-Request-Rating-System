@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpdateProfile() {
   const classes = useStyles();
-  const [cookies] = useCookies();
+  const [cookies,setCookie] = useCookies();
   const [updateForm, setUpdateForm] = useState({
     name: "",
     email: "",
@@ -85,6 +85,8 @@ export default function UpdateProfile() {
         updateForm
       );
 
+    
+      setCookie("user", {"email": updateForm.email}, { path: "/" });      
       navigate("/profile");
     } catch (error) {
       const validationErrors = {};
@@ -123,7 +125,7 @@ export default function UpdateProfile() {
               </div>
 
               {/* email */}
-              {/* <div>
+              <div>
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
                   onChange={updateEditFormField}
@@ -138,7 +140,7 @@ export default function UpdateProfile() {
                 {error.email && (
                   <div style={{ color: "red" }}>{error.email}</div>
                 )}
-              </div> */}
+              </div>
 
               {/* bio */}
               <div>
