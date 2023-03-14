@@ -1,22 +1,26 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import "./App.css";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import PullRequestRating from "./components/pages/Repositories/PullRequestRating";
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
-import "./App.css";
 import Sidebar from "./components/reusable/SidebarData";
-import Dashboard from "./components/pages/ManagerDashboard/ManagerDashboard";
+import ManagerDashboard from "./components/pages/ManagerDashboard/ManagerDashboard";
 import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
 import ManageRewards from "./components/pages/ManageRewards/ManageRewards";
 import ManageUsers from "./components/pages/ManageUsers/ManageUsers";
+import ManageTrackers from "./components/pages/ManageTrackers/ManageTrackers";
 import CreateUser from "./components/pages/ManageUsers/CreateUserForm";
 import UpdateUser from "./components/pages/ManageUsers/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewards/CreateRewardForm";
+import CreateTracker from "./components/pages/ManageTrackers/CreateTrackerForm";
 import UpdateReward from "./components/pages/ManageRewards/UpdateRewardForm";
+import UpdateTracker from "./components/pages/ManageTrackers/UpdateTrackerForm";
 import Rewards from "./components/pages/Rewards/Rewards";
-import Repositories from "./components/pages/Repositories/Repositories";
+import FAQ from "./components/pages/FAQ/FAQ";
+import CreateFAQ from "./components/pages/ManageFAQ/CreateFAQForm";
+import ManageFAQ from "./components/pages/ManageFAQ/ManageFAQs";
+import UpdateFAQs from "./components/pages/ManageFAQ/UpdateFAQForm";
 import ManageProfiles from "./components/pages/Profile/Profile";
 import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm"
 import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm"
