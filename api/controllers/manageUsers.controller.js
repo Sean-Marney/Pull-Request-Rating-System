@@ -61,7 +61,7 @@ const createUser = async (req, res) => {
         const user = new User({
             name: req.body.name,
             email: req.body.email,
-            password: await bcrypt.hash(req.body.password, 10),
+            // password: await bcrypt.hash(req.body.password, 10),
             hasRole: "Developer",
             git_username: req.body.git_username,
         });
@@ -138,10 +138,10 @@ const updateUserByEmail = async (req, res) => {
   }
 };
 
-// Delete a user
+// Delete a user by email
 const deleteUserByEmail = async (req, res) => {
     try {
-        const user = await User.findOne({e: req.params.email });
+        const user = await User.findOne({email: req.params.email });
         if (!user) {
             return res
                 .status(404)
@@ -158,7 +158,7 @@ const deleteUserByEmail = async (req, res) => {
 
 const updateUsersPasswordByEmail = async (req, res) => {
     try {
-        const user = await User.findOne({ e: req.params.email });
+        const user = await User.findOne({ email: req.params.email });
         if (!user) {
           return res
             .status(404)

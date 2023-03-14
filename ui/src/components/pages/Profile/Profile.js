@@ -11,9 +11,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import Card from '@mui/material/Card';
 import Container from "@mui/material/Container";
 import Typography from '@mui/material/Typography';
-import { Modal, IconButton } from '@material-ui/core';
+import { Modal } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 
 const style = {
@@ -54,16 +53,21 @@ export default function ManageProfiles() {
   };
 
   const deleteUserByEmail = async () => {
-    // e.preventDefault();
-
-    // try {
+    // email.preventDefault();
+    try {
     // Delete user
     await axios.delete(
         `http://localhost:8000/management/users/deleteUser/email/${cookies.user.email}`
     );
+    getUserByEmail();
     navigate("/login");
-  // } catch(){}
+  } catch(error){
+    navigate("/profile");
+  }
   };
+
+
+
   return (
     <div>
       <Container>
