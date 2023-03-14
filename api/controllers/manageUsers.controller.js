@@ -124,10 +124,7 @@ const updateUserByEmail = async (req, res) => {
     user.name = req.body.name;
     user.email = req.body.email;
     user.bio = req.body.bio;
-    // user.password =  user.password;
-    // user.stars = user.stars;
-    // user.git_username = user.git_username;
-
+    
     await user.save();
 
     res.status(200).json(user);
