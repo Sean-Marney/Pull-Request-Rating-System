@@ -99,7 +99,7 @@ ui unit tests:
     # Print the current directory
     - pwd
     # Install dependencies for the UI
-    - echo "Installing dependencies
+    - echo "Installing dependencies"
     - npm i --force
   script:
     - echo "Running Unit Tests for ui/"
