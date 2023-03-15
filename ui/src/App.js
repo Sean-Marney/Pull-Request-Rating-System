@@ -4,6 +4,7 @@ import PullRequestRating from "./components/pages/Repositories/PullRequestRating
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import Sidebar from "./components/reusable/SidebarData";
 import ManagerDashboard from "./components/pages/ManagerDashboard/ManagerDashboard";
+import DeveloperDashboard from "./components/pages/DeveloperDashboard/DeveloperDashboard";
 import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
@@ -37,7 +38,8 @@ const App = () => {
       {cookies.token && (
         <Sidebar removeCookie={removeCookie} role={cookies.role}>
           <Routes>
-            <Route path="/" element={<ManagerDashboard />} />
+            <Route path="/" element={<DeveloperDashboard />} />
+            <Route path="/management" element={<ManagerDashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/history" element={<History />} />

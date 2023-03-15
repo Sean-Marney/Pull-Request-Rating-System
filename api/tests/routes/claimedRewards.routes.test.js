@@ -32,7 +32,6 @@ describe("Claimed Rewards Endpoints", () => {
           userEmail: "test@gmail.com",
           dateClaimed: "01/01/2023",
         });
-      // console.log(res.body);
       assert.strictEqual(res.statusCode, 201);
       assert.strictEqual(res.body.reward_id, "1");
       assert.strictEqual(res.body.reward_name, "Test Reward");

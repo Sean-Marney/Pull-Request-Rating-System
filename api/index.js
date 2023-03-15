@@ -11,8 +11,9 @@ const pullRequestHistoryRoute = require("./routes/pullRequestHistory.routes");
 const userRoute = require("./routes/user.routes");
 const trackerRoute = require("./routes/tracker.routes");
 const ratingRoute = require("./routes/rating.routes");
-const leaderboardRoute = require("./routes/leaderboard.routes.js");
-const managerDashboardRoute = require("./routes/managerDash");
+const leaderboardRoute = require("./routes/leaderboard.routes");
+const managerDashboardRoute = require("./routes/managerDashboard.routes");
+const developerDashboardRoute = require("./routes/developerDashboard.routes");
 const app = express();
 
 // connect database
@@ -30,6 +31,7 @@ app.get("/", (req, res) => res.send("Server up and running"));
 
 // routes
 app.use("/", authRoutes);
+app.use("/dashboard", developerDashboardRoute);
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/rewards/claimed", claimedRewardsRoute);
 app.use("/rewards", rewardsRoute);
