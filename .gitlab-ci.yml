@@ -24,7 +24,7 @@ api build:
   # Run the build script for the API
   script:
     - echo "Running build for api/"
-    - pkg -t linux,macos,win . index.js --out-path dist
+    - pkg -t linux,macos,win index.js --out-path dist
     # Print success message
     - echo "API build was Successful!"
   # Only run this job when a merge request is created
@@ -85,8 +85,8 @@ api unit tests:
     # Print success message
     - echo "All Tests Passed!"
   # Only run this job when a merge request is created
-  only:
-    - merge_requests
+  # only:
+  #   - merge_requests
 
   # Run unit tests for the UI
 ui unit tests:
@@ -110,5 +110,5 @@ ui unit tests:
     # Print success message
     - echo "All Tests Passed!"
      # Only run this job when a merge request is created
-  only:
-    - merge_requests
+  # only:
+  #   - merge_requests
