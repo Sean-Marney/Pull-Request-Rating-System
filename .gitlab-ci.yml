@@ -58,6 +58,9 @@ ui build:
   # Only run this job when a merge request is created
   # only:
   #   - merge_requests
+  artifacts:
+    paths:
+      - ui/build/static
 
 # Run unit tests for the API
 api unit tests:
