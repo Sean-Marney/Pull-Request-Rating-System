@@ -3,11 +3,11 @@ image: node:latest
 
 # Define the different stages of the pipeline
 stages:
-  - Builds
+  - build
 
 # Build the API
 api build:
-  stage: Builds
+  stage: build
   # Set up the environment before running the script
   before_script:
     # Change to the API directory
@@ -17,7 +17,7 @@ api build:
     - pwd
     # Install dependencies for the API
     - echo "Installing dependencies for api/"
-    - npm i
+    - npm i --force
   # Run the build script for the API
   script:
     - echo "Running build for api/"
@@ -30,7 +30,7 @@ api build:
 
 # Build the UI
 ui build:
-  stage: Builds
+  stage: build
   # Set up the environment before running the script
   before_script:
     # Change to the UI directory
@@ -40,7 +40,7 @@ ui build:
     - pwd
     # Install dependencies for the UI
     - echo "Installing dependencies for ui/"
-    - npm i
+    - npm i --force
   # Run the build script for the UI
   script:
     - echo "Running build for ui/"
