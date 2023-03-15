@@ -1,2 +1,9 @@
-# Define the Docker image to use for the pipeline jobs
+# Defined the Docker image to use for the pipeline jobs
 image: node:latest
+
+# Defined the different stages of the pipeline
+stages:
+  - Builds
+  - Unit Tests
+
+
