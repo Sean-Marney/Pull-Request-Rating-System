@@ -11,6 +11,8 @@ api build:
   stage: Builds
   # Set up the environment before running the script
   before_script:
+    # Installing nexe globally 
+    - npm install -g nexe
     # Change to the API directory
     - echo "Changing directory to api/"
     - cd api/ 
@@ -22,7 +24,8 @@ api build:
   # Run the build script for the API
   script:
     - echo "Running build for api/"
-    - npm run build
+    - nexe index.js
+    - nexe --build
     # Print success message
     - echo "API build was Successful!"
   # Only run this job when a merge request is created
