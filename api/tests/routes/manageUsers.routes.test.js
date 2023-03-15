@@ -1,7 +1,7 @@
 const chai = require("chai");
 const request = require("supertest");
 const app = require("../../index");
-const User = require("../../models/userModel");
+const User = require("../../models/user.model");
 
 describe("GET /management/users", () => {
     it("should return all users and status code 200", (done) => {
