@@ -1,0 +1,25 @@
+stages:
+    - build
+    - deploy
+
+build website:
+    image: node:18-alpine
+    stage: build
+    script:
+        - cd ui
+        - npm i --force
+        - npm run build
+        - cd build
+        - ls
+    artifacts:
+        paths:
+            - build
+
+deploy to s3:
+    stage: deploy
+    image:
+        name: amazon/aws-cli:2.11.2
+        entrypoint: [""]
+    script:
+        - aws --version
+        - aws s3 sync build s3://$AWS_S3_BUCKET --delete
