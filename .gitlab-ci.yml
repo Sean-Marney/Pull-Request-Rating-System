@@ -68,12 +68,37 @@ api unit tests:
   # Run the unit tests for the API
   script:
     - echo "Running Unit Tests for api/"
-    # Create variable to find all test files excluding test files in data/
+    # Create variable to find all test files
     - testFiles=$(find tests/ -mindepth 1 -type f)
     - echo $testFiles
     - npm test $testFiles
     # Print success message
     - echo "All Tests Passed!"
   # Only run this job when a merge request is created
+  only:
+    - merge_requests
+
+  # Run unit tests for the UI
+ui unit tests:
+  stage: Unit Tests
+  # Set up the environment before running the script
+  before_script:
+    # Change to the UI directory
+    - echo "Changing directory to ui/"
+    - cd ui/
+    # Print the current directory
+    - pwd
+    # Install dependencies for the UI
+    - echo "Installing dependencies
+    - npm i --force
+  script:
+    - echo "Running Unit Tests for ui/"
+    # Find all test files inside src/__tests__/ directory and run them
+    - testFiles=$(find src/__tests__ -name '*.test.js')
+    - echo $testFiles
+    - npm test $testFiles
+    # Print success message
+    - echo "All Tests Passed!"
+     # Only run this job when a merge request is created
   only:
     - merge_requests
