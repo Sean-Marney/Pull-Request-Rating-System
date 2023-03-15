@@ -4,7 +4,7 @@ import { Typography, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import { Rating } from "@mui/material";
 import Button from "@mui/material/Button";
-import { fontWeight } from "@material-ui/system";
+import Modal from "@mui/material/Modal";
 var moment = require("moment");
 moment().format();
 
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
         border: "1px solid black",
         margin: "10px",
         padding: "10px",
+        backgroundColor: "white",
     },
     ratingTitle: {
         width: "30%",
@@ -96,7 +97,7 @@ export default function PullRequestRating(props) {
     const classes = useStyles();
 
     return (
-        <div>
+        // <div>
             <div className={classes.ratingContainer}>
                 <Button
                     style={{ align: "left", justifyContent: "left" }}
@@ -160,6 +161,6 @@ export default function PullRequestRating(props) {
                     </Button>
                 </div>
             </div>
-        </div>
+        
     );
 }

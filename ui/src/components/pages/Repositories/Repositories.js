@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { Skeleton } from "@mui/material";
+import Modal from "@mui/material/Modal";
 import axios from "axios";
 import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
@@ -17,9 +18,11 @@ import PullRequestRatingStars from "./PullRequestRatingStars";
 // styles here
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: "900px",
+        height: "700px",
         maxWidth: "100%",
         backgroundColor: theme.palette.background.paper,
+        display: "flex",
+        flexDirection: "column",
         overflow: "auto",
     },
     selectContainer: {
@@ -32,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
     select: {
         width: "160px",
         margin: "0px 20px",
-        backgroundColor: "grey",
         padding: "0px 6px",
+        border: "0.5px solid black",
     },
     listItem: {
         cursor: "pointer",
@@ -41,15 +44,14 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: "#f5f5f5",
         },
         border: "1px solid black",
-        width: "550px",
-        margin: "8px",
+        width: "1000px",
+        margin: 10,
+        padding: "5px 5px",
+        // minHeight: "150px"
     },
     ul: {
         margin: 0,
-        padding: 5,
-    },
-    chip: {
-        marginLeft: "auto",
+        padding: 0,
     },
     container: {
         display: "flex",
@@ -62,13 +64,23 @@ const useStyles = makeStyles((theme) => ({
     },
     buttonContainer: {
         display: "flex",
+        flexDirection: "column",
         justifyContent: "space-between",
-        marginTop: theme.spacing(2),
-        width: "275px",
+        // marginTop: theme.spacing(2),
+        width: "130px",
         fontFamily: "roboto",
+        // margin: "10px 0px",
     },
     button: {
-        flexBasis: "48%",
+        flexBasis: "45%",
+        // margin: "10px 0px",
+    },
+    positionElements: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        height: "80px",
+        marginBottom: "10px"
     },
 }));
 
@@ -90,7 +102,7 @@ const RepositoryList = () => {
     const [selectedPR, setSelectedPR] = useState(null);
     // Stores the filtered list
     const [filter, setFilter] = useState("pending");
-    // Stores the loading and non-loading state for loaders 
+    // Stores the loading and non-loading state for loaders
     const [loading, setLoading] = useState(false);
 
     // Gets all pull requests across all repositories
@@ -149,6 +161,23 @@ const RepositoryList = () => {
 
     return (
         <div className={classes.root}>
+            <Modal
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+                open={selectedPR ? true : false}
+                onClose={() => {
+                    setSelectedPR(null);
+                }}
+            >
+                <PullRequestRating
+                    pullRequest={selectedPR}
+                    setSelectedPR={setSelectedPR}
+                    reloadList={getAllPullRequests}
+                />
+            </Modal>
             <Typography variant="h4">
                 <b>Pull Requests Rating</b>
             </Typography>
@@ -208,39 +237,68 @@ const RepositoryList = () => {
                                 >
                                     <ListItemText
                                         primary={
-                                            <Typography variant="h6">
+                                            <Typography variant="h7">
                                                 {pullRequest.title}
                                             </Typography>
                                         }
                                         secondary={
-                                            <div>
-                                                <Typography
-                                                    component="span"
-                                                    variant="body1"
-                                                    color="textSecondary"
+                                            <div
+                                                className={
+                                                    classes.positionElements
+                                                }
+                                            >
+                                                <div
+                                                    style={{
+                                                        minHeight: "250px",
+                                                    }}
                                                 >
-                                                    {`Pull Request #${pullRequest.git_id} from ${pullRequest.repo}`}
-                                                </Typography>
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body1"
+                                                        color="textSecondary"
+                                                    >
+                                                        {`Pull Request #${pullRequest.git_id} from ${pullRequest.repo}`}
+                                                    </Typography>
+                                                    <br />
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textSecondary"
+                                                    >
+                                                        {`Created by ${pullRequest.users_name}`}
+                                                    </Typography>
+                                                    <br />
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textSecondary"
+                                                    >
+                                                        {moment(
+                                                            pullRequest.date
+                                                        ).format(
+                                                            "DD/MM/YYYY  HH:mm:ss"
+                                                        )}
+                                                    </Typography>
+                                                    <br />
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body1"
+                                                        color="textSecondary"
+                                                    >
+                                                        Total stars{" "}
+                                                        {pullRequest.rating
+                                                            ?.overall
+                                                            ? pullRequest.rating
+                                                                  .overall
+                                                            : 0}{" "}
+                                                    </Typography>
+                                                </div>
                                                 <br />
-                                                <Typography
-                                                    component="span"
-                                                    variant="body2"
-                                                    color="textSecondary"
-                                                >
-                                                    {`Created by ${pullRequest.users_name}`}
-                                                </Typography>
+
+                                                <PullRequestRatingStars
+                                                    rating={pullRequest.ratings}
+                                                />
                                                 <br />
-                                                <Typography
-                                                    component="span"
-                                                    variant="body2"
-                                                    color="textSecondary"
-                                                >
-                                                    {moment(
-                                                        pullRequest.date
-                                                    ).format(
-                                                        "DD/MM/YYYY  HH:mm:ss"
-                                                    )}
-                                                </Typography>
                                                 <div
                                                     className={
                                                         classes.buttonContainer
@@ -252,11 +310,11 @@ const RepositoryList = () => {
                                                                 pullRequest.url
                                                             )
                                                         }
-                                                        className={
-                                                            classes.button
-                                                        }
-                                                        variant="text"
-                                                        size="small"
+                                                        // className={
+                                                        //     classes.button
+                                                        // }
+                                                        variant="contained"
+                                                        size="medium"
                                                     >
                                                         GitHub Link
                                                     </Button>
@@ -272,20 +330,16 @@ const RepositoryList = () => {
                                                                     );
                                                                 else return;
                                                             }}
-                                                            className={
-                                                                classes.button
-                                                            }
-                                                            variant="text"
+                                                            // className={
+                                                            //     classes.button
+                                                            // }
+                                                            variant="contained"
                                                             size="small"
                                                         >
                                                             Add rating
                                                         </Button>
                                                     )}
                                                 </div>
-                                                <br />
-                                                <PullRequestRatingStars
-                                                    rating={pullRequest.ratings}
-                                                />
                                             </div>
                                         }
                                     />
@@ -295,33 +349,25 @@ const RepositoryList = () => {
                             <>
                                 <Skeleton
                                     variant="rectangular"
-                                    width={550}
+                                    width={1000}
                                     height={125}
                                     style={{ margin: "8px 0px" }}
                                 />
                                 <Skeleton
                                     variant="rectangular"
-                                    width={550}
+                                    width={1000}
                                     height={125}
                                     style={{ margin: "8px 0px" }}
                                 />
                                 <Skeleton
                                     variant="rectangular"
-                                    width={550}
+                                    width={1000}
                                     height={125}
                                     style={{ margin: "8px 0px" }}
                                 />
                             </>
                         )}
                     </List>
-
-                    {selectedPR && (
-                        <PullRequestRating
-                            pullRequest={selectedPR}
-                            setSelectedPR={setSelectedPR}
-                            reloadList={getAllPullRequests}
-                        />
-                    )}
                 </div>
             )}
         </div>
