@@ -13,7 +13,7 @@ build website:
         - ls
     artifacts:
         paths:
-            - build
+            - ui/build
 
 deploy to s3:
     stage: deploy
