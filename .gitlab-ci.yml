@@ -1,5 +1,5 @@
 # Define the Docker image to use for the pipeline jobs
-image: node:15.8.0
+image: node:16.15.0
 
 # Define the different stages of the pipeline
 stages:
@@ -12,7 +12,7 @@ api build:
   # Set up the environment before running the script
   before_script:
     # Installing nexe globally 
-    - npm install -g nexe
+    - npm install -g pkg
     # Change to the API directory
     - echo "Changing directory to api/"
     - cd api/ 
@@ -24,8 +24,7 @@ api build:
   # Run the build script for the API
   script:
     - echo "Running build for api/"
-    - nexe index.js
-    - nexe --build
+    - pkg -t node16-linux index.js
     # Print success message
     - echo "API build was Successful!"
   # Only run this job when a merge request is created
