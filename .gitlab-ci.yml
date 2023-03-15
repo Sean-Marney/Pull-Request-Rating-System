@@ -1,10 +1,9 @@
-# Defined the Docker image to use for the pipeline jobs
+# Define the Docker image to use for the pipeline jobs
 image: node:latest
 
-# Defined the different stages of the pipeline
+# Define the different stages of the pipeline
 stages:
   - Builds
-  - Unit Tests
 
 # Build the API
 api build:
@@ -29,4 +28,25 @@ api build:
   only:
     - merge_requests
 
-
+# Build the UI
+ui build:
+  stage: Builds
+  # Set up the environment before running the script
+  before_script:
+    # Change to the UI directory
+    - echo "Changing directory to ui/"
+    - cd ui/ 
+    # Print the current directory
+    - pwd
+    # Install dependencies for the UI
+    - echo "Installing dependencies for ui/"
+    - npm i
+  # Run the build script for the UI
+  script:
+    - echo "Running build for ui/"
+    - npm run build
+    # Print success message
+    - echo "UI build was Successful!"
+  # Only run this job when a merge request is created
+  only:
+    - merge_requests
