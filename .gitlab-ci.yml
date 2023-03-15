@@ -1,5 +1,5 @@
 # Define the Docker image to use for the pipeline jobs
-image: node:16
+image: node:15.8.0
 
 # Define the different stages of the pipeline
 stages:
