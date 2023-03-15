@@ -32,7 +32,7 @@ api build:
   #   - merge_requests
   artifacts:
     paths:
-      - dist
+      - api/dist
 
 
 
