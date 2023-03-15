@@ -6,4 +6,27 @@ stages:
   - Builds
   - Unit Tests
 
+# Build the API
+api build:
+  stage: Builds
+  # Set up the environment before running the script
+  before_script:
+    # Change to the API directory
+    - echo "Changing directory to api/"
+    - cd api/ 
+    # Print the current directory
+    - pwd
+    # Install dependencies for the API
+    - echo "Installing dependencies for api/"
+    - npm i
+  # Run the build script for the API
+  script:
+    - echo "Running build for api/"
+    - npm run build
+    # Print success message
+    - echo "API build was Successful!"
+  # Only run this job when a merge request is created
+  only:
+    - merge_requests
+
 
