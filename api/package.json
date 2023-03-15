@@ -4,8 +4,6 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "npx tsc",
-        "buildwatch": "npx tsc --watch --preserveWatchOutput",
         "start": "nodemon index.js",
         "test": "mocha"
     },
