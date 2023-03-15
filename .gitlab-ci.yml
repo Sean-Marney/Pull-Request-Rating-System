@@ -43,7 +43,7 @@ ui build:
   # Run the build script for the UI
   script:
     - echo "Running build for ui/"
-    - npm start
+    - npm run build
     # Print success message
     - echo "UI build was Successful!"
   # Only run this job when a merge request is created
