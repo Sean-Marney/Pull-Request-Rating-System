@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import { InputLabel } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
@@ -17,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAxiosInstance from "../../../useAxiosInstance";
 import * as yup from "yup";
-import validateLoginForm from "../../../validations/loginForm";
 import { useState } from "react";
 
 const theme = createTheme();
@@ -129,12 +126,7 @@ export default function SignIn() {
                         {error.password && (
                             <div style={{ color: "red" }}>{error.password}</div>
                         )}
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
-                        />
+                        
                         <Button
                             type="submit"
                             fullWidth
@@ -144,11 +136,6 @@ export default function SignIn() {
                             Sign In
                         </Button>
                         <Grid container>
-                            <Grid item xs>
-                                <Link href="/dashboard" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
                             <Grid item>
                                 <Link href="/register" variant="body2">
                                     {"Don't have an account? Sign Up"}
