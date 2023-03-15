@@ -24,10 +24,17 @@ api build:
   # Run the build script for the API
   script:
     - echo "Running build for api/"
-    - pkg -t node16-linux index.js
+    - pkg -t node16-linux index.js --out-path dist
     # Print success message
     - echo "API build was Successful!"
   # Only run this job when a merge request is created
+  # only:
+  #   - merge_requests
+  artifacts:
+    paths:
+      - dist
+
+
 
 # Build the UI
 ui build:
@@ -49,6 +56,8 @@ ui build:
     # Print success message
     - echo "UI build was Successful!"
   # Only run this job when a merge request is created
+  # only:
+  #   - merge_requests
 
 # Run unit tests for the API
 api unit tests:
