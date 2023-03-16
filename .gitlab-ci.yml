@@ -84,7 +84,7 @@ api unit tests:
     - testFiles=$(find tests/ -mindepth 1 -type f)
     - echo $testFiles
     # Run the tests with bail and warn-exit options
-    - npm test --warn-exit --json --bail | tap-nirvana
+    - npm test $testFiles --warn-exit --json --bail | tap-nirvana
     - success
   # Only run this job when a merge request is created
   # only:
