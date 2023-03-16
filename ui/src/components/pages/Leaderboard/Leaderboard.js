@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import {
   Table,
@@ -11,14 +10,7 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  tableContainer: {
-    paddingLeft: theme.spacing(30),
-    paddingRight: theme.spacing(30),
-    textAlign: "center",
-  },
-}));
+import { useStyles } from "../../styles/tableStyle";
 
 function Leaderboard() {
   const classes = useStyles();

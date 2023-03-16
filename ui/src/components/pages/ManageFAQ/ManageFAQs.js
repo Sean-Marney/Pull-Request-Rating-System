@@ -18,37 +18,7 @@ import {
   IconButton,
   Paper,
 } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  tableContainer: {
-    height: "calc(100vh - 100px)",
-    maxWidth: "90%",
-    margin: "0 auto",
-    overflow: "auto",
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
-  paper: {
-    marginTop: theme.spacing(3),
-    padding: theme.spacing(2),
-    boxShadow: theme.shadows[20],
-    borderRadius: theme.shape.borderRadius,
-  },
-  tableHeaders: {
-    fontSize: "1.25rem",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  tableContent: {
-    fontSize: "1rem",
-    textAlign: "center",
-  },
-  button: {
-    marginLeft: theme.spacing(1),
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-}));
+import { useStyles } from "../../styles/tableStyle";
 
 export default function ManageFAQ() {
   const classes = useStyles();
@@ -86,7 +56,11 @@ export default function ManageFAQ() {
           </Typography>
         </Box>
         <Button
-          className={classes.button}
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
           variant="contained"
           color="primary"
           size="large"
@@ -98,7 +72,7 @@ export default function ManageFAQ() {
         <Box>
           {/* Get all rewards from database and display in a table */}
           {questions && (
-            <TableContainer className={classes.table}>
+            <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -108,9 +82,7 @@ export default function ManageFAQ() {
                     <TableCell className={classes.tableHeaders}>
                       <b>Answer</b>
                     </TableCell>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Edit</b>
-                    </TableCell>
+                    <TableCell></TableCell>
                     <TableCell />
                   </TableRow>
                 </TableHead>
@@ -125,7 +97,6 @@ export default function ManageFAQ() {
                       </TableCell>
                       <TableCell>
                         <IconButton
-                          color="primary"
                           title="Edit FAQ"
                           onClick={() =>
                             navigate(
@@ -133,16 +104,15 @@ export default function ManageFAQ() {
                             )
                           }
                         >
-                          <EditIcon />
+                          <EditIcon className={classes.editButton} />
                         </IconButton>
                       </TableCell>
                       <TableCell>
                         <IconButton
-                          color="secondary"
                           title="Delete FAQ"
                           onClick={() => deleteFAQ(question._id)}
                         >
-                          <DeleteIcon />
+                          <DeleteIcon className={classes.deleteButton} />
                         </IconButton>
                       </TableCell>
                     </TableRow>
