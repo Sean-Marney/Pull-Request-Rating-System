@@ -27,6 +27,9 @@ api build:
     - pkg -t linux,macos,win index.js --out-path dist
     # Print success message
     - echo "API build was Successful!"
+  reports:
+      junit:
+        - junit.xml
   # Only run this job when a merge request is created
   # only:
   #   - merge_requests
