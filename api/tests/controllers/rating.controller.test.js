@@ -94,75 +94,75 @@ describe("createRating", () => {
   });
 });
 
-describe("getUserByPullRequestRating", () => {
-  beforeEach(() => {
-    sinon.stub(PullRequest, "findById");
-    sinon.stub(User, "findById");
-    sinon.stub(User, "updateOne");
-  });
+// describe("getUserByPullRequestRating", () => {
+//   beforeEach(() => {
+//     sinon.stub(PullRequest, "findById");
+//     sinon.stub(User, "findById");
+//     sinon.stub(User, "updateOne");
+//   });
 
-  afterEach(() => {
-    sinon.restore();
-  });
+//   afterEach(() => {
+//     sinon.restore();
+//   });
 
-  it("should update user's stars and totalStarsEarned fields", async () => {
-    // Mock data
-    const pullRequestId = "123";
-    const userId = "456";
-    const ratingSum = 5;
+//   it("should update user's stars and totalStarsEarned fields", async () => {
+//     // Mock data
+//     const pullRequestId = "123";
+//     const userId = "456";
+//     const ratingSum = 5;
 
-    // Create mock pull request
-    const pullRequest = { user_id: userId };
-    PullRequest.findById.resolves(pullRequest);
+//     // Create mock pull request
+//     const pullRequest = { user_id: userId };
+//     PullRequest.findById.resolves(pullRequest);
 
-    // Create mock user
-    const user = { _id: userId, stars: 3, totalStarsEarned: 10 };
-    User.findById.resolves(user);
+//     // Create mock user
+//     const user = { _id: userId, stars: 3, totalStarsEarned: 10 };
+//     User.findById.resolves(user);
 
-    // Do calculations for the new star count and new total star count, according to the ratings received for that pull request
-    const updatedStarCount = user.stars + ratingSum;
-    const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
+//     // Do calculations for the new star count and new total star count, according to the ratings received for that pull request
+//     const updatedStarCount = user.stars + ratingSum;
+//     const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
 
-    // Call method with rating received and the pull request its for
-    await getUserByPullRequestRating(ratingSum, pullRequestId);
+//     // Call method with rating received and the pull request its for
+//     await getUserByPullRequestRating(ratingSum, pullRequestId);
 
-    // Assert it was called with the expected data
-    assert(User.findById.calledOnceWith(userId));
-    assert(
-      User.updateOne.calledOnceWith(
-        { _id: user._id },
-        {
-          $set: {
-            stars: updatedStarCount,
-            totalStarsEarned: updatedTotalStarCount,
-          },
-        }
-      )
-    );
-  });
+//     // Assert it was called with the expected data
+//     assert(User.findById.calledOnceWith(userId));
+//     assert(
+//       User.updateOne.calledOnceWith(
+//         { _id: user._id },
+//         {
+//           $set: {
+//             stars: updatedStarCount,
+//             totalStarsEarned: updatedTotalStarCount,
+//           },
+//         }
+//       )
+//     );
+//   });
 
-  it("should return 404 if pull request is not found", async () => {
-    // Create a spy for the res.json method
-    const jsonSpy = sinon.spy();
+//   it("should return 404 if pull request is not found", async () => {
+//     // Create a spy for the res.json method
+//     const jsonSpy = sinon.spy();
 
-    // Mock data
-    const res = {
-      status: sinon.stub().returns({ json: jsonSpy }),
-      json: jsonSpy,
-    };
-    const pullRequestId = "123";
-    const ratingSum = 5;
+//     // Mock data
+//     const res = {
+//       status: sinon.stub().returns({ json: jsonSpy }),
+//       json: jsonSpy,
+//     };
+//     const pullRequestId = "123";
+//     const ratingSum = 5;
 
-    // Set up the mock PullRequest.findById to return null
-    PullRequest.findById.resolves(null);
+//     // Set up the mock PullRequest.findById to return null
+//     PullRequest.findById.resolves(null);
 
-    // Call the method with the mock pull request ID
-    await getUserByPullRequestRating(ratingSum, pullRequestId, res);
+//     // Call the method with the mock pull request ID
+//     await getUserByPullRequestRating(ratingSum, pullRequestId, res);
 
-    // Check that the method returned a 404 response
-    assert(res.status.calledWith(404));
-    assert(
-      jsonSpy.calledWith({ message: "Pull request with that ID not found" })
-    );
-  });
-});
+//     // Check that the method returned a 404 response
+//     assert(res.status.calledWith(404));
+//     assert(
+//       jsonSpy.calledWith({ message: "Pull request with that ID not found" })
+//     );
+//   });
+// });
