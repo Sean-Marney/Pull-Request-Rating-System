@@ -167,7 +167,7 @@ export default function DeveloperDashboard() {
           repo: "N/A",
           url: "",
         });
-        setLatestPullRequestStatus("No Pull Requests");
+        setLatestPullRequestStatus("N/A");
         return;
       }
 
