@@ -6,6 +6,6 @@ export default yup.object().shape({
         .string()
         .matches(/^[a-zA-Z ]*$/, "Tracker name may only contain letters")
         .strict()
-        .max(20, "Tracker name must be max 50 characters long")
+        .max(50, "Tracker name must be max 20 characters long")
         .required("Please enter the tracker name"),
 });
