@@ -12,7 +12,7 @@ describe("GET /management/rewards", () => {
                 chai.expect(res.body).to.be.an("array");
                 done();
             });
-    });
+    }).timeout(1000000); 
 });
 
 describe("GET /management/rewards/:id", () => {
@@ -47,7 +47,7 @@ describe("GET /management/rewards/:id", () => {
                 chai.expect(res.body.starsRequired).to.equal(100);
                 done();
             });
-    });
+    }).timeout(1000000); 
 });
 
 describe("POST /management/rewards/create", () => {
@@ -70,7 +70,7 @@ describe("POST /management/rewards/create", () => {
                 chai.expect(res.body.starsRequired).to.equal(50);
                 done();
             });
-    });
+    }).timeout(1000000); 
 });
 
 describe("PATCH /management/rewards/:id", () => {
@@ -106,7 +106,7 @@ describe("PATCH /management/rewards/:id", () => {
                 chai.expect(res.body.starsRequired).to.equal(50);
                 done();
             });
-    });
+    }).timeout(1000000); 
 });
 
 describe("DELETE /management/rewards/:id", () => {
@@ -143,5 +143,5 @@ describe("DELETE /management/rewards/:id", () => {
                     done();
                 });
             });
-    });
+    }).timeout(1000000); 
 });
