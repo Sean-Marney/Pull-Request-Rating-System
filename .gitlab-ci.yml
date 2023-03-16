@@ -82,9 +82,9 @@ api unit tests:
     - testFiles=$(find tests/ -mindepth 1 -type f)
     - echo $testFiles
     # Run the tests with timeout option
-    - npm test $testFiles --timeout=100000
+    - npm test $testFiles --timeout=100000 --verbose
     # Check the exit status of the npm test command
-    - if [ $? -eq 0 ]; then echo "Tests passed. Job successful."; else echo "Tests failed. Job unsuccessful."; exit 1; fi
+    - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
   # Only run this job when a merge request is created
   # only:
   #   - merge_requests
