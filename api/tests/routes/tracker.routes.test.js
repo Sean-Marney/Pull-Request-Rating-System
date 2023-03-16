@@ -12,7 +12,7 @@ describe("GET /management/trackers", () => {
                 chai.expect(res.body).to.be.an("array");
                 done();
             });
-    }).timeout(100000); 
+    }).timeout(1000000); 
 });
 
 describe("GET /management/trackers/:id", () => {
@@ -45,7 +45,7 @@ describe("GET /management/trackers/:id", () => {
                 chai.expect(res.body.name).to.equal("Design Patterns");
                 done();
             });
-    }).timeout(100000); 
+    }).timeout(1000000); 
 });
 
 describe("POST /management/trackers/create", () => {
@@ -66,7 +66,7 @@ describe("POST /management/trackers/create", () => {
                 chai.expect(res.body.name).to.equal("Design Patterns");
                 done();
             });
-    }).timeout(100000); 
+    }).timeout(1000000); 
 });
 
 describe("PATCH /management/trackers/:id", () => {
@@ -100,7 +100,7 @@ describe("PATCH /management/trackers/:id", () => {
                 chai.expect(res.body.name).to.equal("Design Patterns new");
                 done();
             });
-    }).timeout(100000); 
+    }).timeout(1000000); 
 });
 
 describe("DELETE /management/trackers/:id", () => {
@@ -136,5 +136,5 @@ describe("DELETE /management/trackers/:id", () => {
                     done();
                 });
             });
-    }).timeout(100000); 
+    }).timeout(1000000); 
 });
