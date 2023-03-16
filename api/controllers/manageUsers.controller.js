@@ -183,5 +183,5 @@ module.exports = {
   deleteUser,
   updateUserByEmail,
   deleteUserByEmail,
-  updateUsersPasswordByEmail
+  updateUsersPasswordByEmail,
 };

@@ -33,7 +33,12 @@ const PullRequestSchema = new mongoose.Schema({
     type: Object,
     required: false,
   },
+  users_name: {
+    type: String,
+    required: false,
+  },
 });
 
 const PullRequest = mongoose.model("PullRequest", PullRequestSchema);
 module.exports = PullRequest;
+
