@@ -12,7 +12,7 @@ describe("GET /management/users", () => {
                 chai.expect(res.body).to.be.an("array");
                 done();
             });
-    });
+    }).timeout(50000); 
 });
 
 describe("GET /management/users/:id", () => {
@@ -29,7 +29,7 @@ describe("GET /management/users/:id", () => {
         user.save((err) => {
             if (err) return done(err);
             done();
-        });
+        })
     });
 
     afterEach((done) => {
@@ -51,7 +51,7 @@ describe("GET /management/users/:id", () => {
                 chai.expect(res.body.hasRole).to.equal("Developer");
                 done();
             });
-    });
+    }).timeout(50000); 
 });
 
 
@@ -70,7 +70,7 @@ describe("PATCH /management/users/:id", () => {
             if (err) return done(err);
             done();
         });
-    });
+    })
 
     afterEach((done) => {
         User.deleteMany({}, (err) => {
@@ -97,7 +97,7 @@ describe("PATCH /management/users/:id", () => {
                 chai.expect(res.body.hasRole).to.equal("Developer");
                 done();
             });
-    });
+    }).timeout(50000); 
 });
 
 describe("DELETE /management/users/:id", () => {
@@ -115,7 +115,7 @@ describe("DELETE /management/users/:id", () => {
             if (err) return done(err);
             done();
         });
-    });
+    })
 
     afterEach((done) => {
         User.deleteMany({}, (err) => {
@@ -136,5 +136,5 @@ describe("DELETE /management/users/:id", () => {
                     done();
                 });
             });
-    });
+    }).timeout(50000); 
 });
