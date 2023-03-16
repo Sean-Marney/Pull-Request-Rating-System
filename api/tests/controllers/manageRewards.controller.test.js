@@ -54,7 +54,7 @@ describe("GET all rewards from /management/rewards using the getRewards controll
       expect(reward).to.have.property("starsRequired");
       expect(reward._id).to.be.a("string");
       expect(reward.rewardName).to.be.a("string");
-      // expect(reward.starsRequired).to.be.a("string");
+      expect(reward.starsRequired).to.be.a("number");
     });
   });
 });
@@ -111,7 +111,7 @@ describe("GET reward by ID from /management/rewards using the getRewards control
     expect(mockReward).to.have.property("starsRequired");
     expect(mockReward._id).to.be.a("string");
     expect(mockReward.rewardName).to.be.a("string");
-    // expect(mockReward.starsRequired).to.be.a("string");
+    expect(mockReward.starsRequired).to.be.a("number");
   });
 });
 
