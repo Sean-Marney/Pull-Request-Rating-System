@@ -28,8 +28,8 @@ api build:
     # Print success message
     - echo "API build was Successful!"
   # Only run this job when a merge request is created
-  # only:
-  #   - merge_requests
+  only:
+    - merge_requests
   artifacts:
     paths:
       - api/dist
@@ -56,8 +56,8 @@ ui build:
     # Print success message
     - echo "UI build was Successful!"
   # Only run this job when a merge request is created
-  # only:
-  #   - merge_requests
+  only:
+    - merge_requests
   artifacts:
     paths:
       - ui/build/static
@@ -87,8 +87,8 @@ api unit tests:
     # Check the exit status of the npm test command
     - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
   # Only run this job when a merge request is created
-  # only:
-  #   - merge_requests
+  only:
+    - merge_requests
 
   # Run unit tests for the UI
 ui unit tests:
@@ -112,5 +112,5 @@ ui unit tests:
     # Print success message
     - echo "All Tests Passed!"
      # Only run this job when a merge request is created
-  # only:
-  #   - merge_requests
+  only:
+    - merge_requests
