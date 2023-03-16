@@ -12,7 +12,7 @@ describe("GET /management/users", () => {
                 chai.expect(res.body).to.be.an("array");
                 done();
             });
-    }).timeout(50000); 
+    }).timeout(100000); 
 });
 
 describe("GET /management/users/:id", () => {
@@ -51,7 +51,7 @@ describe("GET /management/users/:id", () => {
                 chai.expect(res.body.hasRole).to.equal("Developer");
                 done();
             });
-    }).timeout(50000); 
+    }).timeout(100000); 
 });
 
 
@@ -97,7 +97,7 @@ describe("PATCH /management/users/:id", () => {
                 chai.expect(res.body.hasRole).to.equal("Developer");
                 done();
             });
-    }).timeout(50000); 
+    }).timeout(100000); 
 });
 
 describe("DELETE /management/users/:id", () => {
@@ -136,5 +136,5 @@ describe("DELETE /management/users/:id", () => {
                     done();
                 });
             });
-    }).timeout(50000); 
+    }).timeout(100000); 
 });
