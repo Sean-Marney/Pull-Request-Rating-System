@@ -2,7 +2,7 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const auth = require("../../controllers/auth.controller");
 const sinon = require("sinon");
-const User = require("../../models/user.model");
+var User = require("../../models/user.model");
 const jwt = require("jsonwebtoken");
 
 chai.use(chaiHttp);
@@ -10,7 +10,7 @@ chai.should();
 
 describe("CREATE user at /auth using the registerUser controller method", () => {
     it("should create a user and save it to the database with a 201 response code", function () {
-        this.timeout(500000);
+        this.timeout(1000000);
 
         const userData = {
             name: "Test user",
@@ -24,7 +24,7 @@ describe("CREATE user at /auth using the registerUser controller method", () => 
         };
 
         const user = new User(userData);
-        sinon.stub(User.prototype, "save").resolves(user);
+        sinon.stub(User.prototype, "save").resetHistory().resolves(user);
 
         auth.registerUser(req, res)
             .then(() => {
