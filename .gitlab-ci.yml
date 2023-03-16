@@ -81,12 +81,15 @@ api unit tests:
     # Create variable to find all test files
     - testFiles=$(find tests/ -mindepth 1 -type f)
     - echo $testFiles
-    - npm test $testFiles
-    # Print success message
-    - echo "All Tests Passed!"
+    # Run the tests and store the output in a variable
+    - testOutput=$(npm test $testFiles)
+    # Print the output of the failed tests
+    - echo "$testOutput" | grep -E '^(not )?ok\s+[0-9]+\s+#\s+(?!pass)'
+    # Print success message if no tests failed
+    - if [[ $(echo "$testOutput" | grep -E '^(not )?ok\s+[0-9]+\s+#\s+(?!pass)') == "" ]]; then echo "All Tests Passed!"; fi
   # Only run this job when a merge request is created
-  # only:
-  #   - merge_requests
+  only:
+    - merge_requests
 
   # Run unit tests for the UI
 ui unit tests:
