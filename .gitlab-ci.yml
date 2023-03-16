@@ -75,6 +75,8 @@ api unit tests:
     # Install dependencies for the API
     - echo "Installing dependencies for api/"
     - npm i --force
+    # Installing tap-nirvana package
+    - npm install tap-nirvana --save-dev
   # Run the unit tests for the API
   script:
     - echo "Running Unit Tests for api/"
@@ -82,7 +84,7 @@ api unit tests:
     - testFiles=$(find tests/ -mindepth 1 -type f)
     - echo $testFiles
     # Run the tests with bail and warn-exit options
-    - npm test $testFiles  --warn-exit || || true
+    - npm test --warn-exit --json --bail | tap-nirvana
     - success
   # Only run this job when a merge request is created
   # only:
