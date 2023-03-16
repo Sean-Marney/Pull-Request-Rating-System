@@ -76,7 +76,7 @@ api unit tests:
     - echo "Installing dependencies for api/"
     - npm i --force
     # Installing tap-nirvana package
-    - npm install tap-nirvana --save-dev
+    - npm install -g tap-nirvana
     # Add node_modules to PATH environment variable
     - export PATH=$PATH:$(pwd)/node_modules/.bin
   # Run the unit tests for the API
