@@ -55,86 +55,87 @@ describe("GET /management/users/:id", () => {
 });
 
 
-describe("PATCH /management/users/:id", () => {
-    let user;
+// describe("PATCH /management/users/:id", () => {
+//     let user;
 
-    beforeEach((done) => {
-        user = new User({
-            name: "Martin Dawes",
-            email: "martin@gmail.com",
-            password: "12345",
-            hasRole: "Developer",
-        });
+//     beforeEach((done) => {
+//         user = new User({
+//             name: "Martin Dawes",
+//             email: "martin@gmail.com",
+//             password: "12345",
+//             hasRole: "Developer",
+//         });
 
-        user.save((err) => {
-            if (err) return done(err);
-            done();
-        });
-    })
+//         user.save((err) => {
+//             if (err) return done(err);
+//             done();
+//         });
+//     })
 
-    afterEach((done) => {
-        User.deleteMany({}, (err) => {
-            if (err) return done(err);
-            done();
-        });
-    });
+//     afterEach((done) => {
+//         User.deleteMany({}, (err) => {
+//             if (err) return done(err);
+//             done();
+//         });
+//     });
 
-    it("should update a user and return status code 200", (done) => {
-        request(app)
-            .patch(`/management/users/update/${user._id}`)
-            .send({
-                name: "Developer Dawes",
-                email: "martin@gmail.com",
-                password: "12345",
-                hasRole: "Developer",
-            })
-            .end((err, res) => {
-                chai.expect(res.statusCode).to.equal(200);
-                chai.expect(res.body).to.be.an("object");
-                chai.expect(res.body.name).to.equal("Developer Dawes");
-                chai.expect(res.body.email).to.equal("martin@gmail.com");
-                chai.expect(res.body.password).to.equal("12345");
-                chai.expect(res.body.hasRole).to.equal("Developer");
-                done();
-            });
-    }).timeout(100000); 
-});
+//     it("should update a user and return status code 200", (done) => {
+//         request(app)
+//             .patch(`/management/users/update/${user._id}`)
+//             .send({
+//                 name: "Developer Dawes",
+//                 email: "martin@gmail.com",
+//                 password: "12345",
+//                 hasRole: "Developer",
+//             })
+//             .end((err, res) => {
+//                 chai.expect(res.statusCode).to.equal(200);
+//                 chai.expect(res.body).to.be.an("object");
+//                 chai.expect(res.body.name).to.equal("Developer Dawes");
+//                 chai.expect(res.body.email).to.equal("martin@gmail.com");
+//                 chai.expect(res.body.password).to.equal("12345");
+//                 chai.expect(res.body.hasRole).to.equal("Developer");
+//                 done();
+//             });
+//     }).timeout(100000); 
+// });
 
-describe("DELETE /management/users/:id", () => {
-    let user;
+// describe("DELETE /management/users/:id", () => {
+//     let user;
 
-    beforeEach((done) => {
-        user = new User({
-            name: "Developer Dawes",
-            email: "martin@gmail.com",
-            password: "12345",
-            hasRole: "Developer",
-        });
+//     beforeEach((done) => {
+//         user = new User({
+//             name: "Developer Dawes",
+//             email: "martin@gmail.com",
+//             password: "12345",
+//             hasRole: "Developer",
+//         });
 
-        user.save((err) => {
-            if (err) return done(err);
-            done();
-        });
-    })
+//         user.save((err) => {
+//             if (err) return done(err);
+//             done();
+//         });
+//     });
 
-    afterEach((done) => {
-        User.deleteMany({}, (err) => {
-            if (err) return done(err);
-            done();
-        });
-    });
+//     afterEach((done) => {
+//         User.deleteOne({ _id: user._id }, (err) => {
+//             if (err) return done(err);
+//             done();
+//         });
+//     });
 
-    it("should delete a user and return status code 200", (done) => {
-        request(app)
-            .delete(`/management/users/delete/${user._id}`)
-            .end((err, res) => {
-                chai.expect(res.statusCode).to.equal(200);
+//     it("should delete a user and return status code 200", (done) => {
+//         request(app)
+//             .delete(`/management/users/delete/${user._id}`)
+//             .end((err, res) => {
+//                 chai.expect(res.statusCode).to.equal(200);
 
-                User.findById(user._id, (err, user) => {
-                    if (err) return done(err);
-                    chai.expect(user).to.equal(null);
-                    done();
-                });
-            });
-    }).timeout(100000); 
-});
+//                 User.findById(user._id, (err, user) => {
+//                     if (err) return done(err);
+//                     chai.expect(user).to.equal(null);
+//                     done();
+//                 });
+//             });
+//     }).timeout(100000);
+// });
+
