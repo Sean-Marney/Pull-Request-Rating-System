@@ -23,3 +23,9 @@ deploy to s3:
     script:
         - aws --version
         - aws s3 sync ui/build s3://$AWS_S3_BUCKET --delete
+
+deploy to ec2:
+    stage: deploy
+    image: node:18-alpine
+    script:
+        - ssh -i key.pem ec2-user@13.48.134.95 -y
