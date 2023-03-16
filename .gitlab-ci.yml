@@ -65,6 +65,7 @@ ui build:
 # Run unit tests for the API
 api unit tests:
   stage: Unit Tests
+  timeout: 1h # set timeout for the entire job to 1 hour
   # Set up the environment before running the script
   before_script:
     # Change to the API directory
@@ -82,7 +83,7 @@ api unit tests:
     - testFiles=$(find tests/ -mindepth 1 -type f)
     - echo $testFiles
     # Run the tests with timeout option
-    - npm test $testFiles --timeout=100000 --verbose
+    - npm test $testFiles --verbose
     # Check the exit status of the npm test command
     - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
   # Only run this job when a merge request is created
