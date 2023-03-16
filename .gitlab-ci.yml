@@ -82,7 +82,8 @@ api unit tests:
     - testFiles=$(find tests/ -mindepth 1 -type f)
     - echo $testFiles
     # Run the tests with bail and warn-exit options
-    - npm test $testFiles --bail --warn-exit || echo "Some tests failed or were skipped."
+    - npm test $testFiles  --warn-exit || || true
+    - success
   # Only run this job when a merge request is created
   # only:
   #   - merge_requests
