@@ -109,6 +109,8 @@ export default function DeveloperDashboard() {
   const [latestPullRequestStatus, setLatestPullRequestStatus] = useState(null); // Whether pull request is "Pending" or "Reviewed"
   const [canClaimReward, setCanClaimReward] = useState(false); // Tracks whether user has enough stars to claim any rewards
   const [claimedRewards, setClaimedRewards] = useState(null); // List of user's claimed rewards
+  const [remainingStarsForEachReward, setRemainingStarsForEachReward] =
+    useState([]);
 
   // Renders all data on page load
   useEffect(() => {
@@ -204,6 +206,7 @@ export default function DeveloperDashboard() {
         if (remainingStars === 0) {
           setCanClaimReward(true);
         }
+        setRemainingStarsForEachReward(remainingStarsData);
       });
     } catch (error) {
       console.log(error);
