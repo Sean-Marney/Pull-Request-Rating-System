@@ -1,7 +1,6 @@
-import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import {
   Typography,
   InputLabel,
@@ -9,20 +8,26 @@ import {
   Button,
   Card,
   CardContent,
+  makeStyles,
+  TextField,
 } from "@material-ui/core";
+import { useCookies } from "react-cookie";
+import validateCreateUserForm from "../../../validations/updateProfileForm";
 import * as yup from "yup";
-import validateUpdateUserForm from "../../../validations/updateUserForm";
 import { useStyles } from "../../styles/formStyle";
 
-export default function UpdateUser() {
+
+
+export default function UpdateProfile() {
   const classes = useStyles();
+  const [cookies,setCookie] = useCookies();
   const [updateForm, setUpdateForm] = useState({
     name: "",
     email: "",
-    git_username: "",
+    bio: "",
   });
   const [error, setError] = useState({});
-  const { id } = useParams(); // Get user ID from URL
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,15 +35,16 @@ export default function UpdateUser() {
   }, []);
 
   const getUser = async () => {
-    console.log(getUser);
-    // Get user by id
-    const res = await axios.get(`http://localhost:8000/management/users/${id}`);
-    console.log(res);
+    // Get user by email
+    const res = await axios.get(
+      `http://localhost:8000/management/users/email/${cookies.user}`
+    );
+    console.log(res.data);
     // Set to state (fills in textboxes)
     setUpdateForm({
       name: res.data.name,
       email: res.data.email,
-      git_username: res.data.git_username,
+      bio: res.data.bio,
     });
   };
 
@@ -53,19 +59,20 @@ export default function UpdateUser() {
 
   const updateUser = async (e) => {
     e.preventDefault();
-    console.log(updateUser);
+
     try {
-      await validateUpdateUserForm.validate(updateForm, {
+      await validateCreateUserForm.validate(updateForm, {
         abortEarly: false,
       });
       await axios.patch(
-        `http://localhost:8000/management/users/update/${id}`,
+        `http://localhost:8000/management/users/update/email/${cookies.user.email}`,
         updateForm
       );
-      console.log("User updated successfully");
-      navigate("/management/users");
+      console.log(updateForm);
+    
+      setCookie("user", updateForm.email, { path: "/" });      
+      navigate("/profile");
     } catch (error) {
-      console.error(error);
       const validationErrors = {};
       if (error instanceof yup.ValidationError) {
         error.inner.forEach((error) => {
@@ -80,27 +87,28 @@ export default function UpdateUser() {
     <div>
       <div>
         <Card className={classes.card}>
-          <Typography variant="h4" className={classes.title}>
-            <b>Update Users</b>
+          <Typography variant="h4">
+            <b>Update Profile</b>
           </Typography>
           <CardContent>
-            <form onSubmit={updateUser} className={classes.formControl}>
-              <div>
-                <InputLabel htmlFor="name">User Name</InputLabel>
+            <form onSubmit={updateUser}>
+              {/* name */}
+              <div style={{ marginTop: "20px" }}>
+                <InputLabel>Name </InputLabel>
                 <Input
                   onChange={updateEditFormField}
                   value={updateForm.name}
                   name="name"
                   id="name"
                   inputProps={{
-                    style: { textAlign: "center" },
+                    style: { textAlign: "left" },
                   }}
                   className={classes.input}
                 />
-                {error.name && (
-                  <div className={classes.error}>{error.name}</div>
-                )}
+                {error.name && <div style={{ color: "red" }}>{error.name}</div>}
               </div>
+
+              {/* email */}
               <div>
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
@@ -109,40 +117,50 @@ export default function UpdateUser() {
                   name="email"
                   id="email"
                   inputProps={{
-                    style: { textAlign: "center" },
+                    style: { textAlign: "left" },
                   }}
                   className={classes.input}
                 />
                 {error.email && (
-                  <div className={classes.error}>{error.email}</div>
+                  <div style={{ color: "red" }}>{error.email}</div>
                 )}
               </div>
+
+              {/* bio */}
               <div>
-                <InputLabel htmlFor="git_username">GitHub Username</InputLabel>
-                <Input
+                <InputLabel>Bio</InputLabel>
+                <TextField
                   onChange={updateEditFormField}
-                  value={updateForm.git_username}
-                  name="git_username"
-                  id="git_username"
+                  value={updateForm.bio}
+                  multiline
+                  rows={5}
+                  maxWidth
+                  name="bio"
+                  id="bio"
                   inputProps={{
-                    style: { textAlign: "center" },
+                    style: { textAlign: "left" },
                   }}
                   className={classes.input}
                 />
-                {error.git_username && (
-                  <div className={classes.error}>{error.git_username}</div>
-                )}
+                {error.bio && <div style={{ color: "red" }}>{error.bio}</div>}
               </div>
-              <div className={classes.buttonContainer}>
+              {/* cancel Button */}
+              <div style={{ marginTop: "20px" }}>
                 <Button
-                  onClick={() => navigate("/management/users")}
+                  onClick={() => navigate("/profile")}
                   variant="contained"
-                  style={{ marginRight: "20px" }}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" variant="contained" color="primary">
-                  Update User
+
+                {/* update button  */}
+                <Button
+                  type="submit"
+                  style={{ marginLeft: "30px" }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Update Profile
                 </Button>
               </div>
             </form>

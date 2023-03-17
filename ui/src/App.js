@@ -4,6 +4,7 @@ import PullRequestRating from "./components/pages/Repositories/PullRequestRating
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import Sidebar from "./components/reusable/SidebarData";
 import ManagerDashboard from "./components/pages/ManagerDashboard/ManagerDashboard";
+import DeveloperDashboard from "./components/pages/DeveloperDashboard/DeveloperDashboard";
 import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
@@ -24,6 +25,9 @@ import UpdateFAQs from "./components/pages/ManageFAQ/UpdateFAQForm";
 import ClaimedRewards from "./components/pages/ClaimedRewards/ClaimedRewards";
 import ArchivedRewards from "./components/pages/ClaimedRewards/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
+import ManageProfiles from "./components/pages/Profile/Profile";
+import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm";
+import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
 import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
@@ -35,7 +39,8 @@ const App = () => {
       {cookies.token && (
         <Sidebar removeCookie={removeCookie} role={cookies.role}>
           <Routes>
-            <Route path="/" element={<ManagerDashboard />} />
+            <Route path="/" element={<DeveloperDashboard />} />
+            <Route path="/management" element={<ManagerDashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
                 
@@ -195,6 +200,36 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/profile"
+              element={
+                  <ProtectedRoute
+                      token={cookies.token} role={cookies.role}>
+                      {" "}
+                      <ManageProfiles />
+                  </ProtectedRoute>
+              }
+            />
+             <Route
+                path="/profile/update"
+                element={
+                    <ProtectedRoute
+                        token={cookies.token} role={cookies.role}>
+                        {" "}
+                        <UpdateProfile />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/profile/password"
+                element={
+                    <ProtectedRoute
+                        token={cookies.token} role={cookies.role}>
+                        {" "}
+                        <UpdatePassword />
+                        </ProtectedRoute>
+                  }
+                />
           </Routes>
         </Sidebar>
       )}
