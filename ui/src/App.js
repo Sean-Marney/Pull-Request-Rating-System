@@ -27,6 +27,7 @@ import ArchivedRewards from "./components/pages/ClaimedRewards/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
 import ManageProfiles from "./components/pages/Profile/Profile";
 import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm";
+import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -205,7 +206,16 @@ const App = () => {
                     </ProtectedRoute>
                 }
             />
-
+            <Route
+                path="/profile/password"
+                element={
+                    <ProtectedRoute
+                        token={cookies.token} role={cookies.role}>
+                        {" "}
+                        <UpdatePassword />
+                        </ProtectedRoute>
+                  }
+                />
           </Routes>
         </Sidebar>
       )}
