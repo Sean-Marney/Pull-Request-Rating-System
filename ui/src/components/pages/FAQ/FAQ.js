@@ -10,7 +10,9 @@ import {
 // import {ExpandMore} from "@material-ui/icons";
 import { Collapse, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import { color } from "@mui/system";
 
 export default function ManageFaqs() {
   const [question, setQuestion] = useState(null);
@@ -56,9 +58,10 @@ export default function ManageFaqs() {
         {/* Get all FAQs from database and display on a card */}
         {question &&
           question.map((q) => (
-            <Card sx={{ maxWidth: 345 }} key={q._id}>
+            <Card sx={{ maxWidth: 345 }} key={q._id} style={{ padding: 3 , margin:45 }}>
               <CardContent>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" >
+                <div style={{ color: "red" }}>    <PsychologyAltIcon /> </div>
                   Question
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -66,21 +69,20 @@ export default function ManageFaqs() {
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
+              Answer
                 <ExpandMore
                   expand={expanded}
                   onClick={handleExpandClick}
                   aria-expanded={expanded}
                   aria-label="show more"
+                  style={{ color: "#1b2437" }}
                 >
-                  answer
-                  <ExpandMoreIcon />
+                 
+                  <TipsAndUpdatesIcon />
                 </ExpandMore>
               </CardActions>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    ANSWER
-                  </Typography>
                   <Typography paragraph>{q.answer}</Typography>
                 </CardContent>
               </Collapse>
