@@ -28,6 +28,9 @@ const UserSchema = new mongoose.Schema({
   git_username: {
     type: String,
   },
+  bio: {
+    type: String,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
