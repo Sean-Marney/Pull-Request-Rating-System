@@ -7,8 +7,6 @@ client
 coverage/
 api/package.json
 api/package-lock.json
-api/junit.xml
-
 
 # misc
 .DS_Store

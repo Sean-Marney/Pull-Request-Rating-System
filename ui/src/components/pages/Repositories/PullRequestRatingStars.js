@@ -4,9 +4,9 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {
-        position: "absolute",
-        top: 5,
-        right: 5,
+        margin: 0,
+        padding: 0,
+        display: "flex",
     },
 });
 
@@ -14,9 +14,12 @@ const PullRequestRatingStars = ({ rating }) => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
+            <span style={{ margin: "0px 15px",  fontSize: "17px" }}>
+                Average
+            </span>
             <Rating
                 name="pull-request-rating"
-                value={rating?.average ? rating.average: 0}
+                value={rating?.average ? rating.average : 0}
                 readOnly
                 sx={{
                     "& .MuiRating-iconEmpty": {
@@ -24,9 +27,6 @@ const PullRequestRatingStars = ({ rating }) => {
                     },
                 }}
             />
-            <h3 style={{ margin: "30px 0px", alignItems: "left" }}>
-                Total {rating?.overall ? rating.overall: 0}{" "}
-            </h3>
         </div>
     );
 };
