@@ -14,23 +14,8 @@ import {
   import { useCookies } from "react-cookie";
 import validateCreateUserForm from "../../../validations/updatePasswordForm";
 import * as yup from "yup";
+import { useStyles } from "../../styles/formStyle";
 
-  const useStyles = makeStyles((theme) => ({
-    card: {
-      maxWidth: 600,
-      minHeight: 325,
-      padding: "20px 5px",
-      margin: "0 auto",
-      marginTop: theme.spacing(10),
-      boxShadow: theme.shadows[20],
-      borderRadius: "20px",
-    },
-    input: {
-      padding: "5px 5px",
-      marginBottom: theme.spacing(1),
-      marginTop: theme.spacing(1),
-    },
-  }));
 
 export default function UpdatePassword() {
     const classes = useStyles();
