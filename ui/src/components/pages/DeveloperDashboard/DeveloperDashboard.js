@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Paper, Typography, Tooltip, Link, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Stars";
@@ -7,6 +7,8 @@ import CalanderIcon from "@material-ui/icons/CalendarToday";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +97,16 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "100px",
     color: "black",
   },
+  chartContainer: {
+    margin: `${theme.spacing(3)}px auto 0`,
+    width: `calc(100% - ${theme.spacing(4)}px)`,
+    height: "600px",
+    borderRadius: 25,
+    boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
 
 export default function DeveloperDashboard() {
@@ -121,6 +133,54 @@ export default function DeveloperDashboard() {
     checkIfUserCanClaimReward();
     getUsersClaimedRewards();
   }, [user]);
+
+  // Rendering chart that shows user how far away they are from being able to claim each reward
+  const rewardNames = Object.keys(remainingStarsForEachReward); // Name of reward
+  const starsRemaining = Object.values(remainingStarsForEachReward); // Number of stars left before they can claim it
+
+  const chartData = {
+    labels: rewardNames,
+    datasets: [
+      {
+        label: "Stars remaining for reward",
+        data: starsRemaining,
+        backgroundColor: ["#5b9bd5 ", "#FF8A80 "],
+        borderColor: "#fff",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Stars Remaining",
+          font: {
+            size: 25,
+            weight: "bold",
+          },
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Rewards",
+          font: {
+            size: 25,
+            weight: "bold",
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
   const getUserByEmail = async () => {
@@ -201,7 +261,8 @@ export default function DeveloperDashboard() {
       const remainingStarsData = {};
       res.data.forEach((reward) => {
         const remainingStars = Math.max(reward.starsRequired - user.stars, 0);
-        remainingStarsData[reward._id] = remainingStars;
+        // remainingStarsData[reward._id] = remainingStars;
+        remainingStarsData[reward.rewardName] = remainingStars;
         // If a user has enough stars to claim any reward, they will be informed in the description box of "Current Star Count"
         if (remainingStars === 0) {
           setCanClaimReward(true);
@@ -421,6 +482,9 @@ export default function DeveloperDashboard() {
           </div>
         </Box>
       </Box>
+      <div className={classes.chartContainer}>
+        <Bar data={chartData} options={chartOptions} />
+      </div>
     </div>
   );
 }
