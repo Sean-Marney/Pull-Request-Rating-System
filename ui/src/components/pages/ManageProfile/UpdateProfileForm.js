@@ -83,9 +83,9 @@ export default function UpdateProfile() {
         `http://localhost:8000/management/users/update/email/${cookies.user.email}`,
         updateForm
       );
-
+      console.log(updateForm);
     
-      setCookie("user", {"email": updateForm.email}, { path: "/" });      
+      setCookie("user", updateForm.email, { path: "/" });      
       navigate("/profile");
     } catch (error) {
       const validationErrors = {};
