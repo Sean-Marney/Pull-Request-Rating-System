@@ -132,7 +132,7 @@ async function changeName(pullRequests) {
         );
         if (user != undefined) {
             pullRequest.users_name = user.name;
-        }else{
+        } else {
             pullRequest.users_name = pullRequest.user_id;
         }
     });

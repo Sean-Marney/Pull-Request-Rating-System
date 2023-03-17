@@ -65,18 +65,20 @@ export default function ManageUsers() {
 
     const getUsers = async () => {
         // Get users
-        const res = await axios.get(
-            "http://localhost:8000/management/users/roles/Developer"
-        );
+        const res = await request({
+            method: "get",
+            url: "/management/users/roles/Developer",
+        });
 
         // Set to state
         setUsers(res.data);
     };
     const deleteUser = async (_id) => {
         // Delete user
-        await axios.delete(
-            `http://localhost:8000/management/users/delete/${_id}`
-        );
+        await request({
+            method: "delete",
+            url: `/management/users/delete/${_id}`,
+        });
 
         getUsers(); // Get updated list of users
     };

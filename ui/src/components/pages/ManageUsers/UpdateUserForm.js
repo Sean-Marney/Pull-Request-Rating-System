@@ -1,6 +1,5 @@
-import React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
     Typography,
@@ -13,6 +12,7 @@ import {
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateUpdateUserForm from "../../../validations/updateUserForm";
+import useAxiosInstance from "../../../useAxiosInstance";
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpdateUser() {
     const classes = useStyles();
+    const { request } = useAxiosInstance();
     const [updateForm, setUpdateForm] = useState({
         name: "",
         email: "",
@@ -68,12 +69,11 @@ export default function UpdateUser() {
     }, []);
 
     const getUser = async () => {
-        console.log(getUser);
         // Get user by id
-        const res = await axios.get(
-            `http://localhost:8000/management/users/${id}`
-        );
-        console.log(res);
+        const res = await request({
+            method: "get",
+            url: `/management/users/${id}`,
+        });
         // Set to state (fills in textboxes)
         setUpdateForm({
             name: res.data.name,
@@ -93,15 +93,15 @@ export default function UpdateUser() {
 
     const updateUser = async (e) => {
         e.preventDefault();
-        console.log(updateUser);
         try {
             await validateUpdateUserForm.validate(updateForm, {
                 abortEarly: false,
             });
-            await axios.patch(
-                `http://localhost:8000/management/users/update/${id}`,
-                updateForm
-            );
+            await request({
+                method: "patch",
+                url: `/management/users/update/${id}`,
+                data: { ...updateForm },
+            });
             console.log("User updated successfully");
             navigate("/management/users");
         } catch (error) {

@@ -1,6 +1,5 @@
-import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Typography,
@@ -13,6 +12,7 @@ import {
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateCreateUserForm from "../../../validations/createUserForm";
+import useAxiosInstance from "../../../useAxiosInstance";
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateUser() {
     const classes = useStyles();
+    const { request } = useAxiosInstance();
     const [createForm, setCreateForm] = useState({
         name: "",
         email: "",
@@ -83,10 +84,11 @@ export default function CreateUser() {
             });
 
             // Create new user
-            await axios.post(
-                "http://localhost:8000/management/users/create",
-                createForm
-            );
+            await request({
+                method: "post",
+                url: "/management/users/create",
+                data: { ...createForm },
+            });
 
             navigate("/management/users"); // Redirects after user is created
         } catch (error) {

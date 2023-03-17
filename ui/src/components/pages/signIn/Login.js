@@ -16,6 +16,7 @@ import { useCookies } from "react-cookie";
 import useAxiosInstance from "../../../useAxiosInstance";
 import * as yup from "yup";
 import { useState } from "react";
+import validateLoginForm from "../../../validations/loginForm";
 
 const theme = createTheme();
 
@@ -41,7 +42,10 @@ export default function SignIn() {
         event.preventDefault();
 
         try {
-            // await validateLoginForm.validate(user, { abortEarly: false });
+            const valRes = await validateLoginForm.validate(user, {
+                abortEarly: false,
+            });
+            console.log(valRes, " validation response ");
 
             const response = await request({
                 method: "post",
@@ -98,35 +102,46 @@ export default function SignIn() {
                         noValidate
                         sx={{ mt: 1 }}
                     >
-                        <InputLabel htmlFor="email">Email</InputLabel>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            name="email"
-                            onChange={handleInputChange}
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        {error.email && (
-                            <div style={{ color: "red" }}>{error.email}</div>
-                        )}
-                        <InputLabel htmlFor="password">Password</InputLabel>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            type="password"
-                            id="password"
-                            onChange={handleInputChange}
-                            autoComplete="current-password"
-                        />
-                        {error.password && (
-                            <div style={{ color: "red" }}>{error.password}</div>
-                        )}
-                        
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <InputLabel htmlFor="email">Email</InputLabel>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    name="email"
+                                    onChange={handleInputChange}
+                                    autoComplete="email"
+                                    autoFocus
+                                />
+                                {error.email && (
+                                    <div style={{ color: "red" }}>
+                                        {error.email}
+                                    </div>
+                                )}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <InputLabel htmlFor="password">
+                                    Password
+                                </InputLabel>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    type="password"
+                                    id="password"
+                                    onChange={handleInputChange}
+                                    autoComplete="current-password"
+                                />
+                                {error.password && (
+                                    <div style={{ color: "red" }}>
+                                        {error.password}
+                                    </div>
+                                )}
+                            </Grid>
+                        </Grid>
                         <Button
                             type="submit"
                             fullWidth

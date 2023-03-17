@@ -1,6 +1,5 @@
-import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import React,{ useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Typography,
@@ -13,6 +12,7 @@ import {
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateCreateTrackerForm from "../../../validations/createTrackerForm";
+import useAxiosInstance from "../../../useAxiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateTracker() {
   const classes = useStyles();
+  const { request } = useAxiosInstance();
   const [createForm, setCreateForm] = useState({
     name: "",
   });
@@ -78,10 +79,12 @@ export default function CreateTracker() {
       await validateCreateTrackerForm.validate(createForm, {
         abortEarly: false,
       });
-      await axios.post(
-        "http://localhost:8000/management/trackers/create",
-        createForm
-      );
+
+      await request({
+          method: "post",
+          url: "/management/trackers/create",
+          data: { ...createForm },
+      });
 
       navigate("/management/trackers"); // Redirects after reward is created
     } catch (error) {

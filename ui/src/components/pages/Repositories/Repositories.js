@@ -14,6 +14,7 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
+import useAxiosInstance from "../../../useAxiosInstance";
 
 // styles here
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "row",
         justifyContent: "space-between",
         height: "80px",
-        marginBottom: "10px"
+        marginBottom: "10px",
     },
 }));
 
@@ -88,6 +89,7 @@ var moment = require("moment");
 moment().format();
 
 const RepositoryList = () => {
+    const { request } = useAxiosInstance();
     const classes = useStyles();
 
     // Stores all the repositories
@@ -109,13 +111,15 @@ const RepositoryList = () => {
     const getAllPullRequests = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(
-                // Sends GET request to API to get all pull requests in all repositories
-                "http://localhost:8000/management/repositories/allPulls"
-            );
+            // Sends GET request to API to get all pull requests in all repositories
+            const response = await request({
+                method: "get",
+                url: "/management/repositories/allPulls",
+            });
             // Sets the state of the pull requests and repositories
             setSelectedPullRequests(filterList(response.data.pullRequests));
             setAllPullRequests(response.data.pullRequests);
+            console.log(response);
             setRepositories(response.data.repos);
             setLoading(false);
         } catch (error) {
@@ -158,6 +162,7 @@ const RepositoryList = () => {
     useEffect(() => {
         getAllPullRequests();
     }, [filter]);
+    // console.log(" Selected pull requests", selectedPullRequests);
 
     return (
         <div className={classes.root}>
@@ -286,9 +291,10 @@ const RepositoryList = () => {
                                                         color="textSecondary"
                                                     >
                                                         Total stars{" "}
-                                                        {pullRequest.rating
+                                                        {pullRequest.ratings
                                                             ?.overall
-                                                            ? pullRequest.rating
+                                                            ? pullRequest
+                                                                  .ratings
                                                                   .overall
                                                             : 0}{" "}
                                                     </Typography>
