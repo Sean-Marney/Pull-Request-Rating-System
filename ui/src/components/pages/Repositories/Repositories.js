@@ -11,7 +11,6 @@ import {
 import Button from "@mui/material/Button";
 import { Skeleton } from "@mui/material";
 import Modal from "@mui/material/Modal";
-import axios from "axios";
 import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
 import useAxiosInstance from "../../../useAxiosInstance";
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
     },
     select: {
-        width: "160px",
+        width: "170px",
         margin: "0px 20px",
         padding: "0px 6px",
         border: "0.5px solid black",
@@ -48,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
         width: "1000px",
         margin: 10,
         padding: "5px 5px",
-        // minHeight: "150px"
     },
     ul: {
         margin: 0,
@@ -67,14 +65,11 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        // marginTop: theme.spacing(2),
         width: "130px",
         fontFamily: "roboto",
-        // margin: "10px 0px",
     },
     button: {
         flexBasis: "45%",
-        // margin: "10px 0px",
     },
     positionElements: {
         display: "flex",
@@ -162,7 +157,6 @@ const RepositoryList = () => {
     useEffect(() => {
         getAllPullRequests();
     }, [filter]);
-    // console.log(" Selected pull requests", selectedPullRequests);
 
     return (
         <div className={classes.root}>
@@ -242,7 +236,7 @@ const RepositoryList = () => {
                                 >
                                     <ListItemText
                                         primary={
-                                            <Typography variant="h7">
+                                            <Typography variant="h6">
                                                 {pullRequest.title}
                                             </Typography>
                                         }

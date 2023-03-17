@@ -5,7 +5,6 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
-    makeStyles,
     Table,
     TableBody,
     TableCell,
@@ -19,38 +18,7 @@ import {
     Paper,
 } from "@material-ui/core";
 import useAxiosInstance from "../../../useAxiosInstance";
-
-const useStyles = makeStyles((theme) => ({
-    tableContainer: {
-        height: "calc(100vh - 100px)",
-        maxWidth: "90%",
-        margin: "0 auto",
-        overflow: "auto",
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
-    },
-    paper: {
-        marginTop: theme.spacing(3),
-        padding: theme.spacing(2),
-        boxShadow: theme.shadows[20],
-        borderRadius: theme.shape.borderRadius,
-    },
-    tableHeaders: {
-        fontSize: "1.25rem",
-        textAlign: "center",
-        fontWeight: "bold",
-    },
-    tableContent: {
-        fontSize: "1rem",
-        textAlign: "center",
-    },
-
-    button: {
-        marginLeft: theme.spacing(1),
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
-    },
-}));
+import { useStyles } from "../../styles/tableStyle";
 
 export default function ManageTrackers() {
     const { request } = useAxiosInstance();
@@ -95,7 +63,11 @@ export default function ManageTrackers() {
                     </Typography>
                 </Box>
                 <Button
-                    className={classes.button}
+                    style={{
+                        marginLeft: "20px",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                    }}
                     variant="contained"
                     color="primary"
                     size="large"
@@ -107,7 +79,7 @@ export default function ManageTrackers() {
                 <Box>
                     {/* Get all users from database and display in a table */}
                     {trackers && (
-                        <TableContainer className={classes.table}>
+                        <TableContainer>
                             <Table>
                                 <TableHead>
                                     <TableRow>
@@ -130,7 +102,6 @@ export default function ManageTrackers() {
                                             </TableCell>
                                             <TableCell>
                                                 <IconButton
-                                                    color="primary"
                                                     title="Edit Tracker"
                                                     onClick={() =>
                                                         navigate(
@@ -138,12 +109,15 @@ export default function ManageTrackers() {
                                                         )
                                                     }
                                                 >
-                                                    <EditIcon />
+                                                    <EditIcon
+                                                        className={
+                                                            classes.editButton
+                                                        }
+                                                    />
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell>
                                                 <IconButton
-                                                    color="secondary"
                                                     title="Delete Tracker"
                                                     onClick={() =>
                                                         deleteTracker(
@@ -151,7 +125,11 @@ export default function ManageTrackers() {
                                                         )
                                                     }
                                                 >
-                                                    <DeleteIcon />
+                                                    <DeleteIcon
+                                                        className={
+                                                            classes.deleteButton
+                                                        }
+                                                    />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>

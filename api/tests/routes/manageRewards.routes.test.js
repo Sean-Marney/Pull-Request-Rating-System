@@ -21,7 +21,7 @@ describe("GET /management/rewards/:id", () => {
   beforeEach((done) => {
     reward = new Reward({
       rewardName: "Free Pizza",
-      starsRequired: "100",
+      starsRequired: 100,
     });
 
     reward.save((err) => {
@@ -44,7 +44,7 @@ describe("GET /management/rewards/:id", () => {
         chai.expect(res.statusCode).to.equal(200);
         chai.expect(res.body).to.be.an("object");
         chai.expect(res.body.rewardName).to.equal("Free Pizza");
-        chai.expect(res.body.starsRequired).to.equal("100");
+        chai.expect(res.body.starsRequired).to.equal(100);
         done();
       });
   });
@@ -58,7 +58,7 @@ describe("POST /management/rewards/create", () => {
   it("should create a reward and return status code 201", (done) => {
     const reward = {
       rewardName: "Free Coffee",
-      starsRequired: "50",
+      starsRequired: 50,
     };
 
     request(app)
@@ -67,7 +67,7 @@ describe("POST /management/rewards/create", () => {
       .end((err, res) => {
         chai.expect(res.statusCode).to.equal(201);
         chai.expect(res.body.rewardName).to.equal("Free Coffee");
-        chai.expect(res.body.starsRequired).to.equal("50");
+        chai.expect(res.body.starsRequired).to.equal(50);
         done();
       });
   });
@@ -79,7 +79,7 @@ describe("PATCH /management/rewards/:id", () => {
   beforeEach((done) => {
     reward = new Reward({
       rewardName: "Free Pizza",
-      starsRequired: "100",
+      starsRequired: 100,
     });
 
     reward.save((err) => {
@@ -98,12 +98,12 @@ describe("PATCH /management/rewards/:id", () => {
   it("should update a reward and return status code 200", (done) => {
     request(app)
       .patch(`/management/rewards/update/${reward._id}`)
-      .send({ rewardName: "Free Ice Cream", starsRequired: "50" })
+      .send({ rewardName: "Free Ice Cream", starsRequired: 50 })
       .end((err, res) => {
         chai.expect(res.statusCode).to.equal(200);
         chai.expect(res.body).to.be.an("object");
         chai.expect(res.body.rewardName).to.equal("Free Ice Cream");
-        chai.expect(res.body.starsRequired).to.equal("50");
+        chai.expect(res.body.starsRequired).to.equal(50);
         done();
       });
   });
@@ -115,7 +115,7 @@ describe("DELETE /management/rewards/:id", () => {
   beforeEach((done) => {
     reward = new Reward({
       rewardName: "Free Pizza",
-      starsRequired: "100",
+      starsRequired: 100,
     });
 
     reward.save((err) => {

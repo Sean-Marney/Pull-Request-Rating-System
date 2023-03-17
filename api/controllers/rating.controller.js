@@ -34,6 +34,7 @@ const createRating = async (req, res) => {
                 },
             }
         );
+        console.log(req.body);
 
         const pullRequest = await PullRequest.findById(req.params.id);
         if (!pullRequest) {
@@ -43,7 +44,7 @@ const createRating = async (req, res) => {
         }
 
         // Get user who's pull request is being rated
-        const user = await User.findById(pullRequest.user_id);
+        const user = await User.findById(req.body.user_id);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }

@@ -1,56 +1,17 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-    Typography,
-    InputLabel,
-    Input,
-    Button,
-    Card,
-    CardContent,
-    makeStyles,
+  Typography,
+  InputLabel,
+  Input,
+  Button,
+  Card,
+  CardContent,
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateUpdateUserForm from "../../../validations/updateUserForm";
 import useAxiosInstance from "../../../useAxiosInstance";
-
-const useStyles = makeStyles((theme) => ({
-    card: {
-        maxWidth: 600,
-        minHeight: 325,
-        padding: "20px 5px",
-        margin: "0 auto",
-        marginTop: theme.spacing(10),
-        boxShadow: theme.shadows[20],
-        borderRadius: "20px",
-    },
-    input: {
-        padding: "5px 5px",
-        marginBottom: theme.spacing(2),
-        marginTop: theme.spacing(2),
-        width: "100%",
-    },
-    formControl: {
-        marginTop: theme.spacing(2),
-        width: "100%",
-    },
-    error: {
-        color: "red",
-        marginBottom: theme.spacing(2),
-    },
-    buttonContainer: {
-        display: "flex",
-        justifyContent: "flex-end",
-        marginTop: theme.spacing(4),
-    },
-    cancelButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        marginLeft: theme.spacing(2),
-        marginBottom: theme.spacing(1),
-    },
-}));
+import { useStyles } from "../../styles/formStyle";
 
 export default function UpdateUser() {
     const classes = useStyles();
@@ -64,9 +25,9 @@ export default function UpdateUser() {
     const { id } = useParams(); // Get user ID from URL
     const navigate = useNavigate();
 
-    useEffect(() => {
-        getUser();
-    }, []);
+  useEffect(() => {
+    getUser();
+  }, []);
 
     const getUser = async () => {
         // Get user by id
@@ -82,14 +43,14 @@ export default function UpdateUser() {
         });
     };
 
-    const updateEditFormField = (e) => {
-        const { name, value } = e.target;
+  const updateEditFormField = (e) => {
+    const { name, value } = e.target;
 
-        setUpdateForm({
-            ...updateForm,
-            [name]: value,
-        });
-    };
+    setUpdateForm({
+      ...updateForm,
+      [name]: value,
+    });
+  };
 
     const updateUser = async (e) => {
         e.preventDefault();
@@ -116,98 +77,79 @@ export default function UpdateUser() {
         }
     };
 
-    return (
-        <div>
-            <div>
-                <Card className={classes.card}>
-                    <Typography variant="h4" className={classes.title}>
-                        <b>Update Users</b>
-                    </Typography>
-                    <CardContent>
-                        <form
-                            onSubmit={updateUser}
-                            className={classes.formControl}
-                        >
-                            <div>
-                                <InputLabel htmlFor="name">
-                                    User Name
-                                </InputLabel>
-                                <Input
-                                    onChange={updateEditFormField}
-                                    value={updateForm.name}
-                                    name="name"
-                                    id="name"
-                                    inputProps={{
-                                        style: { textAlign: "center" },
-                                    }}
-                                    className={classes.input}
-                                />
-                                {error.name && (
-                                    <div className={classes.error}>
-                                        {error.name}
-                                    </div>
-                                )}
-                            </div>
-                            <div>
-                                <InputLabel htmlFor="email">Email</InputLabel>
-                                <Input
-                                    onChange={updateEditFormField}
-                                    value={updateForm.email}
-                                    name="email"
-                                    id="email"
-                                    inputProps={{
-                                        style: { textAlign: "center" },
-                                    }}
-                                    className={classes.input}
-                                />
-                                {error.email && (
-                                    <div className={classes.error}>
-                                        {error.email}
-                                    </div>
-                                )}
-                            </div>
-                            <div>
-                                <InputLabel htmlFor="git_username">
-                                    GitHub Username
-                                </InputLabel>
-                                <Input
-                                    onChange={updateEditFormField}
-                                    value={updateForm.git_username}
-                                    name="git_username"
-                                    id="git_username"
-                                    inputProps={{
-                                        style: { textAlign: "center" },
-                                    }}
-                                    className={classes.input}
-                                />
-                                {error.git_username && (
-                                    <div className={classes.error}>
-                                        {error.git_username}
-                                    </div>
-                                )}
-                            </div>
-                            <div className={classes.buttonContainer}>
-                                <Button
-                                    onClick={() =>
-                                        navigate("/management/users")
-                                    }
-                                    variant="contained"
-                                    className={classes.cancelButton}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Update User
-                                </Button>
-                            </div>
-                        </form>
-                    </CardContent>
-                </Card>
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <div>
+        <Card className={classes.card}>
+          <Typography variant="h4" className={classes.title}>
+            <b>Update Users</b>
+          </Typography>
+          <CardContent>
+            <form onSubmit={updateUser} className={classes.formControl}>
+              <div>
+                <InputLabel htmlFor="name">User Name</InputLabel>
+                <Input
+                  onChange={updateEditFormField}
+                  value={updateForm.name}
+                  name="name"
+                  id="name"
+                  inputProps={{
+                    style: { textAlign: "center" },
+                  }}
+                  className={classes.input}
+                />
+                {error.name && (
+                  <div className={classes.error}>{error.name}</div>
+                )}
+              </div>
+              <div>
+                <InputLabel htmlFor="email">Email</InputLabel>
+                <Input
+                  onChange={updateEditFormField}
+                  value={updateForm.email}
+                  name="email"
+                  id="email"
+                  inputProps={{
+                    style: { textAlign: "center" },
+                  }}
+                  className={classes.input}
+                />
+                {error.email && (
+                  <div className={classes.error}>{error.email}</div>
+                )}
+              </div>
+              <div>
+                <InputLabel htmlFor="git_username">GitHub Username</InputLabel>
+                <Input
+                  onChange={updateEditFormField}
+                  value={updateForm.git_username}
+                  name="git_username"
+                  id="git_username"
+                  inputProps={{
+                    style: { textAlign: "center" },
+                  }}
+                  className={classes.input}
+                />
+                {error.git_username && (
+                  <div className={classes.error}>{error.git_username}</div>
+                )}
+              </div>
+              <div className={classes.buttonContainer}>
+                <Button
+                  onClick={() => navigate("/management/users")}
+                  variant="contained"
+                  style={{ marginRight: "20px" }}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" variant="contained" color="primary">
+                  Update User
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
 }

@@ -14,9 +14,9 @@ describe("GET all rewards from /management/rewards using the getRewards controll
 
   beforeEach(() => {
     mockRewards = [
-      { _id: "1", rewardName: "Reward 1", starsRequired: "10" },
-      { _id: "2", rewardName: "Reward 2", starsRequired: "20" },
-      { _id: "3", rewardName: "Reward 3", starsRequired: "30" },
+      { _id: "1", rewardName: "Reward 1", starsRequired: 10 },
+      { _id: "2", rewardName: "Reward 2", starsRequired: 20 },
+      { _id: "3", rewardName: "Reward 3", starsRequired: 30 },
     ];
     sinon.stub(Reward, "find").resolves(mockRewards);
   });
@@ -54,7 +54,7 @@ describe("GET all rewards from /management/rewards using the getRewards controll
       expect(reward).to.have.property("starsRequired");
       expect(reward._id).to.be.a("string");
       expect(reward.rewardName).to.be.a("string");
-      expect(reward.starsRequired).to.be.a("string");
+      expect(reward.starsRequired).to.be.a("number");
     });
   });
 });
@@ -63,7 +63,7 @@ describe("GET reward by ID from /management/rewards using the getRewards control
   let mockReward;
 
   beforeEach(() => {
-    mockReward = { _id: "1", rewardName: "Reward 1", starsRequired: "10" };
+    mockReward = { _id: "1", rewardName: "Reward 1", starsRequired: 10 };
     sinon.stub(Reward, "findById").resolves(mockReward);
   });
 
@@ -111,7 +111,7 @@ describe("GET reward by ID from /management/rewards using the getRewards control
     expect(mockReward).to.have.property("starsRequired");
     expect(mockReward._id).to.be.a("string");
     expect(mockReward.rewardName).to.be.a("string");
-    expect(mockReward.starsRequired).to.be.a("string");
+    expect(mockReward.starsRequired).to.be.a("number");
   });
 });
 
@@ -119,7 +119,7 @@ describe("CREATE reward at /management/rewards/create using the createReward con
   it("should create a reward and save it to the database with a 201 response code", async () => {
     const rewardData = {
       rewardName: "Test Reward",
-      starsRequired: "5",
+      starsRequired: 5,
     };
     const req = { body: rewardData };
     const res = {
@@ -163,7 +163,7 @@ describe("UPDATE reward by ID from /management/rewards/update/:id using the upda
   it("should update a reward with the given ID", async () => {
     const reward = new Reward({
       rewardName: "Test Reward",
-      starsRequired: "5",
+      starsRequired: 5,
     });
     await reward.save();
 
@@ -172,11 +172,11 @@ describe("UPDATE reward by ID from /management/rewards/update/:id using the upda
       .patch(`/management/rewards/update/${reward.id}`)
       .send({
         rewardName: "Updated Test Reward",
-        starsRequired: "10",
+        starsRequired: 10,
       });
 
     res.should.have.status(200);
     res.body.should.have.property("rewardName").eql("Updated Test Reward");
-    res.body.should.have.property("starsRequired").eql("10");
+    res.body.should.have.property("starsRequired").eql(10);
   });
 });
