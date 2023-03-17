@@ -28,7 +28,6 @@ export default function UpdateProfile() {
   });
   const [error, setError] = useState({});
 
-  const { email } = useParams(); // Get user ID from URL
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -7,9 +7,7 @@ import {
     Input,
     Button,
     Card,
-    CardContent,
-    makeStyles,
-    TextField,
+    CardContent
   } from "@material-ui/core";
   import { useCookies } from "react-cookie";
 import validateCreateUserForm from "../../../validations/updatePasswordForm";
