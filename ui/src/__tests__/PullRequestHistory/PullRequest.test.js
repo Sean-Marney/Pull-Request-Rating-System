@@ -18,7 +18,7 @@ test("Displaying Pull Request", () => {
             }}
         />
     );
-    const title = screen.getByText("Title");
+    const title = screen.getByText("No Title");
     const rating = screen.getByText("15");
     const git_rating = screen.getByText('View in GitHub');
     expect(title).toBeInTheDocument();
