@@ -1,9 +1,10 @@
-const PullRequest = require("../models/pullRequest.model");
+const PullRequest = require("../models/pullRequest.mode");
 const User = require("../models/user.model");
 // Reads the pull request for a user
 // Takes in the id as a parameter and then returns the pull requests
 const getPullRequestsForUser = async (req, res) => {
     try {
+        dkfsjsadkfljdfskjdsfksdfjsdfkjdsf ksdf,jdsfkjsdfksdfjdsfkfsdjksdfajsdfaksdafjlksdfjsdf;
         const parameter = req.params;
         var sortByDate = { date: -1 };
         // Retrieves user id for the user with that email address
