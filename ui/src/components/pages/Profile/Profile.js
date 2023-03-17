@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useCookies } from "react-cookie";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import Typography from '@mui/material/Typography';
 import { Modal } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import axios from "axios";
 
 
 const style = {
@@ -31,11 +32,27 @@ const style = {
 
 export default function ManageProfiles() {
   const navigate = useNavigate();
-  
-
+  const [user, setUser] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+   //Get user on page load
+   useEffect(() => {
+    getUserByEmail();
+   }, []);
+
+  const getUserByEmail = async () => {
+    //Get user by id
+    const res = await axios.get(
+      `http://localhost:8000/management/users/email/${cookies.user.email}`
+    );
+
+    //Set to state
+    setUser(res.data);
+  };
+
 
 
 
@@ -45,14 +62,14 @@ export default function ManageProfiles() {
       <Box padding={3}>
         <h2>Profile</h2>
       </Box>
-      
+      {user && (
         <div>
           <Stack direction="row" spacing={2}>
             <Avatar />
             <Card >
-              <h3>Name : </h3>
-              <h3>Role : </h3>
-              <h3>Email : </h3>
+              <h3>Name : {user.name}</h3>
+              <h3>Role : {user.hasRole}</h3>
+              <h3>Email : {user.email}</h3>
               <h3>Total stars Recived : {user.stars}</h3>
             </Card>
           </Stack>
@@ -127,7 +144,7 @@ export default function ManageProfiles() {
 
 
         </div>
-      {/* )} */}
+       )}
       </Container>
     </div>
   );
