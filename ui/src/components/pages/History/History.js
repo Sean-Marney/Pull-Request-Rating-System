@@ -10,7 +10,6 @@ import {
     Card,
     makeStyles
   } from "@material-ui/core";
-import chicken from chicken;
 const useStyles = makeStyles((theme) => ({
     clickable: {
         cursor: "pointer",
