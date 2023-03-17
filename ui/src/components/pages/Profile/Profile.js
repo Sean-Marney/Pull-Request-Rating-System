@@ -53,7 +53,23 @@ export default function ManageProfiles() {
     setUser(res.data);
   };
 
-
+  const deleteUserByEmail = async () => {
+    // email.preventDefault();
+    try {
+    // Delete user
+    await axios.delete(
+        `http://localhost:8000/management/users/deleteUser/email/${cookies.user.email}`
+    );
+    console.log("removing cookies")
+    removeCookie("role");
+    removeCookie("user");
+    removeCookie("token");
+    navigate("/login");
+  } catch(error){
+    console.log(error)
+    navigate("/profile");
+  }
+  };
 
 
   return (
