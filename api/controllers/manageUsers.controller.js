@@ -132,6 +132,27 @@ const updateUserByEmail = async (req, res) => {
   }
 };
 
+// Update password
+const updateUsersPasswordByEmail = async (req, res) => {
+  try {
+      const user = await User.findOne({ e: req.params.email });
+      if (!user) {
+        return res
+          .status(404)
+          .json({ message: "User with that email was not found" });
+      }
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  
+      user.password = hashedPassword;
+  
+      await user.save();
+  
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+};
+
 // Delete a user by email
 const deleteUserByEmail = async (req, res) => {
   try {
@@ -151,6 +172,8 @@ const deleteUserByEmail = async (req, res) => {
 };
 
 
+
+
 module.exports = {
   getUsers,
   getUsersByRole,
@@ -160,4 +183,6 @@ module.exports = {
   updateUser,
   deleteUser,
   updateUserByEmail,
+  updateUsersPasswordByEmail,
+  deleteUserByEmail,
 };
