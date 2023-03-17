@@ -1,7 +1,7 @@
 // const chai = require("chai");
 // const request = require("supertest");
 // const app = require("../../index");
-// const User = require("../../models/userModel");
+// const User = require("../../models/user.model");
 
 // describe("GET /management/users", () => {
 //     it("should return all users and status code 200", (done) => {
@@ -12,7 +12,7 @@
 //                 chai.expect(res.body).to.be.an("array");
 //                 done();
 //             });
-//     });
+//     }).timeout(100000); 
 // });
 
 // describe("GET /management/users/:id", () => {
@@ -29,7 +29,7 @@
 //         user.save((err) => {
 //             if (err) return done(err);
 //             done();
-//         });
+//         })
 //     });
 
 //     afterEach((done) => {
@@ -51,7 +51,7 @@
 //                 chai.expect(res.body.hasRole).to.equal("Developer");
 //                 done();
 //             });
-//     });
+//     }).timeout(100000); 
 // });
 
 
@@ -70,7 +70,7 @@
 //             if (err) return done(err);
 //             done();
 //         });
-//     });
+//     })
 
 //     afterEach((done) => {
 //         User.deleteMany({}, (err) => {
@@ -97,7 +97,7 @@
 //                 chai.expect(res.body.hasRole).to.equal("Developer");
 //                 done();
 //             });
-//     });
+//     }).timeout(100000); 
 // });
 
 // describe("DELETE /management/users/:id", () => {
@@ -118,7 +118,7 @@
 //     });
 
 //     afterEach((done) => {
-//         User.deleteMany({}, (err) => {
+//         User.deleteOne({ _id: user._id }, (err) => {
 //             if (err) return done(err);
 //             done();
 //         });
@@ -136,5 +136,6 @@
 //                     done();
 //                 });
 //             });
-//     });
+//     }).timeout(100000);
 // });
+

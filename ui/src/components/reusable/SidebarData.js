@@ -9,6 +9,7 @@
     Dashboard,
     LiveHelp
 } from "@mui/icons-material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink, Link} from "react-router-dom";
 
 
@@ -38,6 +39,11 @@ const Sidebar = ({ children, removeCookie }) => {
             path: "/faq",
             name: "FAQ",
             icon: <LiveHelp />,
+        },
+        {
+            path: "/profile",
+            name: "Profile",
+            icon: <AccountCircleIcon />,
         }
     ];
     return (
