@@ -82,7 +82,7 @@ export default function ManageProfiles() {
                 <h3>Name : {user.name}</h3>
                 <h3>Role : {user.hasRole}</h3>
                 <h3>Email : {user.email}</h3>
-                <h3>Total stars Recived : {user.stars}</h3>
+                <h3>Total Stars Recived : {user.stars}</h3>
               </Card>
             </Stack>
 

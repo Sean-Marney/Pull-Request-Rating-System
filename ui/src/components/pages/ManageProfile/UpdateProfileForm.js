@@ -42,7 +42,7 @@ export default function UpdateProfile() {
   });
   const [error, setError] = useState({});
 
-  const { id } = useParams(); // Get user ID from URL
+  const { email } = useParams(); // Get user ID from URL
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -80,7 +80,6 @@ export default function UpdateProfile() {
         abortEarly: false,
       });
       await axios.patch(
-        // `http://localhost:8000/management/users/update/${id}`,
         `http://localhost:8000/management/users/update/email/${cookies.user.email}`,
         updateForm
       );
