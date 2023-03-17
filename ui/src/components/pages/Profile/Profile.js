@@ -15,7 +15,6 @@ import { Modal } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from "axios";
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -38,13 +37,13 @@ export default function ManageProfiles() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-   //Get user on page load
-   useEffect(() => {
+  //Get user on page load
+  useEffect(() => {
     getUserByEmail();
-   }, []);
+  }, []);
 
   const getUserByEmail = async () => {
-    //Get user by id
+    //Get user by email
     const res = await axios.get(
       `http://localhost:8000/management/users/email/${cookies.user.email}`
     );
@@ -70,6 +69,7 @@ export default function ManageProfiles() {
     navigate("/profile");
   }
   };
+
 
 
   return (
@@ -110,7 +110,7 @@ export default function ManageProfiles() {
         }}
         >
         <h3>Bio :</h3> 
-        {/* {user.bio} */}
+        {user.bio}
         </Card>
 
         {/* rewards
@@ -160,9 +160,8 @@ export default function ManageProfiles() {
 
 
         </div>
-       )}
+      )}
       </Container>
     </div>
   );
 }
-
