@@ -12,10 +12,8 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("SignUp component", () => {
-
     // Test that the sign up form renders with all expected inputs and a submit button
     test("renders sign up form", async () => {
-
         // Render the SignUp component within a MemoryRouter
         await render(
             <MemoryRouter>
@@ -42,7 +40,6 @@ describe("SignUp component", () => {
 
     // Test that validation errors are displayed when the form is submitted without input values
     test("displays validation errors on submit", async () => {
-        
         // Render the SignUp component within a MemoryRouter
         await render(
             <MemoryRouter>
@@ -60,9 +57,9 @@ describe("SignUp component", () => {
         const nameError = await screen.findByText(
             "Please enter your full name"
         );
-        const emailError = await screen.findByText("Email is required");
+        const emailError = await screen.findByText("Please enter your email");
         const passwordError = await screen.findByText(
-            "Please provide a password"
+            "Password must be at least 8 characters long"
         );
         const confirmPasswordError = await screen.findByText(
             "Confirm Password is required"
