@@ -12,7 +12,10 @@ import { Collapse, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import Pagination from '@mui/material/Pagination';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { color } from "@mui/system";
+
 
 export default function ManageFaqs() {
   const [question, setQuestion] = useState(null);
@@ -28,6 +31,7 @@ export default function ManageFaqs() {
     // Set to state
     setQuestion(res.data);
   };
+  
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -40,7 +44,7 @@ export default function ManageFaqs() {
     }),
   }));
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false); 
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -58,7 +62,7 @@ export default function ManageFaqs() {
         {/* Get all FAQs from database and display on a card */}
         {question &&
           question.map((q) => (
-            <Card sx={{ maxWidth: 345 }} key={q._id} style={{ padding: 3 , margin:45 }}>
+            <Card sx={{ maxWidth: 345 }} key={q._id} style={{ padding: 3, margin:45 }}>
               <CardContent>
                 <Typography variant="body2" color="text.secondary" >
                 <div style={{ color: "red" }}>    <PsychologyAltIcon /> </div>
@@ -80,6 +84,7 @@ export default function ManageFaqs() {
                  
                   <TipsAndUpdatesIcon />
                 </ExpandMore>
+
               </CardActions>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
@@ -89,6 +94,7 @@ export default function ManageFaqs() {
             </Card>
           ))}
       </Box>
+      <Pagination count={3} variant="outlined" color="primary" />
     </div>
   );
 }
