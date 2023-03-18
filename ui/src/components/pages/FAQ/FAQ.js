@@ -3,9 +3,6 @@ import axios from "axios";
 import {
   Typography,
   Box,
-  Card,
-  CardContent,
-  CardActions,
 } from "@material-ui/core";
 // import {ExpandMore} from "@material-ui/icons";
 import { Collapse, IconButton } from "@mui/material";
@@ -13,7 +10,9 @@ import { styled } from "@mui/material/styles";
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 import Pagination from '@mui/material/Pagination';
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import { color } from "@mui/system";
 
 
@@ -50,51 +49,44 @@ export default function ManageFaqs() {
     setExpanded(!expanded);
   };
 
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
+
   return (
-    <div>
+  <div>
       <Box padding={3}>
         <Typography variant="h4">
-          <b>FAQ</b>
-        </Typography>
+           <b>FAQ</b>
+         </Typography>
       </Box>
 
-      <Box padding={5}>
-        {/* Get all FAQs from database and display on a card */}
-        {question &&
-          question.map((q) => (
-            <Card sx={{ maxWidth: 345 }} key={q._id} style={{ padding: 3, margin:45 }}>
-              <CardContent>
-                <Typography variant="body2" color="text.secondary" >
-                <div style={{ color: "red" }}>    <PsychologyAltIcon /> </div>
-                  Question
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {q.question}
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-              Answer
-                <ExpandMore
-                  expand={expanded}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label="show more"
-                  style={{ color: "#1b2437" }}
-                >
-                 
-                  <TipsAndUpdatesIcon />
-                </ExpandMore>
-
-              </CardActions>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                  <Typography paragraph>{q.answer}</Typography>
-                </CardContent>
-              </Collapse>
-            </Card>
-          ))}
-      </Box>
-      <Pagination count={3} variant="outlined" color="primary" />
-    </div>
+    <Box padding={5}>
+    {/* Get all FAQs from database and display on a card */}
+    {question &&
+      question.map((q) => (
+        <Accordion  sx={{ maxWidth: 3500 }} key={q._id} style={{ padding: 6, margin:25 }}>
+          <AccordionSummary
+          expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
+            expandIcon={<TipsAndUpdatesIcon style={{ color: "#1b2437" }}/>}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+          <Typography variant="body2" color="text.secondary" >
+          <div style={{ color: "red" }}>    <PsychologyAltIcon /> </div>
+           <h3>Question</h3><br></br>
+           <Typography paragraph>{q.question}</Typography>
+          </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+          <h3>Answer</h3><br></br>
+          <Typography paragraph>{q.answer}</Typography>
+          </AccordionDetails>
+        </Accordion>
+        ))}
+        <Pagination count={3} variant="outlined" color="primary" />
+    </Box>
+  </div>
   );
 }
