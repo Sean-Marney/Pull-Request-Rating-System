@@ -66,7 +66,7 @@ export default function ManageFaqs() {
     {/* Get all FAQs from database and display on a card */}
     {question &&
       question.map((q) => (
-        <Accordion  sx={{ maxWidth: 3500 }} key={q._id} style={{ padding: 6, margin:25 }}>
+        <Accordion  sx={{ maxWidth: 3500 }} key={q._id} style={{ padding: 6, margin:35 }}>
           <AccordionSummary
           expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
             expandIcon={<TipsAndUpdatesIcon style={{ color: "#1b2437" }}/>}
