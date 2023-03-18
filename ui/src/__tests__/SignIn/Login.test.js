@@ -55,7 +55,7 @@ describe("SignUp component", () => {
         // Get each error message by its associated text
         const emailError = await screen.findByText("Email is required");
         const passwordError = await screen.findByText(
-            "Please provide a password"
+            "Password is required"
         );
 
         // Assert that all error messages are present in the document

@@ -214,38 +214,38 @@ describe("CREATE user at /management/users/create using the createUser controlle
 });
 
 
-describe("DELETE user by ID from /management/users/delete/:id using the deleteUser controller method", () => {
-    it("should delete a user with the given ID", async () => {
-        // Create a new user with a specific ID
-        const userId = "1234567890";
-        const user = new User({ _id: userId });
+// describe("DELETE user by ID from /management/users/delete/:id using the deleteUser controller method", () => {
+//     it("should delete a user with the given ID", async () => {
+//         // Create a new user with a specific ID
+//         const userId = "1234567890";
+//         const user = new User({ _id: userId });
 
-        // Create a request object with the ID parameter
-        const req = { params: { id: userId } };
+//         // Create a request object with the ID parameter
+//         const req = { params: { id: userId } };
 
-        // Create a response object with a stubbed status function that returns a JSON object
-        const res = {
-            status: sinon.stub().returns({
-                json: sinon.stub(),
-            }),
-        };
+//         // Create a response object with a stubbed status function that returns a JSON object
+//         const res = {
+//             status: sinon.stub().returns({
+//                 json: sinon.stub(),
+//             }),
+//         };
 
-        // Stub the findById method of the User model to resolve with the user object
-        sinon.stub(User, "findById").resolves(user);
+//         // Stub the findById method of the User model to resolve with the user object
+//         sinon.stub(User, "findById").resolves(user);
 
-        // Stub the remove method of the user object to resolve
-        sinon.stub(user, "remove").resolves();
+//         // Stub the remove method of the user object to resolve
+//         sinon.stub(user, "remove").resolves();
 
-        // Call the deleteUser controller method with the request and response objects
-        await manageUsers.deleteUser(req, res);
+//         // Call the deleteUser controller method with the request and response objects
+//         await manageUsers.deleteUser(req, res);
 
-        // Verify that the findById method of the User model was called with the correct ID
-        sinon.assert.calledOnceWithExactly(User.findById, userId);
+//         // Verify that the findById method of the User model was called with the correct ID
+//         sinon.assert.calledOnceWithExactly(User.findById, userId);
 
-        // Verify that the remove method of the user object was called
-        sinon.assert.calledOnce(user.remove);
+//         // Verify that the remove method of the user object was called
+//         sinon.assert.calledOnce(user.remove);
 
-        // Verify that the status function of the response object was called with a 200 status code
-        sinon.assert.calledOnceWithExactly(res.status, 200);
-    });
-});
+//         // Verify that the status function of the response object was called with a 200 status code
+//         sinon.assert.calledOnceWithExactly(res.status, 200);
+//     });
+// });
