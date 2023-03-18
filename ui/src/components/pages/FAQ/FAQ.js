@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   Typography,
   Box,
+  Button,
 } from "@material-ui/core";
 // import {ExpandMore} from "@material-ui/icons";
 import { Collapse, IconButton } from "@mui/material";
@@ -13,6 +14,8 @@ import Pagination from '@mui/material/Pagination';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
+import Stack from '@mui/material/Stack';
+import QuizIcon from '@mui/icons-material/Quiz';
 import { color } from "@mui/system";
 
 
@@ -30,27 +33,22 @@ export default function ManageFaqs() {
     // Set to state
     setQuestion(res.data);
   };
-  
-
-  const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  }));
 
   const [expanded, setExpanded] = React.useState(false); 
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
+  // handling the accordion expansion 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const [visible, setVisible] = React.useState(2);
+  
+  // handling pagination
+  const handlePageClick = () =>{
+    setVisible(preValue => preValue + 2);
+  };
+  const handlePageBack = () =>{
+    setVisible(postValue => postValue -2);
   };
 
 
@@ -65,7 +63,7 @@ export default function ManageFaqs() {
     <Box padding={5}>
     {/* Get all FAQs from database and display on a card */}
     {question &&
-      question.map((q) => (
+      question.slice(0, visible).map((q) => (
         <Accordion  sx={{ maxWidth: 3500 }} key={q._id} style={{ padding: 6, margin:35 }}>
           <AccordionSummary
           expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
@@ -85,8 +83,48 @@ export default function ManageFaqs() {
           </AccordionDetails>
         </Accordion>
         ))}
-        <Pagination count={3} variant="outlined" color="primary" style={{ display: "flex", justifyContent:"center" }} />
+
+        <div>
+        <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        >
+      <Button
+          style={{
+            display: "flex", 
+            justifyContent:"center",
+            margin: 40
+          }}
+          variant="outlined" 
+          color="primary"
+          size="large"
+          onClick={handlePageClick}
+        >
+          Load More
+        </Button>
+        <Button
+          style={{
+            // marginLeft: "20px",
+            // marginTop: "20px",
+            // marginBottom: "20px",
+            display: "flex", 
+            justifyContent:"center",
+            margin: 40
+          }}
+          variant="outlined" 
+          color="primary"
+          size="large"
+          onClick={handlePageBack}
+        >
+          Load Less
+        </Button>
+        </Stack>
+        </div>
     </Box>
+
+   
   </div>
   );
 }
