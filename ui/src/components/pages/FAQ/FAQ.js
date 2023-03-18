@@ -85,7 +85,7 @@ export default function ManageFaqs() {
           </AccordionDetails>
         </Accordion>
         ))}
-        <Pagination count={3} variant="outlined" color="primary" />
+        <Pagination count={3} variant="outlined" color="primary" style={{ display: "flex", justifyContent:"center" }} />
     </Box>
   </div>
   );
