@@ -16,11 +16,14 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Stack from '@mui/material/Stack';
 import QuizIcon from '@mui/icons-material/Quiz';
+import { useNavigate } from "react-router-dom";
 import { color } from "@mui/system";
 
 
 export default function ManageFaqs() {
   const [question, setQuestion] = useState(null);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     getFaqs();
@@ -74,6 +77,7 @@ export default function ManageFaqs() {
           variant="contained" 
           color="primary"
           size="large"
+          onClick={() => navigate("/faq/ask")}
         >
           <QuizIcon />  Ask A Question 
         </Button>

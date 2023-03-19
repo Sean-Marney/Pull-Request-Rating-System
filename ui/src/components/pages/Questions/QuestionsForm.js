@@ -3,6 +3,7 @@ import {
     Typography,
     InputLabel,
     Button,
+    TextField,
     Card,
     CardContent,
   } from "@material-ui/core";
@@ -28,15 +29,17 @@ export default function AddQuestion() {
                                 <InputLabel htmlFor="question">
                                 how can we be of help?
                                 </InputLabel>
-                                <Input
-                                    // onChange={}
-                                    // value={}
-                                    name="question"
-                                    id="question"
-                                    inputProps={{
-                                        style: { textAlign: "center" },
-                                    }}
-                                    className={classes.input}
+                                <TextField
+                                // onChange={updateCreateFormField}
+                                // value={createForm.answer}
+                                name="answer"
+                                id="answer"
+                                multiline
+                                rows={3}
+                                inputProps={{
+                                    style: { textAlign: "left" },
+                                }}
+                                className={classes.input}
                                 />
                                 {/* {error.name && (
                                     <div className={classes.error}>

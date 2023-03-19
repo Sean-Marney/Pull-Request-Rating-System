@@ -28,6 +28,7 @@ import Repositories from "./components/pages/Repositories/Repositories";
 import ManageProfiles from "./components/pages/Profile/Profile";
 import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm";
 import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm";
+import AddQuestion from "./components/pages/Questions/QuestionsForm";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -213,6 +214,16 @@ const App = () => {
                         token={cookies.token} role={cookies.role}>
                         {" "}
                         <UpdatePassword />
+                        </ProtectedRoute>
+                  }
+                />
+          <Route
+                path="/faq/ask"
+                element={
+                    <ProtectedRoute
+                        token={cookies.token} role={cookies.role}>
+                        {" "}
+                        <AddQuestion />
                         </ProtectedRoute>
                   }
                 />
