@@ -78,11 +78,11 @@ export default function ManageQuestions() {
                       <TableCell>
                         <IconButton
                           title="Add Question"
-                        //   onClick={() =>
-                        //     navigate(
-                        //       `/management/manageFaqs/update/${question._id}`
-                        //     )
-                        //   }
+                          onClick={() =>
+                            navigate(  
+                            `/management/manageFaqs/questions/add/${question._id}`
+                            )
+                          }
                         >
                           <AddCircleIcon className={classes.editButton} />
                         </IconButton>
