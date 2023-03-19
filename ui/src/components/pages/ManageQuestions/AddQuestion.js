@@ -29,19 +29,18 @@ export default function AddQuestions() {
       const navigate = useNavigate();
 
       useEffect(() => {
-        getFaqs();
+        getQuestions();
       }, []);
     
-      const getFaqs = async () => {
-        // Get FAQ by id
+      const getQuestions = async () => {
+        // Get question by id
         const res = await axios.get(
-          `http://localhost:8000/management/questions/add/${id}`
+          `http://localhost:8000/management/questions/${id}`
         );
     
         // Set to state (fills in textboxes)
         setCreateForm({
-          question: res.data.question,
-          answer: res.data.answer,
+          question: res.data.question
         });
       };
     
@@ -52,6 +51,31 @@ export default function AddQuestions() {
           ...createForm,
           [name]: value,
         });
+      };
+
+      const createFAQ = async (e) => {
+        e.preventDefault(); // Prevents refresh after submit
+    
+        try {
+          await validateCreateFAQForm.validate(createForm, {
+            abortEarly: false,
+          });
+          // Create new faq
+          await axios.post(
+            "http://localhost:8000/management/manageFaqs/create",
+            createForm
+          );
+    
+          navigate("/management/faqs"); // Redirects after reward is created
+        } catch (error) {
+          const validationErrors = {};
+          if (error instanceof yup.ValidationError) {
+            error.inner.forEach((error) => {
+              validationErrors[error.path] = error.message;
+            });
+            setError(validationErrors);
+          }
+        }
       };
     
     //   const updateFAQs = async (e) => {
@@ -87,7 +111,7 @@ export default function AddQuestions() {
           </Typography>
           <CardContent>
             <form 
-            // onSubmit={updateFAQs} 
+            onSubmit={createFAQ} 
             className={classes.formControl}>
               <div>
                 <InputLabel>Question</InputLabel>

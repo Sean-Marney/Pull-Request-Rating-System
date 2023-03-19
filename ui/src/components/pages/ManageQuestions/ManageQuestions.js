@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
   Table,
@@ -49,6 +50,20 @@ export default function ManageQuestions() {
 
     return (
         <div  className={classes.tableContainer}>
+            <Button
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<ChevronLeftIcon />}
+          onClick={() => navigate("/management/faqs")}
+        >
+          back
+        </Button>
         <Paper className={classes.paper}>
         <Box padding={3}>
           <Typography variant="h4">
