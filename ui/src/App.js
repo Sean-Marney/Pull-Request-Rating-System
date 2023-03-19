@@ -240,7 +240,7 @@ const App = () => {
                   }
                 />
           <Route
-          path="/management/manageFaqs/questions/add"
+          path="/management/manageFaqs/questions/add/:id"
           element={
               <ProtectedRoute
                   token={cookies.token} role={cookies.role}>
