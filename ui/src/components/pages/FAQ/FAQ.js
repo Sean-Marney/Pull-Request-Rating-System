@@ -61,6 +61,23 @@ export default function ManageFaqs() {
       </Box>
 
     <Box padding={5}>
+
+    <Button
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+            display: "flex", 
+            justifyContent:"center",
+            margin: 40
+          }}
+          variant="contained" 
+          color="primary"
+          size="large"
+        >
+          <QuizIcon />  Ask A Question 
+        </Button>
+
     {/* Get all FAQs from database and display on a card */}
     {question &&
       question.slice(0, visible).map((q) => (
