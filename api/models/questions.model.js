@@ -12,5 +12,5 @@ const questionsSchema = new mongoose.Schema({
 );
 
 const NewQuestion = mongoose.model("NewQuestion", questionsSchema);
-module.exports = FaqModel;
+module.exports = NewQuestion;
 
