@@ -152,8 +152,9 @@ export default function DeveloperDashboard() {
   };
 
   const chartOptions = {
+    indexAxis: "y",
     scales: {
-      y: {
+      x: {
         beginAtZero: true,
         title: {
           display: true,
@@ -164,7 +165,7 @@ export default function DeveloperDashboard() {
           },
         },
       },
-      x: {
+      y: {
         title: {
           display: true,
           text: "Rewards",
@@ -181,6 +182,54 @@ export default function DeveloperDashboard() {
       },
     },
   };
+  // const rewardNames = Object.keys(remainingStarsForEachReward);
+  // const starsRemaining = Object.values(remainingStarsForEachReward);
+
+  // const emptySpaceData = starsRemaining.map((stars) => 100 - stars);
+
+  // const chartData = {
+  //   labels: rewardNames,
+  //   datasets: [
+  //     {
+  //       label: "Empty space",
+  //       data: emptySpaceData,
+  //       backgroundColor: "#5b9bd5",
+  //       borderWidth: 0,
+  //     },
+  //   ],
+  // };
+
+  // const chartOptions = {
+  //   indexAxis: "y",
+  //   scales: {
+  //     x: {
+  //       beginAtZero: true,
+  //       title: {
+  //         display: true,
+  //         text: "Stars Remaining",
+  //         font: {
+  //           size: 25,
+  //           weight: "bold",
+  //         },
+  //       },
+  //     },
+  //     y: {
+  //       title: {
+  //         display: true,
+  //         text: "Rewards",
+  //         font: {
+  //           size: 25,
+  //           weight: "bold",
+  //         },
+  //       },
+  //     },
+  //   },
+  //   plugins: {
+  //     legend: {
+  //       display: false,
+  //     },
+  //   },
+  // };
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
   const getUserByEmail = async () => {
