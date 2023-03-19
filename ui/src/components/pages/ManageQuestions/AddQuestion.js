@@ -77,31 +77,6 @@ export default function AddQuestions() {
           }
         }
       };
-    
-    //   const updateFAQs = async (e) => {
-    //     e.preventDefault();
-    
-    //     try {
-    //       await validateCreateFAQForm.validate(updateForm, {
-    //         abortEarly: false,
-    //       });
-    //       // Update faq
-    //       await axios.patch(
-    //         `http://localhost:8000/management/manageFaqs/questions/add/update/${id}`,
-    //         updateForm
-    //       );
-    
-    //       navigate("/management/faqs");
-    //     } catch (error) {
-    //       const validationErrors = {};
-    //       if (error instanceof yup.ValidationError) {
-    //         error.inner.forEach((error) => {
-    //           validationErrors[error.path] = error.message;
-    //         });
-    //         setError(validationErrors);
-    //       }
-    //     }
-    //   };
 
     return (
         <div>
