@@ -87,7 +87,7 @@ export default function ManageFAQ() {
           color="primary"
           size="large"
           startIcon={<LiveHelpIcon />}
-          // onClick={() => navigate("/management/manageFaqs/create")}
+          onClick={() => navigate("/management/manageFaqs/questions")}
         >
           View New Questions
         </Button>

@@ -29,6 +29,7 @@ import ManageProfiles from "./components/pages/Profile/Profile";
 import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm";
 import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm";
 import AddQuestion from "./components/pages/Questions/QuestionsForm";
+import ManageQuestions from "./components/pages/ManageQuestions/ManageQuestions";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -224,6 +225,16 @@ const App = () => {
                         token={cookies.token} role={cookies.role}>
                         {" "}
                         <AddQuestion />
+                        </ProtectedRoute>
+                  }
+                />
+          <Route
+                path="/management/manageFaqs/questions"
+                element={
+                    <ProtectedRoute
+                        token={cookies.token} role={cookies.role}>
+                        {" "}
+                        <ManageQuestions />
                         </ProtectedRoute>
                   }
                 />
