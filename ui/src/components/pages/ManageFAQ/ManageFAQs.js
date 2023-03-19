@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Stack from '@mui/material/Stack';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import {
   makeStyles,
   Table,
@@ -55,6 +57,12 @@ export default function ManageFAQ() {
             <b>Manage FAQs</b>
           </Typography>
         </Box>
+        <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        >
         <Button
           style={{
             marginLeft: "20px",
@@ -69,6 +77,22 @@ export default function ManageFAQ() {
         >
           Add New FAQ
         </Button>
+        <Button
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<LiveHelpIcon />}
+          // onClick={() => navigate("/management/manageFaqs/create")}
+        >
+          View New Questions
+        </Button>
+        </Stack>
+
         <Box>
           {/* Get all rewards from database and display in a table */}
           {questions && (
