@@ -15,6 +15,7 @@ const ratingRoute = require("./routes/rating.routes");
 const leaderboardRoute = require("./routes/leaderboard.routes");
 const managerDashboardRoute = require("./routes/managerDashboard.routes");
 const developerDashboardRoute = require("./routes/developerDashboard.routes");
+const manageQuestions = require("./routes/question.routes");
 const app = express();
 
 // connect database
@@ -46,6 +47,8 @@ app.use("/ratings", ratingRoute);
 app.get("/management/Leaderboard", leaderboardRoute);
 app.get("/requests", managerDashboardRoute);
 app.get("/archived-rewards", managerDashboardRoute);
+app.use("/management/questions", manageQuestions);
+app.use("/questions", manageQuestions);
 // setting up port
 const PORT = process.env.PORT || 8000;
 
