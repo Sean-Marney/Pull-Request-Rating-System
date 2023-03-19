@@ -3,10 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Stack from '@mui/material/Stack';
-import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import {
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -40,14 +37,14 @@ export default function ManageQuestions() {
     setQuestions(res.data);
   };
 
-//   const deleteFAQ = async (_id) => {
-//     // Delete faq
-//     await axios.delete(
-//       `http://localhost:8000/management/manageFaqs/delete/${_id}`
-//     );
+  const deleteQuestion = async (_id) => {
+    // Delete faq
+    await axios.delete(
+      `http://localhost:8000/management/questions/delete/${_id}`
+    );
 
-//     getQuestions(); // Get updated list of rewards
-//   };
+    getQuestions(); // Get updated list of rewards
+  };
 
 
     return (
@@ -91,14 +88,11 @@ export default function ManageQuestions() {
                         </IconButton>
                         <IconButton
                           title="Delete Question"
-                        //   onClick={() => deleteFAQ(question._id)}
+                          onClick={() => deleteQuestion(question._id)}
                         >
                           <DeleteIcon className={classes.deleteButton} />
                         </IconButton>
                       </TableCell>
-                      {/* <TableCell>
-                        
-                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
