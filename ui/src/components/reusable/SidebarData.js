@@ -45,7 +45,8 @@ const Sidebar = ({ children, removeCookie }) => {
             path: "/profile",
             name: "Profile",
             icon: <AccountCircleIcon />,
-        }        {
+        },       
+         {
             path: "/management/ManagerHelp",
             name: "ManagerHelp",
             icon: <Help />,
