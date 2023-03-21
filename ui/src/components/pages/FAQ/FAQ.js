@@ -5,12 +5,9 @@ import {
   Box,
   Button,
 } from "@material-ui/core";
-// import {ExpandMore} from "@material-ui/icons";
-import { Collapse, IconButton } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
-import Pagination from '@mui/material/Pagination';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -88,7 +85,7 @@ export default function ManageFaqs() {
         <Accordion  sx={{ maxWidth: 3500 }} key={q._id} style={{ padding: 6, margin:35 }}>
           <AccordionSummary
           expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
-            expandIcon={<TipsAndUpdatesIcon style={{ color: "#1b2437" }}/>}
+            expandIcon={<ExpandCircleDownIcon style={{ color: "#1b2437" }}/>}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
