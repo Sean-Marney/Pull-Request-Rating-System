@@ -1,19 +1,19 @@
 stages:
-    # - build
+    - build
     - deploy
 
-# build website:
-#     image: node:18-alpine
-#     stage: build
-#     script:
-#         - cd ui
-#         - npm i --force
-#         - npm run build
-#         - cd build
-#         - ls
-#     artifacts:
-#         paths:
-#             - ui/build
+build website:
+    image: node:18-alpine
+    stage: build
+    script:
+        - cd ui
+        - npm i --force
+        - npm run build
+        - cd build
+        - ls
+    artifacts:
+        paths:
+            - ui/build
 
 deploy to s3:
     stage: deploy
