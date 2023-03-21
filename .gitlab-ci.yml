@@ -22,5 +22,10 @@ deploy to s3:
         entrypoint: [""]
     script:
         - aws --version
-        # - aws s3 sync ui/build arn:aws:s3:::pullmaster-bucket --delete
-        - aws s3 sync api s3://pullmaster-bucket-api
+        - aws configure set region eu-north-1
+        - touch foo.txt
+        - aws s3 cp foo.txt s3://pullmaster.io-react/foo.txt
+
+
+        # # - aws s3 sync ui/build arn:aws:s3:::pullmaster-bucket --delete
+        # - aws s3 sync api s3://pullmaster-bucket-api
