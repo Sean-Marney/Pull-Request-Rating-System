@@ -25,6 +25,7 @@ deploy to s3:
         - aws configure set region eu-north-1
         - touch foo.txt
         - aws s3 cp foo.txt s3://pullmaster.io-react/foo.txt
+        - aws s3 cp foo.txt s3://pullmaster-bucket-api/foo.txt
 
 
         # # - aws s3 sync ui/build arn:aws:s3:::pullmaster-bucket --delete
