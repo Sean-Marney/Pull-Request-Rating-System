@@ -37,7 +37,7 @@ export default function UpdateProfile() {
   const getUser = async () => {
     // Get user by email
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user}`
+      `http://13.49.102.10:8000/management/users/email/${cookies.user}`
     );
     console.log(res.data);
     // Set to state (fills in textboxes)
@@ -65,7 +65,7 @@ export default function UpdateProfile() {
         abortEarly: false,
       });
       await axios.patch(
-        `http://localhost:8000/management/users/update/email/${cookies.user.email}`,
+        `http://13.49.102.10:8000/management/users/update/email/${cookies.user.email}`,
         updateForm
       );
       console.log(updateForm);

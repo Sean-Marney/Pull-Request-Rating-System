@@ -54,7 +54,7 @@ describe("Testing ManageRewards component", () => {
     deleteButton.click();
 
     expect(axios.delete).toHaveBeenCalledWith(
-      "http://localhost:8000/management/rewards/delete/1"
+      "http://13.49.102.10:8000/management/rewards/delete/1"
     );
   });
 });

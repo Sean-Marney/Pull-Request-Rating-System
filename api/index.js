@@ -22,7 +22,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://pullmaster.io-react.s3-website.eu-north-1.amazonaws.com/"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
@@ -50,7 +50,7 @@ app.get("/archived-rewards", managerDashboardRoute);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-  console.log(`server is running on http://localhost:${PORT}`);
+  console.log(`server is running on http://13.49.102.10:${PORT}`);
 });
 
 module.exports = app;

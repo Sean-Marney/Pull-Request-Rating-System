@@ -34,7 +34,7 @@ export default function UpdateFAQs() {
   const getFaqs = async () => {
     // Get FAQ by id
     const res = await axios.get(
-      `http://localhost:8000/management/manageFaqs/${id}`
+      `http://13.49.102.10:8000/management/manageFaqs/${id}`
     );
 
     // Set to state (fills in textboxes)
@@ -62,7 +62,7 @@ export default function UpdateFAQs() {
       });
       // Update faq
       await axios.patch(
-        `http://localhost:8000/management/manageFaqs/update/${id}`,
+        `http://13.49.102.10:8000/management/manageFaqs/update/${id}`,
         updateForm
       );
 

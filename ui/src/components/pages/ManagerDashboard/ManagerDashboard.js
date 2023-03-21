@@ -25,7 +25,7 @@ function ManagerDashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/requests")
+      .get("http://13.49.102.10:8000/requests")
       .then((response) => {
         setRequests(response.data);
       })
@@ -34,7 +34,7 @@ function ManagerDashboard() {
       });
 
     axios
-      .get("http://localhost:8000/archived-rewards")
+      .get("http://13.49.102.10:8000/archived-rewards")
       .then((response) => {
         setArchivedRewards(response.data);
       })

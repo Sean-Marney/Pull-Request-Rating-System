@@ -124,7 +124,7 @@ export default function DeveloperDashboard() {
   const getUserByEmail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/management/users/email/${cookies.user}`
+        `http://13.49.102.10:8000/management/users/email/${cookies.user}`
       );
       // Set user object to state
       setUser(res.data);
@@ -156,7 +156,7 @@ export default function DeveloperDashboard() {
     try {
       // Passes userId of currently logged in user to my API which gets their most recent pull request
       const res = await axios.get(
-        `http://localhost:8000/dashboard/recent-pull-request/${user._id}`
+        `http://13.49.102.10:8000/dashboard/recent-pull-request/${user._id}`
       );
 
       // Condition for if the user has not got a pull request stored in our database
@@ -193,7 +193,7 @@ export default function DeveloperDashboard() {
   const checkIfUserCanClaimReward = async () => {
     try {
       // Get rewards
-      const res = await axios.get("http://localhost:8000/management/rewards");
+      const res = await axios.get("http://13.49.102.10:8000/management/rewards");
 
       // Calculates remaining stars needed for each reward
       const remainingStarsData = {};
@@ -214,7 +214,7 @@ export default function DeveloperDashboard() {
   const getUsersClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/dashboard/claimed-rewards/${user._id}`
+        `http://13.49.102.10:8000/dashboard/claimed-rewards/${user._id}`
       );
       setClaimedRewards(res.data);
     } catch (error) {
@@ -273,7 +273,7 @@ export default function DeveloperDashboard() {
                     {canClaimReward ? (
                       <>
                         <p>You have available rewards to claim</p> <br />
-                        <a href="http://localhost:3000/rewards">
+                        <a href="http://13.49.102.10:3000/rewards">
                           Click here to claim
                         </a>
                       </>

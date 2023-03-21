@@ -18,7 +18,7 @@ function Leaderboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/management/leaderboard")
+      .get("http://13.49.102.10:8000/management/leaderboard")
       .then((res) => setLeaderboardData(res.data))
       .catch((err) => console.log(err));
   }, []);
