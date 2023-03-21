@@ -1,31 +1,31 @@
 stages:
-    # - build
-    # - upload
+    - build
+    - upload
     - deploy
 
-# build website:
-#     image: node:18-alpine
-#     stage: build
-#     script:
-#         - cd ui
-#         - npm i --force
-#         - npm run build
-#         - cd build
-#         - ls
-#     artifacts:
-#         paths:
-#             - ui/build
+build website:
+    image: node:18-alpine
+    stage: build
+    script:
+        - cd ui
+        - npm i --force
+        - npm run build
+        - cd build
+        - ls
+    artifacts:
+        paths:
+            - ui/build
 
-# deploy to s3:
-#     stage: upload
-#     image:
-#         name: amazon/aws-cli:2.11.2
-#         entrypoint: [""]
-#     script:
-#         - aws --version
-#         - aws configure set region eu-north-1
-#         - aws s3 sync ui/build s3://pullmaster.io-react --delete
-#         - aws s3 sync api s3://pullmaster-bucket-api --delete
+deploy to s3:
+    stage: upload
+    image:
+        name: amazon/aws-cli:2.11.2
+        entrypoint: [""]
+    script:
+        - aws --version
+        - aws configure set region eu-north-1
+        - aws s3 sync ui/build s3://pullmaster.io-react --delete
+        - aws s3 sync api s3://pullmaster-bucket-api --delete
 
 
 deploy to ec2:
@@ -38,5 +38,5 @@ deploy to ec2:
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
     script:
-        - ssh -o StrictHostKeyChecking=no ec2-user@13.50.224.237 "ls; aws s3 sync api s3://pullmaster-bucket-api --delete; cd api; cd API; ls;"
+        - ssh -o StrictHostKeyChecking=no ec2-user@13.50.224.237 "ls;"
 
