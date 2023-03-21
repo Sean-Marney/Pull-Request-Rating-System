@@ -22,19 +22,5 @@ deploy to s3:
         entrypoint: [""]
     script:
         - aws --version
-        - aws configure list
         - aws s3 sync ui/build s3://$AWS_S3_BUCKET --delete
         - aws s3 sync api s3://$AWS_S3_BUCKET_API --delete
-
-deploy to ec2:
-    stage: deploy
-    image: alpine
-    before_script:
-        - apk add openssh-client
-        - eval $(ssh-agent -s)
-        - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        - mkdir -p ~/.ssh
-        - chmod 700 ~/.ssh
-    script:
-        - ssh -o StrictHostKeyChecking=no ec2-user@13.50.224.237 "ls;"
-
