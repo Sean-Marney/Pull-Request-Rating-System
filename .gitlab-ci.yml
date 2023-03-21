@@ -23,4 +23,4 @@ deploy to s3:
     script:
         - aws --version
         # - aws s3 sync ui/build arn:aws:s3:::pullmaster-bucket --delete
-        - aws s3 sync api s3://pullmaster-bucket --delete
+        - aws s3 sync api s3://pullmaster-bucket-api --delete
