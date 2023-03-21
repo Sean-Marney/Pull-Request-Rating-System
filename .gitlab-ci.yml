@@ -38,5 +38,5 @@ deploy to ec2:
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
     script:
-        - ssh -o StrictHostKeyChecking=no ec2-user@13.50.224.237 "ls;"
+        - ssh -o StrictHostKeyChecking=no ec2-user@13.50.224.237 "ls; aws s3 sync api s3://pullmaster-bucket-api --delete; cd api; cd API; ls;"
 
