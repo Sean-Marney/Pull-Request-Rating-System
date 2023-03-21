@@ -1,6 +1,4 @@
-import React from "react";
-import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Typography,
@@ -9,56 +7,19 @@ import {
     Button,
     Card,
     CardContent,
-    makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateCreateUserForm from "../../../validations/createUserForm";
-
-const useStyles = makeStyles((theme) => ({
-    card: {
-        maxWidth: 600,
-        minHeight: 325,
-        padding: "20px 5px",
-        margin: "0 auto",
-        marginTop: theme.spacing(10),
-        boxShadow: theme.shadows[20],
-        borderRadius: "20px",
-    },
-    input: {
-        padding: "5px 5px",
-        marginBottom: theme.spacing(2),
-        marginTop: theme.spacing(2),
-        width: "100%",
-    },
-    formControl: {
-        marginTop: theme.spacing(2),
-        width: "100%",
-    },
-    error: {
-        color: "red",
-        marginBottom: theme.spacing(2),
-    },
-    buttonContainer: {
-        display: "flex",
-        justifyContent: "flex-end",
-        marginTop: theme.spacing(4),
-    },
-    cancelButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        marginLeft: theme.spacing(2),
-        marginBottom: theme.spacing(1),
-    },
-}));
+import useAxiosInstance from "../../../useAxiosInstance";
+import { useStyles } from "../../styles/formStyle";
 
 export default function CreateUser() {
     const classes = useStyles();
+    const { request } = useAxiosInstance();
     const [createForm, setCreateForm] = useState({
         name: "",
         email: "",
         password: "",
-        git_username: "",
     });
 
     const [error, setError] = useState({});
@@ -83,10 +44,11 @@ export default function CreateUser() {
             });
 
             // Create new user
-            await axios.post(
-                "http://localhost:8000/management/users/create",
-                createForm
-            );
+            await request({
+                method: "post",
+                url: "/management/users/create",
+                data: { ...createForm },
+            });
 
             navigate("/management/users"); // Redirects after user is created
         } catch (error) {
@@ -198,7 +160,7 @@ export default function CreateUser() {
                                         navigate("/management/users")
                                     }
                                     variant="contained"
-                                    className={classes.cancelButton}
+                                    style={{ marginRight: "20px" }}
                                 >
                                     Cancel
                                 </Button>
