@@ -1,5 +1,6 @@
 stages:
     - build
+    - upload
     - deploy
 
 build website:
@@ -16,7 +17,7 @@ build website:
             - ui/build
 
 deploy to s3:
-    stage: deploy
+    stage: upload
     image:
         name: amazon/aws-cli:2.11.2
         entrypoint: [""]
@@ -25,3 +26,15 @@ deploy to s3:
         - aws configure set region eu-north-1
         - aws s3 sync ui/build s3://pullmaster.io-react --delete
         - aws s3 sync api s3://pullmaster-bucket-api --delete
+
+
+deploy to ec2:
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - ssh -o StrictHostKeyChecking=no ec2-user@13.50.224.237 "aws s3 sync api s3://pullmaster-bucket-api --delete; ls;"
+
