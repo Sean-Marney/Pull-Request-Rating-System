@@ -22,6 +22,7 @@ deploy to s3:
         entrypoint: [""]
     script:
         - aws --version
+        - aws configure list
         - aws s3 sync ui/build s3://$AWS_S3_BUCKET --delete
         - aws s3 sync api s3://$AWS_S3_BUCKET_API --delete
 
