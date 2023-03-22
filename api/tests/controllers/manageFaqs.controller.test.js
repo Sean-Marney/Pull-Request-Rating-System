@@ -9,7 +9,7 @@ const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
 chai.should();
 
-describe("GET all faqs from /management/faqs using the getFaqs controller method", () => {
+describe("GET all faqs from /management/manageFaqs using the getFaqs controller method", () => {
     let testFaqs;
 
     beforeEach(() => {
