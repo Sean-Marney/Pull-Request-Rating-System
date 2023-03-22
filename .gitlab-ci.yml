@@ -37,4 +37,4 @@ deploy to ec2:
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
     script:
-        - ssh -o StrictHostKeyChecking=no ec2-user@13.49.102.10 "ls; aws s3 sync s3://pullmaster-bucket-api api; aws s3 sync s3://pullmaster.io-react ui; ls;"
+        - ssh -o StrictHostKeyChecking=no ec2-user@13.48.23.250 "ls; aws s3 sync s3://pullmaster-bucket-api api; aws s3 sync s3://pullmaster.io-react ui; ls;"
