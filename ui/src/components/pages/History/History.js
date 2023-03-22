@@ -42,7 +42,7 @@ function App() {
     // TODO: Integrate with ID of user who is logged in
     const getPullRequests = async () => {
         let email = cookies.user;
-        const res = await axios.get("http://13.49.102.10:8000/" + email.toLowerCase());
+        const res = await axios.get("http://13.49.102.10:8000/pullrequests/history/" + email.toLowerCase());
         setPullRequests(res.data);
     };
     
