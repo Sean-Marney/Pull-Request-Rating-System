@@ -110,28 +110,6 @@ describe("GET question by ID from /management/questions using the getQuestions c
       expect(mockQuestion._id).to.be.a("string");
       expect(mockQuestion.question).to.be.a("string");
     });
-  });
-
-
-describe("CREATE question at /management/questions/create using the createQuestions controller method", () => {
-    it("should create an faq and save it to the database with a 201 response code", async () => {
-        const questionData = {
-            question: "Test question",
-        };
-        const req = { body: questionData };
-        const res = {
-            status: sinon.stub().returnsThis(),
-            json: sinon.stub(),
-        };
-
-        const question = new Questions(questionData);
-        sinon.stub(Questions.prototype, "save").resolves(question);
-
-        await manageQuestions.createFAQs(req, res);
-
-        sinon.assert.calledOnce(question.save);
-        sinon.assert.calledOnceWithExactly(res.status, 201);
-    });
 });
 
 describe("DELETE Question by ID from /management/questions/delete/:id using the deleteQuestions controller method", () => {

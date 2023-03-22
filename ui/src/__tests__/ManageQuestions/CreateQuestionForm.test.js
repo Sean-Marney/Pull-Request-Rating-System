@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import AddQuestion from "./components/pages/Questions/QuestionsForm";
+import AddQuestion from "../../components/pages/Questions/QuestionsForm";
 import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
 import axios from "axios";
@@ -9,8 +9,8 @@ jest.mock("axios", () => ({
   post: jest.fn(),
 }));
 
-describe("Testing AddQuestion component", () => {
-  test("displays validation error when reward name is not entered", async () => {
+describe("Testing Add Question component", () => {
+  test("displays validation error when question is not entered", async () => {
     render(
       <MemoryRouter>
         <AddQuestion />
@@ -22,7 +22,7 @@ describe("Testing AddQuestion component", () => {
     fireEvent.change(questionInput, { target: { value: "" } });
 
     // find the submit button and click it
-    const AddQuestionButton = screen.getByText("SEND");
+    const AddQuestionButton = screen.getByText("Send");
     fireEvent.click(AddQuestionButton);
 
     // wait for validation to complete and display error message
@@ -48,7 +48,7 @@ describe("Testing AddQuestion component", () => {
     fireEvent.change(questionInput, { target: { value: "New Question" } });
 
     // find the submit button and click it
-    const AddQuestionButton = screen.getByText("SEND");
+    const AddQuestionButton = screen.getByText("Send");
     fireEvent.click(AddQuestionButton);
 
     // Wait for axios.post and navigation to complete
