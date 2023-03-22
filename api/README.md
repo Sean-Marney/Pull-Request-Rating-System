@@ -83,7 +83,7 @@ In the `/api` directory, you can run:
 ### `npm start`
 
 -   Runs the server in the development mode.
--   Open [http://13.49.102.10:8000](http://13.49.102.10:8000) to view it in Postman or in the browser.
+-   Open [http://13.48.23.250:8000](http://13.48.23.250:8000) to view it in Postman or in the browser.
 -   The page will reload if you make edits.
 -   You will also see any lint errors in the console.
 

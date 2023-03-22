@@ -80,7 +80,7 @@ describe("Testing CreateFaq component", () => {
   //     // Wait for axios.post and navigation to complete
   //     await waitFor(() => {
   //         expect(mockPost).toHaveBeenCalledWith(
-  //             "http://13.49.102.10:8000/management/manageFaqs/create",
+  //             "http://13.48.23.250:8000/management/manageFaqs/create",
   //             { question: "New Question", answer: "New Answer" }
   //         );
   //     });

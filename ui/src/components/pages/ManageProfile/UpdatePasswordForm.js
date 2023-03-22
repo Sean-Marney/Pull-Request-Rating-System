@@ -33,7 +33,7 @@ export default function UpdatePassword() {
     const getUser = async () => {
       // Get user by email
       const res = await axios.get(
-        `http://13.49.102.10:8000/management/users/email/${cookies.user}`
+        `http://13.48.23.250:8000/management/users/email/${cookies.user}`
       );
       console.log(res.data);
       // Set to state (fills in textboxes)
@@ -63,8 +63,8 @@ export default function UpdatePassword() {
           abortEarly: false,
         });
         await axios.patch(
-          // `http://13.49.102.10:8000/management/users/update/${id}`,
-          `http://13.49.102.10:8000/management/users/updatePassword/email/${cookies.user.email}`,
+          // `http://13.48.23.250:8000/management/users/update/${id}`,
+          `http://13.48.23.250:8000/management/users/updatePassword/email/${cookies.user.email}`,
           updateForm
         );
         navigate("/profile");

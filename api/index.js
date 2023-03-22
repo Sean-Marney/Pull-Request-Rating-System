@@ -50,7 +50,7 @@ app.get("/archived-rewards", managerDashboardRoute);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-  console.log(`server is running on http://13.49.102.10:${PORT}`);
+  console.log(`server is running on http://13.48.23.250:${PORT}`);
 });
 
 module.exports = app;

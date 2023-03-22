@@ -21,7 +21,7 @@ export default function ManageFaqs() {
 
   const getFaqs = async () => {
     // Get faqs
-    const res = await axios.get("http://13.49.102.10:8000/management/manageFaqs");
+    const res = await axios.get("http://13.48.23.250:8000/management/manageFaqs");
 
     // Set to state
     setQuestion(res.data);

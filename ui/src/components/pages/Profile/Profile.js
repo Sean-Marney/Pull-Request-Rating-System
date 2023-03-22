@@ -43,7 +43,7 @@ export default function ManageProfiles() {
   const getUserByEmail = async () => {
     //Get user by email
     const res = await axios.get(
-      `http://13.49.102.10:8000/management/users/email/${cookies.user}`
+      `http://13.48.23.250:8000/management/users/email/${cookies.user}`
     );
 
     //Set to state
@@ -55,7 +55,7 @@ export default function ManageProfiles() {
     try {
       // Delete user
       await axios.delete(
-        `http://13.49.102.10:8000/management/users/deleteUser/email/${cookies.user}`
+        `http://13.48.23.250:8000/management/users/deleteUser/email/${cookies.user}`
       );
       console.log("removing cookies");
       removeCookie("role");
