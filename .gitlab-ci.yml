@@ -24,7 +24,7 @@ deploy to s3:
     script:
         - aws --version
         - aws configure set region eu-north-1
-        - aws s3 sync ui/build s3://pullmaster.io-react --delete
+        - aws s3 sync ui s3://pullmaster.io-react --delete
         - aws s3 sync api s3://pullmaster-bucket-api --delete
 
 deploy to ec2:
@@ -37,4 +37,4 @@ deploy to ec2:
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
     script:
-        - ssh -o StrictHostKeyChecking=no ec2-user@13.49.102.10 "ls; aws s3 sync s3://pullmaster-bucket-api api;"
+        - ssh -o StrictHostKeyChecking=no ec2-user@13.49.102.10 "ls; aws s3 sync s3://pullmaster-bucket-api api; aws s3 sync s3://pullmaster.io-react ui;"
