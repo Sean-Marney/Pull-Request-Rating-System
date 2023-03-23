@@ -1,32 +1,53 @@
-import React, { useState } from 'react';
-import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
-import axios from 'axios';
+import { useState } from "react";
+import { Grid, TextField, Button, Card, CardContent, Typography, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import emailjs from "emailjs-com";
 
 const ManagerHelp = () => {
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [open, setOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('success');
+    const [alertMessage, setAlertMessage] = useState('');
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        
-        const formData = {
-            name,
-            message,
-        };
-        axios.post('http://localhost:8000/management/ManagerHelp', formData)
-            .then((response) => {
-                if (response.status === 200) {
-                    alert('Email sent successfully');
-                } else {
-                    alert('Error sending email');
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                alert('Error sending email');
-            });
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
     };
 
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs
+            .sendForm(
+                "service_ddgstfy",
+                "template_e4arkwr",
+                e.target,
+                "7coZYu5AFawFbosmz"
+            )
+            .then(
+                (result) => {
+                    console.log(result.text);
+                    setAlertSeverity('success');
+                    setAlertMessage('Message sent successfully');
+                    setOpen(true);
+                },
+                (error) => {
+                    console.log(error.text);
+                    setAlertSeverity('error');
+                    setAlertMessage('Error sending message');
+                    setOpen(true);
+                }
+            );
+
+        setName("");
+        setEmail("");
+        setMessage("");
+    };
 
     return (
         <div className="cForm">
@@ -43,41 +64,51 @@ const ManagerHelp = () => {
                             <Typography variant="body2" color="textSecondary" component="p" gutterBottom>
                                 Fill up the form and our team will get back to you within 24 hours.
                             </Typography>
-                            <form onSubmit={handleSubmit}>
+
+                            <form onSubmit={sendEmail}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
+
                                         <TextField
-                                            placeholder="Enter your name"
                                             label="Name"
-                                            variant="outlined"
-                                            fullWidth
-                                            required
                                             value={name}
-                                            onChange={(event) => setName(event.target.value)}
-                                            inputProps={{
-                                                "data-testid": "name-field"
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            label="Message"
-                                            multiline
-                                            rows={4}
-                                            placeholder="Type your message here"
+                                            onChange={(e) => setName(e.target.value)}
                                             variant="outlined"
-                                            fullWidth
+                                            margin="normal"
                                             required
-                                            value={message}
-                                            onChange={(event) => setMessage(event.target.value)}
-                                            inputProps={{
-                                                "data-testid": "message-field"
-                                            }}
+                                            fullWidth
+                                            name="user_name"
                                         />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Button type="submit" variant="contained" color="primary" fullWidth>
-                                            Submit
+
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                label="Email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                variant="outlined"
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                name="user_email"
+                                                type="email"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                label="Message"
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)}
+                                                variant="outlined"
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                name="message"
+                                                multiline
+                                                rows={4}
+                                            />
+                                        </Grid>
+                                        <Button type="submit" variant="contained" color="primary">
+                                            Send
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -86,10 +117,14 @@ const ManagerHelp = () => {
                     </Card>
                 </Grid>
             </Grid>
+
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleSnackbarClose}>
+                <Alert onClose={handleSnackbarClose} severity={alertSeverity}>
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </div>
-    );
-}
-
+    )
+    }
 export default ManagerHelp;
-
 
