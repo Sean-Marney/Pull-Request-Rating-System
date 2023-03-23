@@ -8,12 +8,12 @@ const registerUser = async (req, res) => {
     const email = req.body.email.toLowerCase();
 
     // Check if a user with the same name or email already exists in the database
-    const existingUser = await User.findOne({ $or: [{ name }, { email }] });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-        // If a user with the same name or email exists, return a 401 response with an error message
+        // If a user with the same name or email exists, return a 409 response with an error message
         return res
-            .status(401)
-            .json({ message: "Name or email has already been taken" });
+            .status(409)
+            .json({ message: "Email already exists in the database" });
     }
 
     // Hash the password with bcrypt and create a new User document with the name, email, and hashed password
