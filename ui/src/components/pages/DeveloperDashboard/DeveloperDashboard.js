@@ -7,9 +7,6 @@ import CalanderIcon from "@material-ui/icons/CalendarToday";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-// import { Bar } from "react-chartjs-2";
-// import { Chart as ChartJS } from "chart.js/auto";
-import ProgressBar from "react-progressbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
