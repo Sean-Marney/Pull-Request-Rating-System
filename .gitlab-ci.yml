@@ -30,8 +30,8 @@ api build:
         # Print success message
         - echo "API build was Successful!"
     # Only run this job when a merge request is created
-    # only:
-    #     - merge_requests
+    only:
+        - merge_requests
     artifacts:
         paths:
             - api/dist
@@ -60,7 +60,7 @@ ui build:
     #     - merge_requests
     artifacts:
         paths:
-            - ui/build/static
+            - ui/build
 
 # Run unit tests for the API
 api unit tests:
@@ -123,7 +123,7 @@ deploy to s3:
     script:
         - aws --version
         - aws configure set region eu-north-1
-        - aws s3 sync ui/build/static s3://pullmaster.io-react --delete
+        - aws s3 sync ui/build s3://pullmaster.io-react --delete
         - aws s3 sync api s3://pullmaster-bucket-api --delete
 
 deploy to ec2:
