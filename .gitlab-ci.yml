@@ -4,7 +4,7 @@ image: node:16.15.0
 # Define the different stages of the pipeline
 stages:
     - Builds
-    # - Unit Tests
+    - Unit Tests
     - Deploy To S3
     - Deploy To EC2
 
@@ -62,58 +62,58 @@ ui build:
         paths:
             - ui/build/static
 
-# # Run unit tests for the API
-# api unit tests:
-#     stage: Unit Tests
-#     timeout: 1h # set timeout for the entire job to 1 hour
-#     # Set up the environment before running the script
-#     before_script:
-#         # Change to the API directory
-#         - echo "Changing directory to api/"
-#         - cd api/
-#         # Print the current directory
-#         - pwd
-#         # Install dependencies for the API
-#         - echo "Installing dependencies for api/"
-#         - npm i --force
-#     # Run the unit tests for the API
-#     script:
-#         - echo "Running Unit Tests for api/"
-#         # Create variable to find all test files
-#         - testFiles=$(find tests/ -mindepth 1 -type f)
-#         - echo $testFiles
-#         # Run the tests with timeout option
-#         - npm test $testFiles --verbose
-#         # Check the exit status of the npm test command
-#         - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
-#     # Only run this job when a merge request is created
-#     only:
-#         - merge_requests
+# Run unit tests for the API
+api unit tests:
+    stage: Unit Tests
+    timeout: 1h # set timeout for the entire job to 1 hour
+    # Set up the environment before running the script
+    before_script:
+        # Change to the API directory
+        - echo "Changing directory to api/"
+        - cd api/
+        # Print the current directory
+        - pwd
+        # Install dependencies for the API
+        - echo "Installing dependencies for api/"
+        - npm i --force
+    # Run the unit tests for the API
+    script:
+        - echo "Running Unit Tests for api/"
+        # Create variable to find all test files
+        - testFiles=$(find tests/ -mindepth 1 -type f)
+        - echo $testFiles
+        # Run the tests with timeout option
+        - npm test $testFiles --verbose
+        # Check the exit status of the npm test command
+        - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
+    # Only run this job when a merge request is created
+    only:
+        - merge_requests
 
-#     # Run unit tests for the UI
-# ui unit tests:
-#     stage: Unit Tests
-#     # Set up the environment before running the script
-#     before_script:
-#         # Change to the UI directory
-#         - echo "Changing directory to ui/"
-#         - cd ui/
-#         # Print the current directory
-#         - pwd
-#         # Install dependencies for the UI
-#         - echo "Installing dependencies"
-#         - npm i --force
-#     script:
-#         - echo "Running Unit Tests for ui/"
-#         # Find all test files inside src/__tests__/ directory and run them
-#         - testFiles=$(find src/__tests__ -name '*.test.js')
-#         - echo $testFiles
-#         - npm test $testFiles
-#         # Print success message
-#         - echo "All Tests Passed!"
-#           # Only run this job when a merge request is created
-#     only:
-#         - merge_requests
+    # Run unit tests for the UI
+ui unit tests:
+    stage: Unit Tests
+    # Set up the environment before running the script
+    before_script:
+        # Change to the UI directory
+        - echo "Changing directory to ui/"
+        - cd ui/
+        # Print the current directory
+        - pwd
+        # Install dependencies for the UI
+        - echo "Installing dependencies"
+        - npm i --force
+    script:
+        - echo "Running Unit Tests for ui/"
+        # Find all test files inside src/__tests__/ directory and run them
+        - testFiles=$(find src/__tests__ -name '*.test.js')
+        - echo $testFiles
+        - npm test $testFiles
+        # Print success message
+        - echo "All Tests Passed!"
+          # Only run this job when a merge request is created
+    only:
+        - merge_requests
 
 deploy to s3:
     stage: Deploy To S3
