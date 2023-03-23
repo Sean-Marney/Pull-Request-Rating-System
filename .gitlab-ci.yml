@@ -8,33 +8,33 @@ stages:
     - Deploy To S3
     - Deploy To EC2
 
-# # Build the API
-# api build:
-#     stage: Builds
-#     # Set up the environment before running the script
-#     before_script:
-#         # Installing nexe globally
-#         - npm install -g pkg
-#         # Change to the API directory
-#         - echo "Changing directory to api/"
-#         - cd api/
-#         # Print the current directory
-#         - pwd
-#         # Install dependencies for the API
-#         - echo "Installing dependencies for api/"
-#         - npm i --force
-#     # Run the build script for the API
-#     script:
-#         - echo "Running build for api/"
-#         - pkg -t linux,macos,win index.js --out-path dist --no-warnings
-#         # Print success message
-#         - echo "API build was Successful!"
-#     # Only run this job when a merge request is created
-#     only:
-#         - merge_requests
-#     artifacts:
-#         paths:
-#             - api/dist
+# Build the API
+api build:
+    stage: Builds
+    # Set up the environment before running the script
+    before_script:
+        # Installing nexe globally
+        - npm install -g pkg
+        # Change to the API directory
+        - echo "Changing directory to api/"
+        - cd api/
+        # Print the current directory
+        - pwd
+        # Install dependencies for the API
+        - echo "Installing dependencies for api/"
+        - npm i --force
+    # Run the build script for the API
+    script:
+        - echo "Running build for api/"
+        - pkg -t linux,macos,win index.js --out-path dist --no-warnings
+        # Print success message
+        - echo "API build was Successful!"
+    # Only run this job when a merge request is created
+    only:
+        - merge_requests
+    artifacts:
+        paths:
+            - api/dist
 
 # Build the UI
 ui build:
