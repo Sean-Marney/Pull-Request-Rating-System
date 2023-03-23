@@ -48,7 +48,7 @@ export default function CreateFAQ() {
         createForm
       );
 
-      navigate("/management/manageFaqs"); // Redirects after reward is created
+      navigate("/management/faqs"); // Redirects after reward is created
     } catch (error) {
       const validationErrors = {};
       if (error instanceof yup.ValidationError) {
@@ -108,7 +108,7 @@ export default function CreateFAQ() {
               </div>
               <div className={classes.buttonContainer}>
                 <Button
-                  onClick={() => navigate("/management/manageFaqs")}
+                  onClick={() => navigate("/management/faqs")}
                   variant="contained"
                   style={{ marginRight: "20px" }}
                 >

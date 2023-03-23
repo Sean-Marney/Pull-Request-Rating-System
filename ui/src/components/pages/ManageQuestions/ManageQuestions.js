@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import EditIcon from "@material-ui/icons/Edit";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DeleteIcon from "@material-ui/icons/Delete";
-import Stack from '@mui/material/Stack';
-import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import {
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -22,76 +19,57 @@ import {
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
 
-export default function ManageFAQ() {
-  const classes = useStyles();
+
+export default function ManageQuestions() {
+    const classes = useStyles();
   const [questions, setQuestions] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getFaqs();
+    getQuestions();
   }, []);
 
-  const getFaqs = async () => {
+  const getQuestions = async () => {
     // Get faqs
-    const res = await axios.get("http://13.48.23.250:8000/management/manageFaqs");
+    const res = await axios.get("http://localhost:8000/management/questions");
 
     // Set to state
     setQuestions(res.data);
   };
 
-  const deleteFAQ = async (_id) => {
+  const deleteQuestion = async (_id) => {
     // Delete faq
     await axios.delete(
-      `http://13.48.23.250:8000/management/manageFaqs/delete/${_id}`
+      `http://localhost:8000/management/questions/delete/${_id}`
     );
 
-    getFaqs(); // Get updated list of rewards
+    getQuestions(); // Get updated list of rewards
   };
 
-  return (
-    <div className={classes.tableContainer}>
-      <Paper className={classes.paper}>
+
+    return (
+        <div  className={classes.tableContainer}>
+            <Button
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<ChevronLeftIcon />}
+          onClick={() => navigate("/management/faqs")}
+        >
+          back
+        </Button>
+        <Paper className={classes.paper}>
         <Box padding={3}>
           <Typography variant="h4">
-            <b>Manage FAQs</b>
+            <b>Developers Questions</b>
           </Typography>
         </Box>
-        <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-        >
-        <Button
-          style={{
-            marginLeft: "20px",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-          variant="contained"
-          color="primary"
-          size="large"
-          startIcon={<AddCircleIcon />}
-          onClick={() => navigate("/management/manageFaqs/create")}
-        >
-          Add New FAQ
-        </Button>
-        <Button
-          style={{
-            marginLeft: "20px",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-          variant="contained"
-          color="primary"
-          size="large"
-          startIcon={<LiveHelpIcon />}
-          onClick={() => navigate("/management/manageFaqs/questions")}
-        >
-          View New Questions
-        </Button>
-        </Stack>
 
         <Box>
           {/* Get all rewards from database and display in a table */}
@@ -101,12 +79,8 @@ export default function ManageFAQ() {
                 <TableHead>
                   <TableRow>
                     <TableCell className={classes.tableHeaders}>
-                      <b>Question</b>
+                      <b>Questions</b>
                     </TableCell>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Answer</b>
-                    </TableCell>
-                    <TableCell></TableCell>
                     <TableCell />
                   </TableRow>
                 </TableHead>
@@ -116,25 +90,20 @@ export default function ManageFAQ() {
                       <TableCell className={classes.tableContent}>
                         {question.question}
                       </TableCell>
-                      <TableCell className={classes.tableContent}>
-                        {question.answer}
-                      </TableCell>
                       <TableCell>
                         <IconButton
-                          title="Edit FAQ"
+                          title="Add Question"
                           onClick={() =>
-                            navigate(
-                              `/management/manageFaqs/update/${question._id}`
+                            navigate(  
+                            `/management/manageFaqs/questions/add/${question._id}`
                             )
                           }
                         >
-                          <EditIcon className={classes.editButton} />
+                          <AddCircleIcon className={classes.editButton} />
                         </IconButton>
-                      </TableCell>
-                      <TableCell>
                         <IconButton
-                          title="Delete FAQ"
-                          onClick={() => deleteFAQ(question._id)}
+                          title="Delete Question"
+                          onClick={() => deleteQuestion(question._id)}
                         >
                           <DeleteIcon className={classes.deleteButton} />
                         </IconButton>
@@ -147,6 +116,6 @@ export default function ManageFAQ() {
           )}
         </Box>
       </Paper>
-    </div>
-  );
+        </div>
+    );
 }

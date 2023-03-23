@@ -66,7 +66,7 @@ export default function UpdateFAQs() {
         updateForm
       );
 
-      navigate("/management/manageFaqs");
+      navigate("/management/faqs");
     } catch (error) {
       const validationErrors = {};
       if (error instanceof yup.ValidationError) {
@@ -123,7 +123,7 @@ export default function UpdateFAQs() {
               </div>
               <div className={classes.buttonContainer}>
                 <Button
-                  onClick={() => navigate("/management/manageFaqs")}
+                  onClick={() => navigate("/management/faqs")}
                   variant="contained"
                   style={{ marginRight: "20px" }}
                 >
