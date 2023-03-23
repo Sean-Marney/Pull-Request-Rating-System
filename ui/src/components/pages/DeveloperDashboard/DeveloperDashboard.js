@@ -7,8 +7,9 @@ import CalanderIcon from "@material-ui/icons/CalendarToday";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
+// import { Bar } from "react-chartjs-2";
+// import { Chart as ChartJS } from "chart.js/auto";
+import ProgressBar from "react-progressbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,15 +97,23 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "100px",
     color: "black",
   },
-  chartContainer: {
-    margin: `${theme.spacing(3)}px auto 0`,
-    width: `calc(100% - ${theme.spacing(4)}px)`,
-    height: "600px",
-    borderRadius: 25,
-    boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.1)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+  rewardName: {
+    marginBottom: theme.spacing(1),
+    fontWeight: "bold",
+  },
+  progressContainer: {
+    width: "100%",
+    height: "10px",
+    borderRadius: "5px",
+    backgroundColor: theme.palette.grey[300],
+    overflow: "hidden",
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: theme.palette.primary.main,
+  },
+  progressText: {
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -122,6 +131,12 @@ export default function DeveloperDashboard() {
   const [claimedRewards, setClaimedRewards] = useState(null); // List of user's claimed rewards
   const [remainingStarsForEachReward, setRemainingStarsForEachReward] =
     useState([]);
+  const [starsRequiredForEachReward, setStarsRequiredForEachReward] = useState(
+    []
+  );
+
+  const rewardNames = Object.keys(remainingStarsForEachReward); // Name of reward
+  const starsRemaining = Object.values(remainingStarsForEachReward); // Number of stars left before they can claim it
 
   // Renders all data on page load
   useEffect(() => {
@@ -132,62 +147,6 @@ export default function DeveloperDashboard() {
     checkIfUserCanClaimReward();
     getUsersClaimedRewards();
   }, [user]);
-
-  const renderGraph = () => {
-    // Rendering chart that shows user how far away they are from being able to claim each reward
-    const rewardNames = Object.keys(remainingStarsForEachReward); // Name of reward
-    const starsRemaining = Object.values(remainingStarsForEachReward); // Number of stars left before they can claim it
-
-    const chartData = {
-      labels: rewardNames,
-      datasets: [
-        {
-          label: "Stars remaining for reward",
-          data: starsRemaining,
-          backgroundColor: ["#5b9bd5 ", "#FF8A80 "],
-          borderColor: "#fff",
-          borderWidth: 1,
-        },
-      ],
-    };
-
-    const chartOptions = {
-      indexAxis: "y",
-      scales: {
-        x: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: "Stars Remaining",
-            font: {
-              size: 25,
-              weight: "bold",
-            },
-          },
-        },
-        y: {
-          title: {
-            display: true,
-            text: "Rewards",
-            font: {
-              size: 25,
-              weight: "bold",
-            },
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-    };
-
-    return { chartData, chartOptions };
-  };
-
-  // Populating with chart data
-  const { chartData, chartOptions } = renderGraph();
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
   const getUserByEmail = async () => {
@@ -266,16 +225,19 @@ export default function DeveloperDashboard() {
 
       // Calculates remaining stars needed for each reward
       const remainingStarsData = {};
+      const starsRequiredData = [];
       res.data.forEach((reward) => {
         const remainingStars = Math.max(reward.starsRequired - user.stars, 0);
-        // remainingStarsData[reward._id] = remainingStars;
         remainingStarsData[reward.rewardName] = remainingStars;
         // If a user has enough stars to claim any reward, they will be informed in the description box of "Current Star Count"
         if (remainingStars === 0) {
           setCanClaimReward(true);
         }
-        setRemainingStarsForEachReward(remainingStarsData);
+        starsRequiredData.push(reward.starsRequired);
       });
+      // Data to be used to render the progress bars
+      setRemainingStarsForEachReward(remainingStarsData);
+      setStarsRequiredForEachReward(starsRequiredData);
     } catch (error) {
       console.log(error);
     }
@@ -489,9 +451,35 @@ export default function DeveloperDashboard() {
           </div>
         </Box>
       </Box>
-      {/* Render bar chart */}
-      <div className={classes.chartContainer}>
-        <Bar data={chartData} options={chartOptions} />
+      {/* Render progress bars */}
+      <div className={classes.root}>
+        {/* Loop through each reward */}
+        {rewardNames.map((rewardName, index) => {
+          // Set proress towards rewards based on stars required and how many stars the user has remaining
+          const starsRequired = starsRequiredForEachReward[index];
+          const progress = (
+            ((starsRequired - starsRemaining[index]) / starsRequired) *
+            100
+          ).toFixed(2);
+
+          return (
+            <div key={rewardName}>
+              <Typography variant="h6" className={classes.rewardName}>
+                {rewardName}
+              </Typography>
+              <div className={classes.progressContainer}>
+                <div
+                  className={classes.progressBar}
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <Typography variant="body2" className={classes.progressText}>
+                {progress}% complete ({starsRemaining[index]} out of{" "}
+                {starsRequired} stars remaining)
+              </Typography>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
