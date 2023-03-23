@@ -121,14 +121,17 @@ deploy to s3:
         name: amazon/aws-cli:2.11.2
         entrypoint: [""]
     script:
+        # Checks AWS instance
         - aws --version
         - aws configure set region eu-north-1
+        # Syncs the ui and the api buckets in S3
         - aws s3 sync ui/build s3://pullmaster.io-react --delete
         - aws s3 sync api s3://pullmaster-bucket-api --delete
 
 deploy to ec2:
     stage: Deploy To EC2
     image: alpine
+    # Creates private key to ssh into ec2 machine
     before_script:
         - apk add openssh-client
         - eval $(ssh-agent -s)
@@ -136,4 +139,5 @@ deploy to ec2:
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
     script:
-        - ssh -o StrictHostKeyChecking=no ec2-user@13.48.23.250 "ls; aws s3 sync s3://pullmaster-bucket-api api; aws s3 sync s3://pullmaster.io-react ui; ls;"
+        # SSH into ec2 machine and then syncs down the s3 api bucket and reloads server
+        - ssh -o StrictHostKeyChecking=no ec2-user@13.48.23.250 "ls; aws s3 sync s3://pullmaster-bucket-api api; cd api; npm i --force; pm2 restart"
