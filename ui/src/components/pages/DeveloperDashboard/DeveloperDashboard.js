@@ -92,7 +92,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   scrollbox: {
-    paddingTop: theme.spacing(3),
     overflowY: "scroll",
     maxHeight: "100px",
     color: "black",
@@ -490,6 +489,7 @@ export default function DeveloperDashboard() {
           </div>
         </Box>
       </Box>
+      {/* Render bar chart */}
       <div className={classes.chartContainer}>
         <Bar data={chartData} options={chartOptions} />
       </div>
