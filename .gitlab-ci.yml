@@ -30,8 +30,8 @@ api build:
         # Print success message
         - echo "API build was Successful!"
     # Only run this job when a merge request is created
-    only:
-        - merge_requests
+    # only:
+    #     - merge_requests
     artifacts:
         paths:
             - api/dist
@@ -56,8 +56,8 @@ ui build:
         # Print success message
         - echo "UI build was Successful!"
     # Only run this job when a merge request is created
-    only:
-        - merge_requests
+    # only:
+    #     - merge_requests
     artifacts:
         paths:
             - ui/build/static
