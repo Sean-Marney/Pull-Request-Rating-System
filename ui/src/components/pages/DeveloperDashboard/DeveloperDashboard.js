@@ -134,102 +134,61 @@ export default function DeveloperDashboard() {
     getUsersClaimedRewards();
   }, [user]);
 
-  // Rendering chart that shows user how far away they are from being able to claim each reward
-  const rewardNames = Object.keys(remainingStarsForEachReward); // Name of reward
-  const starsRemaining = Object.values(remainingStarsForEachReward); // Number of stars left before they can claim it
+  const renderGraph = () => {
+    // Rendering chart that shows user how far away they are from being able to claim each reward
+    const rewardNames = Object.keys(remainingStarsForEachReward); // Name of reward
+    const starsRemaining = Object.values(remainingStarsForEachReward); // Number of stars left before they can claim it
 
-  const chartData = {
-    labels: rewardNames,
-    datasets: [
-      {
-        label: "Stars remaining for reward",
-        data: starsRemaining,
-        backgroundColor: ["#5b9bd5 ", "#FF8A80 "],
-        borderColor: "#fff",
-        borderWidth: 1,
-      },
-    ],
-  };
+    const chartData = {
+      labels: rewardNames,
+      datasets: [
+        {
+          label: "Stars remaining for reward",
+          data: starsRemaining,
+          backgroundColor: ["#5b9bd5 ", "#FF8A80 "],
+          borderColor: "#fff",
+          borderWidth: 1,
+        },
+      ],
+    };
 
-  const chartOptions = {
-    indexAxis: "y",
-    scales: {
-      x: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: "Stars Remaining",
-          font: {
-            size: 25,
-            weight: "bold",
+    const chartOptions = {
+      indexAxis: "y",
+      scales: {
+        x: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Stars Remaining",
+            font: {
+              size: 25,
+              weight: "bold",
+            },
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Rewards",
+            font: {
+              size: 25,
+              weight: "bold",
+            },
           },
         },
       },
-      y: {
-        title: {
-          display: true,
-          text: "Rewards",
-          font: {
-            size: 25,
-            weight: "bold",
-          },
+      plugins: {
+        legend: {
+          display: false,
         },
       },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
+    };
+
+    return { chartData, chartOptions };
   };
-  // const rewardNames = Object.keys(remainingStarsForEachReward);
-  // const starsRemaining = Object.values(remainingStarsForEachReward);
 
-  // const emptySpaceData = starsRemaining.map((stars) => 100 - stars);
-
-  // const chartData = {
-  //   labels: rewardNames,
-  //   datasets: [
-  //     {
-  //       label: "Empty space",
-  //       data: emptySpaceData,
-  //       backgroundColor: "#5b9bd5",
-  //       borderWidth: 0,
-  //     },
-  //   ],
-  // };
-
-  // const chartOptions = {
-  //   indexAxis: "y",
-  //   scales: {
-  //     x: {
-  //       beginAtZero: true,
-  //       title: {
-  //         display: true,
-  //         text: "Stars Remaining",
-  //         font: {
-  //           size: 25,
-  //           weight: "bold",
-  //         },
-  //       },
-  //     },
-  //     y: {
-  //       title: {
-  //         display: true,
-  //         text: "Rewards",
-  //         font: {
-  //           size: 25,
-  //           weight: "bold",
-  //         },
-  //       },
-  //     },
-  //   },
-  //   plugins: {
-  //     legend: {
-  //       display: false,
-  //     },
-  //   },
-  // };
+  // Populating with chart data
+  const { chartData, chartOptions } = renderGraph();
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
   const getUserByEmail = async () => {
