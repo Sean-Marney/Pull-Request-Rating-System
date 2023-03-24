@@ -1,23 +1,13 @@
 import { useState } from "react";
-import { Grid, TextField, Button, Card, CardContent, Typography, Snackbar } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
 import emailjs from "emailjs-com";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManagerHelp = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
-    const [open, setOpen] = useState(false);
-    const [alertSeverity, setAlertSeverity] = useState('success');
-    const [alertMessage, setAlertMessage] = useState('');
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-    };
 
     const sendEmail = (e) => {
         e.preventDefault();
@@ -32,15 +22,12 @@ const ManagerHelp = () => {
             .then(
                 (result) => {
                     console.log(result.text);
-                    setAlertSeverity('success');
-                    setAlertMessage('Message sent successfully');
-                    setOpen(true);
+                    console.log("message sent");
+                    toast.success("Your message has been sent!");
                 },
                 (error) => {
                     console.log(error.text);
-                    setAlertSeverity('error');
-                    setAlertMessage('Error sending message');
-                    setOpen(true);
+                    toast.error("Error sending message. Please try again later.");
                 }
             );
 
@@ -117,14 +104,10 @@ const ManagerHelp = () => {
                     </Card>
                 </Grid>
             </Grid>
-
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleSnackbarClose}>
-                <Alert onClose={handleSnackbarClose} severity={alertSeverity}>
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
+            <ToastContainer position="top-right" autoClose={3000} />
         </div>
-    )
-    }
-export default ManagerHelp;
 
+    );
+};
+
+export default ManagerHelp;
