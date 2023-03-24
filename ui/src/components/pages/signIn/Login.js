@@ -190,12 +190,7 @@ export default function SignIn() {
                             </Grid>
                         </Grid>
                         <Dialog open={openModal} onClose={handleModalClose}>
-                            <DialogContent
-                                // sx={{
-                                //     display: "flex",
-                                //     justifyContent: "flex-end",
-                                // }}
-                            >
+                            <DialogContent>
                                 <Typography variant="h6" gutterBottom>
                                     Forgotten password
                                 </Typography>
@@ -217,10 +212,12 @@ export default function SignIn() {
                                     autoComplete="email"
                                     autoFocus
                                 />
-
                                 <Button
                                     onClick={handleModalClose}
-                                    style={{ marginRight: "10px" }}
+                                    style={{
+                                        marginLeft: "329px",
+                                        marginRight: "10px",
+                                    }}
                                     variant="contained"
                                     sx={{ m1: 1 }}
                                 >
@@ -231,7 +228,7 @@ export default function SignIn() {
                                     variant="contained"
                                     sx={{ m1: 1 }}
                                 >
-                                    Reset password
+                                    Send email
                                 </Button>
                             </DialogContent>
                         </Dialog>
