@@ -17,6 +17,8 @@ import useAxiosInstance from "../../../useAxiosInstance";
 import * as yup from "yup";
 import { useState } from "react";
 import validateLoginForm from "../../../validations/loginForm";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 
 const theme = createTheme();
 
@@ -29,6 +31,8 @@ export default function SignIn() {
         email: "",
         password: "",
     });
+    const [openModal, setOpenModal] = useState(false);
+    const [modalEmail, setModalEmail] = useState("");
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -36,6 +40,25 @@ export default function SignIn() {
             ...prevUser,
             [name]: value,
         }));
+    };
+
+    const handleModalOpen = () => {
+        setOpenModal(true);
+    };
+
+    const handleModalClose = () => {
+        setOpenModal(false);
+    };
+
+    const handleResetPassword = async (event) => {
+        event.preventDefault();
+        try {
+            // Send reset password email to the user's email address
+            console.log("Resetting password for email:");
+            handleModalClose();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleSubmit = async (event) => {
@@ -152,8 +175,12 @@ export default function SignIn() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="/dashboard" variant="body2">
-                                    Forgot password?
+                                <Link
+                                    href="#"
+                                    variant="body2"
+                                    onClick={handleModalOpen}
+                                >
+                                    Forgotten password?
                                 </Link>
                             </Grid>
                             <Grid item>
@@ -162,6 +189,46 @@ export default function SignIn() {
                                 </Link>
                             </Grid>
                         </Grid>
+                        <Dialog open={openModal} onClose={handleModalClose}>
+                            <DialogContent>
+                                <Typography variant="h6" gutterBottom>
+                                    Forgotten password?
+                                </Typography>
+                                <Typography variant="body1" gutterBottom>
+                                    Please enter your email address below to
+                                    recieve OTP
+                                </Typography>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="modalEmail"
+                                    name="modalEmail"
+                                    value={modalEmail}
+                                    onChange={(e) =>
+                                        setModalEmail(e.target.value)
+                                    }
+                                    label="Email"
+                                    autoComplete="email"
+                                    autoFocus
+                                />
+
+                                <Button
+                                    onClick={handleModalClose}
+                                    variant="contained"
+                                    sx={{ mt: 2 }}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    onClick={handleResetPassword}
+                                    variant="contained"
+                                    sx={{ mt: 2 }}
+                                >
+                                    Reset password
+                                </Button>
+                            </DialogContent>
+                        </Dialog>
                     </Box>
                 </Box>
             </Container>
