@@ -43,7 +43,7 @@ export default function ManageProfiles() {
   const getUserByEmail = async () => {
     //Get user by email
     const res = await axios.get(
-      `http://13.48.23.250:8000/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
     );
 
     //Set to state
