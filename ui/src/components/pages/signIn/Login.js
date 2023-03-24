@@ -190,9 +190,14 @@ export default function SignIn() {
                             </Grid>
                         </Grid>
                         <Dialog open={openModal} onClose={handleModalClose}>
-                            <DialogContent>
+                            <DialogContent
+                                // sx={{
+                                //     display: "flex",
+                                //     justifyContent: "flex-end",
+                                // }}
+                            >
                                 <Typography variant="h6" gutterBottom>
-                                    Forgotten password?
+                                    Forgotten password
                                 </Typography>
                                 <Typography variant="body1" gutterBottom>
                                     Please enter your email address below to
@@ -215,15 +220,16 @@ export default function SignIn() {
 
                                 <Button
                                     onClick={handleModalClose}
+                                    style={{ marginRight: "10px" }}
                                     variant="contained"
-                                    sx={{ mt: 2 }}
+                                    sx={{ m1: 1 }}
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     onClick={handleResetPassword}
                                     variant="contained"
-                                    sx={{ mt: 2 }}
+                                    sx={{ m1: 1 }}
                                 >
                                     Reset password
                                 </Button>
