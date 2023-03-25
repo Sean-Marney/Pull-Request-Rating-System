@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
-import { InputLabel } from "@material-ui/core";
+import InputLabel from "@mui/material/InputLabel";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -27,6 +27,7 @@ export default function SignIn() {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const { request } = useAxiosInstance();
     const [error, setError] = useState({});
+    const [dialogueError, setDialogueError] = useState("");
     const [user, setUser] = React.useState({
         email: "",
         password: "",
@@ -53,11 +54,18 @@ export default function SignIn() {
     const handleResetPassword = async (event) => {
         event.preventDefault();
         try {
-            // Send reset password email to the user's email address
-            console.log("Resetting password for email:");
-            handleModalClose();
+            const response = await request({
+                method: "get",
+                url: `/management/users/email/${modalEmail}`,
+            });
+
+            console.log(response);
         } catch (error) {
-            console.log(error);
+            if (error.response && error.response.data.message) {
+                setDialogueError(
+                    "The email address you entered isn't connected to an account"
+                );
+            }
         }
     };
 
@@ -202,8 +210,8 @@ export default function SignIn() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="modalEmail"
-                                    name="modalEmail"
+                                    id="email"
+                                    name="email"
                                     value={modalEmail}
                                     onChange={(e) =>
                                         setModalEmail(e.target.value)
@@ -212,6 +220,11 @@ export default function SignIn() {
                                     autoComplete="email"
                                     autoFocus
                                 />
+                                {dialogueError && (
+                                    <div style={{ color: "red" }}>
+                                        {dialogueError}
+                                    </div>
+                                )}
                                 <Button
                                     onClick={handleModalClose}
                                     style={{
