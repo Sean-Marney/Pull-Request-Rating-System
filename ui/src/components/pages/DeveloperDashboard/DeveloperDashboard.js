@@ -449,7 +449,7 @@ export default function DeveloperDashboard() {
         </Box>
       </Box>
       {/* Render progress bars */}
-      <div className={classes.root}>
+      <div role="progressbar" className={classes.root}>
         {/* Loop through each reward */}
         {rewardNames.map((rewardName, index) => {
           // Set proress towards rewards based on stars required and how many stars the user has remaining
