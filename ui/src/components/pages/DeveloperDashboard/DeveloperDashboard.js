@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Paper, Typography, Tooltip, Link, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Stars";
@@ -90,10 +90,27 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   scrollbox: {
-    paddingTop: theme.spacing(3),
     overflowY: "scroll",
     maxHeight: "100px",
     color: "black",
+  },
+  rewardName: {
+    marginBottom: theme.spacing(1),
+    fontWeight: "bold",
+  },
+  progressContainer: {
+    width: "100%",
+    height: "10px",
+    borderRadius: "5px",
+    backgroundColor: theme.palette.grey[300],
+    overflow: "hidden",
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: theme.palette.primary.main,
+  },
+  progressText: {
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -109,6 +126,14 @@ export default function DeveloperDashboard() {
   const [latestPullRequestStatus, setLatestPullRequestStatus] = useState(null); // Whether pull request is "Pending" or "Reviewed"
   const [canClaimReward, setCanClaimReward] = useState(false); // Tracks whether user has enough stars to claim any rewards
   const [claimedRewards, setClaimedRewards] = useState(null); // List of user's claimed rewards
+  const [remainingStarsForEachReward, setRemainingStarsForEachReward] =
+    useState([]);
+  const [starsRequiredForEachReward, setStarsRequiredForEachReward] = useState(
+    []
+  );
+
+  const rewardNames = Object.keys(remainingStarsForEachReward); // Name of reward
+  const starsRemaining = Object.values(remainingStarsForEachReward); // Number of stars left before they can claim it
 
   // Renders all data on page load
   useEffect(() => {
@@ -197,14 +222,19 @@ export default function DeveloperDashboard() {
 
       // Calculates remaining stars needed for each reward
       const remainingStarsData = {};
+      const starsRequiredData = [];
       res.data.forEach((reward) => {
         const remainingStars = Math.max(reward.starsRequired - user.stars, 0);
-        remainingStarsData[reward._id] = remainingStars;
+        remainingStarsData[reward.rewardName] = remainingStars;
         // If a user has enough stars to claim any reward, they will be informed in the description box of "Current Star Count"
         if (remainingStars === 0) {
           setCanClaimReward(true);
         }
+        starsRequiredData.push(reward.starsRequired);
       });
+      // Data to be used to render the progress bars
+      setRemainingStarsForEachReward(remainingStarsData);
+      setStarsRequiredForEachReward(starsRequiredData);
     } catch (error) {
       console.log(error);
     }
@@ -418,6 +448,36 @@ export default function DeveloperDashboard() {
           </div>
         </Box>
       </Box>
+      {/* Render progress bars */}
+      <div role="progressbar" className={classes.root}>
+        {/* Loop through each reward */}
+        {rewardNames.map((rewardName, index) => {
+          // Set proress towards rewards based on stars required and how many stars the user has remaining
+          const starsRequired = starsRequiredForEachReward[index];
+          const progress = (
+            ((starsRequired - starsRemaining[index]) / starsRequired) *
+            100
+          ).toFixed(2);
+
+          return (
+            <div key={rewardName}>
+              <Typography variant="h6" className={classes.rewardName}>
+                {rewardName}
+              </Typography>
+              <div className={classes.progressContainer}>
+                <div
+                  className={classes.progressBar}
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <Typography variant="body2" className={classes.progressText}>
+                {progress}% complete ({starsRemaining[index]} out of{" "}
+                {starsRequired} stars remaining)
+              </Typography>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
