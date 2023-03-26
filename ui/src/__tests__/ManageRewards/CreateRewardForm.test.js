@@ -80,7 +80,7 @@ describe("Testing CreateReward component", () => {
     // Wait for axios.post and navigation to complete
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith(
-        "http://13.48.23.250:8000/management/rewards/create",
+        process.env.EXPRESS_URL + "/management/rewards/create",
         { rewardName: "New Reward", starsRequired: "50" }
       );
     });

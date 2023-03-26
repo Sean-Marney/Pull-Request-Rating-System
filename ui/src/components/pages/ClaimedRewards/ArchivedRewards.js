@@ -26,7 +26,7 @@ export default function ArchivedRewards() {
   const getClaimedRewards = async () => {
     // Get claimed rewards
     const res = await axios.get(
-      "http://13.48.23.250:8000/management/rewards/claimed/get"
+      process.env.EXPRESS_URL + "/management/rewards/claimed/get"
     );
 
     // Filter results so that it only displays rewards that have been archived

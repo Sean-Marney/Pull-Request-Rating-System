@@ -39,7 +39,7 @@ import "@testing-library/jest-dom/extend-expect";
 //     });
 //     deleteButton.click();
 //     expect(axios.delete).toHaveBeenCalledWith(
-//       "http://13.48.23.250:8000/management/manageFaqs/delete/1"
+//       process.env.EXPRESS_URL + "/management/manageFaqs/delete/1"
 //     );
 //   });
 // });

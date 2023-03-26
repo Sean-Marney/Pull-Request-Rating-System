@@ -43,7 +43,7 @@ export default function CreateReward() {
       });
       // Create new reward
       await axios.post(
-        "http://13.48.23.250:8000/management/rewards/create",
+        process.env.EXPRESS_URL + "/management/rewards/create",
         createForm
       );
 
