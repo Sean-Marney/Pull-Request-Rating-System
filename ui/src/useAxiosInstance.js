@@ -8,7 +8,7 @@ const useAxiosInstance = () => {
         headers: {
             "x-access-token": cookies.token ? cookies.token.split(" ")[1] : null,
         },
-        baseURL: process.env.EXPRESS_URL + "/",
+        baseURL: process.env.EXPRESS_URL,
     });
 
     return { request: requestInstance };
