@@ -140,4 +140,4 @@ deploy to ec2:
         - chmod 700 ~/.ssh
     script:
         # SSH into ec2 machine and then syncs down the s3 api bucket and reloads server
-        - ssh -o StrictHostKeyChecking=no ec2-user@13.48.23.250 "ls; aws s3 sync s3://pullmaster-bucket-api api; cd api; npm i --force; pm2 restart"
+        - ssh -o StrictHostKeyChecking=no ec2-user@13.48.23.250 "ls; aws s3 sync s3://pullmaster-bucket-api api; cd api; npm i --force; pm2 restart all"
