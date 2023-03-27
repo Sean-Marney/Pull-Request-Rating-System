@@ -83,6 +83,36 @@ const sendOTP = async (req, res) => {
     }
 };
 
+const verifyOTP = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        console.log("The value of req.body:" + req.params);
+        console.log("The value of otp is: " + otp);
+        console.log("The value of email is: " + email);
+
+        // Check if the OTP is valid
+        const otpRecord = await Otp.findOne({ email, otp });
+
+        if (!otpRecord) {
+            console.log("The value of otpRecord is: " + otpRecord);
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
+
+        // Delete the OTP record from the database
+        await otpRecord.remove();
+
+        res.status(200).json({
+            success: true,
+            message: "OTP verified successfully",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "An error occurred while verifying the OTP",
+        });
+    }
+};
+
 const registerUser = async (req, res) => {
     // Extract the name and email values from the request body and convert to lowercase
     const name = req.body.name.toLowerCase();
