@@ -153,7 +153,24 @@ export default function ManagerDashboard() {
               {/* Content displayed when hovering */}
               {hoveredBox === "pendingPullRequests" && (
                 <Typography variant="body1" className={classes.boxDescription2}>
-                  Description
+                  {/* If there are pending pull requests on the system: */}
+                  {numberOfPendingPullRequests > 0 ? (
+                    <>
+                      <p>
+                        There are pending pull requests that need to be reviewed
+                      </p>
+                      <br />
+                      <a href="http://localhost:3000/management/repositories">
+                        Click here to view them
+                      </a>
+                    </>
+                  ) : (
+                    // If there are no pending pull requests on the system:
+                    <p>
+                      There are currently no pull requests that need to be
+                      reviewed.
+                    </p>
+                  )}
                 </Typography>
               )}
             </Paper>
