@@ -28,7 +28,7 @@ export default function ManageFaqs() {
 
   const getFaqs = async () => {
     // Get faqs
-    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + !/management/manageFaqs");
+    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs");
 
     // Set to state
     setQuestion(res.data);

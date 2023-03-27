@@ -61,7 +61,7 @@ export default function UpdateReward() {
       });
       // Update reward
       await axios.patch(
-        process.env.REACT_APP_API_ENDPOINT + +/management/rewards/update/${id}`,
+        process.env.REACT_APP_API_ENDPOINT + `/management/rewards/update/${id}`,
         updateForm
       );
 
