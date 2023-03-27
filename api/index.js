@@ -23,7 +23,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: ["http://pullmaster.io-react.s3-website.eu-north-1.amazonaws.com/"],
+    origin: ["http://pullmaster.io-react.s3-website.eu-north-1.amazonaws.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
