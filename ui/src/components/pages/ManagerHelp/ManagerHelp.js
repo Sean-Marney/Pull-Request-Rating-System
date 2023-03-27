@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from 'react'
 import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
 import emailjs from "emailjs-com";
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 const ManagerHelp = () => {
     const [name, setName] = useState("");
@@ -65,6 +65,7 @@ const ManagerHelp = () => {
                                             required
                                             fullWidth
                                             name="user_name"
+                                            data-testid="name-label"
                                         />
 
                                         <Grid item xs={12}>
@@ -78,6 +79,7 @@ const ManagerHelp = () => {
                                                 fullWidth
                                                 name="user_email"
                                                 type="email"
+                                                data-testid="email-label"
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -92,6 +94,7 @@ const ManagerHelp = () => {
                                                 name="message"
                                                 multiline
                                                 rows={4}
+                                                data-testid="message-label"
                                             />
                                         </Grid>
                                         <Button type="submit" variant="contained" color="primary">
