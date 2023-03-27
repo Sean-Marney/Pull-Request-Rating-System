@@ -16,6 +16,7 @@ const ratingRoute = require("./routes/rating.routes");
 const leaderboardRoute = require("./routes/leaderboard.routes");
 const managerDashboardRoute = require("./routes/managerDashboard.routes");
 const developerDashboardRoute = require("./routes/developerDashboard.routes");
+const manageQuestions = require("./routes/question.routes");
 const managerHelpRoute = require("./routes/ManagerHelp.routes");
 const app = express();
 const nodemailer = require("nodemailer");
@@ -53,6 +54,8 @@ app.use("/ratings", ratingRoute);
 app.get("/management/Leaderboard", leaderboardRoute);
 app.get("/requests", managerDashboardRoute);
 app.get("/archived-rewards", managerDashboardRoute);
+app.use("/management/questions", manageQuestions);
+app.use("/questions", manageQuestions);
 app.post("/management/ManagerHelp", managerHelpRoute);
 const PORT = process.env.PORT || 8000;
 

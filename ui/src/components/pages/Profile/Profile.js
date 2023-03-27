@@ -55,7 +55,7 @@ export default function ManageProfiles() {
     try {
       // Delete user
       await axios.delete(
-        `http://localhost:8000/management/users/deleteUser/email/${cookies.user}`
+        `http://localhost:8000/management/users/deleteUser/email/${cookies.user.email}`
       );
       console.log("removing cookies");
       removeCookie("role");
@@ -72,7 +72,9 @@ export default function ManageProfiles() {
     <div>
       <Container>
         <Box padding={3}>
-          <h2>Profile</h2>
+        <Typography variant="h4">
+                <b>Profile</b>
+                </Typography>
         </Box>
         {user && (
           <div>
