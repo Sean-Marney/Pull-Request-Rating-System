@@ -56,8 +56,8 @@ ui build:
         # Print success message
         - echo "UI build was Successful!"
     # Only run this job when a merge request is created
-    # only:
-    #     - merge_requests
+    only:
+        - merge_requests
     artifacts:
         paths:
             - ui/build
@@ -120,6 +120,8 @@ deploy to s3:
     image:
         name: amazon/aws-cli:2.11.2
         entrypoint: [""]
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
     script:
         # Checks AWS instance
         - aws --version
@@ -127,10 +129,14 @@ deploy to s3:
         # Syncs the ui and the api buckets in S3
         - aws s3 sync ui/build s3://pullmaster.io-react --delete
         - aws s3 sync api s3://pullmaster-bucket-api --delete
+    only:
+        - merge_requests
 
 deploy to ec2:
     stage: Deploy To EC2
     image: alpine
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
     # Creates private key to ssh into ec2 machine
     before_script:
         - apk add openssh-client
