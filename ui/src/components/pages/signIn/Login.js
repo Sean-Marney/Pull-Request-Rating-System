@@ -24,8 +24,8 @@ const theme = createTheme();
 
 export default function SignIn() {
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const { request } = useAxiosInstance();
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const [error, setError] = useState({});
     const [dialogueError, setDialogueError] = useState("");
     const [user, setUser] = React.useState({
@@ -56,10 +56,17 @@ export default function SignIn() {
         try {
             const response = await request({
                 method: "get",
-                url: `/management/users/email/${modalEmail}`,
+                url: `/sendOTP/${modalEmail}`,
             });
-
-            console.log(response);
+            if (response.status === 200) {
+                // Navigate to the forgot password page
+                navigate("/forgotpassword",
+                    {
+                        state: {
+                            modalEmail
+                        },
+                    });
+            }
         } catch (error) {
             if (error.response && error.response.data.message) {
                 setDialogueError(
