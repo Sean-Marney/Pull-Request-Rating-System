@@ -1,12 +1,13 @@
-const express = require('express');
+const express = require("express");
+const {
+  getNumberOfPendingPullRequests,
+} = require("../controllers/managerDashboard.controller");
+
 const router = express.Router();
-const managerDashController = require('../controllers/managerDash.controller');
 
-
-// Requests route
-router.get('/requests', managerDashController.getRequests);
-
-// Archived rewards route
-router.get('/archived-rewards', managerDashController.getArchivedRewards);
+router.get(
+  "/dashboard/get-number-of-pending-pull-requests",
+  getNumberOfPendingPullRequests
+);
 
 module.exports = router;
