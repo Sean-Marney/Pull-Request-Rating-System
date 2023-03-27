@@ -175,6 +175,88 @@ export default function ManagerDashboard() {
               )}
             </Paper>
           </div>
+
+          <div>
+            <Paper
+              elevation={3}
+              className={classes.box}
+              // More information is displayed when user hovers over box
+              onMouseEnter={() => setHoveredBox("claimedRewards")}
+              onMouseLeave={() => setHoveredBox(null)}
+            >
+              {/* <StarIcon className={classes.icon1} /> */}
+              <Typography variant="h6" className={classes.boxTitle}>
+                Claimed Rewards
+              </Typography>
+              <Typography variant="h4" className={classes.boxValue}>
+                X
+                <Tooltip
+                  // Description box appears when user hovers over info icon
+                  title={
+                    <div className={classes.infoBox}>
+                      <Typography variant="body2">
+                        These are the claimed rewards that need to be given to
+                        to the developers.
+                        <br /> <br />
+                        Once the reward has been given out, make sure to archive
+                        it.
+                      </Typography>
+                    </div>
+                  }
+                  placement="right"
+                >
+                  <span className={classes.infoIcon}>
+                    <InfoOutlinedIcon />
+                  </span>
+                </Tooltip>
+              </Typography>
+              {/* Content displayed when hovering */}
+              {hoveredBox === "claimedRewards" && (
+                <Typography variant="body1" className={classes.boxDescription2}>
+                  Description
+                </Typography>
+              )}
+            </Paper>
+          </div>
+
+          <div>
+            <Paper
+              elevation={3}
+              className={classes.box}
+              // More information is displayed when user hovers over box
+              onMouseEnter={() => setHoveredBox("changeMe")}
+              onMouseLeave={() => setHoveredBox(null)}
+            >
+              {/* <StarIcon className={classes.icon1} /> */}
+              <Typography variant="h6" className={classes.boxTitle}>
+                Title
+              </Typography>
+              <Typography variant="h4" className={classes.boxValue}>
+                X
+                <Tooltip
+                  // Description box appears when user hovers over info icon
+                  title={
+                    <div className={classes.infoBox}>
+                      <Typography variant="body2">
+                        This is a description
+                      </Typography>
+                    </div>
+                  }
+                  placement="right"
+                >
+                  <span className={classes.infoIcon}>
+                    <InfoOutlinedIcon />
+                  </span>
+                </Tooltip>
+              </Typography>
+              {/* Content displayed when hovering */}
+              {hoveredBox === "currentStarCount" && (
+                <Typography variant="body1" className={classes.boxDescription2}>
+                  Description
+                </Typography>
+              )}
+            </Paper>
+          </div>
         </div>
       </Box>
     </div>

@@ -1,4 +1,5 @@
 const PullRequest = require("../models/pullRequest.model");
+const ClaimedRewards = require("../models/claimedRewards.model");
 
 // Gets the number of pull requests that are pending (i.e. not been rated yet)
 const getNumberOfPendingPullRequests = async (req, res) => {
@@ -14,4 +15,16 @@ const getNumberOfPendingPullRequests = async (req, res) => {
   }
 };
 
-module.exports = { getNumberOfPendingPullRequests };
+const getNumberOfClaimedRewards = async (req, res) => {
+  try {
+    const claimedRewardsCount = await ClaimedRewards.countDocuments({
+      archived: false,
+    });
+
+    res.status(200).json(claimedRewardsCount);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getNumberOfPendingPullRequests, getNumberOfClaimedRewards };
