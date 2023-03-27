@@ -25,7 +25,7 @@ function ManagerDashboard() {
 
   useEffect(() => {
     axios
-      .get("http://13.48.23.250:8000/requests")
+      .get(process.env.REACT_APP_API_ENDPOINT + "/requests")
       .then((response) => {
         setRequests(response.data);
       })
@@ -34,7 +34,7 @@ function ManagerDashboard() {
       });
 
     axios
-      .get("http://13.48.23.250:8000/archived-rewards")
+      .get(process.env.REACT_APP_API_ENDPOINT + "archived-rewards")
       .then((response) => {
         setArchivedRewards(response.data);
       })

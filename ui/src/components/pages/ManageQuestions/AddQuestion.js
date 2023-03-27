@@ -35,7 +35,7 @@ export default function AddQuestions() {
       const getQuestions = async () => {
         // Get question by id
         const res = await axios.get(
-          `http://localhost:8000/management/questions/${id}`
+          process.env.REACT_APP_API_ENDPOINT + `/management/questions/${id}`
         );
     
         // Set to state (fills in textboxes)
@@ -62,7 +62,7 @@ export default function AddQuestions() {
           });
           // Create new faq
           await axios.post(
-            "http://13.48.23.250:8000/management/manageFaqs/create",
+            process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs/create",
             createForm
           );
     

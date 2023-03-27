@@ -34,7 +34,7 @@ export default function UpdateFAQs() {
   const getFaqs = async () => {
     // Get FAQ by id
     const res = await axios.get(
-      `http://13.48.23.250:8000/management/manageFaqs/${id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/manageFaqs/${id}`
     );
 
     // Set to state (fills in textboxes)
@@ -62,7 +62,7 @@ export default function UpdateFAQs() {
       });
       // Update faq
       await axios.patch(
-        `http://13.48.23.250:8000/management/manageFaqs/update/${id}`,
+        process.env.REACT_APP_API_ENDPOINT +`/management/manageFaqs/update/${id}`,
         updateForm
       );
 

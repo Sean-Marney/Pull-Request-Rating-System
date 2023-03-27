@@ -54,7 +54,7 @@ describe("Testing Add Question component", () => {
     // Wait for axios.post and navigation to complete
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith(
-        "http://13.48.23.250:8000/management/questions/create",
+        "http://localhost:8000/management/questions/create",
         { question: "New Question" }
       );
     });

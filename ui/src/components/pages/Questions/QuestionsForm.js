@@ -41,7 +41,7 @@ export default function AddQuestion() {
         });
         // Create new question
         await axios.post(
-        "http://13.48.23.250:8000/management/questions/create",
+            process.env.REACT_APP_API_ENDPOINT+"/management/questions/create",
         createForm
         );
 

@@ -33,7 +33,7 @@ export default function UpdatePassword() {
     const getUser = async () => {
       // Get user by email
       const res = await axios.get(
-        `http://13.48.23.250:8000/management/users/email/${cookies.user}`
+        process.env.REACT_APP_API_ENDPOINT +`/management/users/email/${cookies.user}`
       );
       console.log(res.data);
       // Set to state (fills in textboxes)
@@ -64,7 +64,7 @@ export default function UpdatePassword() {
         });
         await axios.patch(
           // `http://localhost:8000/management/users/update/${id}`,
-          `http://13.48.23.250:8000/management/users/updatePassword/email/${cookies.user.email}`,
+          process.env.REACT_APP_API_ENDPOINT + `/management/users/updatePassword/email/${cookies.user.email}`,
           updateForm
         );
         navigate("/profile");

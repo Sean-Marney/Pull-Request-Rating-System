@@ -33,7 +33,7 @@ export default function ClaimedRewards() {
   const getClaimedRewards = async () => {
     // Get claimed rewards
     const res = await axios.get(
-      "http://13.48.23.250:8000/management/rewards/claimed/get"
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/claimed/get"
     );
 
     // Filter results so that it doesn't display rewards that have been archived
@@ -47,7 +47,7 @@ export default function ClaimedRewards() {
     toast.success("Successfully archived reward");
     // Update reward's "archived" value to true
     const res = await axios.patch(
-      `http://13.48.23.250:8000/management/rewards/claimed/update/${claimedReward._id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/claimed/update/${claimedReward._id}`
     );
     console.log(res.data);
 
