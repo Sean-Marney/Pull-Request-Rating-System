@@ -44,7 +44,7 @@ export default function CreateFAQ() {
       });
       // Create new faq
       await axios.post(
-        "http://localhost:8000/management/manageFaqs/create",
+        "http://13.48.23.250:8000/management/manageFaqs/create",
         createForm
       );
 

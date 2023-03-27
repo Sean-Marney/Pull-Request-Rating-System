@@ -50,7 +50,7 @@ describe("Testing ManageQuestions component", () => {
     deleteButton.click();
 
     expect(axios.delete).toHaveBeenCalledWith(
-      "http://localhost:8000/management/questions/delete/1"
+      "http://13.48.23.250:8000/management/questions/delete/1"
     );
   });
 });

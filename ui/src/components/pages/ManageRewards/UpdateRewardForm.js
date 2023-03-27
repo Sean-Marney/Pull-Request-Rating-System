@@ -33,7 +33,7 @@ export default function UpdateReward() {
   const getReward = async () => {
     // Get reward by id
     const res = await axios.get(
-      `http://localhost:8000/management/rewards/${id}`
+      `http://13.48.23.250:8000/management/rewards/${id}`
     );
 
     // Set to state (fills in textboxes)
@@ -61,7 +61,7 @@ export default function UpdateReward() {
       });
       // Update reward
       await axios.patch(
-        `http://localhost:8000/management/rewards/update/${id}`,
+        `http://13.48.23.250:8000/management/rewards/update/${id}`,
         updateForm
       );
 
