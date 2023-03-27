@@ -87,6 +87,11 @@ const useStyles = makeStyles((theme) => ({
   infoBox: {
     padding: theme.spacing(2),
   },
+  scrollbox: {
+    overflowY: "scroll",
+    maxHeight: "100px",
+    color: "black",
+  },
 }));
 
 export default function ManagerDashboard() {
@@ -94,34 +99,54 @@ export default function ManagerDashboard() {
   const [hoveredBox, setHoveredBox] = useState(null); // Keeps track of if the user is hovering over a box
 
   const [numberOfPendingPullRequests, setNumberOfPendingPullRequests] =
-    useState(null);
-  const [numberOfClaimedRewards, setNumberOfClaimedRewards] = useState(null);
+    useState(null); // Number of pull requests that have not been reviewed
+  const [numberOfClaimedRewards, setNumberOfClaimedRewards] = useState(null); // Number of claimed rewards that are not archived
+  const [claimedRewards, setClaimedRewards] = useState(null); // List of claimed rewards that are not archived
 
   useEffect(() => {
     getNumberOfPendingPullRequests();
     getNumberOfClaimedRewards();
+    getClaimedRewards();
   });
 
+  // Calls controller method to get the number of pending pull requests
   const getNumberOfPendingPullRequests = async () => {
     try {
       const res = await axios.get(
         "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests"
       );
 
+      // Set to state
       setNumberOfPendingPullRequests(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Calls controller method to get the number of claimed rewards that are not archived
   const getNumberOfClaimedRewards = async () => {
     try {
       const res = await axios.get(
         "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards"
       );
 
+      // Set to state
       setNumberOfClaimedRewards(res.data);
       console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Calls controller method to get list of claimed rewards that are not archived
+  const getClaimedRewards = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/management/dashboard/get-claimed-rewards"
+      );
+
+      // Set to state
+      setClaimedRewards(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -229,7 +254,21 @@ export default function ManagerDashboard() {
               {/* Content displayed when hovering */}
               {hoveredBox === "claimedRewards" && (
                 <Typography variant="body1" className={classes.boxDescription2}>
-                  Description
+                  Claimed Rewards To Give Out:
+                  <Typography className={classes.scrollbox}>
+                    {claimedRewards &&
+                      claimedRewards.map((reward, index) => (
+                        <div key={index}>
+                          <Typography variant="h6">
+                            {reward.reward_name} - {reward.user_email}
+                          </Typography>
+                        </div>
+                      ))}
+                  </Typography>
+                  <br />
+                  <a href="http://localhost:3000/management/rewards/claimed">
+                    Click here to view the claimed rewards
+                  </a>
                 </Typography>
               )}
             </Paper>

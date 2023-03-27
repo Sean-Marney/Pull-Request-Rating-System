@@ -15,8 +15,10 @@ const getNumberOfPendingPullRequests = async (req, res) => {
   }
 };
 
+// Gets the number of claimed rewards that have not been archived (i.e. not been given out yet)
 const getNumberOfClaimedRewards = async (req, res) => {
   try {
+    // Count the number of documents where archived is false
     const claimedRewardsCount = await ClaimedRewards.countDocuments({
       archived: false,
     });
@@ -27,4 +29,19 @@ const getNumberOfClaimedRewards = async (req, res) => {
   }
 };
 
-module.exports = { getNumberOfPendingPullRequests, getNumberOfClaimedRewards };
+// Gets all claimed rewards that have not been archived yet
+const getClaimedRewards = async (req, res) => {
+  try {
+    const claimedRewards = await ClaimedRewards.find({ archived: false });
+
+    res.status(200).json(claimedRewards);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  getNumberOfPendingPullRequests,
+  getNumberOfClaimedRewards,
+  getClaimedRewards,
+};
