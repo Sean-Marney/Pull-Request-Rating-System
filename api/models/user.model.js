@@ -31,6 +31,9 @@ const UserSchema = new mongoose.Schema({
   bio: {
     type: String,
   },
+  level: {
+    type: String,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);

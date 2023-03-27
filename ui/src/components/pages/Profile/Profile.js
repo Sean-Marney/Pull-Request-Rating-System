@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { Modal } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
+import { Badges } from "./Badges";
 
 const style = {
   position: "absolute",
@@ -30,6 +31,7 @@ const style = {
 export default function ManageProfiles() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [levelList, setLevelList] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -45,10 +47,16 @@ export default function ManageProfiles() {
     const res = await axios.get(
       `http://localhost:8000/management/users/email/${cookies.user}`
     );
-
+    const levels = await axios.get(`http://localhost:8000/level/all`);
+    setLevelList(levels.data);
+    res.data["levelName"] = levels.data.find(item => item.level == res.data.level).name;
     //Set to state
     setUser(res.data);
   };
+
+
+
+
 
   const deleteUserByEmail = async () => {
     // email.preventDefault();
@@ -84,7 +92,8 @@ export default function ManageProfiles() {
                 <h3>Name : {user.name}</h3>
                 <h3>Role : {user.hasRole}</h3>
                 <h3>Email : {user.email}</h3>
-                <h3>Total Stars Recived : {user.stars}</h3>
+                <h3>Total Stars Earnt : {user.totalStarsEarned}</h3>
+                <h3>Current Level : {user.levelName}</h3>
               </Card>
             </Stack>
 
@@ -117,6 +126,7 @@ export default function ManageProfiles() {
           table
         </Card> */}
 
+            <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/>
             {/* Edit button  */}
             <Button
               onClick={() => navigate("/profile/update")}
