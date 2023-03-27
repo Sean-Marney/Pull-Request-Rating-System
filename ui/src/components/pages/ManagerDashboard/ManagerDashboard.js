@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Typography, Tooltip, Box } from "@material-ui/core";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import NotificationIcon from "@material-ui/icons/Notifications";
+import RedeemIcon from "@material-ui/icons/Redeem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   icon2: {
     paddingBottom: theme.spacing(1.5),
     fontSize: "2.5rem",
-    color: "#A97142",
+    color: "#ff6666",
   },
   icon3: {
     paddingBottom: theme.spacing(1.5),
@@ -94,9 +95,11 @@ export default function ManagerDashboard() {
 
   const [numberOfPendingPullRequests, setNumberOfPendingPullRequests] =
     useState(null);
+  const [numberOfClaimedRewards, setNumberOfClaimedRewards] = useState(null);
 
   useEffect(() => {
     getNumberOfPendingPullRequests();
+    getNumberOfClaimedRewards();
   });
 
   const getNumberOfPendingPullRequests = async () => {
@@ -106,6 +109,19 @@ export default function ManagerDashboard() {
       );
 
       setNumberOfPendingPullRequests(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getNumberOfClaimedRewards = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards"
+      );
+
+      setNumberOfClaimedRewards(res.data);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -184,12 +200,12 @@ export default function ManagerDashboard() {
               onMouseEnter={() => setHoveredBox("claimedRewards")}
               onMouseLeave={() => setHoveredBox(null)}
             >
-              {/* <StarIcon className={classes.icon1} /> */}
+              <RedeemIcon className={classes.icon2} />
               <Typography variant="h6" className={classes.boxTitle}>
                 Claimed Rewards
               </Typography>
               <Typography variant="h4" className={classes.boxValue}>
-                X
+                {numberOfClaimedRewards}
                 <Tooltip
                   // Description box appears when user hovers over info icon
                   title={
