@@ -3,6 +3,7 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Typography, Tooltip, Box } from "@material-ui/core";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
+import NotificationIcon from "@material-ui/icons/Notifications";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,6 +92,25 @@ export default function ManagerDashboard() {
   const classes = useStyles();
   const [hoveredBox, setHoveredBox] = useState(null); // Keeps track of if the user is hovering over a box
 
+  const [numberOfPendingPullRequests, setNumberOfPendingPullRequests] =
+    useState(null);
+
+  useEffect(() => {
+    getNumberOfPendingPullRequests();
+  });
+
+  const getNumberOfPendingPullRequests = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests"
+      );
+
+      setNumberOfPendingPullRequests(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Box>
@@ -107,18 +127,19 @@ export default function ManagerDashboard() {
               onMouseEnter={() => setHoveredBox("pendingPullRequests")}
               onMouseLeave={() => setHoveredBox(null)}
             >
+              <NotificationIcon className={classes.icon1} />
               <Typography variant="h6" className={classes.boxTitle}>
                 Pending Pull Requests
               </Typography>
               <Typography variant="h4" className={classes.boxValue}>
+                {numberOfPendingPullRequests}
                 <Tooltip
                   // Description box appears when user hovers over info icon
                   title={
                     <div className={classes.infoBox}>
                       <Typography variant="body2">
-                        This is an info box
-                        <br /> <br />
-                        This is an info box
+                        This is the number of pending pull requests currently on
+                        the system
                       </Typography>
                     </div>
                   }
