@@ -33,6 +33,7 @@ import ManageQuestions from "./components/pages/ManageQuestions/ManageQuestions"
 import AddQuestions from "./components/pages/ManageQuestions/AddQuestion";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
+import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -45,8 +46,9 @@ const App = () => {
             <Route path="/management" element={<ManagerDashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            
+                
             <Route path="/history" element={<History />} />
+                        
             <Route
               path="/management/repositories/rating"
               element={<PullRequestRating />}
@@ -69,6 +71,18 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+                    <Route
+                     path="/management/ManagerHelp" 
+                     element={
+                        <ProtectedRoute
+                                token={cookies.token}
+                                role={cookies.role}
+                            >
+                                {" "}
+                     <ManagerHelp />
+                     </ProtectedRoute>
+                    } 
+                     />
             <Route
               path="/management/users/create"
               element={
