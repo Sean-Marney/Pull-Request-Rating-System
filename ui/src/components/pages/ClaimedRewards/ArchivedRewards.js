@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -12,38 +11,11 @@ import {
   Box,
   Paper,
 } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  tableContainer: {
-    height: "calc(100vh - 100px)",
-    maxWidth: "90%",
-    margin: "0 auto",
-    overflow: "auto",
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
-  paper: {
-    marginTop: theme.spacing(3),
-    padding: theme.spacing(2),
-    boxShadow: theme.shadows[20],
-    borderRadius: theme.shape.borderRadius,
-  },
-  tableHeaders: {
-    fontSize: "1.25rem",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  tableContent: {
-    fontSize: "1rem",
-    textAlign: "center",
-  },
-  title: {
-    marginBottom: theme.spacing(2),
-  },
-}));
+import { useStyles } from "../../styles/tableStyle";
 
 export default function ArchivedRewards() {
   const classes = useStyles();
+
   const [claimedRewards, setClaimedRewards] = useState(null);
 
   // Gets claimed rewards on page load
@@ -54,7 +26,7 @@ export default function ArchivedRewards() {
   const getClaimedRewards = async () => {
     // Get claimed rewards
     const res = await axios.get(
-      "http://localhost:8000/management/rewards/claimed/get"
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/claimed/get"
     );
 
     // Filter results so that it only displays rewards that have been archived
@@ -75,7 +47,7 @@ export default function ArchivedRewards() {
         <Box>
           {/* Get all claimed rewards from database and display the ones that have been archived */}
           {claimedRewards && (
-            <TableContainer className={classes.table}>
+            <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>

@@ -6,22 +6,32 @@ YupPassword(yup);
 export default yup.object().shape({
     name: yup
         .string()
-        .matches(/^[a-zA-Z ]*$/, "Please enter your full name")
+        .matches(/^[a-zA-Z ]*$/, "Full name may only contain letters")
         .strict()
         .required("Please enter your full name"),
     email: yup
         .string()
         .email("Please enter a valid email address")
-        .required("Email is required"),
+        .matches(
+            /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
+            "Please enter a valid email address"
+        )
+        .required("Please provide your email"),
     password: yup
         .string()
-        .min(
-            8,
-            "password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special"
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
+            "Password may only contain at least one uppercase letter, one lowercase letter, one number and one special case character"
         )
-        .minLowercase(1, "password must contain at least 1 lower case letter")
-        .minUppercase(1, "password must contain at least 1 upper case letter")
-        .minNumbers(1, "password must contain at least 1 number")
-        .minSymbols(1, "password must contain at least 1 special character")
+        .min(8, "Password must be at least 8 characters long")
+        .max(50, "Password must be max 50 characters long")
         .required("Please provide a password"),
+    git_username: yup
+        .string()
+        .matches(
+            /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i,
+            "Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen"
+        )
+        .max(39, "Username is too long (maximum is 39 characters)")
+        .required("Please provide your GitHub username"),
 });

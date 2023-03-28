@@ -24,7 +24,7 @@ export class PullRequestHistory extends React.Component {
           </Grid>
     }
     function notRated(){
-      return <Typography variant="h5" component="div" >Pending rating</Typography>
+      return <Typography variant="h5" component="div" style ={{"padding-right":"50px"}}>Pending rating</Typography>
     }
 
     let rating;

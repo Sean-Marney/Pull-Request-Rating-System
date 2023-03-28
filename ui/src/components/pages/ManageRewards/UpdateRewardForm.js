@@ -9,48 +9,10 @@ import {
   Button,
   Card,
   CardContent,
-  makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateCreateRewardForm from "../../../validations/createRewardForm";
-
-const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: 600,
-    minHeight: 325,
-    padding: "20px 5px",
-    margin: "0 auto",
-    marginTop: theme.spacing(10),
-    boxShadow: theme.shadows[20],
-    borderRadius: "20px",
-  },
-  input: {
-    padding: "5px 5px",
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    width: "100%",
-  },
-  formControl: {
-    marginTop: theme.spacing(2),
-    width: "100%",
-  },
-  error: {
-    color: "red",
-    marginBottom: theme.spacing(2),
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: theme.spacing(4),
-  },
-  cancelButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  },
-}));
+import { useStyles } from "../../styles/formStyle";
 
 export default function UpdateReward() {
   const classes = useStyles();
@@ -71,7 +33,7 @@ export default function UpdateReward() {
   const getReward = async () => {
     // Get reward by id
     const res = await axios.get(
-      `http://localhost:8000/management/rewards/${id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/${id}`
     );
 
     // Set to state (fills in textboxes)
@@ -99,7 +61,7 @@ export default function UpdateReward() {
       });
       // Update reward
       await axios.patch(
-        `http://localhost:8000/management/rewards/update/${id}`,
+        process.env.REACT_APP_API_ENDPOINT + `/management/rewards/update/${id}`,
         updateForm
       );
 
@@ -158,7 +120,7 @@ export default function UpdateReward() {
                 <Button
                   onClick={() => navigate("/management/rewards")}
                   variant="contained"
-                  className={classes.cancelButton}
+                  style={{ marginRight: "20px" }}
                 >
                   Cancel
                 </Button>
