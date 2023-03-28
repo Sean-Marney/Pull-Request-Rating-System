@@ -75,7 +75,7 @@ In the `/ui` directory, you can run:
 - Installs the required dependencies for development.
 
 
-### Deployment
+## Deployment
 
 - The Front End is deployed using S3 buckets which hosts static pages. The changes are deployed everytime changes are made to the main branch via the pipeline.
 - The front end is deployed on this link http://pullmaster.io-react.s3-website.eu-north-1.amazonaws.com
