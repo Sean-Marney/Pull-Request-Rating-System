@@ -49,11 +49,11 @@ export default function ManageProfiles() {
     const res = await axios.get(
       `http://localhost:8000/management/users/email/${cookies.user}`
     );
+    const levels = await axios.get(`http://localhost:8000/level/all`);
+    setLevelList(levels.data);
     if (res.data.level == 0){
       res.data["levelName"] = "No Badge";
     }else{
-      const levels = await axios.get(`http://localhost:8000/level/all`);
-      setLevelList(levels.data);
       res.data["levelName"] = levels.data.find(item => item.level == res.data.level).name;
     }
     //Set to state
@@ -96,6 +96,8 @@ export default function ManageProfiles() {
                 </Grid>
                 <Grid item xs={11}>
                 <Typography sx={{ display: 'flex', alignItems: 'center'}}><h2>{user.name}</h2></Typography>
+                <br />
+                <Typography>{user.bio}</Typography>
                   
                 </Grid>
                 </Grid>
@@ -104,7 +106,6 @@ export default function ManageProfiles() {
                   <Typography> <h3>Email : {user.email}</h3></Typography>
                   <Typography> <h3>Total Stars Earnt : {user.totalStarsEarned}</h3></Typography>
                   <Typography> <h3>Current Level : {user.levelName}</h3></Typography>
-                  <Typography> <h3>Bio :</h3>{user.bio}</Typography>
                 </Box>
 
 
@@ -163,7 +164,7 @@ export default function ManageProfiles() {
                     </Box >
             </Grid>
             <Grid item xs={6}>
-              {/* <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/> */}
+              <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/>
             </Grid>
             </Grid>
 
