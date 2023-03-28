@@ -5,8 +5,8 @@ const Reward = require("../models/reward.model");
 // Get all rewards
 const getRewards = async (req, res) => {
   try {
-    const rewards = await Reward.find();
-    res.status(200).json(rewards);
+    // const rewards = await Reward.find();
+    res.status(200).json("hello");
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
