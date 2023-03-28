@@ -44,7 +44,7 @@ const getClaimedRewards = async (req, res) => {
 // Gets top 3 developers with most totalStarsEarned from the leaderboard
 const getTopDevelopers = async (req, res) => {
   try {
-    const topDevelopers = await User.find()
+    const topDevelopers = await User.find({ hasRole: "Developer" })
       .sort({ totalStarsEarned: -1 })
       .limit(3);
 

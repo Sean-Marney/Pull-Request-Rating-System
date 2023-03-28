@@ -103,11 +103,14 @@ export default function ManagerDashboard() {
     useState(null); // Number of pull requests that have not been reviewed
   const [numberOfClaimedRewards, setNumberOfClaimedRewards] = useState(null); // Number of claimed rewards that are not archived
   const [claimedRewards, setClaimedRewards] = useState(null); // List of claimed rewards that are not archived
+  const [topDevelopers, setTopDevelopers] = useState([]);
+  const [topDeveloper, setTopDeveloper] = useState(null);
 
   useEffect(() => {
     getNumberOfPendingPullRequests();
     getNumberOfClaimedRewards();
     getClaimedRewards();
+    getTopDevelopers();
   });
 
   // Calls controller method to get the number of pending pull requests
@@ -133,7 +136,6 @@ export default function ManagerDashboard() {
 
       // Set to state
       setNumberOfClaimedRewards(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -148,6 +150,25 @@ export default function ManagerDashboard() {
 
       // Set to state
       setClaimedRewards(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Calls controller method to get the top 3 developers who have earned the most total stars
+  const getTopDevelopers = async () => {
+    try {
+      // Get top 3 developers
+      const res = await axios.get(
+        "http://localhost:8000/management/dashboard/get-top-developers"
+      );
+
+      // Set to state
+      setTopDevelopers(res.data);
+
+      // Set the top developer to state
+      const topDeveloper = res.data[0].name;
+      setTopDeveloper(topDeveloper);
     } catch (error) {
       console.log(error);
     }
@@ -280,15 +301,15 @@ export default function ManagerDashboard() {
               elevation={3}
               className={classes.box}
               // More information is displayed when user hovers over box
-              onMouseEnter={() => setHoveredBox("changeMe")}
+              onMouseEnter={() => setHoveredBox("topDevelopers")}
               onMouseLeave={() => setHoveredBox(null)}
             >
               <LeaderboardIcon className={classes.icon3} />
               <Typography variant="h6" className={classes.boxTitle}>
-                Top Developers
+                Top Developer
               </Typography>
               <Typography variant="h4" className={classes.boxValue}>
-                X
+                {topDeveloper}
                 <Tooltip
                   // Description box appears when user hovers over info icon
                   title={
@@ -307,10 +328,27 @@ export default function ManagerDashboard() {
                 </Tooltip>
               </Typography>
               {/* Content displayed when hovering */}
-              {hoveredBox === "currentStarCount" && (
-                <Typography variant="body1" className={classes.boxDescription2}>
-                  Description
-                </Typography>
+              {hoveredBox === "topDevelopers" && (
+                <div>
+                  <Typography
+                    variant="body1"
+                    className={classes.boxDescription2}
+                  >
+                    Top 3 Developers:
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    // className={classes.boxDescription}
+                  >
+                    <ul>
+                      {topDevelopers.map((developer) => (
+                        <li key={developer._id}>
+                          {developer.name} - {developer.totalStarsEarned} stars
+                        </li>
+                      ))}
+                    </ul>
+                  </Typography>
+                </div>
               )}
             </Paper>
           </div>
