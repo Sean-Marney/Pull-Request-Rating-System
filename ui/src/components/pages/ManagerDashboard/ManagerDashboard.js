@@ -5,6 +5,7 @@ import { Paper, Typography, Tooltip, Box } from "@material-ui/core";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import NotificationIcon from "@material-ui/icons/Notifications";
 import RedeemIcon from "@material-ui/icons/Redeem";
+import LeaderboardIcon from "@mui/icons-material/BarChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -282,9 +283,9 @@ export default function ManagerDashboard() {
               onMouseEnter={() => setHoveredBox("changeMe")}
               onMouseLeave={() => setHoveredBox(null)}
             >
-              {/* <StarIcon className={classes.icon1} /> */}
+              <LeaderboardIcon className={classes.icon3} />
               <Typography variant="h6" className={classes.boxTitle}>
-                Title
+                Top Developers
               </Typography>
               <Typography variant="h4" className={classes.boxValue}>
                 X
@@ -293,7 +294,8 @@ export default function ManagerDashboard() {
                   title={
                     <div className={classes.infoBox}>
                       <Typography variant="body2">
-                        This is a description
+                        These are the 3 developers who have earned the most
+                        stars in total.
                       </Typography>
                     </div>
                   }

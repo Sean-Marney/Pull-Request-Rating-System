@@ -3,6 +3,7 @@ const {
   getNumberOfPendingPullRequests,
   getNumberOfClaimedRewards,
   getClaimedRewards,
+  getTopDevelopers,
 } = require("../controllers/managerDashboard.controller");
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.get(
   getNumberOfClaimedRewards
 );
 router.get("/dashboard/get-claimed-rewards", getClaimedRewards);
+router.get("/dashboard/get-top-developers", getTopDevelopers);
 
 module.exports = router;
