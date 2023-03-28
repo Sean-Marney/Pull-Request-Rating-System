@@ -43,7 +43,7 @@ export default function CreateReward() {
       });
       // Create new reward
       await axios.post(
-        "http://localhost:8000/management/rewards/create",
+        process.env.REACT_APP_API_ENDPOINT + "/management/rewards/create",
         createForm
       );
 

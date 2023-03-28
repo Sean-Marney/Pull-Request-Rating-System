@@ -36,7 +36,7 @@ export default function Rewards() {
 
   const getRewards = async () => {
     // Get rewards
-    const res = await axios.get("http://localhost:8000/management/rewards");
+    const res = await axios.get( process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
 
     // Calculates remaining stars needed for reward
     const remainingStarsData = {};
@@ -57,7 +57,7 @@ export default function Rewards() {
   const getStars = async () => {
     // Get user object via getUserByEmail method
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
     );
 
     // Set the star count
@@ -68,7 +68,7 @@ export default function Rewards() {
   const claimReward = async (reward) => {
     // Gets user object via getUserByEmail method (uses email stored in cookies)
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
     );
     // Sets response data to user
     const user = res.data;
@@ -80,7 +80,7 @@ export default function Rewards() {
 
       // Updates user object with their new star count
       await axios.patch(
-        `http://localhost:8000/management/users/update/${user._id}`,
+        process.env.REACT_APP_API_ENDPOINT + `/management/users/update/${user._id}`,
         {
           name: user.name,
           email: user.email,
@@ -98,7 +98,7 @@ export default function Rewards() {
       // Save reward and user to claimedRewards table with the current date
       const currentDate = moment().format("DD/MM/YYYY, HH:mm:ss");
       await axios.post(
-        "http://localhost:8000/management/rewards/claimed/save",
+        process.env.REACT_APP_API_ENDPOINT + "/management/rewards/claimed/save",
         {
           rewardId: reward._id,
           rewardName: reward.rewardName,
