@@ -1,5 +1,6 @@
 const PullRequest = require("../models/pullRequest.model");
 const math = require("mathjs");
+const User = require("../models/user.model");
 
 const createRating = async (req, res) => {
     try {
@@ -30,6 +31,35 @@ const createRating = async (req, res) => {
                         average: ratingAverage,
                     },
                     rating_complete: req.body.rating_complete,
+                },
+            }
+        );
+        console.log(req.body);
+
+        const pullRequest = await PullRequest.findById(req.params.id);
+        if (!pullRequest) {
+            return res
+                .status(404)
+                .json({ message: "Pull request with that ID not found" });
+        }
+
+        // Get user who's pull request is being rated
+        const user = await User.findById(req.body.user_id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Calculating updatedStarCount and UpdatedTotalStarCount
+        const updatedStarCount = user.stars + ratingSum;
+        const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
+
+        // Updating user model fields stars and totalStarsEarned in DB
+        await User.updateOne(
+            { _id: user._id },
+            {
+                $set: {
+                    stars: updatedStarCount,
+                    totalStarsEarned: updatedTotalStarCount,
                 },
             }
         );

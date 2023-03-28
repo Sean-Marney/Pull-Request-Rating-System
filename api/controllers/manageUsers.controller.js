@@ -63,6 +63,7 @@ const createUser = async (req, res) => {
       email: req.body.email,
       password: await bcrypt.hash(req.body.password, 10),
       hasRole: "Developer",
+      git_username: req.body.git_username,
     });
     await user.save();
 
@@ -82,8 +83,9 @@ const updateUser = async (req, res) => {
 
     user.name = req.body.name;
     user.email = req.body.email;
-    user.password = req.body.password;
     user.stars = req.body.stars;
+    user.totalStarsEarned = req.body.totalStarsEarned;
+    user.git_username = req.body.git_username;
     await user.save();
 
     res.status(200).json(user);
@@ -108,6 +110,70 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// Update a user by email
+const updateUserByEmail = async (req, res) => {
+  try {
+    const user = await User.findOne({ e: req.params.email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User with that email was not found" });
+    }
+
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.bio = req.body.bio;
+    
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Update password
+const updateUsersPasswordByEmail = async (req, res) => {
+  try {
+      const user = await User.findOne({ e: req.params.email });
+      if (!user) {
+        return res
+          .status(404)
+          .json({ message: "User with that email was not found" });
+      }
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  
+      user.password = hashedPassword;
+  
+      await user.save();
+  
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+};
+
+// Delete a user by email
+const deleteUserByEmail = async (req, res) => {
+  try {
+      const user = await User.findOne({email: req.params.email });
+      if (!user) {
+          return res
+              .status(404)
+              .json({ message: "User with that email not found" });
+      }
+
+      await user.remove();
+
+      res.status(200).json({ message: "User deleted" });
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
 module.exports = {
   getUsers,
   getUsersByRole,
@@ -116,4 +182,7 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  updateUserByEmail,
+  updateUsersPasswordByEmail,
+  deleteUserByEmail,
 };

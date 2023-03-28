@@ -177,6 +177,6 @@ describe("UPDATE reward by ID from /management/rewards/update/:id using the upda
 
     res.should.have.status(200);
     res.body.should.have.property("rewardName").eql("Updated Test Reward");
-    res.body.should.have.property("starsRequired").eql("10");
+    res.body.should.have.property("starsRequired").eql(parseInt("10"));
   });
 });
