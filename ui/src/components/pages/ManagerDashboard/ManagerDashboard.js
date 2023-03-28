@@ -317,8 +317,8 @@ export default function ManagerDashboard() {
                   title={
                     <div className={classes.infoBox}>
                       <Typography variant="body2">
-                        These are the 3 developers who have earned the most
-                        stars in total.
+                        This is the developer who has earned the most stars in
+                        total.
                       </Typography>
                     </div>
                   }
@@ -350,6 +350,12 @@ export default function ManagerDashboard() {
                         </li>
                       ))}
                     </ul>
+                    <br />
+                    <b>
+                      <a href="http://localhost:3000/management/leaderboard">
+                        Click here to view the leaderboard
+                      </a>
+                    </b>
                   </Typography>
                 </div>
               )}
