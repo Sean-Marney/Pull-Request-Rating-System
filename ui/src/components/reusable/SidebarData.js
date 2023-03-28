@@ -7,7 +7,8 @@
     Leaderboard,
     Logout,
     Dashboard,
-    LiveHelp
+    LiveHelp,
+    Help
 } from "@mui/icons-material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink, Link} from "react-router-dom";
@@ -44,8 +45,13 @@ const Sidebar = ({ children, removeCookie }) => {
             path: "/profile",
             name: "Profile",
             icon: <AccountCircleIcon />,
-        }
-    ];
+        },       
+         {
+            path: "/management/ManagerHelp",
+            name: "ManagerHelp",
+            icon: <Help />,
+        },
+   ];
     return (
         <div className="container">
             <div style={{ width: "200px", position:"fixed"}} className="sidebar">

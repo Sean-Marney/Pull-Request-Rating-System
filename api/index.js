@@ -1,5 +1,6 @@
 // server.js
 const connectDB = require("./config/db");
+const dotenv = require("dotenv").config();
 const cors = require("cors");
 const authRoutes = require("./routes/auth.routes");
 const express = require("express");
@@ -16,7 +17,13 @@ const leaderboardRoute = require("./routes/leaderboard.routes");
 const managerDashboardRoute = require("./routes/managerDashboard.routes");
 const developerDashboardRoute = require("./routes/developerDashboard.routes");
 const manageQuestions = require("./routes/question.routes");
+const managerHelpRoute = require("./routes/ManagerHelp.routes");
 const app = express();
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+
+
+app.use(bodyParser.json());
 
 // connect database
 connectDB();
@@ -49,7 +56,7 @@ app.get("/requests", managerDashboardRoute);
 app.get("/archived-rewards", managerDashboardRoute);
 app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
-// setting up port
+app.post("/management/ManagerHelp", managerHelpRoute);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
