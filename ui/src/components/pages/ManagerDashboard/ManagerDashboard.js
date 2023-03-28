@@ -5,7 +5,7 @@ import { Paper, Typography, Tooltip, Box } from "@material-ui/core";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
 import NotificationIcon from "@material-ui/icons/Notifications";
 import RedeemIcon from "@material-ui/icons/Redeem";
-import LeaderboardIcon from "@mui/icons-material/BarChart";
+import LeaderboardIcon from "@material-ui/icons/EmojiEvents";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,18 +48,20 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2rem",
     fontWeight: 700,
     textAlign: "center",
-    wordWrap: "break-word",
     marginLeft: theme.spacing(4),
+    wordBreak: "break-word",
   },
   boxDescription: {
     paddingTop: theme.spacing(3),
     textAlign: "center",
+    wordBreak: "break-word",
   },
   boxDescription2: {
     paddingTop: theme.spacing(3),
     color: "#b30000",
     fontWeight: "bold",
     textAlign: "center",
+    wordBreak: "break-word",
   },
   icon1: {
     paddingBottom: theme.spacing(1.5),
@@ -74,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   icon3: {
     paddingBottom: theme.spacing(1.5),
     fontSize: "2.5rem",
-    color: "#809fff",
+    color: "#A97142",
   },
   infoIcon: {
     marginLeft: theme.spacing(2),
@@ -338,12 +340,13 @@ export default function ManagerDashboard() {
                   </Typography>
                   <Typography
                     variant="body1"
-                    // className={classes.boxDescription}
+                    className={classes.boxDescription}
                   >
-                    <ul>
+                    <ul style={{ listStyle: "none" }}>
                       {topDevelopers.map((developer) => (
                         <li key={developer._id}>
-                          {developer.name} - {developer.totalStarsEarned} stars
+                          <b>{developer.name}</b> - {developer.totalStarsEarned}{" "}
+                          stars
                         </li>
                       ))}
                     </ul>

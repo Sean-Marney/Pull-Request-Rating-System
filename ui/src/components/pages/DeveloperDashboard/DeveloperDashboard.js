@@ -49,18 +49,20 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2rem",
     fontWeight: 700,
     textAlign: "center",
-    wordWrap: "break-word",
     marginLeft: theme.spacing(4),
+    wordBreak: "break-word",
   },
   boxDescription: {
     paddingTop: theme.spacing(3),
     textAlign: "center",
+    wordBreak: "break-word",
   },
   boxDescription2: {
     paddingTop: theme.spacing(3),
     color: "#b30000",
     fontWeight: "bold",
     textAlign: "center",
+    wordBreak: "break-word",
   },
   icon1: {
     paddingBottom: theme.spacing(1.5),
