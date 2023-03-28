@@ -11,6 +11,8 @@ stages:
 # Build the API
 api build:
     stage: Builds
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
     # Set up the environment before running the script
     before_script:
         # Installing nexe globally
@@ -30,8 +32,6 @@ api build:
         # Print success message
         - echo "API build was Successful!"
     # Only run this job when a merge request is created
-    only:
-        - merge_requests
     artifacts:
         paths:
             - api/dist
@@ -39,6 +39,8 @@ api build:
 # Build the UI
 ui build:
     stage: Builds
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
     # Set up the environment before running the script
     before_script:
         # Change to the UI directory
@@ -56,8 +58,6 @@ ui build:
         # Print success message
         - echo "UI build was Successful!"
     # Only run this job when a merge request is created
-    only:
-        - merge_requests
     artifacts:
         paths:
             - ui/build
@@ -65,6 +65,8 @@ ui build:
 # Run unit tests for the API
 api unit tests:
     stage: Unit Tests
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
     timeout: 1h # set timeout for the entire job to 1 hour
     # Set up the environment before running the script
     before_script:
@@ -86,13 +88,12 @@ api unit tests:
         - npm test $testFiles --verbose
         # Check the exit status of the npm test command
         - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
-    # Only run this job when a merge request is created
-    only:
-        - merge_requests
 
     # Run unit tests for the UI
 ui unit tests:
     stage: Unit Tests
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
     # Set up the environment before running the script
     before_script:
         # Change to the UI directory
@@ -111,9 +112,6 @@ ui unit tests:
         - npm test $testFiles
         # Print success message
         - echo "All Tests Passed!"
-          # Only run this job when a merge request is created
-    only:
-        - merge_requests
 
 deploy to s3:
     stage: Deploy To S3
