@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   level: {
-    type: String,
+    type: Number,
   },
 });
 

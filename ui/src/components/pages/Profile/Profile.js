@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { Modal } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
+import Grid from '@mui/material/Grid';
 import { Badges } from "./Badges";
 
 const style = {
@@ -43,13 +44,18 @@ export default function ManageProfiles() {
   }, []);
 
   const getUserByEmail = async () => {
+    console.log(cookies.user);
     //Get user by email
     const res = await axios.get(
       `http://localhost:8000/management/users/email/${cookies.user}`
     );
-    const levels = await axios.get(`http://localhost:8000/level/all`);
-    setLevelList(levels.data);
-    res.data["levelName"] = levels.data.find(item => item.level == res.data.level).name;
+    if (res.data.level == 0){
+      res.data["levelName"] = "No Badge";
+    }else{
+      const levels = await axios.get(`http://localhost:8000/level/all`);
+      setLevelList(levels.data);
+      res.data["levelName"] = levels.data.find(item => item.level == res.data.level).name;
+    }
     //Set to state
     setUser(res.data);
   };
@@ -78,27 +84,32 @@ export default function ManageProfiles() {
 
   return (
     <div>
-      <Container>
-        <Box padding={3}>
-        <Typography variant="h4">
-                <b>Profile</b>
-                </Typography>
-        </Box>
         {user && (
           <div>
-            <Stack direction="row" spacing={2}>
-              <Avatar />
-              <Card>
-                <h3>Name : {user.name}</h3>
-                <h3>Role : {user.hasRole}</h3>
-                <h3>Email : {user.email}</h3>
-                <h3>Total Stars Earnt : {user.totalStarsEarned}</h3>
-                <h3>Current Level : {user.levelName}</h3>
-              </Card>
-            </Stack>
+            <Grid container spacing={3}>
+            <Grid item xs={6}>
+            <Box sx={{ width: '100%' }}>
+            <Typography variant="h4"><b>Profile</b></Typography>
+                <Grid container spacing={2} sx={{ p: 2 }}>
+                <Grid item xs={1}>
+                  <Avatar />
+                </Grid>
+                <Grid item xs={11}>
+                <Typography sx={{ display: 'flex', alignItems: 'center'}}><h2>{user.name}</h2></Typography>
+                  
+                </Grid>
+                </Grid>
+                <Box sx={{ p: 2 }}>
+                  <Typography> <h3>Role : {user.hasRole}</h3></Typography>
+                  <Typography> <h3>Email : {user.email}</h3></Typography>
+                  <Typography> <h3>Total Stars Earnt : {user.totalStarsEarned}</h3></Typography>
+                  <Typography> <h3>Current Level : {user.levelName}</h3></Typography>
+                  <Typography> <h3>Bio :</h3>{user.bio}</Typography>
+                </Box>
+
 
             {/* bio */}
-            <Card
+            {/* <Card
               component="div"
               sx={{
                 whiteSpace: "normal",
@@ -118,17 +129,9 @@ export default function ManageProfiles() {
             >
               <h3>Bio :</h3>
               {user.bio}
-            </Card>
-
-            {/* rewards
-        <Card>
-          <h4>Rewards Claimed</h4>
-          table
-        </Card> */}
-
-            <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/>
+            </Card> */}
             {/* Edit button  */}
-            <Button
+                        <Button
               onClick={() => navigate("/profile/update")}
               startIcon={<EditIcon />}
             >
@@ -152,6 +155,18 @@ export default function ManageProfiles() {
             >
               Delete Account
             </Button>
+            {/* rewards
+        <Card>
+          <h4>Rewards Claimed</h4>
+          table
+        </Card> */}
+                    </Box >
+            </Grid>
+            <Grid item xs={6}>
+              {/* <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/> */}
+            </Grid>
+            </Grid>
+
 
             {/* delete account modal  */}
             <Modal
@@ -192,7 +207,6 @@ export default function ManageProfiles() {
             </Modal>
           </div>
         )}
-      </Container>
     </div>
   );
 }
