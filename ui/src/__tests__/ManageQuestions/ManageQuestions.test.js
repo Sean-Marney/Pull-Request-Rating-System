@@ -50,7 +50,7 @@ describe("Testing ManageQuestions component", () => {
     deleteButton.click();
 
     expect(axios.delete).toHaveBeenCalledWith(
-      "http://localhost:8000/management/questions/delete/1"
+      process.env.REACT_APP_API_ENDPOINT + "/management/questions/delete/1"
     );
   });
 });

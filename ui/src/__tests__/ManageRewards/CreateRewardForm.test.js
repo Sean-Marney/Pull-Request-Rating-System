@@ -80,7 +80,7 @@ describe("Testing CreateReward component", () => {
     // Wait for axios.post and navigation to complete
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith(
-        "http://localhost:8000/management/rewards/create",
+        process.env.REACT_APP_API_ENDPOINT + "/management/rewards/create",
         { rewardName: "New Reward", starsRequired: "50" }
       );
     });
