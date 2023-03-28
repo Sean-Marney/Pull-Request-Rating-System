@@ -56,12 +56,17 @@ export default function SignUp() {
             }
         } catch (error) {
             const errors = {};
-            if (error instanceof yup.ValidationError) {
+            if (error.response?.status === 409) {
+                errors.email = "This email is already registered in the system. Please login instead";
+            } else if (error instanceof yup.ValidationError) {
                 error.inner.forEach((e) => {
                     errors[e.path] = e.message;
                 });
-                setError(errors);
+            } else {
+                errors.general = "An error occurred. Please try again later.";
             }
+
+            setError(errors);
         }
     };
 

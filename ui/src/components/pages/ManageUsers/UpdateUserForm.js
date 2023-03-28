@@ -1,6 +1,4 @@
-import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
@@ -9,76 +7,41 @@ import {
   Button,
   Card,
   CardContent,
-  makeStyles,
 } from "@material-ui/core";
 import * as yup from "yup";
-import validateCreateUserForm from "../../../validations/createUserForm";
-
-const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: 600,
-    minHeight: 325,
-    padding: "20px 5px",
-    margin: "0 auto",
-    marginTop: theme.spacing(10),
-    boxShadow: theme.shadows[20],
-    borderRadius: "20px",
-  },
-  input: {
-    padding: "5px 5px",
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    width: "100%",
-  },
-  formControl: {
-    marginTop: theme.spacing(2),
-    width: "100%",
-  },
-  error: {
-    color: "red",
-    marginBottom: theme.spacing(2),
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: theme.spacing(4),
-  },
-  cancelButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  },
-}));
+import validateUpdateUserForm from "../../../validations/updateUserForm";
+import useAxiosInstance from "../../../useAxiosInstance";
+import { useStyles } from "../../styles/formStyle";
 
 export default function UpdateUser() {
-  const classes = useStyles();
-  const [updateForm, setUpdateForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const [error, setError] = useState({});
-
-  const { id } = useParams(); // Get user ID from URL
-  const navigate = useNavigate();
+    const classes = useStyles();
+    const { request } = useAxiosInstance();
+    const [updateForm, setUpdateForm] = useState({
+        name: "",
+        email: "",
+        git_username: "",
+    });
+    const [error, setError] = useState({});
+    const { id } = useParams(); // Get user ID from URL
+    const navigate = useNavigate();
 
   useEffect(() => {
     getUser();
   }, []);
 
-  const getUser = async () => {
-    // Get user by id
-    const res = await axios.get(`http://localhost:8000/management/users/${id}`);
-    // Set to state (fills in textboxes)
-    setUpdateForm({
-      name: res.data.name,
-      email: res.data.email,
-      password: res.data.password,
-    });
-  };
+    const getUser = async () => {
+        // Get user by id
+        const res = await request({
+            method: "get",
+            url: `/management/users/${id}`,
+        });
+        // Set to state (fills in textboxes)
+        setUpdateForm({
+            name: res.data.name,
+            email: res.data.email,
+            git_username: res.data.git_username,
+        });
+    };
 
   const updateEditFormField = (e) => {
     const { name, value } = e.target;
@@ -89,29 +52,30 @@ export default function UpdateUser() {
     });
   };
 
-  const updateUser = async (e) => {
-    e.preventDefault();
-
-    try {
-      await validateCreateUserForm.validate(updateForm, {
-        abortEarly: false,
-      });
-      await axios.patch(
-        `http://localhost:8000/management/users/update/${id}`,
-        updateForm
-      );
-
-      navigate("/management/users");
-    } catch (error) {
-      const validationErrors = {};
-      if (error instanceof yup.ValidationError) {
-        error.inner.forEach((error) => {
-          validationErrors[error.path] = error.message;
-        });
-        setError(validationErrors);
-      }
-    }
-  };
+    const updateUser = async (e) => {
+        e.preventDefault();
+        try {
+            await validateUpdateUserForm.validate(updateForm, {
+                abortEarly: false,
+            });
+            await request({
+                method: "patch",
+                url: `/management/users/update/${id}`,
+                data: { ...updateForm },
+            });
+            console.log("User updated successfully");
+            navigate("/management/users");
+        } catch (error) {
+            console.error(error);
+            const validationErrors = {};
+            if (error instanceof yup.ValidationError) {
+                error.inner.forEach((error) => {
+                    validationErrors[error.path] = error.message;
+                });
+                setError(validationErrors);
+            }
+        }
+    };
 
   return (
     <div>
@@ -154,11 +118,27 @@ export default function UpdateUser() {
                   <div className={classes.error}>{error.email}</div>
                 )}
               </div>
+              <div>
+                <InputLabel htmlFor="git_username">GitHub Username</InputLabel>
+                <Input
+                  onChange={updateEditFormField}
+                  value={updateForm.git_username}
+                  name="git_username"
+                  id="git_username"
+                  inputProps={{
+                    style: { textAlign: "center" },
+                  }}
+                  className={classes.input}
+                />
+                {error.git_username && (
+                  <div className={classes.error}>{error.git_username}</div>
+                )}
+              </div>
               <div className={classes.buttonContainer}>
                 <Button
                   onClick={() => navigate("/management/users")}
                   variant="contained"
-                  className={classes.cancelButton}
+                  style={{ marginRight: "20px" }}
                 >
                   Cancel
                 </Button>

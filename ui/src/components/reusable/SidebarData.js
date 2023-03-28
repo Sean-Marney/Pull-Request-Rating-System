@@ -1,30 +1,30 @@
 ﻿import {
     AccessAlarm,
-    Assessment,
     Star,
     QuestionMark,
     DeveloperBoard,
     History,
     Leaderboard,
-    Stars,
+    Logout,
+    Dashboard,
+    LiveHelp,
+    Help
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { NavLink, Link} from "react-router-dom";
 
 
 const Sidebar = ({ children, removeCookie }) => {
-    const navigate = useNavigate();
-
     function logout() {
         removeCookie("token", {path: "/"});
         removeCookie("role", { path: "/" });
-        navigate("/login");
+        removeCookie("user", { path: "/" });
     }
     const menuItem = [
         {
             path: "/",
             name: "Dashboard",
-            icon: <AccessAlarm />,
+            icon: <Dashboard />,
         },
         {
             path: "/rewards",
@@ -32,43 +32,34 @@ const Sidebar = ({ children, removeCookie }) => {
             icon: <Star />,
         },
         {
-            path: "/faq",
-            name: "FAQ",
-            icon: <QuestionMark />,
-        },
-        {
-            path: "/trackprogress",
-            name: "TrackProgress",
-            icon: <DeveloperBoard />,
-        },
-        {
             path: "/history",
             name: "History",
-            icon: <Assessment />,
-        },
-        {
-            path: "/merge",
-            name: "Merge",
             icon: <History />,
         },
         {
-            path: "/myrewards",
-            name: "My Rewards",
-            icon: <Stars />,
+            path: "/faq",
+            name: "FAQ",
+            icon: <LiveHelp />,
         },
         {
-            path: "/Leaderboard",
-            name: "Leaderboard",
-            icon: <Leaderboard />,
+            path: "/profile",
+            name: "Profile",
+            icon: <AccountCircleIcon />,
+        },       
+         {
+            path: "/management/ManagerHelp",
+            name: "ManagerHelp",
+            icon: <Help />,
         },
-    ];
+   ];
     return (
         <div className="container">
-            <div style={{ width: "200px" }} className="sidebar">
+            <div style={{ width: "200px", position:"fixed"}} className="sidebar">
                 <div className="top_section">
-                    <h1 style={{ display: "block" }} className="logo">
-                        GRAPHIUM
-                    </h1>
+                <Link to="/"
+                    className="link">
+                    <h1 style={{ display: "block" }} className="logo">PullMaster.io</h1>
+                </Link>
                 </div>
                 {menuItem.map((item, index) => (
                     <NavLink
@@ -83,9 +74,18 @@ const Sidebar = ({ children, removeCookie }) => {
                         </div>
                     </NavLink>
                 ))}
-                <button onClick={logout}>Logout</button>
+                <Link
+                    onClick={logout}
+                    to="/login"
+                    key="logout"
+                    className="link"
+                    activeclassName="active"
+                >
+                <div className="icon"><Logout/></div>
+                <div style={{ display: "block" }} className="link_text">Logout</div>  
+                </Link>
             </div>
-            <main>{children}</main>
+            <main style={{ marginLeft: "200px" }}>{children}</main>
         </div>
     );
 };

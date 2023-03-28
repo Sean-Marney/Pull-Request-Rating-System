@@ -6,7 +6,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ClaimIcon from "@material-ui/icons/Redeem";
 import {
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -19,52 +18,11 @@ import {
   IconButton,
   Paper,
 } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  tableContainer: {
-    height: "calc(100vh - 100px)",
-    maxWidth: "90%",
-    margin: "0 auto",
-    overflow: "auto",
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
-  paper: {
-    marginTop: theme.spacing(3),
-    padding: theme.spacing(2),
-    boxShadow: theme.shadows[20],
-    borderRadius: theme.shape.borderRadius,
-  },
-  tableHeaders: {
-    fontSize: "1.25rem",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  tableContent: {
-    fontSize: "1rem",
-    textAlign: "center",
-  },
-  starCountBox: {
-    textAlign: "center",
-    fontSize: "1rem",
-    color: "#b31010",
-    border: "1px solid",
-    width: 250,
-    borderColor: theme.palette.grey[400],
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.grey[100],
-    padding: theme.spacing(2),
-    margin: theme.spacing(2),
-  },
-  button: {
-    marginLeft: theme.spacing(1),
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-}));
+import { useStyles } from "../../styles/tableStyle";
 
 export default function ManageRewards() {
   const classes = useStyles();
+
   const [rewards, setRewards] = useState(null);
 
   const navigate = useNavigate();
@@ -75,7 +33,7 @@ export default function ManageRewards() {
 
   const getRewards = async () => {
     // Get rewards
-    const res = await axios.get("http://localhost:8000/management/rewards");
+    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
 
     // Set to state
     setRewards(res.data);
@@ -84,7 +42,7 @@ export default function ManageRewards() {
   const deleteReward = async (_id) => {
     // Delete reward
     await axios.delete(
-      `http://localhost:8000/management/rewards/delete/${_id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/delete/${_id}`
     );
 
     getRewards(); // Get updated list of rewards
@@ -93,13 +51,15 @@ export default function ManageRewards() {
   return (
     <div className={classes.tableContainer}>
       <Paper className={classes.paper}>
-        <Box padding={3}>
-          <Typography variant="h4">
-            <b>Manage Rewards</b>
-          </Typography>
-        </Box>
+        <Typography variant="h4">
+          <b>Manage Rewards</b>
+        </Typography>
         <Button
-          className={classes.button}
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
           variant="contained"
           color="primary"
           size="large"
@@ -109,7 +69,11 @@ export default function ManageRewards() {
           Add New Reward
         </Button>
         <Button
-          className={classes.button}
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
           variant="contained"
           color="primary"
           size="large"
@@ -121,7 +85,7 @@ export default function ManageRewards() {
         <Box>
           {/* Get all rewards from database and display in a table */}
           {rewards && (
-            <TableContainer className={classes.table}>
+            <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -146,22 +110,20 @@ export default function ManageRewards() {
                       </TableCell>
                       <TableCell>
                         <IconButton
-                          color="primary"
                           title="Edit Reward"
                           onClick={() =>
                             navigate(`/management/rewards/update/${reward._id}`)
                           }
                         >
-                          <EditIcon />
+                          <EditIcon className={classes.editButton} />
                         </IconButton>
                       </TableCell>
                       <TableCell>
                         <IconButton
-                          color="secondary"
                           title="Delete Reward"
                           onClick={() => deleteReward(reward._id)}
                         >
-                          <DeleteIcon />
+                          <DeleteIcon className={classes.deleteButton} />
                         </IconButton>
                       </TableCell>
                     </TableRow>
