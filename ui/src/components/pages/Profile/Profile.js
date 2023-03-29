@@ -44,12 +44,11 @@ export default function ManageProfiles() {
   }, []);
 
   const getUserByEmail = async () => {
-    console.log(cookies.user);
     //Get user by email
     const res = await axios.get(
-      `http://localhost:8000/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
     );
-    const levels = await axios.get(`http://localhost:8000/level/all`);
+    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/level/all`);
     setLevelList(levels.data);
     if (res.data.level == 0){
       res.data["levelName"] = "No Badge";
@@ -71,7 +70,6 @@ export default function ManageProfiles() {
       await axios.delete(
         `http://localhost:8000/management/users/deleteUser/email/${cookies.user.email}`
       );
-      console.log("removing cookies");
       removeCookie("role");
       removeCookie("user");
       removeCookie("token");
@@ -84,33 +82,29 @@ export default function ManageProfiles() {
 
   return (
     <div>
+      <Container>
+        <Box padding={3}>
+        <Typography variant="h4">
+                <b>Profile</b>
+                </Typography>
+        </Box>
         {user && (
           <div>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
             <Grid item xs={6}>
-            <Box sx={{ width: '100%' }}>
-            <Typography variant="h4"><b>Profile</b></Typography>
-                <Grid container spacing={2} sx={{ p: 2 }}>
-                <Grid item xs={1}>
-                  <Avatar />
-                </Grid>
-                <Grid item xs={11}>
-                <Typography sx={{ display: 'flex', alignItems: 'center'}}><h2>{user.name}</h2></Typography>
-                <br />
-                <Typography>{user.bio}</Typography>
-                  
-                </Grid>
-                </Grid>
-                <Box sx={{ p: 2 }}>
-                  <Typography> <h3>Role : {user.hasRole}</h3></Typography>
-                  <Typography> <h3>Email : {user.email}</h3></Typography>
-                  <Typography> <h3>Total Stars Earnt : {user.totalStarsEarned}</h3></Typography>
-                  <Typography> <h3>Current Level : {user.levelName}</h3></Typography>
-                </Box>
-
+            <Stack direction="row" spacing={2}>
+              <Avatar />
+              <Card>
+                <h3>Name : {user.name}</h3>
+                <h3>Role : {user.hasRole}</h3>
+                <h3>Email : {user.email}</h3>
+                <h3>Total Stars Earned : {user.totalStarsEarned}</h3>
+                <h3>Current Level : {user.levelName}</h3>
+              </Card>
+            </Stack>
 
             {/* bio */}
-            {/* <Card
+            <Card
               component="div"
               sx={{
                 whiteSpace: "normal",
@@ -130,19 +124,33 @@ export default function ManageProfiles() {
             >
               <h3>Bio :</h3>
               {user.bio}
-            </Card> */}
-            {/* Edit button  */}
-                        <Button
+            </Card>
+
+            {/* rewards
+        <Card>
+          <h4>Rewards Claimed</h4>
+          table
+        </Card> */}
+            </Grid>
+            <Grid item xs={6}>
+                          {/* Edit button  */}
+            <Button
+              variant="outlined"
               onClick={() => navigate("/profile/update")}
               startIcon={<EditIcon />}
+              sx={{ m: 1 }}
+              size="large"
             >
               Edit Profile
             </Button>
-
+            <br></br>
             {/* Change password button  */}
             <Button
+              variant="outlined"
               onClick={() => navigate("/profile/password")}
               startIcon={<SyncLockIcon />}
+              sx={{ m: 1 }}
+              size="large"
             >
               Change password
             </Button>
@@ -150,24 +158,15 @@ export default function ManageProfiles() {
 
             {/* delete account modal button  */}
             <Button
+              variant="outlined" color="error"
               onClick={handleOpen}
               startIcon={<DeleteIcon />}
               style={{ color: "red" }}
+              sx={{ m: 1 }}
+              size="large"
             >
               Delete Account
             </Button>
-            {/* rewards
-        <Card>
-          <h4>Rewards Claimed</h4>
-          table
-        </Card> */}
-                    </Box >
-            </Grid>
-            <Grid item xs={6}>
-              <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/>
-            </Grid>
-            </Grid>
-
 
             {/* delete account modal  */}
             <Modal
@@ -206,8 +205,15 @@ export default function ManageProfiles() {
                 </Button>
               </Box>
             </Modal>
+            </Grid>
+            </Grid>
+            <Box  sx={{ pt: 5 }}>
+            <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/>
+            </Box>
+
           </div>
         )}
+      </Container>
     </div>
   );
 }
