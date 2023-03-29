@@ -5,14 +5,10 @@ image: node:16.15.0
 stages:
   - Builds
   - Unit Tests
-  - Deploy To S3
-  - Deploy To EC2
 
 # Build the API
 api build:
   stage: Builds
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
   # Set up the environment before running the script
   before_script:
     # Installing nexe globally
@@ -32,6 +28,8 @@ api build:
     # Print success message
     - echo "API build was Successful!"
   # Only run this job when a merge request is created
+  only:
+    - merge_requests
   artifacts:
     paths:
       - api/dist
@@ -39,8 +37,6 @@ api build:
 # Build the UI
 ui build:
   stage: Builds
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
   # Set up the environment before running the script
   before_script:
     # Change to the UI directory
@@ -58,15 +54,15 @@ ui build:
     # Print success message
     - echo "UI build was Successful!"
   # Only run this job when a merge request is created
+  only:
+    - merge_requests
   artifacts:
     paths:
-      - ui/build
+      - ui/build/static
 
 # Run unit tests for the API
 api unit tests:
   stage: Unit Tests
-  # rules:
-  #     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
   timeout: 1h # set timeout for the entire job to 1 hour
   # Set up the environment before running the script
   before_script:
@@ -88,12 +84,13 @@ api unit tests:
     - npm test $testFiles --verbose
     # Check the exit status of the npm test command
     - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
+  # Only run this job when a merge request is created
+  only:
+    - merge_requests
 
   # Run unit tests for the UI
 ui unit tests:
   stage: Unit Tests
-  # rules:
-  #     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
   # Set up the environment before running the script
   before_script:
     # Change to the UI directory
@@ -112,34 +109,6 @@ ui unit tests:
     - npm test $testFiles
     # Print success message
     - echo "All Tests Passed!"
-
-deploy to s3:
-  stage: Deploy To S3
-  image:
-    name: amazon/aws-cli:2.11.2
-    entrypoint: [""]
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-  script:
-    # Checks AWS instance
-    - aws --version
-    - aws configure set region eu-north-1
-    # Syncs the ui and the api buckets in S3
-    - aws s3 sync ui/build s3://pullmaster.io-react --delete
-    - aws s3 sync api s3://pullmaster-bucket-api --delete
-
-deploy to ec2:
-  stage: Deploy To EC2
-  image: alpine
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-  # Creates private key to ssh into ec2 machine
-  before_script:
-    - apk add openssh-client
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-  script:
-    # SSH into ec2 machine and then syncs down the s3 api bucket and reloads server
-    - ssh -o StrictHostKeyChecking=no ec2-user@13.48.23.250 "ls; aws s3 sync s3://pullmaster-bucket-api api; cd api; npm i --force; pm2 restart all"
+      # Only run this job when a merge request is created
+  only:
+    - merge_requests
