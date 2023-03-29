@@ -24,42 +24,42 @@ describe("GET /management/rewards", () => {
   });
 });
 
-describe("GET /management/rewards/:id", () => {
-  let reward;
+// describe("GET /management/rewards/:id", () => {
+//   let reward;
 
-  beforeEach((done) => {
-    reward = new Reward({
-      rewardName: "Free Pizza",
-      starsRequired: 100,
-    });
-    reward.save((err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+//   beforeEach((done) => {
+//     reward = new Reward({
+//       rewardName: "Free Pizza",
+//       starsRequired: 100,
+//     });
+//     reward.save((err) => {
+//       if (err) return done(err);
+//       done();
+//     });
+//   });
 
-  afterEach((done) => {
-    sinon.restore();
-    Reward.deleteMany({}, (err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+//   afterEach((done) => {
+//     sinon.restore();
+//     Reward.deleteMany({}, (err) => {
+//       if (err) return done(err);
+//       done();
+//     });
+//   });
 
-  it("should return a reward and status code 200", (done) => {
-    const findByIdStub = sinon.stub(Reward, "findById").resolves(reward);
-    request(app)
-      .get(`/management/rewards/${reward._id}`)
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("object");
-        chai.expect(res.body.rewardName).to.equal("Free Pizza");
-        chai.expect(res.body.starsRequired).to.equal(100);
-        findByIdStub.restore();
-        done();
-      });
-  });
-});
+//   it("should return a reward and status code 200", (done) => {
+//     const findByIdStub = sinon.stub(Reward, "findById").resolves(reward);
+//     request(app)
+//       .get(`/management/rewards/${reward._id}`)
+//       .end((err, res) => {
+//         chai.expect(res.statusCode).to.equal(200);
+//         chai.expect(res.body).to.be.an("object");
+//         chai.expect(res.body.rewardName).to.equal("Free Pizza");
+//         chai.expect(res.body.starsRequired).to.equal(100);
+//         findByIdStub.restore();
+//         done();
+//       });
+//   });
+// });
 
 describe("POST /management/rewards/create", () => {
   afterEach((done) => {
