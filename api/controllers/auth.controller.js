@@ -42,6 +42,7 @@ const sendOTP = async (req, res) => {
                 .status(404)
                 .json({ message: "User with that email was not found" });
         }
+        const { name } = user;
 
         // Generate the OTP and save it to the database
         const otp = generateOTP();
@@ -64,8 +65,18 @@ const sendOTP = async (req, res) => {
         const mailOptions = {
             from: "team7largeteamproject@gmail.com",
             to: email,
-            subject: "OTP Verification",
-            text: `Your OTP code is ${otp}`,
+            subject: "PullMaster.io Password Reset",
+            html: `<div style="background-color: white; padding: 10px;">
+            <p style="font-family: Arial; font-size: 16px;">Hi ${name},</p>
+            <p style="font-family: Arial; font-size: 16px;">We received a request to reset your PullMaster password. Please use the following password reset code: ${otp}</p>
+            <p style="font-family: Arial; font-size: 16px;">${otp}</p>
+            <p style="font-family: Arial; font-size: 16px;">Best regards,</p>
+            <p style="font-family: Arial; font-size: 16px;">The PullMaster.io Team</p>
+        </div>
+        <div style="background-color: black; color: white; text-align: center; padding: 10px;">
+            <h1 style="font-family: Bahnschrift; margin: 0;">PullMaster.io</h1>
+        </div>
+    `,
         };
 
         await transporter.sendMail(mailOptions);
@@ -183,20 +194,6 @@ const loginUser = async (req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 };
-
-// // Verify the OTP code entered by the user
-// const verifyOTP = async (email, otp) => {
-//     const otpDoc = await OTP.findOne({ email, otp });
-
-//     if (!otpDoc) {
-//         return false;
-//     }
-
-//     // Remove the OTP from the database after it has been verified
-//     await otpDoc.remove();
-
-//     return true;
-// };
 
 module.exports = {
     registerUser,
