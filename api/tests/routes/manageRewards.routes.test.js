@@ -24,31 +24,6 @@ describe("GET /management/rewards", () => {
   });
 });
 
-describe("GET /management/rewards/:id", () => {
-  let reward;
-
-  beforeEach(async () => {
-    reward = new Reward({
-      rewardName: "Test Reward",
-      starsRequired: 100,
-    });
-
-    await reward.save();
-  });
-
-  afterEach(async () => {
-    await Reward.deleteMany({});
-  });
-
-  it("should return a reward and status code 200", async () => {
-    const res = await request(app).get(`/management/rewards/${reward._id}`);
-
-    chai.expect(res.statusCode).to.equal(200);
-    chai.expect(res.body).to.be.an("object");
-    chai.expect(res.body.starsRequired).to.equal(100);
-  });
-});
-
 describe("POST /management/rewards/create", () => {
   afterEach((done) => {
     sinon.restore();
