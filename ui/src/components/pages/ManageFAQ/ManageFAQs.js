@@ -34,7 +34,7 @@ export default function ManageFAQ() {
 
   const getFaqs = async () => {
     // Get faqs
-    const res = await axios.get("http://localhost:8000/management/manageFaqs");
+    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs");
 
     // Set to state
     setQuestions(res.data);
@@ -43,7 +43,7 @@ export default function ManageFAQ() {
   const deleteFAQ = async (_id) => {
     // Delete faq
     await axios.delete(
-      `http://localhost:8000/management/manageFaqs/delete/${_id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/manageFaqs/delete/${_id}`
     );
 
     getFaqs(); // Get updated list of rewards

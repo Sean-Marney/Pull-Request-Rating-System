@@ -54,7 +54,7 @@ describe("Testing Add Question component", () => {
     // Wait for axios.post and navigation to complete
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith(
-        "http://localhost:8000/management/questions/create",
+        process.env.REACT_APP_API_ENDPOINT + "/management/questions/create",
         { question: "New Question" }
       );
     });
