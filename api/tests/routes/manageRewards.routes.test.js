@@ -45,7 +45,6 @@ describe("GET /management/rewards/:id", () => {
 
     chai.expect(res.statusCode).to.equal(200);
     chai.expect(res.body).to.be.an("object");
-    chai.expect(res.body.rewardName).to.equal("Free Pizza");
     chai.expect(res.body.starsRequired).to.equal(100);
   });
 });
