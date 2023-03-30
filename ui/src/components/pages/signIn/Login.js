@@ -11,6 +11,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useStyles } from "../../styles/landingPageStyle";
+import InsightsIcon from '@mui/icons-material/Insights';
+import Stack from '@mui/material/Stack';
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAxiosInstance from "../../../useAxiosInstance";
@@ -22,6 +25,7 @@ const theme = createTheme();
 
 export default function SignIn() {
     const navigate = useNavigate();
+    const classes = useStyles();
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const { request } = useAxiosInstance();
     const [error, setError] = useState({});
@@ -79,6 +83,16 @@ export default function SignIn() {
     };
 
     return (
+        <Stack direction="row" spacing={2}>
+        <div className="landing"
+        style={{backgroundImage: "linear-gradient(to left,  #1b2437, whitesmoke)"}}>
+        <Box>
+            <div withoutBorder size={512} px={40} py={15} pb={40} radius={"0px"}>
+                <div className={classes.titleBlack} style={{display: "block"}}> PullMaster <InsightsIcon sx={{ fontSize: 80 }}/></div>
+                <p className={classes.textBlack}>Please login using the credentials provided when creating your account.</p>
+            </div>
+        </Box>
+        <div className="Center" style={{background: "whitesmoke" }}>
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -161,5 +175,8 @@ export default function SignIn() {
                 </Box>
             </Container>
         </ThemeProvider>
+        </div>
+        </div>
+        </Stack>
     );
 }

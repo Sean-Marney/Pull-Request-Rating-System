@@ -47,3 +47,37 @@ main{
 .icon, .link_text{
   font-size: 20px;
 }
+.landing{
+  background: whitesmoke ;
+  color: #1b2437;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+.Center {
+  width:360px;
+  height:510px;
+  /* position: fixed; */
+  /* background-color: #1b2437; */
+  /* top: 25%;
+  left: 25%; */
+  margin-top: 1%;
+  margin-left: 50%;
+  /* padding-left: 270px; */
+  /* padding: 70px; */
+  /* border: 2px solid #F5FFFA; */
+  border-radius: 17px;
+}
+.box {
+  padding: 160px;
+}
+.background-image {
+  background-repeat: no-repeat;
+  /* background-size: contain; */
+  /* height: 4px;
+  width: 4px; */
+  display: block;
+  margin: 0;
+  height: 100px;
+  width: 100px;
+}
