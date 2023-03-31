@@ -67,7 +67,13 @@ const loginUser = async (req, res) => {
     }
 };
 
+// acces public -because access token has expired
+const refresh = async (req, res) => {
+
+};
+
 module.exports = {
     registerUser,
     loginUser,
+    refresh,
 };

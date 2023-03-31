@@ -40,6 +40,7 @@ app.get("/", (req, res) => res.send("Server up and running"));
 
 // routes
 app.use("/", authRoutes);
+app.use("/refresh", refresh);
 app.use("/dashboard", developerDashboardRoute);
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/rewards/claimed", claimedRewardsRoute);
