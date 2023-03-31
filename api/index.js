@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const authRoutes = require("./routes/auth.routes");
+// const refresh = require("./routes/auth.routes");
 const express = require("express");
 require("dotenv").config();
 const manageFaqs = require("./routes/faq.routes");
@@ -35,12 +36,17 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json({ extended: false }));
+
+// app.use('/', express.static(path.join(__dirname, 'public')))
+
+app.use(express.json());
+
+// app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("Server up and running"));
 
 // routes
 app.use("/", authRoutes);
-app.use("/refresh", refresh);
+// app.use("/refresh", refresh);
 app.use("/dashboard", developerDashboardRoute);
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/rewards/claimed", claimedRewardsRoute);
@@ -58,10 +64,15 @@ app.get("/archived-rewards", managerDashboardRoute);
 app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
 app.post("/management/ManagerHelp", managerHelpRoute);
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
   console.log(`server is running on http://localhost:${PORT}`);
 });
+
+// app.all('*', (req, res) => {
+//   res.status(404).send("Not found");
+// };
 
 module.exports = app;

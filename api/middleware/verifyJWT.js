@@ -3,15 +3,39 @@ const jwt = require("jsonwebtoken");
 // function checks if a JSON Web Token (JWT) exists in the "x-access-token" header of an HTTP request
 function verifyJWTToken(req, res, next) {
 
-    // Get the JWT from the "x-access-token" header of the request
-    const token = req.headers["x-access-token"];
+    // // Get the JWT from the "x-access-token" header of the request
+    // const token = req.headers["x-access-token"];
+
+    // //new defining the auth header
+    // const authHeader = req.headers.authorization || req.headers.Authorization
+
+    // if (!authHeader?.startsWith('Bearer')){
+    //     return res.status(401).json({ message: 'Unauthorized' })
+    // }
+
+    // const token1 = authHeader.split(' ')[1]
+
+    // jwt.verify(
+    //     token1,
+    //     process.env.ACCESS_TOKEN_SECRET,
+    //     (err, decoded) => {
+    //         if (err) return res.status(403).json({ message: 'Forbidden' })
+    //         req.email = decoded.User.email
+    //         req.hasRole = decoded.User.hasRole
+    //         next()
+    //     }
+    // )
+
+
+
+    // old
 
     // If no token is provided, return an error response
     if (!token) {
         return res.json({
             message: "Incorrect Token Given",
             isLoggedIn: false,
-        });
+        }); 
     }
 
     // Verify the JWT with the secret key and decode its payload
@@ -25,7 +49,7 @@ function verifyJWTToken(req, res, next) {
         }
 
         // Set the decoded user information on the request object
-        req.user = { id: decoded.id, name: decoded.name };
+        req.user = { id: decoded.id, name: decoded.name, hasRole: decoded.hasRole };
 
         // Call the next middleware function
         next();

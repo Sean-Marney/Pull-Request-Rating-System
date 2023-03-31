@@ -5,6 +5,6 @@ const loginLmiter = require("../middleware/loginLimiter")
 
 router.post("/register", registerUser);
 router.post("/login", loginLmiter, loginUser);
-router.post("/refresh", refresh);
+// router.post("/refresh", refresh);
 
 module.exports = router;

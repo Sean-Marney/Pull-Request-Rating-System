@@ -9,6 +9,11 @@ const {
 
 const router = express.Router();
 
+
+const verifyJWTToken = require('../middleware/verifyJWT')
+router.use(verifyJWTToken)
+
+
 // CRUD routes for /manage/questions
 router.get("/", getFaq);
 router.get("/:id", getFaqById);
