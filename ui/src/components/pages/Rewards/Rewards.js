@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -12,6 +15,7 @@ import {
   Box,
   Button,
   Paper,
+  Divider
 } from "@material-ui/core";
 import ClaimIcon from "@material-ui/icons/Redeem";
 import { useCookies } from "react-cookie";
@@ -19,20 +23,68 @@ import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStyles } from "../../styles/tableStyle";
+import { Badges } from "./Badges";
 
-export default function Rewards() {
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+export default function BasicTabs() {
+  const [value, setValue] = React.useState(0);
   const classes = useStyles();
+
 
   const [cookies] = useCookies();
   const [rewards, setRewards] = useState(null);
   const [stars, setStars] = useState(null);
   const [remainingStarsForReward, setRemainingStarsForReward] = useState({});
+  const [level, setLevel] = useState(null);
+  const [totalStarsEarned, setTotalStarsEarned] = useState(null);
+  const [levelList, setLevelList] = useState(null);
 
   // Gets rewards and stars on page load
   useEffect(() => {
     getRewards();
     getStars();
-  });
+    getLevels();
+    console.log(classes);
+  }, []);
+
+  const getLevels = async () => {
+    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/level/all`);
+    setLevelList(levels.data);
+  };
+
 
   const getRewards = async () => {
     // Get rewards
@@ -60,6 +112,9 @@ export default function Rewards() {
       `http://localhost:8000/management/users/email/${cookies.user}`
     );
 
+    setTotalStarsEarned(res.data.totalStarsEarned);
+    setLevel(res.data.level);
+    
     // Set the star count
     setStars(res.data.stars);
   };
@@ -111,70 +166,90 @@ export default function Rewards() {
       console.log("User does not have enough stars to claim the reward");
     }
   };
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
-    <div className={classes.tableContainer}>
-      <ToastContainer />
-      <Paper className={classes.paper}>
-        <Typography variant="h4">
-          <b>Rewards</b>
-        </Typography>
-        <Box>
-          <Typography className={classes.starCountBox}>
-            <b>You have {stars} stars</b>
-          </Typography>
-        </Box>
-        <Box>
-          {/* Get all rewards from database and display in a table */}
-          {rewards && (
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Name</b>
-                    </TableCell>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Stars Required</b>
-                    </TableCell>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Stars Remaining</b>
-                    </TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rewards.map((reward) => (
-                    <TableRow key={reward._id}>
-                      <TableCell className={classes.tableContent}>
-                        {reward.rewardName}
-                      </TableCell>
-                      <TableCell className={classes.tableContent}>
-                        {reward.starsRequired} <br />
-                      </TableCell>
-                      <TableCell className={classes.tableContent}>
-                        {remainingStarsForReward[reward._id]}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          onClick={() => claimReward(reward)}
-                          // Disable button if user doesn't have enough stars to claim reward
-                          disabled={reward.starsRequired > stars}
-                          variant="contained"
-                          color="primary"
-                          startIcon={<ClaimIcon />}
-                        >
-                          Claim Reward
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </Box>
-      </Paper>
-    </div>
+    <Box sx={{ width: '100%' }}>
+    <Box style ={{"padding-bottom":"10px"}}>
+        <Typography variant="h4" style ={{"padding-bottom":"20px", "padding-left":"20px"}}><b>Rewards</b> </Typography>
+        <Divider />
+    </Box>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="Rewards" {...a11yProps(0)} style ={{"font-size":"18px"}}/>
+          <Tab label="Badges" {...a11yProps(1)} style ={{"font-size":"18px"}}/>
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+            <div className={classes.tableContainer}>
+            <ToastContainer />
+            <Paper className={classes.paper}>
+                <Typography variant="h4">
+                <b>Rewards</b>
+                </Typography>
+                <Box>
+                <Typography className={classes.starCountBox}>
+                    <b>You have {stars} stars</b>
+                </Typography>
+                </Box>
+                <Box>
+                {/* Get all rewards from database and display in a table */}
+                {rewards && (
+                    <TableContainer>
+                    <Table>
+                        <TableHead>
+                        <TableRow>
+                            <TableCell className={classes.tableHeaders}>
+                            <b>Name</b>
+                            </TableCell>
+                            <TableCell className={classes.tableHeaders}>
+                            <b>Stars Required</b>
+                            </TableCell>
+                            <TableCell className={classes.tableHeaders}>
+                            <b>Stars Remaining</b>
+                            </TableCell>
+                            <TableCell></TableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {rewards.map((reward) => (
+                            <TableRow key={reward._id}>
+                            <TableCell className={classes.tableContent}>
+                                {reward.rewardName}
+                            </TableCell>
+                            <TableCell className={classes.tableContent}>
+                                {reward.starsRequired} <br />
+                            </TableCell>
+                            <TableCell className={classes.tableContent}>
+                                {remainingStarsForReward[reward._id]}
+                            </TableCell>
+                            <TableCell>
+                                <Button
+                                onClick={() => claimReward(reward)}
+                                // Disable button if user doesn't have enough stars to claim reward
+                                disabled={reward.starsRequired > stars}
+                                variant="contained"
+                                color="primary"
+                                startIcon={<ClaimIcon />}
+                                >
+                                Claim Reward
+                                </Button>
+                            </TableCell>
+                            </TableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                    </TableContainer>
+                )}
+                </Box>
+            </Paper>
+            </div>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Badges style={useStyles()} levelList={levelList} level={level} current={totalStarsEarned} />
+      </TabPanel>
+    </Box>
   );
 }
