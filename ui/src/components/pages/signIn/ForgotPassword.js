@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Typography, TextField } from "@material-ui/core";
-import updatePasswordForm from "../../../validations/updatePasswordForm";
-import * as yup from "yup";
-import AppBar from "@mui/material/AppBar";
-import { makeStyles } from "@material-ui/core";
-import Toolbar from "@mui/material/Toolbar";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import useAxiosInstance from "../../../useAxiosInstance";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
+import { makeStyles } from "@material-ui/core";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,42 +34,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ResetPassword() {
+export default function ForgotPassword() {
     const classes = useStyles();
-    const { request } = useAxiosInstance();
-    const { state } = useLocation();
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
+
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const { request } = useAxiosInstance();
+    const [error, setError] = useState("");
 
-    const updateUser = async (e) => {
-        e.preventDefault();
-        console.log("hello");
-
+    const handleCheckEmail = async (event) => {
+        event.preventDefault();
         try {
-            if (!state.email) {
-                throw new Error("Email is undefined");
-            }
-
-            await updatePasswordForm.validate({password:password, confirmPassword:confirmPassword}, {
-                abortEarly: false,
-            });
-
             const response = await request({
-                method: "patch",
-                url: `/management/users/updatePassword/email/${state.email}`,
-                data: { password: password, confirmPassword: confirmPassword },
+                method: "get",
+                url: `/sendOTP/${email}`,
             });
-
-            navigate("/login");
-        } catch (error) {
-            const validationErrors = {};
-            if (error instanceof yup.ValidationError) {
-                error.inner.forEach((error) => {
-                    validationErrors[error.path] = error.message;
+            if (response.status === 200) {
+                navigate("/verify-otp", {
+                    state: {
+                        modalEmail: email,
+                    },
                 });
-                setError(validationErrors);
+            }
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                setError(
+                    "The email address you entered isn't connected to an account"
+                );
             }
         }
     };
@@ -100,31 +91,21 @@ export default function ResetPassword() {
                     }}
                 >
                     <Typography variant="h6" gutterBottom>
-                        Change Password
+                        Forgot password
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        Please enter your email address below to recieve OTP
                     </Typography>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        value={password}
-                        id="password"
-                        name="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        label="Password"
-                        autoComplete="password"
-                        autoFocus
-                    />
-                    {error && <div style={{ color: "red" }}>{error}</div>}
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        value={confirmPassword}
-                        id="confirmpassword"
-                        name="confirmpassword"
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        label="Confirm Password"
-                        autoComplete="confirmpassword"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label="Email"
+                        autoComplete="email"
                         autoFocus
                     />
                     {error && <div style={{ color: "red" }}>{error}</div>}
@@ -137,11 +118,11 @@ export default function ResetPassword() {
                             Go back
                         </Button>
                         <Button
-                            onClick={(e) => updateUser(e)}
+                            onClick={handleCheckEmail}
                             variant="contained"
                             // sx={{ m1: 1 }}
                         >
-                            Update Password
+                            Send email
                         </Button>
                     </div>
                 </Box>

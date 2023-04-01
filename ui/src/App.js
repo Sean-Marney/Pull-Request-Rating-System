@@ -8,7 +8,8 @@ import DeveloperDashboard from "./components/pages/DeveloperDashboard/DeveloperD
 import History from "./components/pages/History/History";
 import Register from "./components/pages/signIn/Register";
 import Login from "./components/pages/signIn/Login";
-import OTP from "./components/pages/signIn/OTP";
+import OTP from "./components/pages/signIn/VerifyOtp";
+import ForgotPassword from "./components/pages/signIn/ForgotPassword";
 import ResetPassword from "./components/pages/signIn/ResetPassword";
 import ManageRewards from "./components/pages/ManageRewards/ManageRewards";
 import ManageUsers from "./components/pages/ManageUsers/ManageUsers";
@@ -50,7 +51,7 @@ const App = () => {
                       />
                       <Route path="/register" element={<Register />} />
                       <Route path="/login" element={<Login />} />
-                      <Route path="/forgotpassword" element={<OTP />} />
+                      {/* <Route path="/forgotpassword" element={<OTP />} /> */}
                       <Route path="/history" element={<History />} />
                       <Route
                           path="/management/repositories/rating"
@@ -322,11 +323,9 @@ const App = () => {
                   <Route path="" element={<Login />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
-                  <Route path="/forgotpassword" element={<OTP />} />
-                  <Route
-                      path="/forgotpassword/resetpassword"
-                      element={<ResetPassword />}
-                  />
+                  <Route path="/verify-otp" element={<OTP />} />
+                  <Route path="/resetpassword" element={<ResetPassword />} />
+                  <Route path="/forgotpassword" element={<ForgotPassword />} />
               </Routes>
           )}
       </BrowserRouter>
