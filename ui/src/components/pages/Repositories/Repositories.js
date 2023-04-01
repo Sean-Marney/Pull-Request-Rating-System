@@ -310,9 +310,6 @@ const RepositoryList = () => {
                                                                 pullRequest.url
                                                             )
                                                         }
-                                                        // className={
-                                                        //     classes.button
-                                                        // }
                                                         variant="contained"
                                                         size="medium"
                                                     >
@@ -330,9 +327,6 @@ const RepositoryList = () => {
                                                                     );
                                                                 else return;
                                                             }}
-                                                            // className={
-                                                            //     classes.button
-                                                            // }
                                                             variant="contained"
                                                             size="small"
                                                         >
