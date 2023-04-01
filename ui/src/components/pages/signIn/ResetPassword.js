@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Typography, TextField } from "@material-ui/core";
+import { Typography, TextField, makeStyles } from "@material-ui/core";
 import updatePasswordForm from "../../../validations/updatePasswordForm";
 import * as yup from "yup";
 import AppBar from "@mui/material/AppBar";
-import { makeStyles } from "@material-ui/core";
 import Toolbar from "@mui/material/Toolbar";
 import useAxiosInstance from "../../../useAxiosInstance";
 import Box from "@mui/material/Box";
