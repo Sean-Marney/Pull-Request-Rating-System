@@ -72,11 +72,10 @@ const sendOTP = async (req, res) => {
             <p style="font-family: Arial; font-size: 16px;">${otp}</p>
             <p style="font-family: Arial; font-size: 16px;">Best regards,</p>
             <p style="font-family: Arial; font-size: 16px;">The PullMaster.io Team</p>
-        </div>
-        <div style="background-color: black; color: white; text-align: center; padding: 10px;">
+            </div>
+            <div style="background-color: black; color: white; text-align: center; padding: 10px;">
             <h1 style="font-family: Bahnschrift; margin: 0;">PullMaster.io</h1>
-        </div>
-    `,
+            </div>`,
         };
 
         await transporter.sendMail(mailOptions);
@@ -106,7 +105,12 @@ const verifyOTP = async (req, res) => {
 
         if (!otpRecord) {
             console.log("The value of otpRecord is: " + otpRecord);
-            return res.status(400).json({ message: "Invalid OTP" });
+            return res
+                .status(400)
+                .json({
+                    message:
+                        "The number you entered doesn’t match your code. Please try again.",
+                });
         }
 
         // Delete the OTP record from the database
