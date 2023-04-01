@@ -17,23 +17,37 @@ import useAxiosInstance from "../../../useAxiosInstance";
 import * as yup from "yup";
 import { useState } from "react";
 import validateLoginForm from "../../../validations/loginForm";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        backgroundColor: theme.palette.background.paper,
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "130px 0",
+    },
+
+    appBar: {
+        backgroundColor: "black",
+    },
+}));
 
 const theme = createTheme();
 
 export default function SignIn() {
+    const classes = useStyles();
     const navigate = useNavigate();
     const { request } = useAxiosInstance();
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const [error, setError] = useState({});
-    const [dialogueError, setDialogueError] = useState("");
     const [user, setUser] = React.useState({
         email: "",
         password: "",
     });
-    const [openModal, setOpenModal] = useState(false);
-    const [modalEmail, setModalEmail] = useState("");
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -41,39 +55,6 @@ export default function SignIn() {
             ...prevUser,
             [name]: value,
         }));
-    };
-
-    const handleModalOpen = () => {
-        setOpenModal(true);
-    };
-
-    const handleModalClose = () => {
-        setOpenModal(false);
-    };
-
-    const handleResetPassword = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await request({
-                method: "get",
-                url: `/sendOTP/${modalEmail}`,
-            });
-            if (response.status === 200) {
-                // Navigate to the forgot password page
-                navigate("/forgotpassword",
-                    {
-                        state: {
-                            modalEmail
-                        },
-                    });
-            }
-        } catch (error) {
-            if (error.response && error.response.data.message) {
-                setDialogueError(
-                    "The email address you entered isn't connected to an account"
-                );
-            }
-        }
     };
 
     const handleSubmit = async (event) => {
@@ -118,11 +99,28 @@ export default function SignIn() {
 
     return (
         <ThemeProvider theme={theme}>
+            <AppBar
+                position="static"
+                className={classes.appBar}
+                sx={{ backgroundColor: "black" }}
+            >
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: "25px",
+                            fontFamily: "Bahnschrift",
+                        }}
+                    >
+                        PullMaster.io
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -193,9 +191,9 @@ export default function SignIn() {
                                 <Link
                                     href="#"
                                     variant="body2"
-                                    onClick={handleModalOpen}
+                                    onClick={() => navigate("/forgotPassword")}
                                 >
-                                    Forgotten password?
+                                    Forgot password
                                 </Link>
                             </Grid>
                             <Grid item>
@@ -204,54 +202,6 @@ export default function SignIn() {
                                 </Link>
                             </Grid>
                         </Grid>
-                        <Dialog open={openModal} onClose={handleModalClose}>
-                            <DialogContent>
-                                <Typography variant="h6" gutterBottom>
-                                    Forgotten password
-                                </Typography>
-                                <Typography variant="body1" gutterBottom>
-                                    Please enter your email address below to
-                                    recieve OTP
-                                </Typography>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    name="email"
-                                    value={modalEmail}
-                                    onChange={(e) =>
-                                        setModalEmail(e.target.value)
-                                    }
-                                    label="Email"
-                                    autoComplete="email"
-                                    autoFocus
-                                />
-                                {dialogueError && (
-                                    <div style={{ color: "red" }}>
-                                        {dialogueError}
-                                    </div>
-                                )}
-                                <Button
-                                    onClick={handleModalClose}
-                                    style={{
-                                        marginLeft: "329px",
-                                        marginRight: "10px",
-                                    }}
-                                    variant="contained"
-                                    sx={{ m1: 1 }}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    onClick={handleResetPassword}
-                                    variant="contained"
-                                    sx={{ m1: 1 }}
-                                >
-                                    Send email
-                                </Button>
-                            </DialogContent>
-                        </Dialog>
                     </Box>
                 </Box>
             </Container>

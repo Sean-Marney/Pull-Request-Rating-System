@@ -16,6 +16,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useNavigate } from "react-router-dom";
 import validateRegisterForm from "../../../validations/registerForm";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+
+
 
 const theme = createTheme();
 
@@ -72,11 +76,28 @@ export default function SignUp() {
 
     return (
         <ThemeProvider theme={theme}>
+            <AppBar
+                position="static"
+                sx={{ backgroundColor: "black" }}
+            >
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: "25px",
+                            fontFamily: "Bahnschrift",
+                        }}
+                    >
+                        PullMaster.io
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: theme.spacing(8),
+                        // marginTop: theme.spacing(8),
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
