@@ -4,31 +4,7 @@ const jwt = require("jsonwebtoken");
 function verifyJWTToken(req, res, next) {
 
     // // Get the JWT from the "x-access-token" header of the request
-    // const token = req.headers["x-access-token"];
-
-    // //new defining the auth header
-    // const authHeader = req.headers.authorization || req.headers.Authorization
-
-    // if (!authHeader?.startsWith('Bearer')){
-    //     return res.status(401).json({ message: 'Unauthorized' })
-    // }
-
-    // const token1 = authHeader.split(' ')[1]
-
-    // jwt.verify(
-    //     token1,
-    //     process.env.ACCESS_TOKEN_SECRET,
-    //     (err, decoded) => {
-    //         if (err) return res.status(403).json({ message: 'Forbidden' })
-    //         req.email = decoded.User.email
-    //         req.hasRole = decoded.User.hasRole
-    //         next()
-    //     }
-    // )
-
-
-
-    // old
+    const token = req.headers["x-access-token"];
 
     // If no token is provided, return an error response
     if (!token) {
