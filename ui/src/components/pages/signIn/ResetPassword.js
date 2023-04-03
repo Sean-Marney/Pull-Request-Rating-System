@@ -93,12 +93,13 @@ export default function ResetPassword() {
                 <Box
                     sx={{
                         bgcolor: "white",
-                        border: "2px solid #b1b1b1",
+                        // border: "1px solid #b1b1b1",
                         borderRadius: "5px",
                         padding: "20px 10px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                     }}
                 >
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h5" gutterBottom>
                         Change Password
                     </Typography>
                     <TextField
@@ -106,7 +107,7 @@ export default function ResetPassword() {
                         required
                         fullWidth
                         value={password}
-                        id="password"
+                        id="outlined-password-input"
                         name="password"
                         onChange={(e) => setPassword(e.target.value)}
                         label="Password"
@@ -119,7 +120,7 @@ export default function ResetPassword() {
                         required
                         fullWidth
                         value={confirmPassword}
-                        id="confirmpassword"
+                        id="outlined-password-input"
                         name="confirmpassword"
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         label="Confirm Password"
@@ -130,15 +131,13 @@ export default function ResetPassword() {
                     <div className={classes.button}>
                         <Button
                             onClick={() => navigate("/login")}
-                            variant="contained"
-                            // sx={{ m1: 1 }}
                         >
-                            Go back
+                            Cancel
                         </Button>
                         <Button
                             onClick={(e) => updateUser(e)}
                             variant="contained"
-                            // sx={{ m1: 1 }}
+                            style={{ marginLeft: "10px" }}
                         >
                             Update Password
                         </Button>

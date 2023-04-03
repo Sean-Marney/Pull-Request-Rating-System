@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.paper,
@@ -25,12 +26,20 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "black",
     },
 
-    button: {
+    buttonContainer: {
         display: "flex",
         flexDirection: "row",
         // justifyContent: "space-around",
         fontFamily: "roboto",
         justifyContent: "flex-end",
+    },
+    button: {
+        // display: "flex",
+        // flexDirection: "row",
+        // // justifyContent: "space-around",
+        // fontFamily: "roboto",
+        // justifyContent: "flex-end",
+        margin: "0px 10px",
     },
 }));
 
@@ -85,16 +94,18 @@ export default function ForgotPassword() {
                 <Box
                     sx={{
                         bgcolor: "white",
-                        border: "2px solid #b1b1b1",
+                        // border: "1px solid #b1b1b1",
                         borderRadius: "5px",
                         padding: "20px 10px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                     }}
                 >
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h5" gutterBottom>
                         Forgot password
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Please enter your email address below to recieve OTP
+                        Please enter your email address below to recieve the
+                        code
                     </Typography>
                     <TextField
                         margin="normal"
@@ -109,20 +120,20 @@ export default function ForgotPassword() {
                         autoFocus
                     />
                     {error && <div style={{ color: "red" }}>{error}</div>}
-                    <div className={classes.button}>
+                    <div className={classes.buttonContainer}>
                         <Button
+                            className={classes.button}
                             onClick={() => navigate("/login")}
-                            variant="contained"
-                            // sx={{ m1: 1 }}
                         >
-                            Go back
+                            Cancel
                         </Button>
                         <Button
+                            className={classes.button}
+                            style={{ marginLeft: "10px" }}
                             onClick={handleCheckEmail}
                             variant="contained"
-                            // sx={{ m1: 1 }}
                         >
-                            Send email
+                            Send email 
                         </Button>
                     </div>
                 </Box>
