@@ -53,36 +53,10 @@ const loginUser = async (req, res) => {
 
         // Generate a JSON Web Token (JWT) with the user's ID and email and sign it with a secret key
         const token = jwt.sign(
-            { id: user._id, email: user.email },
+            { id: user._id, email: user.email, hasRole: user.hasRole },
             process.env.PASSPORTSECRET,
             { expiresIn: 86400 }
         );
-
-        // access token
-        const accessToken = jwt.sign(
-            {"User":{ id: user._id, email: user.email, hasRole:user.hasRole}},
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "20s" }
-        );
-        
-        // refresh token
-        const refreshToken = jwt.sign(
-            { id: user._id, email: user.email },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: "1d" }
-        );
-
-        // create secure cookie with refresh token
-        res.cookie('jwt', refreshToken, {
-            httpOnly: true, // accessible only by web server
-            secure: true, // only accessible over SSL, https
-            sameSite: 'None', //cross-site cookie
-            maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
-        })
-
-        //Send accessToken containing username and roler
-        res.json({accessToken})
-
         // Return a success response with the JWT included as a Bearer token
         res.json({ message: "Success", token: `Bearer ${token}`, hasRole: user.hasRole});
     } catch (error) {
