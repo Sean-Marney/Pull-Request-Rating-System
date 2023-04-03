@@ -37,8 +37,6 @@ const OTPVerification = () => {
     const { state } = useLocation();
     const [otp, setOtp] = useState("");
     const [error, setError] = useState(null);
-    const [remainingTime, setRemainingTime] = useState(300); // 5 minutes in seconds
-    const [timeExpired, setTimeExpired] = useState(false);
 
     const handleChange = (newValue) => {
         setOtp(newValue);
@@ -75,25 +73,12 @@ const OTPVerification = () => {
         navigate("/");
     };
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setRemainingTime((prevTime) => prevTime - 1);
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, []);
-
-    useEffect(() => {
-        if (remainingTime === 0) {
-            setTimeExpired(true);
-        }
-    }, [remainingTime]);
-
-    const minutes = Math.floor(remainingTime / 60);
-    const seconds = remainingTime % 60;
-    const remainingTimeString = `${minutes
-        .toString()
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    const handleResendOTP = async (event) => {
+        const response = await request({
+            method: "get",
+            url: `/sendOTP/${state.modalEmail}`,
+        });
+    };
 
     return (
         <div>
@@ -115,32 +100,33 @@ const OTPVerification = () => {
                 <Box
                     sx={{
                         bgcolor: "white",
-                        border: "2px solid #b1b1b1",
+                        // border: "1px solid #b1b1b1",
                         borderRadius: "5px",
                         padding: "20px 10px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                     }}
                 >
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h5" gutterBottom>
                         Security Code Verification
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Please enter the verification code to your email:{" "}
-                        {state.modalEmail}
+                        Please enter the 6-digit verification code to your
+                        email: {state.modalEmail}
                     </Typography>
-                    {/* <div>Time remaining: {remainingTimeString}</div> */}
-                    {remainingTime > 0 ? (
-                        <div>Time remaining: {remainingTimeString}</div>
-                    ) : (
-                        <div>Time is over</div>
-                    )}
                     <MuiOtpInput
                         value={otp}
                         onChange={handleChange}
                         length={6}
                     />
                     {error && <div style={{ color: "red" }}>{error}</div>}
+                    <Button type="submit" onClick={handleResendOTP}>
+                        Resend Code
+                    </Button>
 
                     <div className={classes.button}>
+                        <Button type="submit" onClick={handleBack}>
+                            Cancel
+                        </Button>
                         <Button
                             type="submit"
                             variant="contained"
@@ -148,13 +134,6 @@ const OTPVerification = () => {
                             onClick={handleVerify}
                         >
                             Verify
-                        </Button>
-                        <Button
-                            type="submit"
-                            onClick={handleBack}
-                            variant="contained"
-                        >
-                            Cancel
                         </Button>
                     </div>
                 </Box>
