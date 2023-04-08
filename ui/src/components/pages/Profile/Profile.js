@@ -207,9 +207,9 @@ export default function ManageProfiles() {
             </Modal>
             </Grid>
             </Grid>
-            <Box  sx={{ pt: 5 }}>
+            {/* <Box  sx={{ pt: 5 }}>
             <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/>
-            </Box>
+            </Box> */}
 
           </div>
         )}

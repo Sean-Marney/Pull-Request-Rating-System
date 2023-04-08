@@ -64,6 +64,7 @@ const createUser = async (req, res) => {
       password: await bcrypt.hash(req.body.password, 10),
       hasRole: "Developer",
       git_username: req.body.git_username,
+      level: 0,
     });
     await user.save();
 
