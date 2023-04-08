@@ -48,7 +48,7 @@ export class Badges extends React.Component {
         while (value <= 20){
           let level = this.props.levelList.find(item => item.level == value)
           let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value - this.props.current} Stars Away</em></React.Fragment>
-          list.push(<Grid item xs={2}  style ={{"background-color": "#E6E6E6"}}><Box justify="center" alignItems="center"><LightTooltip title={title}><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","margin-left": "auto","margin-right": "auto"}}/></LightTooltip></Box></Grid>);
+          list.push(<Grid item xs={2}  style ={{"background-color": "#E6E6E6"}}><LightTooltip title={title}><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","margin-left": "auto","margin-right": "auto"}}/></LightTooltip></Grid>);
           value = value + 1;
         }
         const classes = this.props.style;

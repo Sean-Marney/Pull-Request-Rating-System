@@ -172,14 +172,14 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: '100%' }}>
-    <Box style ={{"padding-bottom":"10px"}}>
-        <Typography variant="h4" style ={{"padding-bottom":"20px", "padding-left":"20px"}}><b>Rewards</b> </Typography>
+    <Box style ={{"paddingBottom":"10px"}}>
+        <Typography variant="h4" style ={{"paddingBottom":"20px", "paddingLeft":"20px"}}><b>Rewards</b> </Typography>
         <Divider />
     </Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Rewards" {...a11yProps(0)} style ={{"font-size":"18px"}}/>
-          <Tab label="Badges" {...a11yProps(1)} style ={{"font-size":"18px"}}/>
+          <Tab label="Rewards" {...a11yProps(0)} style ={{"fontSize":"18px"}}/>
+          <Tab label="Badges" {...a11yProps(1)} style ={{"fontSize":"18px"}}/>
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
