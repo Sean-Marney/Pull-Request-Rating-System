@@ -14,16 +14,16 @@ import Modal from "@mui/material/Modal";
 import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
 import useAxiosInstance from "../../../useAxiosInstance";
+import { ToastContainer, toast } from "react-toastify";
 
-// styles here
+
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: "700px",
+        minHeight: "700px",
         maxWidth: "100%",
         backgroundColor: theme.palette.background.paper,
         display: "flex",
         flexDirection: "column",
-        overflow: "auto",
     },
     selectContainer: {
         display: "flex",
@@ -154,12 +154,36 @@ const RepositoryList = () => {
         return list;
     };
 
+    // Handler for rating submission
+    const handleSubmitClick = async (pullRequest, pullRequestRating) => {
+        try {
+            setLoading(true);
+            await request({
+                method: "put",
+                url: `/ratings/update/${pullRequest._id}`,
+                data: {
+                    ...pullRequest,
+                    rating: { ...pullRequestRating },
+                    rating_complete: true,
+                },
+            });
+
+            setSelectedPR(null);
+            getAllPullRequests();
+            toast.success('Rating has been added successfully!');
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         getAllPullRequests();
     }, [filter]);
 
     return (
         <div className={classes.root}>
+            <ToastContainer /> 
             <Modal
                 style={{
                     display: "flex",
@@ -172,9 +196,12 @@ const RepositoryList = () => {
                 }}
             >
                 <PullRequestRating
+                    setLoading = {setLoading}
+                    loading = {loading}
                     pullRequest={selectedPR}
                     setSelectedPR={setSelectedPR}
                     reloadList={getAllPullRequests}
+                    handleSubmit = {handleSubmitClick}
                 />
             </Modal>
             <Typography variant="h4">
@@ -246,11 +273,7 @@ const RepositoryList = () => {
                                                     classes.positionElements
                                                 }
                                             >
-                                                <div
-                                                    style={{
-                                                        minHeight: "250px",
-                                                    }}
-                                                >
+                                                <div>
                                                     <Typography
                                                         component="span"
                                                         variant="body1"

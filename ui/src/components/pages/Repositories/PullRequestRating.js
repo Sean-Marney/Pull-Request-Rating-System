@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import { Typography, makeStyles } from "@material-ui/core";
-import axios from "axios";
 import { Rating } from "@mui/material";
 import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
 import useAxiosInstance from "../../../useAxiosInstance";
 var moment = require("moment");
 moment().format();
@@ -70,24 +67,6 @@ export default function PullRequestRating(props) {
         getAllTrackers();
     }, []);
 
-    const handleSubmitClick = async () => {
-        try {
-            await request({
-                method: "put",
-                url: `/ratings/update/${props.pullRequest._id}`,
-                data: {
-                    ...props.pullRequest,
-                    rating: { ...pullRequestRating },
-                    rating_complete: true,
-                },
-            });
-            props.setSelectedPR(null);
-            props.reloadList();
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const handleRatingFormClose = async () => {
         props.setSelectedPR(null);
     };
@@ -100,7 +79,6 @@ export default function PullRequestRating(props) {
     const classes = useStyles();
 
     return (
-        // <div>
         <div className={classes.ratingContainer}>
             <Button
                 style={{ align: "left", justifyContent: "left" }}
@@ -108,6 +86,7 @@ export default function PullRequestRating(props) {
             >
                 X
             </Button>
+
             <h3 style={{ display: "flex", justifyContent: "center" }}>
                 Add your review
             </h3>
@@ -145,7 +124,10 @@ export default function PullRequestRating(props) {
             ))}
             <div className={classes.buttonContainer}>
                 <Button
-                    onClick={handleSubmitClick}
+                // added handler here
+                    onClick={() =>
+                        props.handleSubmit(props.pullRequest, pullRequestRating)
+                    }
                     className={classes.button}
                     variant="contained"
                     size="small"
