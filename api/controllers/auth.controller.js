@@ -12,7 +12,7 @@ const CLIENT_ID =
 const CLIENT_SECRET = "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";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";
 const REFRESH_TOKEN =
-    "1//04B7aVjv0OUpRCgYIARAAGAQSNwF-L9IrBWI_QdiF7IVA9WEze5NmMP1UNKJaOvUWZHNr9dtb4SbrtPB_3cNsWq-IAivKjwymp2Y";
+    "1//04_QHbDG59qF9CgYIARAAGAQSNwF-L9IromUWP8whB6HdzEbvCcR0TMfDihDPPneXitxTa4fYcsEGk62B9WbQYEvgzrOQiTvMRWw";
 
 const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
@@ -59,6 +59,7 @@ const sendOTP = async (req, res) => {
                 clientSecret: CLIENT_SECRET,
                 refreshToken: REFRESH_TOKEN,
                 accessToken: accessToken.token || "",
+                accessType: "OFFLINE",
             },
         });
 
@@ -68,7 +69,7 @@ const sendOTP = async (req, res) => {
             subject: "PullMaster.io Password Reset",
             html: `<div style="background-color: white; padding: 10px;">
             <p style="font-family: Arial; font-size: 16px;">Hi ${name},</p>
-            <p style="font-family: Arial; font-size: 16px;">We received a request to reset your PullMaster password. Please use the following password reset code: ${otp}</p>
+            <p style="font-family: Arial; font-size: 16px;">We received a request to reset your PullMaster password. Please use the following password reset code: </p>
             <p style="font-family: Arial; font-size: 16px;">${otp}</p>
             <p style="font-family: Arial; font-size: 16px;">Best regards,</p>
             <p style="font-family: Arial; font-size: 16px;">The PullMaster.io Team</p>
@@ -96,21 +97,16 @@ const sendOTP = async (req, res) => {
 const verifyOTP = async (req, res) => {
     try {
         const { email, otp } = req.body;
-        console.log("The value of req.body:" + req.params);
-        console.log("The value of otp is: " + otp);
-        console.log("The value of email is: " + email);
 
         // Check if the OTP is valid
         const otpRecord = await Otp.findOne({ email, otp });
 
         if (!otpRecord) {
             console.log("The value of otpRecord is: " + otpRecord);
-            return res
-                .status(400)
-                .json({
-                    message:
-                        "The number you entered doesn’t match your code. Please try again.",
-                });
+            return res.status(400).json({
+                message:
+                    "The number you entered doesn’t match your code. Please try again.",
+            });
         }
 
         // Delete the OTP record from the database
@@ -204,4 +200,8 @@ module.exports = {
     loginUser,
     sendOTP,
     verifyOTP,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    oAuth2Client,
+    REFRESH_TOKEN
 };
