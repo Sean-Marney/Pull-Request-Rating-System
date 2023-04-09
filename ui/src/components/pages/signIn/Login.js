@@ -2,10 +2,10 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import InputLabel from "@mui/material/InputLabel";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -19,22 +19,7 @@ import { useState } from "react";
 import validateLoginForm from "../../../validations/loginForm";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        backgroundColor: theme.palette.background.paper,
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "130px 0",
-    },
-
-    appBar: {
-        backgroundColor: "black",
-    },
-}));
+import { useStyles } from "../../styles/signIn/loginFormStyle";
 
 const theme = createTheme();
 
@@ -117,11 +102,7 @@ export default function SignIn() {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Container
-                component="main"
-                maxWidth="xs"
-                // sx={{ boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
-            >
+            <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
@@ -195,13 +176,18 @@ export default function SignIn() {
                                 <Link
                                     href="#"
                                     variant="body2"
+                                    sx={{ textDecoration: "none" }}
                                     onClick={() => navigate("/forgotPassword")}
                                 >
                                     Forgot password
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/register" variant="body2">
+                                <Link
+                                    href="/register"
+                                    variant="body2"
+                                    sx={{ textDecoration: "none" }}
+                                >
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

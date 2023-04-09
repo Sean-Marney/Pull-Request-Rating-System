@@ -19,8 +19,6 @@ import validateRegisterForm from "../../../validations/registerForm";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 
-
-
 const theme = createTheme();
 
 export default function SignUp() {
@@ -97,7 +95,6 @@ export default function SignUp() {
                 <CssBaseline />
                 <Box
                     sx={{
-                        // marginTop: theme.spacing(8),
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
