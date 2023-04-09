@@ -1,45 +1,11 @@
 import React, { useEffect } from "react";
-import { Typography, makeStyles } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { Rating } from "@mui/material";
 import Button from "@mui/material/Button";
 import useAxiosInstance from "../../../useAxiosInstance";
+import { useStyles } from "../../styles/Repositories/PullRequestRatingStyle";
 var moment = require("moment");
 moment().format();
-
-const useStyles = makeStyles((theme) => ({
-    buttonContainer: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginTop: theme.spacing(2),
-    },
-    button: {
-        flexBasis: "45%",
-    },
-    ratingContainer: {
-        marginBottom: theme.spacing(2),
-        width: "400px",
-        border: "1px solid black",
-        margin: "10px",
-        padding: "10px",
-        backgroundColor: "white",
-    },
-    ratingTitle: {
-        width: "30%",
-        paddingRight: theme.spacing(1),
-        textAlign: "right",
-    },
-    ratingValue: {
-        width: "70%",
-        paddingLeft: theme.spacing(1),
-    },
-    Rating: {
-        display: "flex",
-        flexWrap: "wrap",
-    },
-    listItemAvatar: {
-        marginRight: theme.spacing(2),
-    },
-}));
 
 export default function PullRequestRating(props) {
     const { request } = useAxiosInstance();

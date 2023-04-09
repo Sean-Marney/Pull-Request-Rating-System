@@ -1,14 +1,6 @@
 import React from "react";
 import { Rating } from "@mui/material";
-import { makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles({
-    root: {
-        margin: 0,
-        padding: 0,
-        display: "flex",
-    },
-});
+import { useStyles } from "../../styles/Repositories/PullRequestRatingStarsStyle";
 
 const PullRequestRatingStars = ({ rating }) => {
     const classes = useStyles();
