@@ -32,7 +32,6 @@ const style = {
 export default function ManageProfiles() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [levelList, setLevelList] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -48,13 +47,6 @@ export default function ManageProfiles() {
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
     );
-    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/level/all`);
-    setLevelList(levels.data);
-    if (res.data.level == 0){
-      res.data["levelName"] = "No Badge";
-    }else{
-      res.data["levelName"] = levels.data.find(item => item.level == res.data.level).name;
-    }
     //Set to state
     setUser(res.data);
   };
@@ -207,10 +199,6 @@ export default function ManageProfiles() {
             </Modal>
             </Grid>
             </Grid>
-            {/* <Box  sx={{ pt: 5 }}>
-            <Badges level = {user.level} current = {user.totalStarsEarned} listOfLevels = {levelList}/>
-            </Box> */}
-
           </div>
         )}
       </Container>

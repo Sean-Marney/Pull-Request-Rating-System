@@ -4,7 +4,6 @@ import Tab from '@mui/material/Tab';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +14,8 @@ import {
   Box,
   Button,
   Paper,
-  Divider
+  Divider,
+  Container,
 } from "@material-ui/core";
 import ClaimIcon from "@material-ui/icons/Redeem";
 import { useCookies } from "react-cookie";
@@ -38,9 +38,12 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
+                <Container>
+                <Box> 
+                    {children}
+                </Box>
+            </Container>
+
       )}
     </div>
   );
@@ -173,7 +176,7 @@ export default function BasicTabs() {
   return (
     <Box sx={{ width: '100%' }}>
     <Box style ={{"paddingBottom":"10px"}}>
-        <Typography variant="h4" style ={{"paddingBottom":"20px", "paddingLeft":"20px"}}><b>Rewards</b> </Typography>
+        <Typography component={'span'} variant="h4" style ={{"paddingBottom":"20px", "paddingLeft":"20px"}}><b>Rewards</b> </Typography>
         <Divider />
     </Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -182,22 +185,22 @@ export default function BasicTabs() {
           <Tab label="Badges" {...a11yProps(1)} style ={{"fontSize":"18px"}}/>
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-            <div className={classes.tableContainer}>
-            <ToastContainer />
+      <TabPanel value={value} index={0} component={'span'}>
+            <div className={classes.tableContainer} component="span">
+            <ToastContainer/>
             <Paper className={classes.paper}>
-                <Typography variant="h4">
+                <Typography variant="h4" component='div'>
                 <b>Rewards</b>
                 </Typography>
                 <Box>
-                <Typography className={classes.starCountBox}>
+                <Typography className={classes.starCountBox} component='div'>
                     <b>You have {stars} stars</b>
                 </Typography>
                 </Box>
-                <Box>
-                {/* Get all rewards from database and display in a table */}
-                {rewards && (
-                    <TableContainer>
+                 <Box component='div'>
+                {/*Get all rewards from database and display in a table */}
+                 {rewards && (
+                    <TableContainer component='div'>
                     <Table>
                         <TableHead>
                         <TableRow>
@@ -244,11 +247,11 @@ export default function BasicTabs() {
                     </TableContainer>
                 )}
                 </Box>
-            </Paper>
+             </Paper>
             </div>
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Badges style={useStyles()} levelList={levelList} level={level} current={totalStarsEarned} />
+      <TabPanel value={value} index={1} component="div">
+          <Badges style={useStyles()} levelList={levelList} level={level} current={totalStarsEarned} />
       </TabPanel>
     </Box>
   );

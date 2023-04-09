@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Typography,
   Box,
   Paper,
 } from "@material-ui/core";
-import ClaimIcon from "@material-ui/icons/Redeem";
-import { useCookies } from "react-cookie";
-import moment from "moment";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useStyles } from "../../styles/tableStyle";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
@@ -17,6 +11,7 @@ import { styled } from '@mui/material/styles';
 export class Badges extends React.Component {
 
     render() {
+      console.log(this.props);
       const LightTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
       ))(({ theme }) => ({
@@ -28,10 +23,10 @@ export class Badges extends React.Component {
         },
       }));
       let users_badge;
-        if (this.props.level == 0){
+        if (this.props.level === 0){
           users_badge = "You have not earned any badges yet";
         } else{
-          users_badge = "Your current level is " + this.props.levelList.find(item => item.level == this.props.level).name;
+          users_badge = "Your current level is " + this.props.levelList.find(item => item.level === this.props.level).name;
         }
         // let users_badge = this.props.levelList.find(item => item.level == this.props.level).name;
         let users_level = this.props.level;
@@ -39,30 +34,29 @@ export class Badges extends React.Component {
         let list = [];
         if (users_level  > 0){
           while (users_level >= value && value <= 20){
-            let level = this.props.levelList.find(item => item.level == value)
+            let level = this.props.levelList.find(item => item.level === value)
             let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value} Stars</em></React.Fragment>
-            list.push(<Grid item xs={2} style ={{"background-color": "#E6E6E6"}}><LightTooltip title={title}><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style ={{ "display": "block","margin-left": "auto","margin-right": "auto"}}/></LightTooltip></Grid>);
+            list.push(<Grid item xs={2}  key={value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
             value = value + 1;
           }
         }
         while (value <= 20){
-          let level = this.props.levelList.find(item => item.level == value)
+          let level = this.props.levelList.find(item => item.level === value)
           let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value - this.props.current} Stars Away</em></React.Fragment>
-          list.push(<Grid item xs={2}  style ={{"background-color": "#E6E6E6"}}><LightTooltip title={title}><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","margin-left": "auto","margin-right": "auto"}}/></LightTooltip></Grid>);
+          list.push(<Grid item xs={2} key={value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title} wrapper="span"><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
           value = value + 1;
         }
         const classes = this.props.style;
 
         return (
-            <div>
-                 <div className={classes.tableContainer}>
+                 <Box className={classes.tableContainer} component="span">
                         <Paper className={classes.paper}>
-                            <Typography variant="h4">
+                            <Typography variant="h4" component='div'>
                             <b>Badges</b>
                             </Typography>
-                            <Box sx={{ typography: 'body2', color: 'text.secondary'}}><Typography>Unlock new badges when you earn stars for your Pull Requests</Typography></Box>
+                            <Box sx={{ typography: 'body2', color: 'text.secondary'}} component='div'><Typography>Unlock new badges when you earn stars for your Pull Requests</Typography></Box>
                             <Box>
-                                <Typography className={classes.starCountBox}>
+                                <Typography className={classes.starCountBox} component='div'> 
                                  <b>{users_badge}</b>
                                 </Typography>
                             </Box>
@@ -72,8 +66,7 @@ export class Badges extends React.Component {
                                 </Grid>
                             </Box>
                         </Paper>
-                    </div>
-            </div>
+                    </Box>
         );
     }
 }

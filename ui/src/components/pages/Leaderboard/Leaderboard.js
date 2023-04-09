@@ -15,13 +15,21 @@ import { useStyles } from "../../styles/tableStyle";
 function Leaderboard() {
   const classes = useStyles();
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [levelList, setLevelList] = useState(null);
 
   useEffect(() => {
     axios
       .get("http://localhost:8000/management/leaderboard")
       .then((res) => setLeaderboardData(res.data))
       .catch((err) => console.log(err));
+      getLevels();
   }, []);
+
+  const getLevels = async () => {
+    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/level/all`);
+    levels.data.push({ level: 0, name: "No Badge", value: 0 });
+    setLevelList(levels.data);
+  };
 
   return (
     <div className={classes.tableContainer}>
@@ -34,6 +42,7 @@ function Leaderboard() {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Total Stars Earned</TableCell>
+              <TableCell>Current Level</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -43,6 +52,7 @@ function Leaderboard() {
                   {user.name}
                 </TableCell>
                 <TableCell>{user.totalStarsEarned}</TableCell>
+                <TableCell>{levelList.find(item => item.level === user.level).name}</TableCell>
               </TableRow>
             ))}
           </TableBody>
