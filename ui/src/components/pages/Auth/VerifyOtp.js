@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { Button } from "@mui/material";
 import useAxiosInstance from "../../../useAxiosInstance";
@@ -8,27 +8,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { makeStyles } from "@material-ui/core";
-import { Margin } from "@mui/icons-material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import { useStyles } from "../../styles/Auth/loginFormStyle";
+import { ToastContainer, toast } from "react-toastify";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        backgroundColor: theme.palette.background.paper,
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "130px 0",
-    },
-
-    button: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        fontFamily: "roboto",
-        marginTop: "10px",
-    },
-}));
+const theme = createTheme();
 
 const OTPVerification = () => {
     const classes = useStyles();
@@ -38,6 +24,7 @@ const OTPVerification = () => {
     const [otp, setOtp] = useState("");
     const [error, setError] = useState(null);
 
+
     const handleChange = (newValue) => {
         setOtp(newValue);
     };
@@ -45,6 +32,13 @@ const OTPVerification = () => {
     const handleVerify = async (event) => {
         event.preventDefault();
         setError(null);
+
+        // Check if the OTP input is empty
+        if (otp.trim() === "") {
+            setError("Please enter the OTP send to your email");
+            return;
+        }
+
         try {
             if (!state.modalEmail) {
                 throw new Error("Email is undefined");
@@ -73,16 +67,26 @@ const OTPVerification = () => {
         navigate("/");
     };
 
-    const handleResendOTP = async (event) => {
+    const handleResendOTP = async (e ) => {
+        e.preventDefault(); // Prevent the form from submitting and the page from reloading
         const response = await request({
             method: "get",
             url: `/sendOTP/${state.modalEmail}`,
         });
+
+        if (response.status === 200) {
+               toast.success("We've sent you another code");
+        }
     };
 
     return (
-        <div>
-            <AppBar position="static" sx={{ backgroundColor: "black" }}>
+        <ThemeProvider theme={theme}>
+            <ToastContainer />
+            <AppBar
+                position="static"
+                className={classes.appBar}
+                sx={{ backgroundColor: "black" }}
+            >
                 <Toolbar>
                     <Typography
                         variant="h6"
@@ -96,49 +100,72 @@ const OTPVerification = () => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Container maxWidth="sm" className={classes.root}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
                 <Box
                     sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                         bgcolor: "white",
-                        // border: "1px solid #b1b1b1",
                         borderRadius: "5px",
                         padding: "20px 10px",
+                        margin: "50px 0px",
                         boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                     }}
                 >
-                    <Typography variant="h5" gutterBottom>
+                    <Typography component="h1" variant="h5">
                         Security Code Verification
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
-                        Please enter the 6-digit verification code to your
-                        email: {state.modalEmail}
+                    <Typography variant="body2" display="block" gutterBottom>
+                        Please enter the 6-digit verification code send to{" "}
+                        {state.modalEmail}
                     </Typography>
-                    <MuiOtpInput
-                        value={otp}
-                        onChange={handleChange}
-                        length={6}
-                    />
-                    {error && <div style={{ color: "red" }}>{error}</div>}
-                    <Button type="submit" onClick={handleResendOTP}>
-                        Resend Code
-                    </Button>
-
-                    <div className={classes.button}>
-                        <Button type="submit" onClick={handleBack}>
-                            Cancel
+                    <Box component="form" sx={{ mt: 1 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <MuiOtpInput
+                                    value={otp}
+                                    onChange={handleChange}
+                                    length={6}
+                                />
+                                {error && (
+                                    <div style={{ color: "red" }}>{error}</div>
+                                )}
+                            </Grid>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            onClick={(e) => handleResendOTP(e)}
+                            sx={{ textTransform: "none" }}
+                        >
+                            Resend Code
                         </Button>
                         <Button
                             type="submit"
+                            fullWidth
                             variant="contained"
-                            style={{ marginLeft: "10px" }}
+                            sx={{ mt: 3, mb: 2 }}
                             onClick={handleVerify}
                         >
                             Verify
                         </Button>
-                    </div>
+                        <Grid container>
+                            <Grid item xs>
+                                <Button
+                                    type="submit"
+                                    onClick={handleBack}
+                                    sx={{ textTransform: "none" }}
+                                >
+                                    Cancel
+                                </Button>
+                            </Grid>
+                            <Grid item></Grid>
+                        </Grid>
+                    </Box>
                 </Box>
             </Container>
-        </div>
+        </ThemeProvider>
     );
 };
 
