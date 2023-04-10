@@ -20,6 +20,10 @@ import validateLoginForm from "../../../validations/loginForm";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { useStyles } from "../../styles/signIn/loginFormStyle";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 const theme = createTheme();
 
@@ -28,11 +32,14 @@ export default function SignIn() {
     const navigate = useNavigate();
     const { request } = useAxiosInstance();
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+    const [showPassword, setShowPassword] = React.useState(false);
     const [error, setError] = useState({});
     const [user, setUser] = React.useState({
         email: "",
         password: "",
     });
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -41,6 +48,8 @@ export default function SignIn() {
             [name]: value,
         }));
     };
+
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -151,10 +160,29 @@ export default function SignIn() {
                                     required
                                     fullWidth
                                     name="password"
-                                    type="password"
                                     id="password"
                                     onChange={handleInputChange}
                                     autoComplete="current-password"
+                                    type={showPassword ? "text" : "password"}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                                 {error.password && (
                                     <div style={{ color: "red" }}>
@@ -173,23 +201,22 @@ export default function SignIn() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link
-                                    href="#"
-                                    variant="body2"
-                                    sx={{ textDecoration: "none" }}
+                                <Button
+                                    type="submit"
                                     onClick={() => navigate("/forgotPassword")}
+                                    sx={{ textTransform: "none" }}
                                 >
                                     Forgot password
-                                </Link>
+                                </Button>
                             </Grid>
                             <Grid item>
-                                <Link
-                                    href="/register"
-                                    variant="body2"
-                                    sx={{ textDecoration: "none" }}
+                                <Button
+                                    type="submit"
+                                    onClick={() => navigate("/register")}
+                                    sx={{ textTransform: "none" }}
                                 >
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
+                                    Don't have an account? Sign Up
+                                </Button>
                             </Grid>
                         </Grid>
                     </Box>
