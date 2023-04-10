@@ -29,6 +29,7 @@ export default function SignUp() {
     const { request } = useAxiosInstance();
     const [showPassword, setShowPassword] = React.useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+    const [error, setError] = useState({});
     const [user, setUser] = React.useState({
         email: "",
         name: "",
@@ -36,7 +37,7 @@ export default function SignUp() {
         confirmPassword: "",
     });
 
-    const [error, setError] = useState({});
+    
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickShowConfirmPassword = () =>
