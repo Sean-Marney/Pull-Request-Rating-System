@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
 
     // Hash the password with bcrypt and create a new User document with the name, email, and hashed password
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = new User({ name, email, password: hashedPassword, hasRole: "Manager", level: 0});
+    const newUser = new User({ name, email, password: hashedPassword, hasRole: "Manager"});
 
     // Save the new user to the database and return a success response
     await newUser.save();

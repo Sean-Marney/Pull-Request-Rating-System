@@ -16,7 +16,8 @@ const leaderboardRoute = require("./routes/leaderboard.routes");
 const managerDashboardRoute = require("./routes/managerDashboard.routes");
 const developerDashboardRoute = require("./routes/developerDashboard.routes");
 const manageQuestions = require("./routes/question.routes");
-const level = require("./routes/level.routes");
+const badge = require("./routes/badges.routes");
+const manageBadge = require("./routes/manageBadges.routes");
 const app = express();
 
 // connect database
@@ -50,7 +51,8 @@ app.get("/requests", managerDashboardRoute);
 app.get("/archived-rewards", managerDashboardRoute);
 app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
-app.use("/level", level);
+app.use("/badge", badge);
+app.use("/management/badge", manageBadge);
 // setting up port
 const PORT = process.env.PORT || 8000;
 
