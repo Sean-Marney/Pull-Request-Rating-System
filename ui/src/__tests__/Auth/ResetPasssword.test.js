@@ -1,7 +1,7 @@
 // Import necessary modules and components for testing
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
-import ResetPassword from "../../components/pages/signIn/ResetPassword";
+import ResetPassword from "../../components/pages/Auth/ResetPassword";
 import { MemoryRouter } from "react-router-dom";
 import useAxiosInstance from "../../../src/useAxiosInstance";
 import "@testing-library/jest-dom";

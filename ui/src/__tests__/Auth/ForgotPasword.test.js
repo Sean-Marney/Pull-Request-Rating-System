@@ -2,7 +2,7 @@
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import ForgotPassword from "../../components/pages/signIn/ForgotPassword";
+import ForgotPassword from "../../components/pages/Auth/ForgotPassword";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 

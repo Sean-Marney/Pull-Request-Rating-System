@@ -3,7 +3,7 @@ import * as React from "react";
 import { MemoryRouter } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import OTPVerification from "../../components/pages/signIn/VerifyOtp";
+import OTPVerification from "../../components/pages/Auth/VerifyOtp";
 
 // Mock useAxiosInstance custom hook to avoid making real API calls
 jest.mock("../../../src/useAxiosInstance", () => ({

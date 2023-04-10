@@ -1,6 +1,6 @@
 import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import SignIn from "../../components/pages/signIn/Login";
+import SignUp from "../../components/pages/Auth/Register";
 import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 
@@ -11,55 +11,66 @@ jest.mock("react-router-dom", () => ({
     useNavigate: () => mockedUsedNavigate,
 }));
 
-describe("Login component", () => {
+describe("SignUp component", () => {
 
-    // Test that the sign in form renders with all expected inputs and a submit button
-    test("renders login form", async () => {
-
-        // Render the SignIn component within a MemoryRouter
-        render(
+    // Test that the sign up form renders with all expected inputs and a submit button
+    test("renders sign up form", async () => {
+        // Render the SignUp component within a MemoryRouter
+         render(
             <MemoryRouter>
-                <SignIn />
+                <SignUp />
             </MemoryRouter>
         );
 
         // Get each input field by its associated label text
+        const nameInput = screen.getByLabelText("Name");
         const emailInput = screen.getByLabelText("Email");
         const passwordInput = screen.getByLabelText("Password");
+        const confirmPasswordInput = screen.getByLabelText("Confirm Password");
 
         // Get the submit button by its role and name attribute
-        const submitButton = screen.getByRole("button", { name: /sign in/i });
+        const submitButton = screen.getByRole("button", { name: /sign up/i });
 
         // Assert that all input fields and the submit button are present in the document
+        expect(nameInput).toBeInTheDocument();
         expect(emailInput).toBeInTheDocument();
         expect(passwordInput).toBeInTheDocument();
+        expect(confirmPasswordInput).toBeInTheDocument();
         expect(submitButton).toBeInTheDocument();
     });
 
     // Test that validation errors are displayed when the form is submitted without input values
     test("displays validation errors on submit", async () => {
-
-        // Render the Sign In component within a MemoryRouter
-        render(
+        
+        // Render the SignUp component within a MemoryRouter
+         render(
             <MemoryRouter>
-                <SignIn />
+                <SignUp />
             </MemoryRouter>
         );
 
         // Get the submit button by its role and name attribute
-        const submitButton = screen.getByRole("button", { name: /sign in/i });
+        const submitButton = screen.getByRole("button", { name: /sign up/i });
 
         // Simulate a click on the submit button to trigger form submission without input values
         fireEvent.click(submitButton);
 
         // Get each error message by its associated text
-        const emailError = await screen.findByText("Email is required");
+        const nameError = await screen.findByText(
+            "Please enter your full name"
+        );
+        const emailError = await screen.findByText("Please enter your email");
         const passwordError = await screen.findByText(
-            "Password is required"
+            "Password must be at least 8 characters long"
+        );
+        const confirmPasswordError = await screen.findByText(
+            "Confirm Password is required"
         );
 
         // Assert that all error messages are present in the document
+        expect(nameError).toBeInTheDocument();
         expect(emailError).toBeInTheDocument();
         expect(passwordError).toBeInTheDocument();
+        expect(confirmPasswordError).toBeInTheDocument();
     });
 });
