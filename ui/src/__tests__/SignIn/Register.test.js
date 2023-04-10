@@ -12,10 +12,11 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("SignUp component", () => {
+
     // Test that the sign up form renders with all expected inputs and a submit button
     test("renders sign up form", async () => {
         // Render the SignUp component within a MemoryRouter
-        await render(
+         render(
             <MemoryRouter>
                 <SignUp />
             </MemoryRouter>
@@ -40,8 +41,9 @@ describe("SignUp component", () => {
 
     // Test that validation errors are displayed when the form is submitted without input values
     test("displays validation errors on submit", async () => {
+        
         // Render the SignUp component within a MemoryRouter
-        await render(
+         render(
             <MemoryRouter>
                 <SignUp />
             </MemoryRouter>
