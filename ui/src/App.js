@@ -6,11 +6,11 @@ import Sidebar from "./components/reusable/SidebarData";
 import ManagerDashboard from "./components/pages/ManagerDashboard/ManagerDashboard";
 import DeveloperDashboard from "./components/pages/DeveloperDashboard/DeveloperDashboard";
 import History from "./components/pages/History/History";
-import Register from "./components/pages/signIn/Register";
-import Login from "./components/pages/signIn/Login";
-import OTP from "./components/pages/signIn/VerifyOtp";
-import ForgotPassword from "./components/pages/signIn/ForgotPassword";
-import ResetPassword from "./components/pages/signIn/ResetPassword";
+import Register from "./components/pages/Auth/Register";
+import Login from "./components/pages/Auth/Login";
+import OTP from "./components/pages/Auth/VerifyOtp";
+import ForgotPassword from "./components/pages/Auth/ForgotPassword";
+import ResetPassword from "./components/pages/Auth/ResetPassword";
 import ManageRewards from "./components/pages/ManageRewards/ManageRewards";
 import ManageUsers from "./components/pages/ManageUsers/ManageUsers";
 import ManageTrackers from "./components/pages/ManageTrackers/ManageTrackers";
@@ -51,7 +51,6 @@ const App = () => {
                       />
                       <Route path="/register" element={<Register />} />
                       <Route path="/login" element={<Login />} />
-                      {/* <Route path="/forgotpassword" element={<OTP />} /> */}
                       <Route path="/history" element={<History />} />
                       <Route
                           path="/management/repositories/rating"

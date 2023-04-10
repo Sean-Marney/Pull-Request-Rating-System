@@ -3,7 +3,7 @@ import { Rating } from "@mui/material";
 import Button from "@mui/material/Button";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/Repositories/PullRequestRatingStyle";
-import { Typography, Link} from "@material-ui/core";
+import { Typography, Link } from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -66,13 +66,11 @@ export default function PullRequestRating(props) {
             </Typography>
             <hr></hr>
             <div style={{ padding: "10px 0px" }}>
-                <Typography variant="h6">{props.pullRequest.title}</Typography>
                 <Typography
-                    component="span"
+                    style={{ display: "flex", justifyContent: "center" }}
                     variant="body1"
-                    color="textSecondary"
                 >
-                    {`Pull Request #${props.pullRequest.git_id} from ${props.pullRequest.repo}`}
+                    {`Pull Request ${props.pullRequest.title} for ${props.pullRequest.repo}`}
                 </Typography>
             </div>
             <hr></hr>
@@ -110,15 +108,9 @@ export default function PullRequestRating(props) {
                                 }}
                                 required
                             />
-                            {error && (
-                                <span
-                                    style={{ color: "red", marginLeft: "10px" }}
-                                >
-                                    Please give a rating.
-                                </span>
-                            )}{" "}
                         </div>
                     ))}
+
                     <div>
                         <Typography
                             component="legend"
@@ -143,7 +135,11 @@ export default function PullRequestRating(props) {
             <div className={classes.buttonContainer}>
                 <Button
                     onClick={() =>
-                        props.handleSubmit(props.pullRequest, pullRequestRating)
+                        props.handleSubmit(
+                            props.pullRequest,
+                            pullRequestRating,
+                            setError
+                        )
                     }
                     className={classes.button}
                     variant="contained"
@@ -153,6 +149,11 @@ export default function PullRequestRating(props) {
                     Submit
                 </Button>
             </div>
+            {error && (
+                <span style={{ color: "red", marginLeft: "10px" }}>
+                    Please select stars to submit rating
+                </span>
+            )}{" "}
             <div
                 style={{
                     display: "flex",

@@ -13,7 +13,6 @@ import Modal from "@mui/material/Modal";
 import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
 import useAxiosInstance from "../../../useAxiosInstance";
-import { ToastContainer, toast } from "react-toastify";
 import { useStyles } from "../../styles/Repositories/RepositoryStyle";
 
 var moment = require("moment");
@@ -90,10 +89,16 @@ const RepositoryList = () => {
         return list;
     };
 
-    // Handler for rating submission
-    const handleSubmitClick = async (pullRequest, pullRequestRating) => {
+    const handleSubmitClick = async (
+        pullRequest,
+        pullRequestRating,
+        setError
+    ) => {
         try {
-            setLoading(true);
+            if (Object.keys(pullRequestRating).length < 1) {
+                setError(true);
+                return;
+            }
             await request({
                 method: "put",
                 url: `/ratings/update/${pullRequest._id}`,
@@ -106,7 +111,6 @@ const RepositoryList = () => {
 
             setSelectedPR(null);
             getAllPullRequests();
-            toast.success('Rating has been added successfully!');
         } catch (error) {
             setLoading(false);
             console.log(error);
@@ -119,7 +123,6 @@ const RepositoryList = () => {
 
     return (
         <div className={classes.root}>
-            <ToastContainer /> 
             <Modal
                 style={{
                     display: "flex",
@@ -132,12 +135,12 @@ const RepositoryList = () => {
                 }}
             >
                 <PullRequestRating
-                    setLoading = {setLoading}
-                    loading = {loading}
+                    setLoading={setLoading}
+                    loading={loading}
                     pullRequest={selectedPR}
                     setSelectedPR={setSelectedPR}
                     reloadList={getAllPullRequests}
-                    handleSubmit = {handleSubmitClick}
+                    handleSubmit={handleSubmitClick}
                 />
             </Modal>
             <Typography variant="h4">
@@ -238,19 +241,6 @@ const RepositoryList = () => {
                                                         )}
                                                     </Typography>
                                                     <br />
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body1"
-                                                        color="textSecondary"
-                                                    >
-                                                        Total stars{" "}
-                                                        {pullRequest.ratings
-                                                            ?.overall
-                                                            ? pullRequest
-                                                                  .ratings
-                                                                  .overall
-                                                            : 0}{" "}
-                                                    </Typography>
                                                 </div>
                                                 <br />
 
@@ -303,19 +293,19 @@ const RepositoryList = () => {
                                 <Skeleton
                                     variant="rectangular"
                                     width={1000}
-                                    height={125}
+                                    height={145}
                                     style={{ margin: "8px 0px" }}
                                 />
                                 <Skeleton
                                     variant="rectangular"
                                     width={1000}
-                                    height={125}
+                                    height={145}
                                     style={{ margin: "8px 0px" }}
                                 />
                                 <Skeleton
                                     variant="rectangular"
                                     width={1000}
-                                    height={125}
+                                    height={145}
                                     style={{ margin: "8px 0px" }}
                                 />
                             </>

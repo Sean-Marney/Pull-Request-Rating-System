@@ -1,14 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
-    buttonContainer: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginTop: theme.spacing(2),
-    },
-    button: {
-        flexBasis: "45%",
-    },
     ratingContainer: {
         marginBottom: theme.spacing(2),
         width: "400px",
@@ -16,6 +8,7 @@ export const useStyles = makeStyles((theme) => ({
         margin: "10px",
         padding: "10px",
         backgroundColor: "white",
+        position: "relative",
     },
     ratingTitle: {
         width: "30%",
