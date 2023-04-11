@@ -199,3 +199,43 @@ describe("testing getTopDevelopers controller method", () => {
     expect(res.body.message).to.equal("Mock error");
   });
 });
+
+describe("testing getAllDevelopers controller method", () => {
+  let findStub;
+
+  beforeEach(() => {
+    // Create a stub for the find method of the User model
+    findStub = sinon.stub(User, "find");
+  });
+
+  afterEach(() => {
+    // Restore the original method of the User model
+    findStub.restore();
+  });
+
+  it("should return all developers sorted by totalStarsEarned in descending order", async () => {
+    // Stub the find method to return an array of users
+    const developers = [
+      { hasRole: "Developer", totalStarsEarned: 20 },
+      { hasRole: "Developer", totalStarsEarned: 50 },
+      { hasRole: "Developer", totalStarsEarned: 10 },
+      { hasRole: "Developer", totalStarsEarned: 30 },
+      { hasRole: "Developer", totalStarsEarned: 40 },
+    ];
+    findStub.returns({ sort: sinon.stub().returns(developers) });
+
+    const res = await chai
+      .request(app)
+      .get("/management/dashboard/get-all-developers");
+    expect(res).to.have.status(200);
+
+    // Sort the expected and actual arrays by totalStarsEarned in descending order
+    const expected = developers.sort(
+      (a, b) => b.totalStarsEarned - a.totalStarsEarned
+    );
+    const actual = res.body.sort(
+      (a, b) => b.totalStarsEarned - a.totalStarsEarned
+    );
+    expect(actual).to.deep.equal(expected);
+  });
+});
