@@ -1,6 +1,6 @@
 import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import SignIn from "../../components/pages/signIn/Login";
+import SignIn from "../../components/pages/Auth/Login";
 import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 
@@ -11,13 +11,13 @@ jest.mock("react-router-dom", () => ({
     useNavigate: () => mockedUsedNavigate,
 }));
 
-describe("SignUp component", () => {
+describe("Login component", () => {
 
     // Test that the sign in form renders with all expected inputs and a submit button
-    test("renders sign up form", async () => {
+    test("renders login form", async () => {
 
         // Render the SignIn component within a MemoryRouter
-        await render(
+        render(
             <MemoryRouter>
                 <SignIn />
             </MemoryRouter>
@@ -40,7 +40,7 @@ describe("SignUp component", () => {
     test("displays validation errors on submit", async () => {
 
         // Render the Sign In component within a MemoryRouter
-        await render(
+        render(
             <MemoryRouter>
                 <SignIn />
             </MemoryRouter>

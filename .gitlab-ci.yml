@@ -3,8 +3,10 @@ image: node:16.15.0
 
 # Define the different stages of the pipeline
 stages:
-  - Builds
-  - Unit Tests
+    - Builds
+    - Unit Tests
+    - Deploy To S3
+    - Deploy To EC2
 
 # Build the API
 api build:
@@ -88,7 +90,7 @@ api unit tests:
   only:
     - merge_requests
 
-  # Run unit tests for the UI
+    # Run unit tests for the UI
 ui unit tests:
   stage: Unit Tests
   # Set up the environment before running the script
