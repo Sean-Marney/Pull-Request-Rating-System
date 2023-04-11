@@ -53,34 +53,28 @@ const App = () => {
                           <Route path="/history" element={<History />} />
                                   
             <Route
-                          path="/management/repositories/rating"
-                          element={<PullRequestRating />}
-                      />
-                      <Route
-                          path="/management/Leaderboard"
-                          element={
-                              <ProtectedRoute
-                                  token={cookies.token}
-                                  role={cookies.role}
-                              >
-                                  {" "}
-                                  <Leaderboard />
-                              </ProtectedRoute>
-                          }
-                      />
-                      <Route
-                          path="/management/users"
-                          element={
-                              <ProtectedRoute
-                                  token={cookies.token}
-                                  role={cookies.role}
-                              >
-                                  {" "}
-                                  <ManageUsers />
-                              </ProtectedRoute>
-                          }
-                      />
-                              <Route
+              path="/management/repositories/rating"
+              element={<PullRequestRating />}
+            />
+            <Route 
+              path="/management/Leaderboard" 
+              element={
+                <ProtectedRoute token={cookies.token} role={cookies.role}>
+                  {" "}
+                <Leaderboard />
+                </ProtectedRoute>
+              } 
+              />
+            <Route
+              path="/management/users"
+              element={
+                <ProtectedRoute token={cookies.token} role={cookies.role}>
+                  {" "}
+                  <ManageUsers />
+                </ProtectedRoute>
+              }
+            />
+                    <Route
                      path="/management/ManagerHelp" 
                      element={
                         <ProtectedRoute
