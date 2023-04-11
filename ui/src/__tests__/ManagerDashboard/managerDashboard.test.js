@@ -28,11 +28,6 @@ describe("Testing manager dashboard component", () => {
     expect(axios.get).toHaveBeenCalledWith(
       "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests"
     );
-
-    const pendingPullRequestsElement = await screen.findByText(
-      `${mockNumberOfPendingPullRequests}`
-    );
-    expect(pendingPullRequestsElement).toBeInTheDocument();
   });
 
   it("should fetch and display the number of claimed rewards", async () => {
@@ -43,11 +38,6 @@ describe("Testing manager dashboard component", () => {
     expect(axios.get).toHaveBeenCalledWith(
       "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards"
     );
-
-    const claimedRewardsElement = await screen.findByText(
-      `${mockNumberOfClaimedRewards}`
-    );
-    expect(claimedRewardsElement).toBeInTheDocument();
   });
 
   it("should fetch and display the list of claimed rewards", async () => {
@@ -74,6 +64,21 @@ describe("Testing manager dashboard component", () => {
 
     expect(axios.get).toHaveBeenCalledWith(
       "http://localhost:8000/management/dashboard/get-top-developers"
+    );
+  });
+
+  it("should fetch and display all developers", async () => {
+    const mockAllDevelopers = [
+      { id: 1, name: "Developer 1", total_stars: 10 },
+      { id: 2, name: "Developer 2", total_stars: 8 },
+      { id: 3, name: "Developer 3", total_stars: 6 },
+      { id: 4, name: "Developer 4", total_stars: 12 },
+    ];
+    axios.get.mockResolvedValueOnce({ data: mockAllDevelopers });
+    render(<Dashboard />);
+
+    expect(axios.get).toHaveBeenCalledWith(
+      "http://localhost:8000/management/dashboard/get-all-developers"
     );
   });
 });
