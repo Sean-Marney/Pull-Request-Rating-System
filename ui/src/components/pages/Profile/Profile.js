@@ -43,7 +43,8 @@ export default function ManageProfiles() {
   const getUserByEmail = async () => {
     //Get user by email
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
 
     //Set to state
@@ -55,7 +56,8 @@ export default function ManageProfiles() {
     try {
       // Delete user
       await axios.delete(
-        process.env.REACT_APP_API_ENDPOINT + `/management/users/deleteUser/email/${cookies.user.email}`
+        process.env.REACT_APP_API_ENDPOINT +
+          `/management/users/deleteUser/email/${cookies.user}`
       );
       console.log("removing cookies");
       removeCookie("role");
@@ -72,9 +74,9 @@ export default function ManageProfiles() {
     <div>
       <Container>
         <Box padding={3}>
-        <Typography variant="h4">
-                <b>Profile</b>
-                </Typography>
+          <Typography variant="h4">
+            <b>Profile</b>
+          </Typography>
         </Box>
         {user && (
           <div>
