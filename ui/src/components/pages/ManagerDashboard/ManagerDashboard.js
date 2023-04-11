@@ -6,6 +6,8 @@ import InfoOutlinedIcon from "@material-ui/icons/Info";
 import NotificationIcon from "@material-ui/icons/Notifications";
 import RedeemIcon from "@material-ui/icons/Redeem";
 import LeaderboardIcon from "@material-ui/icons/EmojiEvents";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJs } from "chart.js/auto";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +97,16 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "100px",
     color: "black",
   },
+  chartContainer: {
+    margin: `${theme.spacing(3)}px auto 0`,
+    width: `calc(100% - ${theme.spacing(4)}px)`,
+    height: "600px",
+    borderRadius: 25,
+    boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
 
 export default function ManagerDashboard() {
@@ -175,6 +187,59 @@ export default function ManagerDashboard() {
       console.log(error);
     }
   };
+
+  const renderGraph = () => {
+    // Rendering chart that shows the total stars earned for each developer
+    const chartData = {
+      labels: "top developers",
+      datasets: [
+        {
+          label: "Developer's total stars earned",
+          data: topDevelopers,
+          backgroundColor: ["#5b9bd5 ", "#FF8A80 "],
+          borderColor: "#fff",
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const chartOptions = {
+      indexAxis: "y",
+      scales: {
+        x: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Top Developers",
+            font: {
+              size: 25,
+              weight: "bold",
+            },
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Total Stars Earned",
+            font: {
+              size: 25,
+              weight: "bold",
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+    };
+
+    return { chartData, chartOptions };
+  };
+
+  // Populating with chart data
+  const { chartData, chartOptions } = renderGraph();
 
   return (
     <div className={classes.root}>
@@ -363,6 +428,10 @@ export default function ManagerDashboard() {
           </div>
         </div>
       </Box>
+      {/* Render bar chart */}
+      <div className={classes.chartContainer}>
+        <Bar data={chartData} options={chartOptions} />
+      </div>
     </div>
   );
 }
