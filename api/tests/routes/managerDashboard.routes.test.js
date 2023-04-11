@@ -38,4 +38,13 @@ describe("Manager Dashboard Routes", () => {
       assert.strictEqual(res.statusCode, 200);
     });
   });
+
+  describe("GET /management/dashboard/get-all-developers", () => {
+    it("should return a status code of 200", async () => {
+      const res = await request(app).get(
+        "/management/dashboard/get-all-developers"
+      );
+      assert.strictEqual(res.statusCode, 200);
+    });
+  });
 });
