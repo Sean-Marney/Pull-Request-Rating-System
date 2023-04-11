@@ -36,8 +36,8 @@ export class Badges extends React.Component {
         while (index < earned_badges.length){
           let level = earned_badges[index];
           let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value} Stars</em></React.Fragment>
-          // list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><img src={require(`../../../images/${level.name}.PNG`)} alt="badge" width="125" height="125" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
-          list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><LocalPoliceIcon /></LightTooltip></Grid>);
+          list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><img src={level.photo} alt="badge" width="125" height="125" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
+          // list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><LocalPoliceIcon /></LightTooltip></Grid>);
           index = index + 1;
         }
       index = 0;
@@ -50,7 +50,7 @@ export class Badges extends React.Component {
       while (index < too_earn_badges.length){
           let level = too_earn_badges[index];
           let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value - this.props.current} Stars Away</em></React.Fragment>
-          list.push(<Grid item xs={2} key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title} wrapper="span"><img src={require(`../../../images/${level.name}.PNG`)} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
+          list.push(<Grid item xs={2} key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title} wrapper="span"><img src={level.photo} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
           index = index + 1;
       }
         const classes = this.props.style;

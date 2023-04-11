@@ -9,8 +9,10 @@ const BadgeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  icon: {
-    type: Buffer
+  img:
+  {
+      data: Buffer,
+      contentType: String
   }
 });
 

@@ -13,6 +13,7 @@ import {
 import * as yup from "yup";
 import validateCreateBadgeForm from "../../../validations/createBadgeForm";
 import { useStyles } from "../../styles/formStyle";
+const FormData = require('form-data');
 
 export default function CreateReward() {
   const classes = useStyles();
@@ -21,7 +22,7 @@ export default function CreateReward() {
     starsRequired: "",
     // image: [],
   });
-  const [selectedImage, setSelectedImage] = useState();
+  const [photo, setPhoto] = useState(null);
 
 
   const [error, setError] = useState({});
@@ -38,24 +39,53 @@ export default function CreateReward() {
   };
 
 
-  const handlePhotoUpload = (e) => {
-    setSelectedImage(e.target.files[0]);
+  const handlePhoto = (e) => {
+    setPhoto(e.target.files[0]);
+  }
+
+
+  const createBadge = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('photo', photo);
+    formData.append('name', createForm.badgeName);
+    formData.append('value', createForm.starsRequired);
+
+    axios.post('http://localhost:8000/upload/all', formData)
+         .then(res => {
+            navigate("/management/badges"); // Redirects after reward is created
+         })
+         .catch(err => {
+            navigate("/management/badges"); // Redirects after reward is created
+         });
 
   }
 
-  const createBadge = async (e) => {
-    e.preventDefault(); // Prevents refresh after submit
-    try {
-      await validateCreateBadgeForm.validate(createForm, {
-        abortEarly: false,
-      });
-      createForm["image"] = selectedImage;
-      console.log(createForm);
-      // Create new reward
-      await axios.post(
-        "http://localhost:8000/management/badge/create",
-        createForm
-      );
+
+  // const createBadge = async (e) => {
+  //   e.preventDefault(); // Prevents refresh after submit
+  //   try {
+  //     await validateCreateBadgeForm.validate(createForm, {
+  //       abortEarly: false,
+  //     });
+  //     const formData = new FormData();
+  //     formData['image']=(selectedImage);
+  //     formData['name']=(createForm.badgeName);
+  //     formData['value']=(createForm.starsRequired);
+  //     // formData.append('name', createForm.badgeName);
+  //     // formData.append('value', createForm.starsRequired);
+  //     // createForm["image"] = selectedImage;
+  //     console.log(formData);
+  //     // Create new reward
+  //     await axios.post(
+  //       "http://localhost:8000/management/badge/create",
+  //       formData
+  //     ) .then(res => {
+  //          console.log(res);
+  //       })
+  //       .catch(err => {
+  //          console.log(err);
+  //       });
       // axios.post('http://localhost:8000/management/badge/create/', formData)
       // .then(res => {
       //    console.log(res);
@@ -73,17 +103,17 @@ export default function CreateReward() {
       //   .catch((error) => console.error(error));
 
 
-      navigate("/management/badges"); // Redirects after reward is created
-    } catch (error) {
-      const validationErrors = {};
-      if (error instanceof yup.ValidationError) {
-        error.inner.forEach((error) => {
-          validationErrors[error.path] = error.message;
-        });
-        setError(validationErrors);
-      }
-    }
-  };
+    //   navigate("/management/badges"); // Redirects after reward is created
+    // } catch (error) {
+    //   const validationErrors = {};
+    //   if (error instanceof yup.ValidationError) {
+    //     error.inner.forEach((error) => {
+    //       validationErrors[error.path] = error.message;
+    //     });
+    //     setError(validationErrors);
+    //   }
+    // }
+  // };
 
   
 
@@ -136,12 +166,12 @@ export default function CreateReward() {
                   accept=".png, .jpg, .jpeg"
                   onChange={handlePhotoUpload}
                 /> */}
-            <input 
-                type="file" 
-                accept=".png, .jpg, .jpeg"
-                name="image"
-                onChange={handlePhotoUpload}
-            />
+                <input 
+                    type="file" 
+                    accept=".png, .jpg, .jpeg"
+                    name="photo"
+                    onChange={handlePhoto}
+                />
               </div>
               <div className={classes.buttonContainer}>
                 <Button

@@ -29,16 +29,17 @@ const deleteBadge = async (req, res) => {
 
   // Create a badge
 const createBadge = async (req, res) => {
-  console.log(req.body.image);
+  console.log("body")
+  console.log(req.body);
   try {
     const badge = new Badge({
-      name: req.body.badgeName,
-      value: req.body.starsRequired,
+      name: req.body.name,
+      value: req.body.value,
     });
-    await badge.save();
+    // await badge.save();
     res.status(201).json(badge);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
