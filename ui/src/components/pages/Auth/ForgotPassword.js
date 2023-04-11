@@ -14,6 +14,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import { useStyles } from "../../styles/Auth/loginFormStyle";
+import { ToastContainer, toast } from "react-toastify";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+
 
 const theme = createTheme();
 
@@ -23,7 +27,9 @@ export default function ForgotPassword() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
-
+    // Add success state
+    const [success, setSuccess] = useState(false);
+    
     // Function to handle form submission and email validation
     const handleCheckEmail = async (event) => {
         event.preventDefault();
@@ -37,17 +43,21 @@ export default function ForgotPassword() {
         try {
             // Send a request to the server to send an OTP to the email
             const response = await request({
-                  
                 method: "get",
                 url: `/sendOTP/${email}`,
             });
             // If the request is successful, navigate to the verify-otp page
             if (response.status === 200) {
-                navigate("/verify-otp", {
-                    state: {
-                        modalEmail: email,
-                    },
-                });
+                setSuccess(
+                    "A code has been sent to your email. Please check your inbox."
+                );
+                setTimeout(() => {
+                    navigate("/verify-otp", {
+                        state: {
+                            modalEmail: email,
+                        },
+                    });
+                }, 3000);
             }
         } catch (error) {
             // Show an error message if the email address is not associated with an account
@@ -62,6 +72,7 @@ export default function ForgotPassword() {
     // Render the ForgotPassword component
     return (
         <ThemeProvider theme={theme}>
+            <ToastContainer />
             {/* App Bar */}
             <AppBar
                 position="static"
@@ -126,6 +137,10 @@ export default function ForgotPassword() {
                             {/* Display error message */}
                             {error && (
                                 <div style={{ color: "red" }}>{error}</div>
+                            )}
+                            {/* Display success message */}
+                            {success && (
+                                <div style={{ color: "green" }}>{success}</div>
                             )}
                         </Grid>
                     </Grid>

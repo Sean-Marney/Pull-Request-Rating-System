@@ -116,18 +116,11 @@ export default function PullRequestRating(props) {
                             component="legend"
                             style={{ marginTop: "1rem" }}
                         >
-                            Total Stars:{" "}
+                            Total Stars {" "}
                             {Object.values(pullRequestRating).reduce(
                                 (total, value) => total + value,
                                 0
                             )}
-                        </Typography>
-                        <Typography component="legend">
-                            Average Stars:{" "}
-                            {Object.values(pullRequestRating).reduce(
-                                (total, value) => total + value,
-                                0
-                            ) / tracker.length}
                         </Typography>
                     </div>
                 </>
@@ -150,8 +143,8 @@ export default function PullRequestRating(props) {
                 </Button>
             </div>
             {error && (
-                <span style={{ color: "red", marginLeft: "10px" }}>
-                    Please select stars to submit rating
+                <span style={{ color: "red",  display: "flex" ,alignContent: "center", justifyContent: "center"}}>
+                    Please give the required stars to submit a rating
                 </span>
             )}{" "}
             <div

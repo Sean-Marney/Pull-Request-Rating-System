@@ -30,7 +30,8 @@ const OTPVerification = () => {
     const [otp, setOtp] = useState("");
     // State to store any errors that may occur during OTP verification
     const [error, setError] = useState(null);
-
+    // Add success state
+    const [success, setSuccess] = useState(false);
 
     // Function to handle OTP input change
     const handleChange = (newValue) => {
@@ -67,12 +68,17 @@ const OTPVerification = () => {
             }
 
             // Log the successful verification and navigate to the reset password page
-            console.log("OTP verification successful");
-            navigate("/resetpassword", {
-                state: {
-                    email: state.modalEmail,
-                },
-            });
+            // console.log("OTP verification successful");
+            if (response.status === 200) {
+                setSuccess("OTP has been successfully verified");
+                setTimeout(() => {
+                    navigate("/resetpassword", {
+                        state: {
+                            email: state.modalEmail,
+                        },
+                    });
+                }, 3000);
+            }
         } catch (error) {
             // Log the error and set the error message in the component's state
             console.error(error);
@@ -154,6 +160,12 @@ const OTPVerification = () => {
                                 {/* Display errors if any */}
                                 {error && (
                                     <div style={{ color: "red" }}>{error}</div>
+                                )}
+                                {/* Display success message */}
+                                {success && (
+                                    <div style={{ color: "green" }}>
+                                        {success}
+                                    </div>
                                 )}
                             </Grid>
                         </Grid>

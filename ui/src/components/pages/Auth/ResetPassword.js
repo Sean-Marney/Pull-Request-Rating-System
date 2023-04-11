@@ -40,6 +40,8 @@ export default function ResetPassword() {
     const [showPassword, setShowPassword] = React.useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    // Add success state
+    const [success, setSuccess] = useState(false);
 
     // Define the function handleClickShowPassword to toggle the visibility of the password input
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -79,8 +81,16 @@ export default function ResetPassword() {
                 data: { password: password, confirmPassword: confirmPassword },
             });
 
-            // Navigate to the login page after a successful password update
-            navigate("/login");
+            // If the request is successful, navigate to the verify-otp page
+            if (response.status === 200) {
+                setSuccess(
+                    "Password reset has been successful"
+                );
+                setTimeout(() => {
+                    // Navigate to the login page after a successful password update
+                    navigate("/login");
+                }, 3000);
+            }
         } catch (error) {
             const validationErrors = {};
             if (error instanceof yup.ValidationError) {
@@ -245,6 +255,12 @@ export default function ResetPassword() {
                                 {error.confirmPassword && (
                                     <div style={{ color: "red" }}>
                                         {error.confirmPassword}
+                                    </div>
+                                )}
+                                {/* Display success message */}
+                                {success && (
+                                    <div style={{ color: "green" }}>
+                                        {success}
                                     </div>
                                 )}
                             </Grid>
