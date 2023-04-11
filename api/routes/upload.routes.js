@@ -39,6 +39,7 @@ router.post("/all", upload.single('photo'), async (req, res) => {
         }
     });
     await badge.save();
+    fs.unlinkSync(path.join(npath + '/images/' + req.file.filename));
     res.status(201).json(badge);
 });
 
