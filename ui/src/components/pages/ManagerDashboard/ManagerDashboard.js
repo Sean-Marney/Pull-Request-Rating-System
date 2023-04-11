@@ -117,14 +117,16 @@ export default function ManagerDashboard() {
     useState(null); // Number of pull requests that have not been reviewed
   const [numberOfClaimedRewards, setNumberOfClaimedRewards] = useState(null); // Number of claimed rewards that are not archived
   const [claimedRewards, setClaimedRewards] = useState(null); // List of claimed rewards that are not archived
-  const [topDevelopers, setTopDevelopers] = useState([]);
-  const [topDeveloper, setTopDeveloper] = useState(null);
+  const [topDevelopers, setTopDevelopers] = useState([]); // List of the top 3 developers with the highest total stars earned
+  const [topDeveloper, setTopDeveloper] = useState(null); // The top developer with the highest total stars earned
+  const [allDevelopers, setAllDevelopers] = useState([]); // List of all developers, sorted by highest total stars earned
 
   useEffect(() => {
     getNumberOfPendingPullRequests();
     getNumberOfClaimedRewards();
     getClaimedRewards();
     getTopDevelopers();
+    getAllDevelopers();
   });
 
   // Calls controller method to get the number of pending pull requests
@@ -188,14 +190,36 @@ export default function ManagerDashboard() {
     }
   };
 
+  // Calls controller method to get all developers, sorted by highest total stars earned
+  const getAllDevelopers = async () => {
+    try {
+      // Get all developers
+      const res = await axios.get(
+        "http://localhost:8000/management/dashboard/get-all-developers"
+      );
+
+      // Set to state
+      setAllDevelopers(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Rendering chart that shows the total stars earned for each developer
   const renderGraph = () => {
-    // Rendering chart that shows the total stars earned for each developer
+    // Extract data from list of developers to display on bar chart
+    const developerNames = allDevelopers.map((developer) => developer.name);
+    const developerStars = allDevelopers.map(
+      (developer) => developer.totalStarsEarned
+    );
+
+    // Setting chart data
     const chartData = {
-      labels: "top developers",
+      labels: developerNames,
       datasets: [
         {
           label: "Developer's total stars earned",
-          data: topDevelopers,
+          data: developerStars,
           backgroundColor: ["#5b9bd5 ", "#FF8A80 "],
           borderColor: "#fff",
           borderWidth: 1,
@@ -203,14 +227,14 @@ export default function ManagerDashboard() {
       ],
     };
 
+    // Setting chart options
     const chartOptions = {
-      indexAxis: "y",
+      indexAxis: "x",
       scales: {
         x: {
-          beginAtZero: true,
           title: {
             display: true,
-            text: "Top Developers",
+            text: "Developers",
             font: {
               size: 25,
               weight: "bold",
@@ -218,6 +242,7 @@ export default function ManagerDashboard() {
           },
         },
         y: {
+          beginAtZero: true,
           title: {
             display: true,
             text: "Total Stars Earned",
