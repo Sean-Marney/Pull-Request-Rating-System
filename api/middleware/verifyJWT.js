@@ -2,9 +2,17 @@ const jwt = require("jsonwebtoken");
 
 // function checks if a JSON Web Token (JWT) exists in the "x-access-token" header of an HTTP request
 function verifyJWTToken(req, res, next) {
+    // new defining the auth header
+    const authHeader = req.headers.authorization || req.headers.Authorization
+
+    if (!authHeader?.startsWith('Bearer')){
+        return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    const token =authHeader.split(' ')[1]
 
     // // Get the JWT from the "x-access-token" header of the request
-    const token = req.headers["x-access-token"];
+    // const token = req.headers["x-access-token"];
 
     // If no token is provided, return an error response
     if (!token) {

@@ -7,12 +7,16 @@ const {
 } = require("../controllers/newQuestions.controller");
 
 const router = express.Router();
+const permit = require('../middleware/permissions')
+
+const verifyJWTToken = require('../middleware/verifyJWT')
+router.use(verifyJWTToken)
 
 // CRUD routes for /manage/questions
-router.get("/", getQuestions);
-router.get("/:id", getQuestionById);
-router.post("/create", createQuestions);
-router.delete("/delete/:id", deleteQuestions);
+router.get("/", permit('Manager Developer'), getQuestions);
+router.get("/:id", permit('Manager Developer'), getQuestionById);
+router.post("/create", permit('Developer'), createQuestions);
+router.delete("/delete/:id", permit('Manager'), deleteQuestions);
 
 
 

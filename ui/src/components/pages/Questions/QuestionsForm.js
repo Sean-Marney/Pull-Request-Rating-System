@@ -12,8 +12,10 @@ import {
 import * as yup from "yup";
 import validateCreateQuestionForm from "../../../validations/createQuestionForm";
 import { useStyles } from "../../styles/formStyle";
+// import { useCookies } from "react-cookie";
 
 export default function AddQuestion() {
+    // const [cookies] = useCookies
     const classes = useStyles();
     const [createForm, setCreateForm] = useState({
         question: "",
@@ -43,6 +45,11 @@ export default function AddQuestion() {
         await axios.post(
         process.env.REACT_APP_API_ENDPOINT+"/management/questions/create",
         createForm
+        // , {
+        //     headers: {
+        //         Authorization: `${cookies.token}` ,
+        //     }
+        // }
         );
 
         navigate("/faq"); // Redirects after reward is created
