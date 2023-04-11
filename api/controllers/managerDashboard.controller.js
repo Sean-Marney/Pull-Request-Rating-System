@@ -54,9 +54,23 @@ const getTopDevelopers = async (req, res) => {
   }
 };
 
+// Gets all developers from the database, sorted by totalStarsEarned
+const getAllDevelopers = async (req, res) => {
+  try {
+    const allDevelopers = await User.find({ hasRole: "Developer" }).sort({
+      totalStarsEarned: -1,
+    });
+
+    res.status(200).json(allDevelopers);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getNumberOfPendingPullRequests,
   getNumberOfClaimedRewards,
   getClaimedRewards,
   getTopDevelopers,
+  getAllDevelopers,
 };
