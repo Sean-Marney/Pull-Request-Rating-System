@@ -15,7 +15,6 @@ import { Modal } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import Grid from '@mui/material/Grid';
-import { Badges } from "./Badges";
 
 const style = {
   position: "absolute",

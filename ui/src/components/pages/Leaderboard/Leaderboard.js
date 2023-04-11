@@ -26,8 +26,9 @@ function Leaderboard() {
   }, []);
 
   const getLevels = async () => {
-    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/level/all`);
-    levels.data.push({ level: 0, name: "No Badge", value: 0 });
+    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
+    levels.data.unshift({name: "No Badge", value: 0 });
+    console.log(levels.data);
     setLevelList(levels.data);
   };
 
@@ -52,7 +53,7 @@ function Leaderboard() {
                   {user.name}
                 </TableCell>
                 <TableCell>{user.totalStarsEarned}</TableCell>
-                <TableCell>{levelList.find(item => item.level === user.level).name}</TableCell>
+                <TableCell>{levelList.filter(item => item.value <= user.totalStarsEarned)[levelList.length -1].name}</TableCell>
               </TableRow>
             ))}
           </TableBody>

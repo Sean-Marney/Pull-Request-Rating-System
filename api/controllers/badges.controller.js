@@ -1,4 +1,6 @@
 const Badge = require("../models/badges.model");
+
+
 const getAll = async (req, res) => {
     try {
         const user = await Badge.find().sort({ value: 1 });
@@ -25,10 +27,9 @@ const deleteBadge = async (req, res) => {
     }
   };
 
-  // Create a reward
+  // Create a badge
 const createBadge = async (req, res) => {
-  // console.log("Create this badge")
-  // console.log(req.body);
+  console.log(req.body.image);
   try {
     const badge = new Badge({
       name: req.body.badgeName,

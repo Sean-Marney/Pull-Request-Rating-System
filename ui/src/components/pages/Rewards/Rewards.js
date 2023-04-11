@@ -71,7 +71,6 @@ export default function BasicTabs() {
   const [rewards, setRewards] = useState(null);
   const [stars, setStars] = useState(null);
   const [remainingStarsForReward, setRemainingStarsForReward] = useState({});
-  const [level, setLevel] = useState(null);
   const [totalStarsEarned, setTotalStarsEarned] = useState(null);
   const [levelList, setLevelList] = useState(null);
 
@@ -84,7 +83,7 @@ export default function BasicTabs() {
   }, []);
 
   const getLevels = async () => {
-    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/level/all`);
+    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
     setLevelList(levels.data);
   };
 
@@ -116,7 +115,6 @@ export default function BasicTabs() {
     );
 
     setTotalStarsEarned(res.data.totalStarsEarned);
-    setLevel(res.data.level);
     
     // Set the star count
     setStars(res.data.stars);
@@ -251,7 +249,7 @@ export default function BasicTabs() {
             </div>
       </TabPanel>
       <TabPanel value={value} index={1} component="div">
-          <Badges style={useStyles()} levelList={levelList} level={level} current={totalStarsEarned} />
+          <Badges style={useStyles()} levelList={levelList} current={totalStarsEarned} />
       </TabPanel>
     </Box>
   );

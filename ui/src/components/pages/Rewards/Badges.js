@@ -7,11 +7,15 @@ import {
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 
 export class Badges extends React.Component {
 
     render() {
-      console.log(this.props);
+      let earned_badges = this.props.levelList.filter(item => item.value <= this.props.current);
+      let too_earn_badges = this.props.levelList.filter(item => item.value > this.props.current);
+
+
       const LightTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
       ))(({ theme }) => ({
@@ -22,30 +26,33 @@ export class Badges extends React.Component {
           fontSize: 11,
         },
       }));
-      let users_badge;
-        if (this.props.level === 0){
-          users_badge = "You have not earned any badges yet";
-        } else{
-          users_badge = "Your current level is " + this.props.levelList.find(item => item.level === this.props.level).name;
+      let list = [];
+      let index = 0;
+      let users_badge ;
+      if (earned_badges.length === 0){
+        users_badge = "You have not earned any badges yet";
+      }else{
+        users_badge = "Your badge is " + (earned_badges[earned_badges.length - 1].name);
+        while (index < earned_badges.length){
+          let level = earned_badges[index];
+          let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value} Stars</em></React.Fragment>
+          // list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><img src={require(`../../../images/${level.name}.PNG`)} alt="badge" width="125" height="125" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
+          list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><LocalPoliceIcon /></LightTooltip></Grid>);
+          index = index + 1;
         }
-        // let users_badge = this.props.levelList.find(item => item.level == this.props.level).name;
-        let users_level = this.props.level;
-        let value = 1;  
-        let list = [];
-        if (users_level  > 0){
-          while (users_level >= value && value <= 20){
-            let level = this.props.levelList.find(item => item.level === value)
-            let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value} Stars</em></React.Fragment>
-            list.push(<Grid item xs={2}  key={value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
-            value = value + 1;
-          }
-        }
-        while (value <= 20){
-          let level = this.props.levelList.find(item => item.level === value)
+      index = 0;
+      }
+
+
+
+
+
+      while (index < too_earn_badges.length){
+          let level = too_earn_badges[index];
           let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value - this.props.current} Stars Away</em></React.Fragment>
-          list.push(<Grid item xs={2} key={value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title} wrapper="span"><img src={require(`../../../images/${value}.PNG`)} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
-          value = value + 1;
-        }
+          list.push(<Grid item xs={2} key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title} wrapper="span"><img src={require(`../../../images/${level.name}.PNG`)} alt="badge" width="125" height="125" style={{filter:"grayscale(100%)", "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
+          index = index + 1;
+      }
         const classes = this.props.style;
 
         return (
