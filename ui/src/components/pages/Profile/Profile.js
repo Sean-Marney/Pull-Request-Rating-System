@@ -238,43 +238,6 @@ export default function ProfilePage() {
             </div>
           </div>
         </Modal>
-
-        {/* <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box className={classes.modal}>
-            <h4
-              onClick={handleClose}
-              style={{
-                color: "black",
-                Align: "right",
-                position: "absolute",
-                top: 1,
-                right: 1,
-                alignItems: "center",
-              }}
-            >
-              <CloseIcon />
-            </h4>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              <h4>Delete Account</h4>
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Are you sure you want to delete this account ?
-            </Typography>
-            <br></br>
-            <Button
-              onClick={() => deleteUserByEmail(user.email)}
-              startIcon={<DeleteIcon />}
-              style={{ color: "red" }}
-            >
-              Delete Account
-            </Button>
-          </Box>
-        </Modal> */}
       </Paper>
     </div>
   );
