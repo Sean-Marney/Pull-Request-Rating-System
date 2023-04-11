@@ -10,6 +10,15 @@ const getAll = async (req, res) => {
     }
 };
 
+const getAllNames = async (req, res) => {
+  try {
+      const user = await Badge.find({img:0}).sort({ value: 1 } );
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+};
+
 
 // Delete a reward
 const deleteBadge = async (req, res) => {
@@ -29,8 +38,6 @@ const deleteBadge = async (req, res) => {
 
   // Create a badge
 const createBadge = async (req, res) => {
-  console.log("body")
-  console.log(req.body);
   try {
     const badge = new Badge({
       name: req.body.name,
@@ -81,5 +88,5 @@ const updateBadge = async (req, res) => {
 
 
 module.exports = {
-    getAll, deleteBadge, createBadge,getBadgesById, updateBadge
+    getAll, deleteBadge, createBadge,getBadgesById, updateBadge,getAllNames
 };

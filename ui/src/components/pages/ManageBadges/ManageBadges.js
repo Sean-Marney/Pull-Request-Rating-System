@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ClaimIcon from "@material-ui/icons/Redeem";
-import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import {
   Table,
   TableBody,
@@ -96,7 +94,6 @@ export default function ManageRewards() {
                     <TableRow key={badge._id}>
                       <TableCell className={classes.tableContent}>
                         <img src={badge.photo} alt="badge" width="75" height="75" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/>
-                        {/* <LocalPoliceIcon /> */}
                       </TableCell>
                       <TableCell className={classes.tableContent}>
                         {badge.name}

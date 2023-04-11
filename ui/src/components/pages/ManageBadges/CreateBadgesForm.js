@@ -23,6 +23,7 @@ export default function CreateReward() {
     // image: [],
   });
   const [photo, setPhoto] = useState(null);
+  const [validFile, setValid] = useState(true);
 
 
   const [error, setError] = useState({});
@@ -41,11 +42,23 @@ export default function CreateReward() {
 
   const handlePhoto = (e) => {
     setPhoto(e.target.files[0]);
+    if ((e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpeg") && e.target.files[0].size < 1000000) {
+      setValid(true);
+    }else{
+      setValid(false);
+    }
   }
 
 
-  const createBadge = (e) => {
+  const createBadge = async (e) => {
     e.preventDefault();
+    if (validFile) {
+
+
+    try {
+      await validateCreateBadgeForm.validate(createForm, {
+        abortEarly: false,
+      });
     const formData = new FormData();
     formData.append('photo', photo);
     formData.append('name', createForm.badgeName);
@@ -59,64 +72,18 @@ export default function CreateReward() {
             navigate("/management/badges"); // Redirects after reward is created
          });
 
+      } catch (error) {
+          const validationErrors = {};
+      if (error instanceof yup.ValidationError) {
+        error.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+        });
+        setError(validationErrors);
+      }
+    }
   }
 
-
-  // const createBadge = async (e) => {
-  //   e.preventDefault(); // Prevents refresh after submit
-  //   try {
-  //     await validateCreateBadgeForm.validate(createForm, {
-  //       abortEarly: false,
-  //     });
-  //     const formData = new FormData();
-  //     formData['image']=(selectedImage);
-  //     formData['name']=(createForm.badgeName);
-  //     formData['value']=(createForm.starsRequired);
-  //     // formData.append('name', createForm.badgeName);
-  //     // formData.append('value', createForm.starsRequired);
-  //     // createForm["image"] = selectedImage;
-  //     console.log(formData);
-  //     // Create new reward
-  //     await axios.post(
-  //       "http://localhost:8000/management/badge/create",
-  //       formData
-  //     ) .then(res => {
-  //          console.log(res);
-  //       })
-  //       .catch(err => {
-  //          console.log(err);
-  //       });
-      // axios.post('http://localhost:8000/management/badge/create/', formData)
-      // .then(res => {
-      //    console.log(res);
-      // })
-      // .catch(err => {
-      //    console.log(err);
-      // });
-      // console.log(formData)
-      // fetch("http://localhost:8000/management/badge/create/", {
-      //   method: "POST",
-      //   formData
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => console.log(data))
-      //   .catch((error) => console.error(error));
-
-
-    //   navigate("/management/badges"); // Redirects after reward is created
-    // } catch (error) {
-    //   const validationErrors = {};
-    //   if (error instanceof yup.ValidationError) {
-    //     error.inner.forEach((error) => {
-    //       validationErrors[error.path] = error.message;
-    //     });
-    //     setError(validationErrors);
-    //   }
-    // }
-  // };
-
-  
-
+  }
   return (
     <div>
       <div>
@@ -159,19 +126,21 @@ export default function CreateReward() {
                 )}
               </div>
               <div>
-                <InputLabel htmlFor="starsRequired">Stars Required</InputLabel>
-                {/* <input
-                  type="file"
-                  name="myImage"
-                  accept=".png, .jpg, .jpeg"
-                  onChange={handlePhotoUpload}
-                /> */}
+                <InputLabel htmlFor="photo">Image</InputLabel>
                 <input 
                     type="file" 
                     accept=".png, .jpg, .jpeg"
                     name="photo"
                     onChange={handlePhoto}
+                    inputProps={{
+                      style: { textAlign: "center" },
+                    }}
+                    className={classes.input}
+                    required
                 />
+                  {!validFile && (
+                  <div className={classes.error}>Invalid File Type or Too Large</div>
+                )}
               </div>
               <div className={classes.buttonContainer}>
                 <Button
