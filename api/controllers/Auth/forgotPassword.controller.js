@@ -1,15 +1,13 @@
 const User = require("../../models/user.model");
 const Otp = require("../../models/otp.model");
 const nodemailer = require("nodemailer");
-const validator = require("validator"); 
+const validator = require("validator");
 const {
     oAuth2Client,
     CLIENT_ID,
     CLIENT_SECRET,
-    REFRESH_TOKEN
+    REFRESH_TOKEN,
 } = require("../../controllers/Auth/authentication.controller");
-
-
 
 // Generate a random 6-digit OTP code
 const generateOTP = () => {

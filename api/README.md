@@ -92,3 +92,9 @@ In the `/api` directory, you can run:
 ##### (or `npm i`)
 
 - Installs the required dependencies for development.
+
+
+## Deployment
+
+- The API is deployed on an EC2 instance. The code is passed to an S3 bucket which then syncs to the EC2 instance. In the pipeline, we ssh into the machine and then reload the server.
+- The api route is http://13.48.23.250:8000/

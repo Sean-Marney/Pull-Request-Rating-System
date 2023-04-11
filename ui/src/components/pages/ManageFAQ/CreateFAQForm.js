@@ -44,7 +44,7 @@ export default function CreateFAQ() {
       });
       // Create new faq
       await axios.post(
-        "http://localhost:8000/management/manageFaqs/create",
+        process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs/create",
         createForm
       );
 

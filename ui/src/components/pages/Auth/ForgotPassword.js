@@ -19,10 +19,9 @@ const theme = createTheme();
 
 export default function ForgotPassword() {
     const classes = useStyles();
-
+    const { request } = useAxiosInstance();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
-    const { request } = useAxiosInstance();
     const [error, setError] = useState("");
 
     // Function to handle form submission and email validation
@@ -38,6 +37,7 @@ export default function ForgotPassword() {
         try {
             // Send a request to the server to send an OTP to the email
             const response = await request({
+                  
                 method: "get",
                 url: `/sendOTP/${email}`,
             });
@@ -86,6 +86,9 @@ export default function ForgotPassword() {
                 <CssBaseline />
                 {/* Form container for forgot password*/}
                 <Box
+                    component="form"
+                    onSubmit={handleCheckEmail}
+                    noValidate
                     sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -130,7 +133,6 @@ export default function ForgotPassword() {
                     <Button
                         type="submit"
                         fullWidth
-                        onClick={handleCheckEmail}
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
@@ -140,7 +142,7 @@ export default function ForgotPassword() {
                         <Grid item xs>
                             {/* Navigation buttons */}
                             <Button
-                                type="submit"
+                                type="button"
                                 onClick={() => navigate("/login")}
                                 sx={{ textTransform: "none" }}
                             >

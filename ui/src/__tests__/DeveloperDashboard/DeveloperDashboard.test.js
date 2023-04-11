@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import DeveloperDashboard from "../../components/pages/DeveloperDashboard/DeveloperDashboard";
 import "@testing-library/jest-dom";
 
@@ -34,5 +34,13 @@ describe("Testing developer dashboard component", () => {
     expect(screen.getByText("Current Star Count")).toBeInTheDocument();
     expect(screen.getByText("Total Stars Achieved")).toBeInTheDocument();
     expect(screen.getByText("Latest Pull Request")).toBeInTheDocument();
+  });
+
+  it("should display a progress bar", async () => {
+    render(<DeveloperDashboard />);
+    await waitFor(() => {
+      const progressBar = screen.getByRole("progressbar");
+      expect(progressBar).toBeInTheDocument();
+    });
   });
 });
