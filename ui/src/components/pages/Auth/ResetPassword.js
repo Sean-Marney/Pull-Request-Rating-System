@@ -41,10 +41,12 @@ export default function ResetPassword() {
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
     const [openDialog, setOpenDialog] = useState(false);
 
+    // Define the function handleClickShowPassword to toggle the visibility of the password input
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickShowConfirmPassword = () =>
         setShowConfirmPassword((show) => !show);
 
+    // Functions to handle open and close of the password rules dialog
     const handleClickOpenDialog = () => {
         setOpenDialog(true);
     };
@@ -53,6 +55,7 @@ export default function ResetPassword() {
         setOpenDialog(false);
     };
 
+    // Function to handle updating the user's password
     const updateUser = async (e) => {
         e.preventDefault();
 
@@ -60,20 +63,23 @@ export default function ResetPassword() {
             if (!state.email) {
                 throw new Error("Email is undefined");
             }
-            
+
+            // Validate the password and confirmPassword using updatePasswordForm schema
             await updatePasswordForm.validate(
                 { password: password, confirmPassword: confirmPassword },
                 {
                     abortEarly: false,
                 }
-            )
+            );
 
+            // Send the update password request to the server
             const response = await request({
                 method: "patch",
                 url: `/management/users/updatePassword/email/${state.email}`,
                 data: { password: password, confirmPassword: confirmPassword },
             });
 
+            // Navigate to the login page after a successful password update
             navigate("/login");
         } catch (error) {
             const validationErrors = {};
@@ -88,8 +94,10 @@ export default function ResetPassword() {
         }
     };
 
+    // Render the Reset Password component
     return (
         <ThemeProvider theme={theme}>
+            {/* App Bar */}
             <AppBar
                 position="static"
                 className={classes.appBar}
@@ -108,8 +116,10 @@ export default function ResetPassword() {
                     </Typography>
                 </Toolbar>
             </AppBar>
+            {/* Main container */}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+                {/* Form container for change password */}
                 <Box
                     sx={{
                         display: "flex",
@@ -122,12 +132,15 @@ export default function ResetPassword() {
                         boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                     }}
                 >
+                    {/* Form title */}
                     <Typography component="h1" variant="h5">
                         Choose a new password
                     </Typography>
+                    {/* Form description */}
                     <Typography variant="body2" display="block" gutterBottom>
                         Create a new password that is at least 8 characters long
                     </Typography>
+                    {/* Password rules link */}
                     <Grid container>
                         <Grid item xs>
                             <Link
@@ -141,8 +154,10 @@ export default function ResetPassword() {
                         </Grid>
                         <Grid item></Grid>
                     </Grid>
+                    {/* Form */}
                     <Box component="form" sx={{ mt: 1 }}>
                         <Grid container spacing={2}>
+                            {/* Password input */}
                             <Grid item xs={12}>
                                 <InputLabel htmlFor="password">
                                     Password
@@ -186,6 +201,7 @@ export default function ResetPassword() {
                                     </div>
                                 )}
                             </Grid>
+                            {/* Confirm Password input */}
                             <Grid item xs={12}>
                                 <InputLabel htmlFor="confirmpassword">
                                     Confirm Password
@@ -233,6 +249,7 @@ export default function ResetPassword() {
                                 )}
                             </Grid>
                         </Grid>
+                        {/* Update Password Button */}
                         <Button
                             fullWidth
                             variant="contained"
@@ -241,9 +258,10 @@ export default function ResetPassword() {
                         >
                             Update Password
                         </Button>
-
+                        {/* Grid container for layout */}
                         <Grid container>
                             <Grid item xs>
+                                {/* Cancel Button */}
                                 <Button
                                     onClick={() => navigate("/login")}
                                     sx={{ textTransform: "none" }}
@@ -256,17 +274,20 @@ export default function ResetPassword() {
                     </Box>
                 </Box>
             </Container>
+            {/* Dialog component for displaying password requirements */}
             <Dialog
                 open={openDialog}
                 onClose={handleCloseDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
+                {/* Dialog title */}
                 <DialogTitle
                     id="alert-dialog-title"
                     sx={{ fontWeight: "bold", paddingRight: "40px" }}
                 >
                     What makes a strong password?
+                    {/* Close button for the dialog */}
                     <IconButton
                         edge="end"
                         color="inherit"
@@ -282,9 +303,11 @@ export default function ResetPassword() {
                         <CloseIcon />
                     </IconButton>
                 </DialogTitle>
-
+                {/* Dialog content */}
                 <DialogContent>
+                    {/* Dialog content text */}
                     <DialogContentText id="alert-dialog-description">
+                        {/* Password requirements list */}
                         <ul>
                             <li>Min least 8 characters long</li>
                             <li>Upper case characters (A-Z)</li>

@@ -16,19 +16,28 @@ import { ToastContainer, toast } from "react-toastify";
 
 const theme = createTheme();
 
+// OTPVerification is a functional React component responsible for OTP (One-Time Password) verification
 const OTPVerification = () => {
+    // Apply custom styles from useStyles
     const classes = useStyles();
+    // Hooks for navigating programmatically with react-router
     const navigate = useNavigate();
+    // Custom axios instance for making API requests
     const { request } = useAxiosInstance();
+    // Accessing the state passed from the previous route
     const { state } = useLocation();
+    // State to store the user's input OTP
     const [otp, setOtp] = useState("");
+    // State to store any errors that may occur during OTP verification
     const [error, setError] = useState(null);
 
 
+    // Function to handle OTP input change
     const handleChange = (newValue) => {
         setOtp(newValue);
     };
 
+    // Function to handle OTP verification
     const handleVerify = async (event) => {
         event.preventDefault();
         setError(null);
@@ -40,17 +49,24 @@ const OTPVerification = () => {
         }
 
         try {
+            // Check if the email is provided in the component's state
             if (!state.modalEmail) {
                 throw new Error("Email is undefined");
             }
+
+            // Make an API request to verify the OTP
             const response = await request({
                 method: "post",
                 url: `/forgotpassword/verify-otp/${state.modalEmail}/${otp}`,
                 data: { email: state.modalEmail, otp: otp },
             });
+
+            // Check if the verification was successful
             if (!response.status == 200) {
                 throw new Error("Verification failed");
             }
+
+            // Log the successful verification and navigate to the reset password page
             console.log("OTP verification successful");
             navigate("/resetpassword", {
                 state: {
@@ -58,27 +74,31 @@ const OTPVerification = () => {
                 },
             });
         } catch (error) {
+            // Log the error and set the error message in the component's state
             console.error(error);
             setError(error.response.data.message);
         }
     };
 
+    // Function to handle navigating back to the previous page
     const handleBack = () => {
         navigate("/");
     };
 
-    const handleResendOTP = async (e ) => {
-        e.preventDefault(); // Prevent the form from submitting and the page from reloading
+    // Function to handle resending the OTP
+    const handleResendOTP = async (e) => {
+        e.preventDefault();
         const response = await request({
             method: "get",
             url: `/sendOTP/${state.modalEmail}`,
         });
 
         if (response.status === 200) {
-               toast.success("We've sent you another code");
+            toast.success("We've sent you another code");
         }
     };
 
+    // Render the VerifyOtp component
     return (
         <ThemeProvider theme={theme}>
             <ToastContainer />
@@ -100,6 +120,7 @@ const OTPVerification = () => {
                     </Typography>
                 </Toolbar>
             </AppBar>
+            {/* Main container for the OTP verification form */}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -121,6 +142,7 @@ const OTPVerification = () => {
                         Please enter the 6-digit verification code send to{" "}
                         {state.modalEmail}
                     </Typography>
+                    {/* Form container for OTP */}
                     <Box component="form" sx={{ mt: 1 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
@@ -129,11 +151,13 @@ const OTPVerification = () => {
                                     onChange={handleChange}
                                     length={6}
                                 />
+                                {/* Display errors if any */}
                                 {error && (
                                     <div style={{ color: "red" }}>{error}</div>
                                 )}
                             </Grid>
                         </Grid>
+                        {/* Resend OTP button */}
                         <Button
                             type="submit"
                             onClick={(e) => handleResendOTP(e)}
@@ -141,6 +165,7 @@ const OTPVerification = () => {
                         >
                             Resend Code
                         </Button>
+                        {/* Verify button */}
                         <Button
                             type="submit"
                             fullWidth
@@ -150,8 +175,10 @@ const OTPVerification = () => {
                         >
                             Verify
                         </Button>
+                        {/* Grid container for the Cancel button */}
                         <Grid container>
                             <Grid item xs>
+                                {/* Cancel button */}
                                 <Button
                                     type="submit"
                                     onClick={handleBack}

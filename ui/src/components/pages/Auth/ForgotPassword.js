@@ -25,6 +25,7 @@ export default function ForgotPassword() {
     const { request } = useAxiosInstance();
     const [error, setError] = useState("");
 
+    // Function to handle form submission and email validation
     const handleCheckEmail = async (event) => {
         event.preventDefault();
 
@@ -35,10 +36,12 @@ export default function ForgotPassword() {
         }
 
         try {
+            // Send a request to the server to send an OTP to the email
             const response = await request({
                 method: "get",
                 url: `/sendOTP/${email}`,
             });
+            // If the request is successful, navigate to the verify-otp page
             if (response.status === 200) {
                 navigate("/verify-otp", {
                     state: {
@@ -47,6 +50,7 @@ export default function ForgotPassword() {
                 });
             }
         } catch (error) {
+            // Show an error message if the email address is not associated with an account
             if (error.response && error.response.data.message) {
                 setError(
                     "We couldn't find an account associated with the email address you entered. Please try with an alternate email"
@@ -55,8 +59,10 @@ export default function ForgotPassword() {
         }
     };
 
+    // Render the ForgotPassword component
     return (
         <ThemeProvider theme={theme}>
+            {/* App Bar */}
             <AppBar
                 position="static"
                 className={classes.appBar}
@@ -75,8 +81,10 @@ export default function ForgotPassword() {
                     </Typography>
                 </Toolbar>
             </AppBar>
+            {/* Main container */}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+                {/* Form container for forgot password*/}
                 <Box
                     sx={{
                         display: "flex",
@@ -89,11 +97,13 @@ export default function ForgotPassword() {
                         boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                     }}
                 >
+                    {/* Form title */}
                     <Typography component="h1" variant="h5">
                         Forgot Password
                     </Typography>
+                    {/* Form description */}
                     <Typography variant="body2" display="block" gutterBottom>
-                        Please enter your email to recieve the code 
+                        Please enter your email to recieve the code
                     </Typography>
                     <Grid container spacing={2} justifyContent="center">
                         <Grid item xs={12}>
@@ -110,11 +120,13 @@ export default function ForgotPassword() {
                                 autoFocus
                                 variant="outlined"
                             />
+                            {/* Display error message */}
                             {error && (
                                 <div style={{ color: "red" }}>{error}</div>
                             )}
                         </Grid>
                     </Grid>
+                    {/* Send Email button */}
                     <Button
                         type="submit"
                         fullWidth
@@ -126,6 +138,7 @@ export default function ForgotPassword() {
                     </Button>
                     <Grid container>
                         <Grid item xs>
+                            {/* Navigation buttons */}
                             <Button
                                 type="submit"
                                 onClick={() => navigate("/login")}
