@@ -18,7 +18,7 @@ describe("Testing Add Question component", () => {
     );
 
     // find the question input field and set it to empty
-    const questionInput = screen.getByLabelText("how can we be of help?");
+    const questionInput = screen.getByLabelText("Please Enter a Question");
     fireEvent.change(questionInput, { target: { value: "" } });
 
     // find the submit button and click it
