@@ -1,5 +1,6 @@
 import "./App.css";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import ManagerRoutes from "./routes/ManagerRoutes";
 import PullRequestRating from "./components/pages/Repositories/PullRequestRating";
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import Sidebar from "./components/reusable/SidebarData";
@@ -51,15 +52,19 @@ const App = () => {
                         
             <Route
               path="/management/repositories/rating"
-              element={<PullRequestRating />}
+              element={ 
+                <ManagerRoutes token={cookies.token} role={cookies.role}>
+                  {" "}
+                  <PullRequestRating />
+                </ManagerRoutes>}
             />
             <Route 
               path="/management/Leaderboard" 
               element={
-                <ProtectedRoute token={cookies.token} role={cookies.role}>
+                <ManagerRoutes token={cookies.token} role={cookies.role}>
                   {" "}
                 <Leaderboard />
-                </ProtectedRoute>
+                </ManagerRoutes>
               } 
               />
             <Route

@@ -9,6 +9,7 @@ const useAxiosInstance = () => {
             "x-access-token": cookies.token ? cookies.token.split(" ")[1] : null,
         },
         baseURL: process.env.REACT_APP_API_ENDPOINT,
+        withCredentials: true,
     });
 
     return { request: requestInstance };
