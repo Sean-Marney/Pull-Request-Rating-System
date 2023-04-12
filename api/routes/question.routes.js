@@ -9,14 +9,14 @@ const {
 const router = express.Router();
 const permit = require('../middleware/permissions')
 
-const verifyJWTToken = require('../middleware/verifyJWT')
+const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
 router.use(verifyJWTToken)
 
 // CRUD routes for /manage/questions
-router.get("/", permit('Manager Developer'), getQuestions);
-router.get("/:id", permit('Manager Developer'), getQuestionById);
-router.post("/create", permit('Developer'), createQuestions);
-router.delete("/delete/:id", permit('Manager'), deleteQuestions);
+router.get("/", verifyManger, getQuestions);
+router.get("/:id", verifyManger, getQuestionById);
+router.post("/create", createQuestions);
+router.delete("/delete/:id", verifyManger, deleteQuestions);
 
 
 
