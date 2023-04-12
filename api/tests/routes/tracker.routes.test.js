@@ -1,140 +1,104 @@
-// const chai = require("chai");
-// const request = require("supertest");
-// const app = require("../../index");
-// const Tracker = require("../../models/tracker.model");
+const chai = require("chai");
+const request = require("supertest");
+const app = require("../../index");
+const sinon = require("sinon");
+const Tracker = require("../../models/tracker.model");
 
-// describe("GET /management/trackers", () => {
-//   it("should return all trackers and status code 200", (done) => {
-//     request(app)
-//       .get("/management/trackers")
-//       .end((err, res) => {
-//         chai.expect(res.statusCode).to.equal(200);
-//         chai.expect(res.body).to.be.an("array");
-//         done();
-//       });
-//   }).timeout(1000000);
-// });
+const mockTracker = {
+    _id: "60720497f99eeb23c42ec6a7",
+    name: "Performance"
+};
 
-// describe("GET /management/trackers/:id", () => {
-//   let tracker;
+describe("GET /management/trackers", () => {
+    it("should return all trackers and status code 200", (done) => {
+        const trackerFindStub = sinon.stub(Tracker, "find").resolves([mockTracker]);
 
-//   beforeEach((done) => {
-//     tracker = new Tracker({
-//       name: "Design Patterns",
-//     });
+        request(app)
+            .get("/management/trackers")
+            .end((err, res) => {
+                chai.expect(res.statusCode).to.equal(200);
+                chai.expect(res.body).to.be.an("array");
+                chai.expect(res.body[0].name).to.equal(mockTracker.name);
+                trackerFindStub.restore();
+                done();
+            });
+    }); 
+});
 
-//     tracker.save((err) => {
-//       if (err) return done(err);
-//       done();
-//     });
-//   });
+describe("GET /management/trackers/:id", () => {
+    it("should return a tracker and status code 200", (done) => {
+        const trackerFindStub = sinon.stub(Tracker, "findById").resolves(mockTracker);
 
-//   afterEach((done) => {
-//     Tracker.deleteMany({}, (err) => {
-//       if (err) return done(err);
-//       done();
-//     });
-//   });
+        request(app)
+            .get(`/management/trackers/${mockTracker._id}`)
+            .end((err, res) => {
+                chai.expect(res.statusCode).to.equal(200);
+                chai.expect(res.body).to.be.an("object");
+                chai.expect(res.body.name).to.equal(mockTracker.name);
+                trackerFindStub.restore();
+                done();
+            });
+    });
+});
 
-//   it("should return a tracker and status code 200", (done) => {
-//     request(app)
-//       .get(`/management/trackers/${tracker._id}`)
-//       .end((err, res) => {
-//         chai.expect(res.statusCode).to.equal(200);
-//         chai.expect(res.body).to.be.an("object");
-//         chai.expect(res.body.name).to.equal("Design Patterns");
-//         done();
-//       });
-//   }).timeout(1000000);
-// });
+describe("DELETE /management/trackers/delete/:id", () => {
+    it("should delete a tracker and return status code 200", (done) => {
+        const trackerfindByIdAndDeleteStub = sinon
+            .stub(Tracker, "findByIdAndDelete")
+            .resolves(mockTracker);
 
-// describe("POST /management/trackers/create", () => {
-//   afterEach(async () => {
-//     await Tracker.deleteMany({});
-//   });
+        request(app)
+            .delete(`/management/trackers/delete/${mockTracker._id}`)
+            .end((err, res) => {
+                chai.expect(res.statusCode).to.equal(200);
+                chai.expect(res.body.message).to.equal("Tracker deleted");
+                trackerfindByIdAndDeleteStub.restore();
+                done();
+            });
+    });
+});
 
-//   it("should create a tracker and return status code 201", (done) => {
-//     const tracker = {
-//       name: "Design Patterns",
-//     };
+describe("PATCH /management/trackers/update/:id", () => {
+    it("should update a tracker and return status code 200", (done) => {
+        const mockUpdatedTracker = {
+            name: "Code quality",
+        };
+        const mockTracker = {
+            _id: "mockUserId",
+            name: "Performance",
+            save: sinon.stub().resolves(),
+        };
+        const trackerFindStub = sinon.stub(Tracker, "findById").resolves(mockTracker);
 
-//     request(app)
-//       .post("/management/trackers/create")
-//       .send(tracker)
-//       .end((err, res) => {
-//         chai.expect(res.statusCode).to.equal(201);
-//         chai.expect(res.body.name).to.equal("Design Patterns");
-//         done();
-//       });
-//   }).timeout(1000000);
-// });
+        request(app)
+            .patch(`/management/trackers/update/${mockTracker._id}`)
+            .send(mockUpdatedTracker)
+            .end((err, res) => {
+                chai.expect(res.statusCode).to.equal(200);
+                chai.expect(res.body).to.be.an("object");
+                chai.expect(res.body._id).to.equal(mockTracker._id);
+                chai.expect(res.body.name).to.equal(mockUpdatedTracker.name);
+                trackerFindStub.restore();
+                done();
+            });
+    });
+});
 
-// describe("PATCH /management/trackers/:id", () => {
-//   let tracker;
+describe("POST /management/trackers/create", () => {
+    it("should create a tracker and return status code 201", async () => {
+        const reqBody = {
+            name: "Performance",
+        };
+        const trackerSaveStub = sinon.stub(Tracker.prototype, "save").resolves({
+            name: reqBody.name,
+        });
 
-//   beforeEach((done) => {
-//     tracker = new Tracker({
-//       name: "design Patterns",
-//     });
-
-//     tracker.save((err) => {
-//       if (err) return done(err);
-//       done();
-//     });
-//   });
-
-//   afterEach((done) => {
-//     Tracker.deleteMany({}, (err) => {
-//       if (err) return done(err);
-//       done();
-//     });
-//   });
-
-//   it("should update a tracker and return status code 200", (done) => {
-//     request(app)
-//       .patch(`/management/trackers/update/${tracker._id}`)
-//       .send({ name: "Design Patterns new" })
-//       .end((err, res) => {
-//         chai.expect(res.statusCode).to.equal(200);
-//         chai.expect(res.body).to.be.an("object");
-//         chai.expect(res.body.name).to.equal("Design Patterns new");
-//         done();
-//       });
-//   }).timeout(1000000);
-// });
-
-// describe("DELETE /management/trackers/:id", () => {
-//   let tracker;
-
-//   beforeEach((done) => {
-//     tracker = new Tracker({
-//       name: "Design Patterns",
-//     });
-
-//     tracker.save((err) => {
-//       if (err) return done(err);
-//       done();
-//     });
-//   });
-
-//   afterEach((done) => {
-//     Tracker.deleteMany({}, (err) => {
-//       if (err) return done(err);
-//       done();
-//     });
-//   });
-
-//   it("should delete a tracker and return status code 200", (done) => {
-//     request(app)
-//       .delete(`/management/trackers/delete/${tracker._id}`)
-//       .end((err, res) => {
-//         chai.expect(res.statusCode).to.equal(200);
-
-//         Tracker.findById(tracker._id, (err, tracker) => {
-//           if (err) return done(err);
-//           chai.expect(tracker).to.equal(null);
-//           done();
-//         });
-//       });
-//   }).timeout(1000000);
-// });
+        const res = await request(app)
+            .post("/management/trackers/create")
+            .send(reqBody);
+        chai.expect(res.statusCode).to.equal(201);
+        chai.expect(res.body).to.be.an("object");
+        chai.expect(res.body.name).to.equal(reqBody.name);
+        trackerSaveStub.restore();
+    });
+});
