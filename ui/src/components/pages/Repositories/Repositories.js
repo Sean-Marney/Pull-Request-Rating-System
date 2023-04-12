@@ -6,6 +6,7 @@ import {
     Select,
     Typography,
     MenuItem,
+    Box,
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { Skeleton } from "@mui/material";
@@ -14,6 +15,7 @@ import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/Repositories/RepositoryStyle";
+import noData from "../../../assets/images/NoData.png";
 
 var moment = require("moment");
 moment().format();
@@ -190,11 +192,10 @@ const RepositoryList = () => {
                     </Select>
                 </div>
             </div>
-
-            {selectedPullRequests?.length > 0 && (
-                <div className={classes.container}>
+            <div className={classes.container}>
+                {!loading ? (
                     <List>
-                        {!loading ? (
+                        {selectedPullRequests.length > 0 ? (
                             selectedPullRequests?.map((pullRequest) => (
                                 <ListItem
                                     key={pullRequest._id}
@@ -289,30 +290,48 @@ const RepositoryList = () => {
                                 </ListItem>
                             ))
                         ) : (
-                            <>
-                                <Skeleton
-                                    variant="rectangular"
-                                    width={1000}
-                                    height={145}
-                                    style={{ margin: "8px 0px" }}
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    padding: "auto",
+                                    margin: "auto",
+                                }}
+                            >
+                                <img
+                                    alt="No pending pull requests"
+                                    src={noData}
+                                    style={{ height: "220px", width: "250px" }}
                                 />
-                                <Skeleton
-                                    variant="rectangular"
-                                    width={1000}
-                                    height={145}
-                                    style={{ margin: "8px 0px" }}
-                                />
-                                <Skeleton
-                                    variant="rectangular"
-                                    width={1000}
-                                    height={145}
-                                    style={{ margin: "8px 0px" }}
-                                />
-                            </>
+                                <Typography  variant="h6">
+                                    No pending pull requests available 
+                                </Typography>
+                            </div>
                         )}
                     </List>
-                </div>
-            )}
+                ) : (
+                    <div>
+                        <Skeleton
+                            variant="rectangular"
+                            width={1000}
+                            height={145}
+                            style={{ margin: "8px 0px" }}
+                        />
+                        <Skeleton
+                            variant="rectangular"
+                            width={1000}
+                            height={145}
+                            style={{ margin: "8px 0px" }}
+                        />
+                        <Skeleton
+                            variant="rectangular"
+                            width={1000}
+                            height={145}
+                            style={{ margin: "8px 0px" }}
+                        />
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
