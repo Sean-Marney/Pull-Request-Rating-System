@@ -47,3 +47,8 @@ main{
 .icon, .link_text{
   font-size: 20px;
 }
+.image{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

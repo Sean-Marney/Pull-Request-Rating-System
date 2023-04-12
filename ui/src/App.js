@@ -347,6 +347,7 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+                        <Route path="/401" element={<UnauthorizedPage />} />
                     </Routes>
                 </Sidebar>
             )}
@@ -361,7 +362,6 @@ const App = () => {
                         path="/forgotpassword"
                         element={<ForgotPassword />}
                     />
-                    <Route path="/401" element={<UnauthorizedPage />} />
                 </Routes>
             )}
         </BrowserRouter>
