@@ -1,4 +1,6 @@
 const Badge = require("../models/badges.model");
+var fs = require('fs');
+let path = require('path');
 
 
 const getAll = async (req, res) => {
@@ -39,16 +41,23 @@ const deleteBadge = async (req, res) => {
   // Create a badge
 const createBadge = async (req, res) => {
   try {
-    const badge = new Badge({
-      name: req.body.name,
-      value: req.body.value,
+    let npath = path.join(__dirname + '/..');
+    let badge = new Badge({
+        name: req.body.name,
+        value: req.body.value,
+        img: {
+            data: fs.readFileSync(path.join(npath + '/images/' + req.file.filename)),
+            contentType: 'image/png'
+        }
     });
-    // await badge.save();
+    await badge.save();
+    fs.unlinkSync(path.join(npath + '/images/' + req.file.filename));
     res.status(201).json(badge);
-  } catch (error) {
-    console.log(error);
+}
+catch (error) {
+  console.log(error);
     res.status(500).json({ message: error.message });
-  }
+}
 };
 
 // Get a reward by ID
@@ -84,9 +93,34 @@ const updateBadge = async (req, res) => {
   }
 };
 
+// Update a reward
+const updateBadgeImage = async (req, res) => {
+  try {
+        const badge = await Badge.findById(req.params.id);
+    if (!badge) {
+      return res.status(404).json({ message: "Badge with that ID not found" });
+    }
+    let npath = path.join(__dirname + '/..');
+    badge.name = req.body.name;
+    badge.value = req.body.value,
+    badge.img = {
+      data: fs.readFileSync(path.join(npath + '/images/' + req.file.filename)),
+      contentType: 'image/png'
+    }
+
+    await badge.save();
+    fs.unlinkSync(path.join(npath + '/images/' + req.file.filename));
+    res.status(201).json(badge);
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  } 
+};
+
 
 
 
 module.exports = {
-    getAll, deleteBadge, createBadge,getBadgesById, updateBadge,getAllNames
+    getAll, deleteBadge, createBadge,getBadgesById, updateBadge,getAllNames, updateBadgeImage
 };

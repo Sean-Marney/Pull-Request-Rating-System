@@ -31,8 +31,9 @@ export default function ManageRewards() {
   }, []);
 
   const getBadges = async () => {
-    // Get rewards
+    // Get the list of badges
     const res = await axios.get("http://localhost:8000/badge/all");
+    // Iterate through the list of badges and convert image to be displayed on the screen
     for (let i = 0; i < res.data.length; i++) {
       const blob = new Blob([Int8Array.from(res.data[i].img.data.data)], {type: res.data[i].img.data.contentType });
       const image = window.URL.createObjectURL(blob);
@@ -43,12 +44,12 @@ export default function ManageRewards() {
   };
 
   const deleteBadge = async (_id) => {
-    // Delete reward
+    // Delete badge 
     await axios.delete(
       `http://localhost:8000/management/badge/delete/${_id}`
     );
 
-    getBadges(); // Get updated list of rewards
+    getBadges(); // Get updated list of badges
   };
 
   return (
@@ -72,7 +73,7 @@ export default function ManageRewards() {
           Add New Badge
         </Button>
         <Box>
-          {/* Get all rewards from database and display in a table */}
+          {/* Get all badges from database and display in a table */}
           {badges && (
             <TableContainer>
               <Table>

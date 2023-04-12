@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
     const classes = useStyles();
     const [pullRequests, setPullRequests] = useState([]);
+    const [whetherPullRequest, setWhetherPullRequest] = useState(true);
     const [ratings, setRatings] = useState([]);
     const [rated, setRated] = useState();
     const [selected, setSelected] = useState();
@@ -43,6 +44,11 @@ function App() {
     const getPullRequests = async () => {
         let email = cookies.user;
         const res = await axios.get("http://localhost:8000/pullrequests/history/" + email.toLowerCase());
+        if (res.data.length > 0){
+            setWhetherPullRequest(true);
+        }else{
+            setWhetherPullRequest(false);
+        }
         setPullRequests(res.data);
     };
     
@@ -77,15 +83,25 @@ function App() {
             </Box>
             <Grid container spacing={0} className={classes.container} >
                 {/* Section to display the pull requests */}
-                <Grid item xs={6} className={classes.padding} variant="outlined" style={{maxHeight: '80vh', overflow: 'auto'}}>
-                    {pullRequests.map((pullRequest) => {
-                    return (
-                        <Card id ={pullRequest._id}   className={classes.clickable} onClick={() => handleSelection(pullRequest.rating_complete, pullRequest.ratings, pullRequest._id)}>
-                            <PullRequestHistory key={pullRequest._id} pullRequest={pullRequest}/>
-                        </Card>
-                        
-                    )})}
-                </Grid>
+                {whetherPullRequest && (
+                    <Grid item xs={6} className={classes.padding} variant="outlined" style={{maxHeight: '80vh', overflow: 'auto'}}>
+                        {pullRequests.map((pullRequest) => {
+                        return (
+                            <Card id ={pullRequest._id}   className={classes.clickable} onClick={() => handleSelection(pullRequest.rating_complete, pullRequest.ratings, pullRequest._id)}>
+                                <PullRequestHistory key={pullRequest._id} pullRequest={pullRequest}/>
+                            </Card>
+                            
+                        )})}
+                    </Grid>
+                )}
+                {!whetherPullRequest && (
+                    <Grid item xs={6} className={classes.padding} variant="outlined" style={{maxHeight: '80vh', overflow: 'auto'}}>
+                        <Typography variant="h6">
+                        <b>No Pull Requests</b>
+                        </Typography>
+                    </Grid>
+                )}
+
                 {/* Section to display the ratings */}
                 <Grid item xs={6} className={classes.padding}>
                     <Card className={classes.height}>

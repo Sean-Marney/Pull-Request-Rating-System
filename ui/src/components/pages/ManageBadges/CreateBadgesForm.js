@@ -20,7 +20,6 @@ export default function CreateReward() {
   const [createForm, setCreateForm] = useState({
     badgeName: "",
     starsRequired: "",
-    // image: [],
   });
   const [photo, setPhoto] = useState(null);
   const [validFile, setValid] = useState(true);
@@ -39,9 +38,10 @@ export default function CreateReward() {
     });
   };
 
-
+// Handle photo upload
   const handlePhoto = (e) => {
     setPhoto(e.target.files[0]);
+    // Validate file type and size and whether image is valid
     if ((e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpeg") && e.target.files[0].size < 1000000) {
       setValid(true);
     }else{
@@ -49,22 +49,22 @@ export default function CreateReward() {
     }
   }
 
-
+// Handles form submission
   const createBadge = async (e) => {
     e.preventDefault();
+    // Only submit form if file is valid
     if (validFile) {
-
-
     try {
       await validateCreateBadgeForm.validate(createForm, {
         abortEarly: false,
       });
+    // Create form data to send to backend
     const formData = new FormData();
     formData.append('photo', photo);
     formData.append('name', createForm.badgeName);
     formData.append('value', createForm.starsRequired);
-
-    axios.post('http://localhost:8000/upload/all', formData)
+    // Sends form data via api
+    axios.post('http://localhost:8000/management/badge/upload', formData)
          .then(res => {
             navigate("/management/badges"); // Redirects after reward is created
          })

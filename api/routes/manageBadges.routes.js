@@ -1,25 +1,37 @@
 const express = require("express");
-const {deleteBadge, createBadge,getBadgesById, updateBadge} = require("../controllers/badges.controller");
+const {deleteBadge, createBadge,getBadgesById, updateBadge, updateBadgeImage} = require("../controllers/badges.controller");
 const multer = require('multer');
-
+const { v4: uuidv4 } = require('uuid');
+let path = require('path');
 const router = express.Router();
 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
+
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'images');
     },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
+    filename: function(req, file, cb) {   
+        cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
     }
 });
- 
-var upload = multer({ storage: storage });
-// const upload = multer({ dest: 'uploads/' })
+
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if(allowedFileTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+
+let upload = multer({ storage, fileFilter });
 
 
-router.post("/create", upload.single('image'), createBadge);
 router.delete("/delete/:id", deleteBadge);
-router.get("/:id", getBadgesById);
+router.get("/get/:id", getBadgesById);
 router.patch("/update/:id", updateBadge);
+router.post("/upload", upload.single('photo'), createBadge);
+router.patch("/updateimage/:id", upload.single('photo'), updateBadgeImage);
 
 module.exports = router;

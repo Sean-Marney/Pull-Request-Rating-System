@@ -18,7 +18,6 @@ const developerDashboardRoute = require("./routes/developerDashboard.routes");
 const manageQuestions = require("./routes/question.routes");
 const badge = require("./routes/badges.routes");
 const manageBadge = require("./routes/manageBadges.routes");
-const upload = require("./routes/upload.routes");
 const app = express();
 
 // connect database
@@ -54,7 +53,6 @@ app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
 app.use("/badge", badge);
 app.use("/management/badge", manageBadge);
-app.use("/upload", upload);
 // setting up port
 const PORT = process.env.PORT || 8000;
 

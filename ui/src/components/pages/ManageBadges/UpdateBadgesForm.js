@@ -13,6 +13,7 @@ import {
 import * as yup from "yup";
 import validateCreateBadgeForm from "../../../validations/createBadgeForm";
 import { useStyles } from "../../styles/formStyle";
+import Grid from '@mui/material/Grid';
 
 export default function UpdateReward() {
   const classes = useStyles();
@@ -20,10 +21,13 @@ export default function UpdateReward() {
     badgeName: "",
     starsRequired: "",
   });
+  const [photo, setPhoto] = useState(null);
+  const [newPhoto, setNewPhoto] = useState(null);
 
   const [error, setError] = useState({});
+  const [validFile, setValid] = useState(true);
 
-  const { id } = useParams(); // Get reward ID from URL
+  const { id } = useParams(); // Get badge ID from URL
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,11 +35,14 @@ export default function UpdateReward() {
   }, []);
 
   const getBadge = async () => {
-    // Get reward by id
+    // Get badge by id
     const res = await axios.get(
-      `http://localhost:8000/management/badge/${id}`
+      `http://localhost:8000/management/badge/get/${id}`
     );
-
+    // Convert image to displayable format
+    const blob = new Blob([Int8Array.from(res.data.img.data.data)], {type: res.data.img.data.contentType });
+    const image = window.URL.createObjectURL(blob);
+    setPhoto(image);
     // Set to state (fills in textboxes)
     setUpdateForm({
       badgeName: res.data.name,
@@ -52,21 +59,49 @@ export default function UpdateReward() {
     });
   };
 
+  // Handle photo upload
+  const handlePhoto = (e) => {
+    // Set photo to state and validates file
+    if (e.target.files[0] != undefined) {
+      setNewPhoto(e.target.files[0]);
+      if (!((e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpeg") && e.target.files[0].size < 1000000)) {
+        setValid(false);
+      }
+    }else{
+      setValid(true);
+    }
+  }
+
+  // Handles form submission
   const updateBadge = async (e) => {
     e.preventDefault();
-
     try {
       await validateCreateBadgeForm.validate(updateForm, {
         abortEarly: false,
       });
-      console.log(updateForm);
-      // Update reward
-      await axios.patch(
-        `http://localhost:8000/management/badge/update/${id}`,
-        updateForm
-      );
-
-      navigate("/management/badges");
+      // If no new image is uploaded, update badge without image
+      if (newPhoto === null) {
+        // Update reward
+        await axios.patch(
+          `http://localhost:8000/management/badge/update/${id}`,
+          updateForm
+        );
+        navigate("/management/badges");
+      // If new image is uploaded, update badge with new image
+      }else{
+        if (validFile) {
+          const formData = new FormData();
+          formData.append('photo', newPhoto);
+          formData.append('name', updateForm.badgeName);
+          formData.append('value', updateForm.starsRequired);
+          // Update badge with new image
+          await axios.patch(
+            `http://localhost:8000/management/badge/updateimage/${id}`,
+            formData
+          );
+          navigate("/management/badges");
+        }
+      }
     } catch (error) {
       const validationErrors = {};
       if (error instanceof yup.ValidationError) {
@@ -116,6 +151,31 @@ export default function UpdateReward() {
                 {error.starsRequired && (
                   <div className={classes.error}>{error.starsRequired}</div>
                 )}
+              </div>
+              <div>
+                <Grid container columns={2} spacing={3}>
+                  <Grid item>
+                    <InputLabel>Image</InputLabel>
+                    <img src={photo} alt="badge" width="75" height="75" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/>
+                  </Grid>
+                  <Grid item>
+                  <InputLabel>Choose new Image</InputLabel>
+                    <input 
+                      type="file" 
+                      accept=".png, .jpg, .jpeg"
+                      name="photo"
+                      onChange={handlePhoto}
+                      inputProps={{
+                        style: { textAlign: "center" },
+                      }}
+                      className={classes.input}
+                    />
+                    {!validFile && (
+                      <div className={classes.error}>Invalid File Type or Too Large</div>
+                    )}
+                  </Grid>
+                </Grid>
+
               </div>
               <div className={classes.buttonContainer}>
                 <Button
