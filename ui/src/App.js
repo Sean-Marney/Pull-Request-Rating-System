@@ -2,6 +2,7 @@ import "./App.css";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import ManagerRoutes from "./routes/ManagerRoutes";
 import DeveloperRoutes from "./routes/DeveloperRoutes";
+import UnauthorizedPage from "./components/pages/401/UnauthorizedPage";
 import PullRequestRating from "./components/pages/Repositories/PullRequestRating";
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import Sidebar from "./components/reusable/SidebarData";
@@ -360,6 +361,7 @@ const App = () => {
                         path="/forgotpassword"
                         element={<ForgotPassword />}
                     />
+                    <Route path="/401" element={<UnauthorizedPage />} />
                 </Routes>
             )}
         </BrowserRouter>

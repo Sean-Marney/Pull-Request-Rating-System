@@ -7,7 +7,7 @@ const DeveloperRoutes = ({ children, token, role }) => {
         return <Navigate to="/login" replace />;
     } else if
     (role !== "Developer") {
-    return <Navigate to="/login" replace/>
+    return <Navigate to="/401" replace/>
     } 
     else {
     return children;

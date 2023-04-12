@@ -7,7 +7,7 @@ const ManagerRoutes = ({ children, token, role }) => {
         return <Navigate to="/login" replace />;
     } else if
         (role !== "Manager") {
-        return <Navigate to="/login" replace/>
+        return <Navigate to="/401" replace/>
     }
     else {
     return children;
