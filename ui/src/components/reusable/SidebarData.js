@@ -14,7 +14,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink, Link} from "react-router-dom";
 
 
-const Sidebar = ({ children, removeCookie }) => {
+const Sidebar = ({ children, removeCookie, role }) => {
     function logout() {
         removeCookie("token", {path: "/"});
         removeCookie("role", { path: "/" });
@@ -52,6 +52,19 @@ const Sidebar = ({ children, removeCookie }) => {
             icon: <Help />,
         },
    ];
+
+   const mangerMenuItem =[
+    {
+        path: "/management",
+        name: "Dashboard",
+        icon: <Dashboard />,
+    },
+    {
+        path: "/management/rewards",
+        name: "Rewards",
+        icon: <Star />,
+    }
+   ];
     return (
         <div className="container">
             <div style={{ width: "200px", position:"fixed"}} className="sidebar">
@@ -61,7 +74,8 @@ const Sidebar = ({ children, removeCookie }) => {
                     <h1 style={{ display: "block" }} className="logo">PullMaster.io</h1>
                 </Link>
                 </div>
-                {menuItem.map((item, index) => (
+                {role !== 'Manager'
+                ? menuItem.map((item, index) => (
                     <NavLink
                         to={item.path}
                         key={index}
@@ -71,6 +85,19 @@ const Sidebar = ({ children, removeCookie }) => {
                         <div className="icon">{item.icon}</div>
                         <div style={{ display: "block" }} className="link_text">
                             {item.name}
+                        </div>
+                    </NavLink>
+                    ))
+                : mangerMenuItem.map((item, index) => (
+                    <NavLink
+                        to={item.path}
+                        key={index}
+                        className="link"
+                        activeclassName="active"
+                    >
+                        <div className="icon">{item.icon}</div>
+                        <div style={{ display: "block" }} className="link_text">
+                        {item.name}
                         </div>
                     </NavLink>
                 ))}
