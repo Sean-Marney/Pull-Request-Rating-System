@@ -59,7 +59,7 @@ export default function ManageProfiles() {
     try {
       // Delete user
       await axios.delete(
-        `http://localhost:8000/management/users/deleteUser/email/${cookies.user.email}`
+        process.env.REACT_APP_API_ENDPOINT + `/management/users/deleteUser/email/${cookies.user.email}`
       );
       removeCookie("role");
       removeCookie("user");

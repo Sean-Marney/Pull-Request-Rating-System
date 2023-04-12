@@ -1,55 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { Typography, makeStyles } from "@material-ui/core";
-import axios from "axios";
 import { Rating } from "@mui/material";
 import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
 import useAxiosInstance from "../../../useAxiosInstance";
+import { useStyles } from "../../styles/Repositories/PullRequestRatingStyle";
+import { Typography, Link } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
 var moment = require("moment");
 moment().format();
-
-const useStyles = makeStyles((theme) => ({
-    buttonContainer: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginTop: theme.spacing(2),
-    },
-    button: {
-        flexBasis: "45%",
-    },
-    ratingContainer: {
-        marginBottom: theme.spacing(2),
-        width: "400px",
-        border: "1px solid black",
-        margin: "10px",
-        padding: "10px",
-        backgroundColor: "white",
-    },
-    ratingTitle: {
-        width: "30%",
-        paddingRight: theme.spacing(1),
-        textAlign: "right",
-    },
-    ratingValue: {
-        width: "70%",
-        paddingLeft: theme.spacing(1),
-    },
-    Rating: {
-        display: "flex",
-        flexWrap: "wrap",
-    },
-    listItemAvatar: {
-        marginRight: theme.spacing(2),
-    },
-}));
 
 export default function PullRequestRating(props) {
     const { request } = useAxiosInstance();
     const [pullRequestRating, setPullRequestRating] = React.useState({});
     const [tracker, setTracker] = React.useState([]);
+    const [error, setError] = useState(false);
 
-    // Gets all trackers
     const getAllTrackers = async () => {
         try {
             const response = await request({
@@ -70,24 +36,6 @@ export default function PullRequestRating(props) {
         getAllTrackers();
     }, []);
 
-    const handleSubmitClick = async () => {
-        try {
-            await request({
-                method: "put",
-                url: `/ratings/update/${props.pullRequest._id}`,
-                data: {
-                    ...props.pullRequest,
-                    rating: { ...pullRequestRating },
-                    rating_complete: true,
-                },
-            });
-            props.setSelectedPR(null);
-            props.reloadList();
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const handleRatingFormClose = async () => {
         props.setSelectedPR(null);
     };
@@ -100,62 +48,116 @@ export default function PullRequestRating(props) {
     const classes = useStyles();
 
     return (
-        // <div>
         <div className={classes.ratingContainer}>
-            <Button
-                style={{ align: "left", justifyContent: "left" }}
+            <IconButton
+                style={{ position: "absolute", right: "5px", top: "5px" }}
                 onClick={handleRatingFormClose}
             >
-                X
-            </Button>
-            <h3 style={{ display: "flex", justifyContent: "center" }}>
-                Add your review
-            </h3>
+                <CloseIcon />
+            </IconButton>
+            <Typography
+                style={{ display: "flex", justifyContent: "center" }}
+                variant="h5"
+            >
+                Rate the pull request
+            </Typography>
+            <Typography variant="body2" display="block" gutterBottom>
+                Select the stars for the following trackers to submit a rating
+            </Typography>
             <hr></hr>
             <div style={{ padding: "10px 0px" }}>
-                <Typography variant="h6">{props.pullRequest.title}</Typography>
                 <Typography
-                    component="span"
+                    style={{ display: "flex", justifyContent: "center" }}
                     variant="body1"
-                    color="textSecondary"
                 >
-                    {`Pull Request #${props.pullRequest.git_id} from ${props.pullRequest.repo}`}
+                    {`Pull Request ${props.pullRequest.title} for ${props.pullRequest.repo}`}
                 </Typography>
             </div>
             <hr></hr>
-
-            {tracker.map((item) => (
-                <div key={item._id}>
-                    <Typography component="legend">{item.name}</Typography>
-                    <Rating
-                        name="simple-controlled"
-                        value={
-                            props.pullRequest.rating
-                                ? props.pullRequest?.rating[item.name]
-                                : pullRequestRating[item.name]
-                                ? pullRequestRating[item.name]
-                                : 0
-                        }
-                        onChange={(event, newValue) => {
-                            handleRating(item.name, newValue);
-                        }}
-                        required
-                    />{" "}
+            {tracker.length === 0 ? (
+                <div>
+                    <Typography variant="body1">
+                        No trackers found. Please{" "}
+                        <Link
+                            href="/management/trackers"
+                            style={{ textDecoration: "none" }}
+                        >
+                            add trackers
+                        </Link>{" "}
+                        to rate pull requests.
+                    </Typography>
                 </div>
-            ))}
+            ) : (
+                <>
+                    {tracker.map((item) => (
+                        <div key={item._id}>
+                            <Typography component="legend">
+                                {item.name}
+                            </Typography>
+                            <Rating
+                                name="simple-controlled"
+                                value={
+                                    props.pullRequest.rating
+                                        ? props.pullRequest?.rating[item.name]
+                                        : pullRequestRating[item.name]
+                                        ? pullRequestRating[item.name]
+                                        : 0
+                                }
+                                onChange={(event, newValue) => {
+                                    handleRating(item.name, newValue);
+                                }}
+                                required
+                            />
+                        </div>
+                    ))}
+
+                    <div>
+                        <Typography
+                            component="legend"
+                            style={{ marginTop: "1rem" }}
+                        >
+                            Total Stars {" "}
+                            {Object.values(pullRequestRating).reduce(
+                                (total, value) => total + value,
+                                0
+                            )}
+                        </Typography>
+                    </div>
+                </>
+            )}
             <div className={classes.buttonContainer}>
                 <Button
-                    onClick={handleSubmitClick}
+                    onClick={() =>
+                        props.handleSubmit(
+                            props.pullRequest,
+                            pullRequestRating,
+                            setError
+                        )
+                    }
                     className={classes.button}
                     variant="contained"
+                    fullWidth
                     size="small"
                 >
                     Submit
                 </Button>
+            </div>
+            {error && (
+                <span style={{ color: "red",  display: "flex" ,alignContent: "center", justifyContent: "center"}}>
+                    Please give the required stars to submit a rating
+                </span>
+            )}{" "}
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "1rem",
+                }}
+            >
                 <Button
                     onClick={handleClearClick}
                     className={classes.button}
-                    variant="contained"
+                    sx={{ textTransform: "none" }}
                     size="small"
                 >
                     Clear Ratings

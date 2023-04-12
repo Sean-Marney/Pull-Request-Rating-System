@@ -7,7 +7,6 @@ import {
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
-import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 
 export class Badges extends React.Component {
 

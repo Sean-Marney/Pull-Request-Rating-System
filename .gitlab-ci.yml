@@ -3,19 +3,21 @@ image: node:16.15.0
 
 # Define the different stages of the pipeline
 stages:
-  - Builds
-  - Unit Tests
+    - Builds
+    - Unit Tests
+    - Deploy To S3
+    - Deploy To EC2
 
 # Build the API
 api build:
   stage: Builds
   # Set up the environment before running the script
   before_script:
-    # Installing nexe globally 
+    # Installing nexe globally
     - npm install -g pkg
     # Change to the API directory
     - echo "Changing directory to api/"
-    - cd api/ 
+    - cd api/
     # Print the current directory
     - pwd
     # Install dependencies for the API
@@ -34,8 +36,6 @@ api build:
     paths:
       - api/dist
 
-
-
 # Build the UI
 ui build:
   stage: Builds
@@ -43,7 +43,7 @@ ui build:
   before_script:
     # Change to the UI directory
     - echo "Changing directory to ui/"
-    - cd ui/ 
+    - cd ui/
     # Print the current directory
     - pwd
     # Install dependencies for the UI
@@ -70,7 +70,7 @@ api unit tests:
   before_script:
     # Change to the API directory
     - echo "Changing directory to api/"
-    - cd api/ 
+    - cd api/
     # Print the current directory
     - pwd
     # Install dependencies for the API
@@ -90,7 +90,7 @@ api unit tests:
   only:
     - merge_requests
 
-  # Run unit tests for the UI
+    # Run unit tests for the UI
 ui unit tests:
   stage: Unit Tests
   # Set up the environment before running the script
@@ -111,6 +111,6 @@ ui unit tests:
     - npm test $testFiles
     # Print success message
     - echo "All Tests Passed!"
-     # Only run this job when a merge request is created
+      # Only run this job when a merge request is created
   only:
     - merge_requests

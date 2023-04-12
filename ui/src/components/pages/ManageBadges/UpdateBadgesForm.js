@@ -37,7 +37,7 @@ export default function UpdateReward() {
   const getBadge = async () => {
     // Get badge by id
     const res = await axios.get(
-      `http://localhost:8000/management/badge/get/${id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/badge/get/${id}`
     );
     // Convert image to displayable format
     const blob = new Blob([Int8Array.from(res.data.img.data.data)], {type: res.data.img.data.contentType });
@@ -83,7 +83,7 @@ export default function UpdateReward() {
       if (newPhoto === null) {
         // Update reward
         await axios.patch(
-          `http://localhost:8000/management/badge/update/${id}`,
+          process.env.REACT_APP_API_ENDPOINT + `/management/badge/update/${id}`,
           updateForm
         );
         navigate("/management/badges");
@@ -96,7 +96,7 @@ export default function UpdateReward() {
           formData.append('value', updateForm.starsRequired);
           // Update badge with new image
           await axios.patch(
-            `http://localhost:8000/management/badge/updateimage/${id}`,
+            process.env.REACT_APP_API_ENDPOINT + `/management/badge/updateimage/${id}`,
             formData
           );
           navigate("/management/badges");

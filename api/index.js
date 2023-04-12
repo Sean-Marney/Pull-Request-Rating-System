@@ -1,5 +1,6 @@
 // server.js
 const connectDB = require("./config/db");
+const dotenv = require("dotenv").config();
 const cors = require("cors");
 const authRoutes = require("./routes/auth.routes");
 const express = require("express");
@@ -18,14 +19,20 @@ const developerDashboardRoute = require("./routes/developerDashboard.routes");
 const manageQuestions = require("./routes/question.routes");
 const badge = require("./routes/badges.routes");
 const manageBadge = require("./routes/manageBadges.routes");
+const managerHelpRoute = require("./routes/ManagerHelp.routes");
 const app = express();
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+
+
+app.use(bodyParser.json());
 
 // connect database
 connectDB();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://pullmaster.io-react.s3-website.eu-north-1.amazonaws.com", "http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
@@ -36,6 +43,7 @@ app.get("/", (req, res) => res.send("Server up and running"));
 // routes
 app.use("/", authRoutes);
 app.use("/dashboard", developerDashboardRoute);
+app.use("/management", managerDashboardRoute);
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/rewards/claimed", claimedRewardsRoute);
 app.use("/rewards", rewardsRoute);
@@ -47,12 +55,12 @@ app.use("/management/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
 app.get("/management/Leaderboard", leaderboardRoute);
-app.get("/requests", managerDashboardRoute);
-app.get("/archived-rewards", managerDashboardRoute);
 app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
 app.use("/badge", badge);
 app.use("/management/badge", manageBadge);
+app.post("/management/ManagerHelp", managerHelpRoute);
+
 // setting up port
 const PORT = process.env.PORT || 8000;
 

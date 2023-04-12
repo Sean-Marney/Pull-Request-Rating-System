@@ -32,7 +32,7 @@ export default function ManageRewards() {
 
   const getBadges = async () => {
     // Get the list of badges
-    const res = await axios.get("http://localhost:8000/badge/all");
+    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/badge/all");
     // Iterate through the list of badges and convert image to be displayed on the screen
     for (let i = 0; i < res.data.length; i++) {
       const blob = new Blob([Int8Array.from(res.data[i].img.data.data)], {type: res.data[i].img.data.contentType });
@@ -46,7 +46,7 @@ export default function ManageRewards() {
   const deleteBadge = async (_id) => {
     // Delete badge 
     await axios.delete(
-      `http://localhost:8000/management/badge/delete/${_id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/badge/delete/${_id}`
     );
 
     getBadges(); // Get updated list of badges

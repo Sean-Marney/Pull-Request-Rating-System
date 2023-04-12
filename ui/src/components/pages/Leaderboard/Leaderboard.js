@@ -19,7 +19,7 @@ function Leaderboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/management/leaderboard")
+      .get(process.env.REACT_APP_API_ENDPOINT + "/management/leaderboard")
       .then((res) => setLeaderboardData(res.data))
       .catch((err) => console.log(err));
     getLevels();

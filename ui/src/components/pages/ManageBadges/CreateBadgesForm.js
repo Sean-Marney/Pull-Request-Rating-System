@@ -64,7 +64,9 @@ export default function CreateReward() {
     formData.append('name', createForm.badgeName);
     formData.append('value', createForm.starsRequired);
     // Sends form data via api
-    axios.post('http://localhost:8000/management/badge/upload', formData)
+    
+       
+    axios.post(process.env.REACT_APP_API_ENDPOINT +'/management/badge/upload', formData)
          .then(res => {
             navigate("/management/badges"); // Redirects after reward is created
          })

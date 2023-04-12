@@ -43,13 +43,13 @@ function App() {
     // TODO: Integrate with ID of user who is logged in
     const getPullRequests = async () => {
         let email = cookies.user;
-        const res = await axios.get("http://localhost:8000/pullrequests/history/" + email.toLowerCase());
-        if (res.data.length > 0){
-            setWhetherPullRequest(true);
-        }else{
-            setWhetherPullRequest(false);
-        }
+        const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/pullrequests/history/" + email.toLowerCase());
         setPullRequests(res.data);
+        if (res.data.length === 0){
+            setWhetherPullRequest(false);
+        }else{
+            setWhetherPullRequest(true);
+        }
     };
     
     // Handles the selection of a pull request
