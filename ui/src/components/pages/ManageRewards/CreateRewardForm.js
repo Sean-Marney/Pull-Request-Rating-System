@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   CardContent,
+  TextField,
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateCreateRewardForm from "../../../validations/createRewardForm";
@@ -75,10 +76,8 @@ export default function CreateReward() {
                   value={createForm.rewardName}
                   name="rewardName"
                   id="rewardName"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
+                  // InputProps={{ disableUnderline: true }}
                 />
                 {error.rewardName && (
                   <div className={classes.error}>{error.rewardName}</div>
@@ -91,10 +90,8 @@ export default function CreateReward() {
                   value={createForm.starsRequired}
                   name="starsRequired"
                   id="starsRequired"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
+                  // InputProps={{ disableUnderline: true }}
                 />
                 {error.starsRequired && (
                   <div className={classes.error}>{error.starsRequired}</div>
