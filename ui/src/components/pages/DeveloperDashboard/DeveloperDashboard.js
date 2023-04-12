@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Paper, Typography, Tooltip, Link, Box } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
+import { Paper, Typography, Tooltip, Link, Box } from "@material-ui/core";
 import StarIcon from "@material-ui/icons/Stars";
 import TrophyIcon from "@material-ui/icons/EmojiEvents";
 import CalanderIcon from "@material-ui/icons/CalendarToday";
 import InfoOutlinedIcon from "@material-ui/icons/Info";
-import { useCookies } from "react-cookie";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,18 +49,20 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2rem",
     fontWeight: 700,
     textAlign: "center",
-    wordWrap: "break-word",
     marginLeft: theme.spacing(4),
+    wordBreak: "break-word",
   },
   boxDescription: {
     paddingTop: theme.spacing(3),
     textAlign: "center",
+    wordBreak: "break-word",
   },
   boxDescription2: {
     paddingTop: theme.spacing(3),
     color: "#b30000",
     fontWeight: "bold",
     textAlign: "center",
+    wordBreak: "break-word",
   },
   icon1: {
     paddingBottom: theme.spacing(1.5),
@@ -254,200 +256,190 @@ export default function DeveloperDashboard() {
 
   return (
     <div className={classes.root}>
-      <Box className={classes.content}>
-        <Box className={classes.container}>
-          <Typography variant="h4" className={classes.title}>
-            Dashboard
-          </Typography>
-          <div className={classes.boxContainer}>
-            <div>
-              <Paper
-                elevation={3}
-                className={classes.box}
-                // More information is displayed when user hovers over box
-                onMouseEnter={() => setHoveredBox("currentStarCount")}
-                onMouseLeave={() => setHoveredBox(null)}
-              >
-                <StarIcon className={classes.icon1} />
-                <Typography variant="h6" className={classes.boxTitle}>
-                  Current Star Count
+      <Box>
+        <Typography variant="h4" className={classes.title}>
+          Dashboard
+        </Typography>
+        <div className={classes.boxContainer}>
+          <div>
+            <Paper
+              elevation={3}
+              className={classes.box}
+              // More information is displayed when user hovers over box
+              onMouseEnter={() => setHoveredBox("currentStarCount")}
+              onMouseLeave={() => setHoveredBox(null)}
+            >
+              <StarIcon className={classes.icon1} />
+              <Typography variant="h6" className={classes.boxTitle}>
+                Current Star Count
+              </Typography>
+              <Typography variant="h4" className={classes.boxValue}>
+                {currentStarCount}
+                <Tooltip
+                  // Description box appears when user hovers over info icon
+                  title={
+                    <div className={classes.infoBox}>
+                      <Typography variant="body2">
+                        This is the number of stars you have available to spend
+                        on rewards
+                        <br /> <br />
+                        Visit the rewards page to claim a reward
+                      </Typography>
+                    </div>
+                  }
+                  placement="right"
+                >
+                  <span className={classes.infoIcon}>
+                    <InfoOutlinedIcon />
+                  </span>
+                </Tooltip>
+              </Typography>
+              {/* Content displayed when hovering */}
+              {hoveredBox === "currentStarCount" && (
+                <Typography variant="body1" className={classes.boxDescription2}>
+                  {/* If user has enough stars to claim any rewards: */}
+                  {canClaimReward ? (
+                    <>
+                      <p>You have available rewards to claim</p> <br />
+                      <a href="http://localhost:3000/rewards">
+                        Click here to claim
+                      </a>
+                    </>
+                  ) : (
+                    // If user doesn't have enough stars to claim any rewards:
+                    <p>You do not have enough stars to claim a reward.</p>
+                  )}
                 </Typography>
-                <Typography variant="h4" className={classes.boxValue}>
-                  {currentStarCount}
-                  <Tooltip
-                    // Description box appears when user hovers over info icon
-                    title={
-                      <div className={classes.infoBox}>
-                        <Typography variant="body2">
-                          This is the number of stars you have available to
-                          spend on rewards
-                          <br /> <br />
-                          Visit the rewards page to claim a reward
-                        </Typography>
-                      </div>
-                    }
-                    placement="right"
-                  >
-                    <span className={classes.infoIcon}>
-                      <InfoOutlinedIcon />
-                    </span>
-                  </Tooltip>
-                </Typography>
-                {/* Content displayed when hovering */}
-                {hoveredBox === "currentStarCount" && (
-                  <Typography
-                    variant="body1"
-                    className={classes.boxDescription2}
-                  >
-                    {/* If user has enough stars to claim any rewards: */}
-                    {canClaimReward ? (
-                      <>
-                        <p>You have available rewards to claim</p> <br />
-                        <a href="http://localhost:3000/rewards">
-                          Click here to claim
-                        </a>
-                      </>
-                    ) : (
-                      // If user doesn't have enough stars to claim any rewards:
-                      <p>You do not have enough stars to claim a reward.</p>
-                    )}
-                  </Typography>
-                )}
-              </Paper>
-            </div>
+              )}
+            </Paper>
+          </div>
 
-            <div>
-              <Paper
-                elevation={3}
-                className={classes.box}
-                // More information is displayed when user hovers over box
-                onMouseEnter={() => setHoveredBox("totalStarsAchieved")}
-                onMouseLeave={() => setHoveredBox(null)}
-              >
-                <TrophyIcon className={classes.icon2} />
-                <Typography variant="h6" className={classes.boxTitle}>
-                  Total Stars Achieved
-                </Typography>
-                <Typography variant="h4" className={classes.boxValue}>
-                  {totalStarsAchieved}
-                  <Tooltip
-                    // Description box appears when user hovers over info icon
-                    title={
-                      <div className={classes.infoBox}>
-                        <Typography variant="body2">
-                          This is the number of stars you have achieved in total
-                          <br /> <br />
-                          Your manager can view your total stars on their
-                          leaderboard page
-                        </Typography>
-                      </div>
-                    }
-                    placement="right"
-                  >
-                    <span className={classes.infoIcon}>
-                      <InfoOutlinedIcon />
-                    </span>
-                  </Tooltip>
-                </Typography>
-                {/* Content displayed when hovering */}
-                {hoveredBox === "totalStarsAchieved" && (
-                  <Typography
-                    variant="body1"
-                    className={classes.boxDescription2}
-                  >
-                    Claimed Rewards:
-                    <Typography className={classes.scrollbox}>
-                      {claimedRewards &&
-                        claimedRewards.map((reward, index) => (
-                          <div key={index}>
-                            <Typography variant="h6">
-                              {reward.reward_name}
-                            </Typography>
-                          </div>
-                        ))}
-                    </Typography>
+          <div>
+            <Paper
+              elevation={3}
+              className={classes.box}
+              // More information is displayed when user hovers over box
+              onMouseEnter={() => setHoveredBox("totalStarsAchieved")}
+              onMouseLeave={() => setHoveredBox(null)}
+            >
+              <TrophyIcon className={classes.icon2} />
+              <Typography variant="h6" className={classes.boxTitle}>
+                Total Stars Achieved
+              </Typography>
+              <Typography variant="h4" className={classes.boxValue}>
+                {totalStarsAchieved}
+                <Tooltip
+                  // Description box appears when user hovers over info icon
+                  title={
+                    <div className={classes.infoBox}>
+                      <Typography variant="body2">
+                        This is the number of stars you have achieved in total
+                        <br /> <br />
+                        Your manager can view your total stars on their
+                        leaderboard page
+                      </Typography>
+                    </div>
+                  }
+                  placement="right"
+                >
+                  <span className={classes.infoIcon}>
+                    <InfoOutlinedIcon />
+                  </span>
+                </Tooltip>
+              </Typography>
+              {/* Content displayed when hovering */}
+              {hoveredBox === "totalStarsAchieved" && (
+                <Typography variant="body1" className={classes.boxDescription2}>
+                  Claimed Rewards:
+                  <Typography className={classes.scrollbox}>
+                    {claimedRewards &&
+                      claimedRewards.map((reward, index) => (
+                        <div key={index}>
+                          <Typography variant="h6">
+                            {reward.reward_name}
+                          </Typography>
+                        </div>
+                      ))}
                   </Typography>
-                )}
-              </Paper>
-            </div>
+                </Typography>
+              )}
+            </Paper>
+          </div>
 
-            <div>
-              <Paper
-                elevation={3}
-                className={classes.box}
-                // More information is displayed when user hovers over box
-                onMouseEnter={() => setHoveredBox("latestPullRequestStatus")}
-                onMouseLeave={() => setHoveredBox(null)}
-              >
-                <CalanderIcon className={classes.icon3} />
-                <Typography variant="h6" className={classes.boxTitle}>
-                  Latest Pull Request
-                </Typography>
-                <Typography variant="h4" className={classes.boxValue}>
-                  {latestPullRequestStatus}
-                  <Tooltip
-                    // Description box appears when user hovers over info icon
-                    title={
-                      <div className={classes.infoBox}>
-                        <Typography variant="body2">
-                          This is the status of your most recently submitted
-                          pull request on GitHub
-                          <br /> <br />
-                          It will display a status of 'Reviewed' if your pull
-                          request has been rated, or 'Pending' if it hasn't been
-                          rated yet
-                        </Typography>
-                      </div>
-                    }
-                    placement="right"
-                  >
-                    <span className={classes.infoIcon}>
-                      <InfoOutlinedIcon />
-                    </span>
-                  </Tooltip>
-                </Typography>
-                {/* Content displayed when hovering */}
-                {hoveredBox === "latestPullRequestStatus" && (
+          <div>
+            <Paper
+              elevation={3}
+              className={classes.box}
+              // More information is displayed when user hovers over box
+              onMouseEnter={() => setHoveredBox("latestPullRequestStatus")}
+              onMouseLeave={() => setHoveredBox(null)}
+            >
+              <CalanderIcon className={classes.icon3} />
+              <Typography variant="h6" className={classes.boxTitle}>
+                Latest Pull Request
+              </Typography>
+              <Typography variant="h4" className={classes.boxValue}>
+                {latestPullRequestStatus}
+                <Tooltip
+                  // Description box appears when user hovers over info icon
+                  title={
+                    <div className={classes.infoBox}>
+                      <Typography variant="body2">
+                        This is the status of your most recently submitted pull
+                        request on GitHub
+                        <br /> <br />
+                        It will display a status of 'Reviewed' if your pull
+                        request has been rated, or 'Pending' if it hasn't been
+                        rated yet
+                      </Typography>
+                    </div>
+                  }
+                  placement="right"
+                >
+                  <span className={classes.infoIcon}>
+                    <InfoOutlinedIcon />
+                  </span>
+                </Tooltip>
+              </Typography>
+              {/* Content displayed when hovering */}
+              {hoveredBox === "latestPullRequestStatus" && (
+                <Typography variant="body1" className={classes.boxDescription}>
+                  {latestPullRequest ? (
+                    <Link
+                      href={latestPullRequest.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View pull request on GitHub
+                    </Link>
+                  ) : (
+                    <Typography>"No pull requests"</Typography>
+                  )}
                   <Typography
                     variant="body1"
                     className={classes.boxDescription}
                   >
-                    {latestPullRequest ? (
-                      <Link
-                        href={latestPullRequest.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View pull request on GitHub
-                      </Link>
-                    ) : (
-                      <Typography>"No pull requests"</Typography>
-                    )}
-                    <Typography
-                      variant="body1"
-                      className={classes.boxDescription}
-                    >
-                      <b>Pull Request:</b> {latestPullRequest.title}
-                    </Typography>
-                    <Typography>
-                      <b>From Repository:</b> {latestPullRequest.repo}
-                    </Typography>
-                    <i>
-                      <Typography className={classes.boxDescription2}>
-                        {latestPullRequest.rating_complete
-                          ? "You earned " +
-                            latestPullRequest.ratings.overall +
-                            " stars from this pull request"
-                          : "Pull request has not been reviewed yet"}
-                      </Typography>
-                    </i>
+                    <b>Pull Request:</b> {latestPullRequest.title}
                   </Typography>
-                )}
-              </Paper>
-            </div>
+                  <Typography>
+                    <b>From Repository:</b> {latestPullRequest.repo}
+                  </Typography>
+                  <i>
+                    <Typography className={classes.boxDescription2}>
+                      {latestPullRequest.rating_complete
+                        ? "You earned " +
+                          latestPullRequest.ratings.overall +
+                          " stars from this pull request"
+                        : "Pull request has not been reviewed yet"}
+                    </Typography>
+                  </i>
+                </Typography>
+              )}
+            </Paper>
           </div>
-        </Box>
+        </div>
       </Box>
+
       {/* Render progress bars */}
       <div role="progressbar" className={classes.root}>
         {/* Loop through each reward */}
