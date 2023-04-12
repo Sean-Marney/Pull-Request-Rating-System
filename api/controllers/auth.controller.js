@@ -57,6 +57,16 @@ const loginUser = async (req, res) => {
             process.env.PASSPORTSECRET,
             { expiresIn: 86400 }
         );
+
+          // create secure cookie with token
+         res.cookie('jwt', token, {
+            httpOnly: false, // accessible only by web server
+            secure: true, // only accessible over SSl, https
+            sameSite: 'None', //cross-site cookie
+            maxAge: 86400 //cookie expiry: set to match rT
+        })
+
+
         // Return a success response with the JWT included as a Bearer token
         res.json({ message: "Success", token: `Bearer ${token}`, hasRole: user.hasRole});
     } catch (error) {
@@ -66,40 +76,8 @@ const loginUser = async (req, res) => {
     }
 };
 
-// access public -because access token has expired
-// const refresh = async (req, res) => {
-//     const cookies = req.cookies
-
-//     if (!cookies?.jwt) 
-//     return res.status(401).json({message: 'Unauthorized'})
-
-//     const refreshToken =cookies.jwt
-
-//     jwt.verify(
-//         refreshToken,
-//         process.env.REFRESH_TOKEN_SECRET,
-//         async (err, decoded) => {
-//             if (err) return res.status(403).json({ message: 'Forbidden' })
-
-//             const user = await User.findOne({ email: email.toLowerCase() })
-            
-//             if (!user){
-//             // If user is not found, return a 401 response with an error message
-//             return res
-//                 .status(401)
-//                 .json({ message: "User not found with the entered email" });
-//             }
-//             const accessToken = jwt.sign(
-//                 {"User":{ id: user._id, email: user.email, hasRole:user.hasRole}},
-//                 process.env.ACCESS_TOKEN_SECRET,
-//                 { expiresIn: "20s" }
-//             )
-//             res.json({ accessToken})
-//         })
-// };
 
 module.exports = {
     registerUser,
     loginUser,
-    // refresh,
 };
