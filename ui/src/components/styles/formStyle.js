@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 325,
     padding: theme.spacing(4),
     margin: "0 auto",
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(6),
     boxShadow: theme.shadows[3],
     backgroundColor: theme.palette.background.paper,
   },
