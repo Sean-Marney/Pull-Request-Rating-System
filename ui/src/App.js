@@ -44,21 +44,64 @@ import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     return (
-        <BrowserRouter>
-            {cookies.token && (
-                <Sidebar removeCookie={removeCookie} role={cookies.role}>
-                    <Routes>
-                        <Route path="/" element={<DeveloperDashboard />} />
-                        <Route
-                            path="/management"
-                            element={<ManagerDashboard />}
-                        />
-                        <Route path="/history" element={<History />} />
+      <BrowserRouter>
+        {cookies.token && (
+          <Sidebar removeCookie={removeCookie} role={cookies.role}>
+            <Routes>
+              // DeveloperDashboard
+              <Route 
+                        path="/" element={
+                           <DeveloperRoutes
+                           token={cookies.token}
+                           role={cookies.role}
+                       >
+                           {" "}
+                        <DeveloperDashboard />
+                        </DeveloperRoutes>
+                        } 
+              />
 
+              // ManagerDashboard
+              <Route
+                            path="/management"
+                            element={
+                              <ManagerRoutes
+                                    token={cookies.token}
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                            <ManagerDashboard />
+                            </ManagerRoutes>
+                          }
+              />
+                        
+              // History
+                <Route path="/history" element={
+                          <DeveloperRoutes
+                          token={cookies.token}
+                          role={cookies.role}
+                      >
+                          {" "}
+                        <History />
+                        </DeveloperRoutes>
+                        } 
+                        />
+
+                      // PullRequestRating
                         <Route
                             path="/management/repositories/rating"
-                            element={<PullRequestRating />}
+                            element={
+                              <ManagerRoutes
+                              token={cookies.token}
+                              role={cookies.role}
+                          >
+                              {" "}
+                            <PullRequestRating />
+                            </ManagerRoutes>
+                          }
                         />
+
+                      // Leaderboard
                         <Route
                             path="/management/Leaderboard"
                             element={
@@ -71,6 +114,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                      // ManageUsers
                         <Route
                             path="/management/users"
                             element={
@@ -83,6 +128,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                      // ManagerHelp
                         <Route
                             path="/management/ManagerHelp"
                             element={
@@ -95,6 +142,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                      // CreateUser
                         <Route
                             path="/management/users/create"
                             element={
@@ -107,6 +156,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                    // UpdateUser
                         <Route
                             path="/management/users/update/:id"
                             element={
@@ -119,6 +170,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                    // ManageRewards
                         <Route
                             path="/management/rewards"
                             element={
@@ -131,6 +184,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                    // CreateRewards
                         <Route
                             path="/management/rewards/create"
                             element={
@@ -143,6 +198,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                    // UpdateRewards
                         <Route
                             path="/management/rewards/update/:id"
                             element={
@@ -155,6 +212,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                      // ClaimedRewards
                         <Route
                             path="/management/rewards/claimed"
                             element={
@@ -167,6 +226,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                      // ArchivedRewards
                         <Route
                             path="/management/rewards/claimed/archived"
                             element={
@@ -179,7 +240,21 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
-                        <Route path="/rewards" element={<Rewards />} />
+
+                      // Developers Rewards
+                        <Route path="/rewards" 
+                        element={
+                          <DeveloperRoutes
+                          token={cookies.token}
+                          role={cookies.role}
+                      >
+                          {" "}
+                        <Rewards />
+                        </DeveloperRoutes>
+                        } 
+                        />
+
+                        // Developer FAQ
                         <Route path="/FAQ" 
                         element={
                           <DeveloperRoutes
@@ -191,6 +266,8 @@ const App = () => {
                         </DeveloperRoutes>
                          }
                         />
+
+                        // Mangers FAQ
                         <Route
                             path="/management/faqs"
                             element={
@@ -203,6 +280,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // CreateFAQ
                         <Route
                             path="/management/manageFaqs/create"
                             element={
@@ -215,6 +294,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // UpdateFAQs
                         <Route
                             path="/management/manageFaqs/update/:id"
                             element={
@@ -227,6 +308,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // Repositories
                         <Route
                             path="/management/repositories"
                             element={
@@ -239,6 +322,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // ManageTrackers
                         <Route
                             path="/management/trackers"
                             element={
@@ -251,6 +336,8 @@ const App = () => {
                             </ManagerRoutes>
                             }
                         />
+
+                        // CreateTracker
                         <Route
                             path="/management/trackers/create"
                             element={
@@ -263,6 +350,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // UpdateTracker
                         <Route
                             path="/management/trackers/update/:id"
                             element={
@@ -275,6 +364,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // ManageProfiles
                         <Route
                             path="/profile"
                             element={
@@ -287,6 +378,8 @@ const App = () => {
                                 </ProtectedRoute>
                             }
                         />
+
+                        // UpdateProfile
                         <Route
                             path="/profile/update"
                             element={
@@ -299,6 +392,8 @@ const App = () => {
                                 </ProtectedRoute>
                             }
                         />
+
+                        // UpdatePassword
                         <Route
                             path="/profile/password"
                             element={
@@ -311,7 +406,9 @@ const App = () => {
                                 </ProtectedRoute>
                             }
                         />
-                        <Route
+
+                        // AddQuestion
+                        <Route 
                             path="/faq/ask"
                             element={
                                 <DeveloperRoutes
@@ -323,6 +420,8 @@ const App = () => {
                                 </DeveloperRoutes>
                             }
                         />
+
+                        // ManageQuestions
                         <Route
                             path="/management/manageFaqs/questions"
                             element={
@@ -335,6 +434,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // AddQuestions
                         <Route
                             path="/management/manageFaqs/questions/add/:id"
                             element={
@@ -347,6 +448,8 @@ const App = () => {
                                 </ManagerRoutes>
                             }
                         />
+
+                        // UnauthorizedPage
                         <Route path="/401" element={<UnauthorizedPage />} />
                     </Routes>
                 </Sidebar>
