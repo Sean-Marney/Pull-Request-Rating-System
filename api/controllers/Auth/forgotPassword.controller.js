@@ -34,10 +34,18 @@ const sendOTP = async (req, res) => {
                 .json({ message: "User with that email was not found" });
         }
         const { name } = user;
+        
+        // Generate OTP
+        const otp = generateOTP();
+
+        // Check if an OTP exists for the user entered email
+        const existingOtp = await Otp.findOne({email});
+
+        // If OTP exists, update it with the latest one send to the email 
+        if(existingOtp) await Otp.findOneAndUpdate({email}, {otp: otp} );
 
         // Generate the OTP and save it to the database
-        const otp = generateOTP();
-        await Otp.create({ email, otp });
+        else await Otp.create({ email, otp });
 
         // Send the OTP to the user's email
         const accessToken = await oAuth2Client.getAccessToken();
