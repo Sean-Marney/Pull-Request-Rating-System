@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Typography, Tooltip, Link, Box } from "@material-ui/core";
+import { Paper, Typography, Tooltip, Link, Box, Grid} from "@material-ui/core";
 import StarIcon from "@material-ui/icons/Stars";
 import TrophyIcon from "@material-ui/icons/EmojiEvents";
 import CalanderIcon from "@material-ui/icons/CalendarToday";
@@ -133,6 +133,8 @@ export default function DeveloperDashboard() {
   const [starsRequiredForEachReward, setStarsRequiredForEachReward] = useState(
     []
   );
+  const [level, setLevel] = useState(null); // User's current level
+  const [image, setImage] = useState(null); // User's current level image
 
   const rewardNames = Object.keys(remainingStarsForEachReward); // Name of reward
   const starsRemaining = Object.values(remainingStarsForEachReward); // Number of stars left before they can claim it
@@ -145,6 +147,7 @@ export default function DeveloperDashboard() {
     getUsersLatestPullRequestStatus();
     checkIfUserCanClaimReward();
     getUsersClaimedRewards();
+    getLevel();
   }, [user]);
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
@@ -159,6 +162,22 @@ export default function DeveloperDashboard() {
       console.log(error);
     }
   };
+
+  // Get the highest badge the user has earned
+  const getLevel = async () => {
+    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
+    levels.data.unshift({name: "No Badge", value: 0 });
+    let level = levels.data.filter(item => item.value <= user.totalStarsEarned).sort((a, b) => b.value - a.value)[0];
+    setLevel(level.name);
+    if (level.name === "No Badge") {
+      setImage(<div></div>);
+    }else{
+      const blob = new Blob([Int8Array.from(level.img.data.data)], {type: level.img.data.contentType });
+      const imagsrc = window.URL.createObjectURL(blob);
+      let photo = <img src={imagsrc} alt="badge" width="75" height="75" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/>;
+      setImage(photo);
+    }
+  }
 
   // Gets user's current star count
   const getUsersCurrentStarCount = async () => {
@@ -350,17 +369,19 @@ export default function DeveloperDashboard() {
               {/* Content displayed when hovering */}
               {hoveredBox === "totalStarsAchieved" && (
                 <Typography variant="body1" className={classes.boxDescription2}>
-                  Claimed Rewards:
-                  <Typography className={classes.scrollbox}>
-                    {claimedRewards &&
-                      claimedRewards.map((reward, index) => (
-                        <div key={index}>
-                          <Typography variant="h6">
-                            {reward.reward_name}
-                          </Typography>
-                        </div>
-                      ))}
-                  </Typography>
+                    <Grid container spacing={4}>
+                    <Grid item>
+                      <div>
+                        {image}
+                      </div>
+
+                    </Grid>
+                    <Grid item>
+                      <br></br>
+                      Current Level: {level}
+                    </Grid>
+                    </Grid>
+
                 </Typography>
               )}
             </Paper>

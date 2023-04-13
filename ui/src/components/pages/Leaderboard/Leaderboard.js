@@ -11,7 +11,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
-
+import { Level } from "./Level";
 function Leaderboard() {
   const classes = useStyles();
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -28,7 +28,7 @@ function Leaderboard() {
   const getLevels = async () => {
     const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
     levels.data.unshift({name: "No Badge", value: 0 });
-    console.log(levels.data.filter(item => item.value <= 11).sort((a, b) => b.value - a.value)[0].name);
+    // console.log(levels.data.filter(item => item.value <= 11).sort((a, b) => b.value - a.value)[0].name);
     setLevelList(levels.data);
   };
 
@@ -54,7 +54,9 @@ function Leaderboard() {
                 </TableCell>
                 <TableCell>{user.totalStarsEarned}</TableCell>
                 
-                <TableCell>{levelList.filter(item => item.value <= user.totalStarsEarned).sort((a, b) => b.value - a.value)[0].name}</TableCell>
+                <TableCell><Level levelList={levelList} current={user.totalStarsEarned} /></TableCell>
+                {/* <TableCell>{levelList.filter(item => item.value <= user.totalStarsEarned).sort((a, b) => b.value - a.value)[0].name}</TableCell> */}
+                
               </TableRow>
             ))}
           </TableBody>

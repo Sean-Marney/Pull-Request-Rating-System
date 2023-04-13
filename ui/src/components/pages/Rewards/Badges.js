@@ -53,7 +53,7 @@ export class Badges extends React.Component {
           index = index + 1;
       }
         const classes = this.props.style;
-
+        console.log(classes);
         return (
                  <Box className={classes.tableContainer} component="span">
                         <Paper className={classes.paper}>

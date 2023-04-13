@@ -28,7 +28,7 @@ const Sidebar = ({ children, removeCookie }) => {
         },
         {
             path: "/rewards",
-            name: "Rewards",
+            name: "Achievements",
             icon: <Star />,
         },
         {

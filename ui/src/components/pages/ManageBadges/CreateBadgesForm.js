@@ -15,7 +15,7 @@ import validateCreateBadgeForm from "../../../validations/createBadgeForm";
 import { useStyles } from "../../styles/formStyle";
 const FormData = require('form-data');
 
-export default function CreateReward() {
+export default function CreateBadge() {
   const classes = useStyles();
   const [createForm, setCreateForm] = useState({
     badgeName: "",
@@ -68,10 +68,10 @@ export default function CreateReward() {
        
     axios.post(process.env.REACT_APP_API_ENDPOINT +'/management/badge/upload', formData)
          .then(res => {
-            navigate("/management/badges"); // Redirects after reward is created
+            navigate("/management/badges"); // Redirects after badge is created
          })
          .catch(err => {
-            navigate("/management/badges"); // Redirects after reward is created
+            navigate("/management/badges"); // Redirects after badge is created
          });
 
       } catch (error) {
@@ -152,9 +152,7 @@ export default function CreateReward() {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" variant="contained" color="primary">
-                  Create Badge
-                </Button>
+                <Button type="submit" variant="contained" color="primary">Create Badge</Button>
               </div>
             </form>
           </CardContent>

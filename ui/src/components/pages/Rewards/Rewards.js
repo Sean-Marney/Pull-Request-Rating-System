@@ -179,7 +179,7 @@ export default function BasicTabs() {
   return (
     <Box sx={{ width: '100%' }}>
     <Box style ={{"paddingBottom":"10px"}}>
-        <Typography component={'span'} variant="h4" style ={{"paddingBottom":"20px", "paddingLeft":"20px"}}><b>Rewards</b> </Typography>
+        <Typography component={'span'} variant="h4" style ={{"paddingBottom":"20px", "paddingLeft":"20px"}}><b>Achievements</b> </Typography>
         <Divider />
     </Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

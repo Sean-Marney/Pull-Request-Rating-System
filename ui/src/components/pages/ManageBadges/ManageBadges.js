@@ -19,7 +19,7 @@ import {
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
 
-export default function ManageRewards() {
+export default function ManageBadges() {
   const classes = useStyles();
 
   const [badges, setBadges] = useState(null);
@@ -39,6 +39,7 @@ export default function ManageRewards() {
       const image = window.URL.createObjectURL(blob);
       res.data[i].photo = image;
     }
+    console.log(res.data);
     // Set to state
     setBadges(res.data);
   };

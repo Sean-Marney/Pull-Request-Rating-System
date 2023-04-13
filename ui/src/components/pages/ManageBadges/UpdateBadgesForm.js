@@ -15,7 +15,7 @@ import validateCreateBadgeForm from "../../../validations/createBadgeForm";
 import { useStyles } from "../../styles/formStyle";
 import Grid from '@mui/material/Grid';
 
-export default function UpdateReward() {
+export default function UpdateBadge() {
   const classes = useStyles();
   const [updateForm, setUpdateForm] = useState({
     badgeName: "",
@@ -81,7 +81,7 @@ export default function UpdateReward() {
       });
       // If no new image is uploaded, update badge without image
       if (newPhoto === null) {
-        // Update reward
+        // Update Badge
         await axios.patch(
           process.env.REACT_APP_API_ENDPOINT + `/management/badge/update/${id}`,
           updateForm
@@ -186,7 +186,7 @@ export default function UpdateReward() {
                   Cancel
                 </Button>
                 <Button type="submit" variant="contained" color="primary">
-                  Update Reward
+                  Update Badge
                 </Button>
               </div>
             </form>
