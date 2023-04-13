@@ -33,7 +33,9 @@ export default function ManageRewards() {
 
   const getRewards = async () => {
     // Get rewards
-    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
+    const res = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards"
+    );
 
     // Set to state
     setRewards(res.data);
@@ -51,7 +53,7 @@ export default function ManageRewards() {
   return (
     <div className={classes.tableContainer}>
       <Paper className={classes.paper}>
-        <Typography variant="h4">
+        <Typography variant="h4" className={classes.title}>
           <b>Manage Rewards</b>
         </Typography>
         <Button
