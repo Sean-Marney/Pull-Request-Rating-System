@@ -92,9 +92,6 @@ export default function UpdateReward() {
                   onChange={updateEditFormField}
                   value={updateForm.rewardName}
                   name="rewardName"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.rewardName && (
@@ -107,9 +104,6 @@ export default function UpdateReward() {
                   onChange={updateEditFormField}
                   value={updateForm.starsRequired}
                   name="starsRequired"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.starsRequired && (
