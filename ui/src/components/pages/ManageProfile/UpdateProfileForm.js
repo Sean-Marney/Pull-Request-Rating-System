@@ -8,7 +8,6 @@ import {
   Button,
   Card,
   CardContent,
-  makeStyles,
   TextField,
 } from "@material-ui/core";
 import { useCookies } from "react-cookie";
@@ -16,11 +15,9 @@ import validateCreateUserForm from "../../../validations/updateProfileForm";
 import * as yup from "yup";
 import { useStyles } from "../../styles/formStyle";
 
-
-
 export default function UpdateProfile() {
   const classes = useStyles();
-  const [cookies,setCookie] = useCookies();
+  const [cookies, setCookie] = useCookies();
   const [updateForm, setUpdateForm] = useState({
     name: "",
     email: "",
@@ -37,7 +34,8 @@ export default function UpdateProfile() {
   const getUser = async () => {
     // Get user by email
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
     console.log(res.data);
     // Set to state (fills in textboxes)
@@ -65,12 +63,13 @@ export default function UpdateProfile() {
         abortEarly: false,
       });
       await axios.patch(
-        process.env.REACT_APP_API_ENDPOINT + `/management/users/update/email/${cookies.user.email}`,
+        process.env.REACT_APP_API_ENDPOINT +
+          `/management/users/update/email/${cookies.user.email}`,
         updateForm
       );
       console.log(updateForm);
-    
-      setCookie("user", updateForm.email, { path: "/" });      
+
+      setCookie("user", updateForm.email, { path: "/" });
       navigate("/profile");
     } catch (error) {
       const validationErrors = {};
@@ -87,25 +86,24 @@ export default function UpdateProfile() {
     <div>
       <div>
         <Card className={classes.card}>
-          <Typography variant="h4">
+          <Typography variant="h4" className={classes.title}>
             <b>Update Profile</b>
           </Typography>
           <CardContent>
-            <form onSubmit={updateUser}>
+            <form onSubmit={updateUser} className={classes.formControl}>
               {/* name */}
-              <div style={{ marginTop: "20px" }}>
+              <div>
                 <InputLabel>Name </InputLabel>
                 <Input
                   onChange={updateEditFormField}
                   value={updateForm.name}
                   name="name"
                   id="name"
-                  inputProps={{
-                    style: { textAlign: "left" },
-                  }}
                   className={classes.input}
                 />
-                {error.name && <div style={{ color: "red" }}>{error.name}</div>}
+                {error.name && (
+                  <div className={classes.error}>{error.name}</div>
+                )}
               </div>
 
               {/* email */}
@@ -116,20 +114,17 @@ export default function UpdateProfile() {
                   value={updateForm.email}
                   name="email"
                   id="email"
-                  inputProps={{
-                    style: { textAlign: "left" },
-                  }}
                   className={classes.input}
                 />
                 {error.email && (
-                  <div style={{ color: "red" }}>{error.email}</div>
+                  <div className={classes.error}>{error.email}</div>
                 )}
               </div>
 
               {/* bio */}
               <div>
                 <InputLabel>Bio</InputLabel>
-                <TextField
+                <Input
                   onChange={updateEditFormField}
                   value={updateForm.bio}
                   multiline
@@ -137,9 +132,6 @@ export default function UpdateProfile() {
                   maxWidth
                   name="bio"
                   id="bio"
-                  inputProps={{
-                    style: { textAlign: "left" },
-                  }}
                   className={classes.input}
                 />
                 {error.bio && <div style={{ color: "red" }}>{error.bio}</div>}
