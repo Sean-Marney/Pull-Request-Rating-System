@@ -6,7 +6,6 @@ import {
     Select,
     Typography,
     MenuItem,
-    makeStyles,
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { Skeleton } from "@mui/material";
@@ -14,71 +13,7 @@ import Modal from "@mui/material/Modal";
 import PullRequestRating from "./PullRequestRating";
 import PullRequestRatingStars from "./PullRequestRatingStars";
 import useAxiosInstance from "../../../useAxiosInstance";
-
-// styles here
-const useStyles = makeStyles((theme) => ({
-    root: {
-        height: "700px",
-        maxWidth: "100%",
-        backgroundColor: theme.palette.background.paper,
-        display: "flex",
-        flexDirection: "column",
-        overflow: "auto",
-    },
-    selectContainer: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        width: "100%",
-        marginBottom: theme.spacing(2),
-    },
-    select: {
-        width: "170px",
-        margin: "0px 20px",
-        padding: "0px 6px",
-        border: "0.5px solid black",
-    },
-    listItem: {
-        cursor: "pointer",
-        "&:hover": {
-            backgroundColor: "#f5f5f5",
-        },
-        border: "1px solid black",
-        width: "1000px",
-        margin: 10,
-        padding: "5px 5px",
-    },
-    ul: {
-        margin: 0,
-        padding: 0,
-    },
-    container: {
-        display: "flex",
-        flexDirection: "row",
-    },
-    selectWrapper: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    buttonContainer: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        width: "130px",
-        fontFamily: "roboto",
-    },
-    button: {
-        flexBasis: "45%",
-    },
-    positionElements: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        height: "80px",
-        marginBottom: "10px",
-    },
-}));
+import { useStyles } from "../../styles/Repositories/RepositoryStyle";
 
 var moment = require("moment");
 moment().format();
@@ -154,6 +89,34 @@ const RepositoryList = () => {
         return list;
     };
 
+    const handleSubmitClick = async (
+        pullRequest,
+        pullRequestRating,
+        setError
+    ) => {
+        try {
+            if (Object.keys(pullRequestRating).length < 1) {
+                setError(true);
+                return;
+            }
+            await request({
+                method: "put",
+                url: `/ratings/update/${pullRequest._id}`,
+                data: {
+                    ...pullRequest,
+                    rating: { ...pullRequestRating },
+                    rating_complete: true,
+                },
+            });
+
+            setSelectedPR(null);
+            getAllPullRequests();
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         getAllPullRequests();
     }, [filter]);
@@ -172,9 +135,12 @@ const RepositoryList = () => {
                 }}
             >
                 <PullRequestRating
+                    setLoading={setLoading}
+                    loading={loading}
                     pullRequest={selectedPR}
                     setSelectedPR={setSelectedPR}
                     reloadList={getAllPullRequests}
+                    handleSubmit={handleSubmitClick}
                 />
             </Modal>
             <Typography variant="h4">
@@ -246,11 +212,7 @@ const RepositoryList = () => {
                                                     classes.positionElements
                                                 }
                                             >
-                                                <div
-                                                    style={{
-                                                        minHeight: "250px",
-                                                    }}
-                                                >
+                                                <div>
                                                     <Typography
                                                         component="span"
                                                         variant="body1"
@@ -279,19 +241,6 @@ const RepositoryList = () => {
                                                         )}
                                                     </Typography>
                                                     <br />
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body1"
-                                                        color="textSecondary"
-                                                    >
-                                                        Total stars{" "}
-                                                        {pullRequest.ratings
-                                                            ?.overall
-                                                            ? pullRequest
-                                                                  .ratings
-                                                                  .overall
-                                                            : 0}{" "}
-                                                    </Typography>
                                                 </div>
                                                 <br />
 
@@ -310,9 +259,6 @@ const RepositoryList = () => {
                                                                 pullRequest.url
                                                             )
                                                         }
-                                                        // className={
-                                                        //     classes.button
-                                                        // }
                                                         variant="contained"
                                                         size="medium"
                                                     >
@@ -330,9 +276,6 @@ const RepositoryList = () => {
                                                                     );
                                                                 else return;
                                                             }}
-                                                            // className={
-                                                            //     classes.button
-                                                            // }
                                                             variant="contained"
                                                             size="small"
                                                         >
@@ -350,19 +293,19 @@ const RepositoryList = () => {
                                 <Skeleton
                                     variant="rectangular"
                                     width={1000}
-                                    height={125}
+                                    height={145}
                                     style={{ margin: "8px 0px" }}
                                 />
                                 <Skeleton
                                     variant="rectangular"
                                     width={1000}
-                                    height={125}
+                                    height={145}
                                     style={{ margin: "8px 0px" }}
                                 />
                                 <Skeleton
                                     variant="rectangular"
                                     width={1000}
-                                    height={125}
+                                    height={145}
                                     style={{ margin: "8px 0px" }}
                                 />
                             </>

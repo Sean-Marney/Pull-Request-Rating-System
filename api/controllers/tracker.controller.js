@@ -64,14 +64,14 @@ const updateTracker = async (req, res) => {
 // Delete a tracker
 const deleteTracker = async (req, res) => {
     try {
-        const tracker = await Tracker.findById(req.params.id);
+        const tracker = await Tracker.findByIdAndDelete(req.params.id);
         if (!tracker) {
             return res
                 .status(404)
                 .json({ message: "Tracker with that ID not found" });
         }
 
-        await tracker.remove();
+        // await tracker.remove();
 
         res.status(200).json({ message: "Tracker deleted" });
     } catch (error) {

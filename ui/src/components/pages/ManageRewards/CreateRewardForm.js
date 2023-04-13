@@ -75,9 +75,6 @@ export default function CreateReward() {
                   value={createForm.rewardName}
                   name="rewardName"
                   id="rewardName"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.rewardName && (
@@ -91,9 +88,6 @@ export default function CreateReward() {
                   value={createForm.starsRequired}
                   name="starsRequired"
                   id="starsRequired"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.starsRequired && (
