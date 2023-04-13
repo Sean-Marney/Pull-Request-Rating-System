@@ -10,107 +10,136 @@ stages:
 
 # Build the API
 api build:
-  stage: Builds
-  # Set up the environment before running the script
-  before_script:
-    # Installing nexe globally
-    - npm install -g pkg
-    # Change to the API directory
-    - echo "Changing directory to api/"
-    - cd api/
-    # Print the current directory
-    - pwd
-    # Install dependencies for the API
-    - echo "Installing dependencies for api/"
-    - npm i --force
-  # Run the build script for the API
-  script:
-    - echo "Running build for api/"
-    - pkg -t linux,macos,win index.js --out-path dist --no-warnings
-    # Print success message
-    - echo "API build was Successful!"
-  # Only run this job when a merge request is created
-  only:
-    - merge_requests
-  artifacts:
-    paths:
-      - api/dist
+    stage: Builds
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Set up the environment before running the script
+    before_script:
+        # Installing nexe globally
+        - npm install -g pkg
+        # Change to the API directory
+        - echo "Changing directory to api/"
+        - cd api/
+        # Print the current directory
+        - pwd
+        # Install dependencies for the API
+        - echo "Installing dependencies for api/"
+        - npm i --force
+    # Run the build script for the API
+    script:
+        - echo "Running build for api/"
+        - pkg -t linux,macos,win index.js --out-path dist --no-warnings
+        # Print success message
+        - echo "API build was Successful!"
+    # Only run this job when a merge request is created
+    artifacts:
+        paths:
+            - api/dist
 
 # Build the UI
 ui build:
-  stage: Builds
-  # Set up the environment before running the script
-  before_script:
-    # Change to the UI directory
-    - echo "Changing directory to ui/"
-    - cd ui/
-    # Print the current directory
-    - pwd
-    # Install dependencies for the UI
-    - echo "Installing dependencies for ui/"
-    - npm i --force
-  # Run the build script for the UI
-  script:
-    - echo "Running build for ui/"
-    - npm run build
-    # Print success message
-    - echo "UI build was Successful!"
-  # Only run this job when a merge request is created
-  only:
-    - merge_requests
-  artifacts:
-    paths:
-      - ui/build/static
+    stage: Builds
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Set up the environment before running the script
+    before_script:
+        # Change to the UI directory
+        - echo "Changing directory to ui/"
+        - cd ui/
+        # Print the current directory
+        - pwd
+        # Install dependencies for the UI
+        - echo "Installing dependencies for ui/"
+        - npm i --force
+    # Run the build script for the UI
+    script:
+        - echo "Running build for ui/"
+        - npm run build
+        # Print success message
+        - echo "UI build was Successful!"
+    # Only run this job when a merge request is created
+    artifacts:
+        paths:
+            - ui/build
 
 # Run unit tests for the API
 api unit tests:
-  stage: Unit Tests
-  timeout: 1h # set timeout for the entire job to 1 hour
-  # Set up the environment before running the script
-  before_script:
-    # Change to the API directory
-    - echo "Changing directory to api/"
-    - cd api/
-    # Print the current directory
-    - pwd
-    # Install dependencies for the API
-    - echo "Installing dependencies for api/"
-    - npm i --force
-  # Run the unit tests for the API
-  script:
-    - echo "Running Unit Tests for api/"
-    # Create variable to find all test files
-    - testFiles=$(find tests/ -mindepth 1 -type f)
-    - echo $testFiles
-    # Run the tests with timeout option
-    - npm test $testFiles --verbose
-    # Check the exit status of the npm test command
-    - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
-  # Only run this job when a merge request is created
-  only:
-    - merge_requests
+    stage: Unit Tests
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
+    timeout: 1h # set timeout for the entire job to 1 hour
+    # Set up the environment before running the script
+    before_script:
+        # Change to the API directory
+        - echo "Changing directory to api/"
+        - cd api/
+        # Print the current directory
+        - pwd
+        # Install dependencies for the API
+        - echo "Installing dependencies for api/"
+        - npm i --force
+    # Run the unit tests for the API
+    script:
+        - echo "Running Unit Tests for api/"
+        # Create variable to find all test files
+        - testFiles=$(find tests/ -mindepth 1 -type f)
+        - echo $testFiles
+        # Run the tests with timeout option
+        - npm test $testFiles --verbose
+        # Check the exit status of the npm test command
+        - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
 
     # Run unit tests for the UI
 ui unit tests:
-  stage: Unit Tests
-  # Set up the environment before running the script
-  before_script:
-    # Change to the UI directory
-    - echo "Changing directory to ui/"
-    - cd ui/
-    # Print the current directory
-    - pwd
-    # Install dependencies for the UI
-    - echo "Installing dependencies"
-    - npm i --force
-  script:
-    - echo "Running Unit Tests for ui/"
-    # Find all test files inside src/__tests__/ directory and run them
-    - testFiles=$(find src/__tests__ -name '*.test.js')
-    - echo $testFiles
-    - npm test $testFiles
-    # Print success message
-    - echo "All Tests Passed!"
-      # Only run this job when a merge request is created
-  only:
-    - merge_requests
+    stage: Unit Tests
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Set up the environment before running the script
+    before_script:
+        # Change to the UI directory
+        - echo "Changing directory to ui/"
+        - cd ui/
+        # Print the current directory
+        - pwd
+        # Install dependencies for the UI
+        - echo "Installing dependencies"
+        - npm i --force
+    script:
+        - echo "Running Unit Tests for ui/"
+        # Find all test files inside src/__tests__/ directory and run them
+        - testFiles=$(find src/__tests__ -name '*.test.js')
+        - echo $testFiles
+        - npm test $testFiles
+        # Print success message
+        - echo "All Tests Passed!"
+
+deploy to s3:
+    stage: Deploy To S3
+    image:
+        name: amazon/aws-cli:2.11.2
+        entrypoint: [""]
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    script:
+        # Checks AWS instance
+        - aws --version
+        - aws configure set region eu-north-1
+        # Syncs the ui and the api buckets in S3
+        - aws s3 sync ui/build s3://pullmaster.io-react --delete
+        - aws s3 sync api s3://pullmaster-bucket-api --delete
+
+deploy to ec2:
+    stage: Deploy To EC2
+    image: alpine
+    rules:
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    # Creates private key to ssh into ec2 machine
+    before_script:
+        - apk add openssh-client
+        - eval $(ssh-agent -s)
+        - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        - mkdir -p ~/.ssh
+        - chmod 700 ~/.ssh
+    script:
+        # SSH into ec2 machine and then syncs down the s3 api bucket and reloads server
+        - ssh -o StrictHostKeyChecking=no ec2-user@13.48.23.250 "ls; aws s3 sync s3://pullmaster-bucket-api api; cd api; npm i --force; pm2 restart all"
