@@ -37,11 +37,13 @@ export const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
         flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '300px',
     },
     selectWrapper: {
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
     },
     buttonContainer: {
         display: "flex",
