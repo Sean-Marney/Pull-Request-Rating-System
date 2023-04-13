@@ -8,9 +8,11 @@
     Logout,
     Dashboard,
     LiveHelp,
-    Help
+    Help,
 } from "@mui/icons-material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import PeopleIcon from '@mui/icons-material/People';
 import { NavLink, Link} from "react-router-dom";
 
 
@@ -46,11 +48,6 @@ const Sidebar = ({ children, removeCookie, role }) => {
             name: "Profile",
             icon: <AccountCircleIcon />,
         },       
-         {
-            path: "/management/ManagerHelp",
-            name: "ManagerHelp",
-            icon: <Help />,
-        },
    ];
 
    const mangerMenuItem =[
@@ -63,7 +60,32 @@ const Sidebar = ({ children, removeCookie, role }) => {
         path: "/management/rewards",
         name: "Rewards",
         icon: <Star />,
-    }
+    },
+    {
+        path: "/management/users",
+        name: "Developers",
+        icon: <PeopleIcon />,
+    }, 
+    {
+        path: "/management/Leaderboard",
+        name: "Leaderboard",
+        icon: <LeaderboardIcon />,
+    }, 
+    {
+        path: "/management/faqs",
+        name: "FAQ",
+        icon: <LiveHelp />,
+    }, 
+    {
+        path: "/management/ManagerHelp",
+        name: "Help",
+        icon: <Help />,
+    },
+    {
+        path: "/profile",
+        name: "Profile",
+        icon: <AccountCircleIcon />,
+    },   
    ];
     return (
         <div className="container">
