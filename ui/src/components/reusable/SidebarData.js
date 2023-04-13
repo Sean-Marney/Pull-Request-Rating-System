@@ -115,7 +115,7 @@ const Sidebar = ({ children, removeCookie, role }) => {
                         to={item.path}
                         key={index}
                         className="link"
-                        activeclassName="active"
+                        activeclassName="active2"
                     >
                         <div className="icon">{item.icon}</div>
                         <div style={{ display: "block" }} className="link_text">

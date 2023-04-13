@@ -38,7 +38,7 @@ import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm"
 import AddQuestion from "./components/pages/Questions/QuestionsForm";
 import ManageQuestions from "./components/pages/ManageQuestions/ManageQuestions";
 import AddQuestions from "./components/pages/ManageQuestions/AddQuestion";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
 
@@ -52,13 +52,11 @@ const App = () => {
               // DeveloperDashboard
               <Route 
                         path="/" element={
-                           <DeveloperRoutes
-                           token={cookies.token}
-                           role={cookies.role}
-                       >
-                           {" "}
+                        cookies.role === "Manager" ? (
+                            <Navigate replace to= "/management" />
+                        ) : (
                         <DeveloperDashboard />
-                        </DeveloperRoutes>
+                        )
                         } 
               />
 
