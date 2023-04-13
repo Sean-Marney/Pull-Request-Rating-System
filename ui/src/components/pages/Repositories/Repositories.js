@@ -6,7 +6,6 @@ import {
     Select,
     Typography,
     MenuItem,
-    Box,
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { Skeleton } from "@mui/material";
