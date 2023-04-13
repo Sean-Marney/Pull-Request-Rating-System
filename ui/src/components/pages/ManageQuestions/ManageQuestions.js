@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
   Table,
@@ -19,9 +19,8 @@ import {
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
 
-
 export default function ManageQuestions() {
-    const classes = useStyles();
+  const classes = useStyles();
   const [questions, setQuestions] = useState(null);
 
   const navigate = useNavigate();
@@ -32,7 +31,9 @@ export default function ManageQuestions() {
 
   const getQuestions = async () => {
     // Get faqs
-    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/management/questions");
+    const res = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + "/management/questions"
+    );
 
     // Set to state
     setQuestions(res.data);
@@ -47,10 +48,9 @@ export default function ManageQuestions() {
     getQuestions(); // Get updated list of rewards
   };
 
-
-    return (
-        <div  className={classes.tableContainer}>
-            <Button
+  return (
+    <div className={classes.tableContainer}>
+      {/* <Button
           style={{
             marginLeft: "20px",
             marginTop: "20px",
@@ -63,10 +63,10 @@ export default function ManageQuestions() {
           onClick={() => navigate("/management/faqs")}
         >
           back
-        </Button>
-        <Paper className={classes.paper}>
+        </Button> */}
+      <Paper className={classes.paper}>
         <Box padding={3}>
-          <Typography variant="h4">
+          <Typography variant="h4" className={classes.title}>
             <b>Developers Questions</b>
           </Typography>
         </Box>
@@ -94,8 +94,8 @@ export default function ManageQuestions() {
                         <IconButton
                           title="Add Question"
                           onClick={() =>
-                            navigate(  
-                            `/management/manageFaqs/questions/add/${question._id}`
+                            navigate(
+                              `/management/manageFaqs/questions/add/${question._id}`
                             )
                           }
                         >
@@ -116,6 +116,6 @@ export default function ManageQuestions() {
           )}
         </Box>
       </Paper>
-        </div>
-    );
+    </div>
+  );
 }

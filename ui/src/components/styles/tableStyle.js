@@ -10,8 +10,7 @@ export const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
   },
   paper: {
-    boxShadow: theme.shadows[5],
-    borderRadius: "20px",
+    boxShadow: theme.shadows[3],
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
   },
@@ -25,7 +24,7 @@ export const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   title: {
-    marginBottom: theme.spacing(2),
+    margin: theme.spacing(2),
   },
   button: {
     marginLeft: theme.spacing(1),

@@ -36,7 +36,9 @@ export default function Rewards() {
 
   const getRewards = async () => {
     // Get rewards
-    const res = await axios.get( process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
+    const res = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards"
+    );
 
     // Calculates remaining stars needed for reward
     const remainingStarsData = {};
@@ -57,7 +59,8 @@ export default function Rewards() {
   const getStars = async () => {
     // Get user object via getUserByEmail method
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
 
     // Set the star count
@@ -68,7 +71,8 @@ export default function Rewards() {
   const claimReward = async (reward) => {
     // Gets user object via getUserByEmail method (uses email stored in cookies)
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
     // Sets response data to user
     const user = res.data;
@@ -80,7 +84,8 @@ export default function Rewards() {
 
       // Updates user object with their new star count
       await axios.patch(
-        process.env.REACT_APP_API_ENDPOINT + `/management/users/update/${user._id}`,
+        process.env.REACT_APP_API_ENDPOINT +
+          `/management/users/update/${user._id}`,
         {
           name: user.name,
           email: user.email,
@@ -116,7 +121,7 @@ export default function Rewards() {
     <div className={classes.tableContainer}>
       <ToastContainer />
       <Paper className={classes.paper}>
-        <Typography variant="h4">
+        <Typography variant="h4" className={classes.title}>
           <b>Rewards</b>
         </Typography>
         <Box>
