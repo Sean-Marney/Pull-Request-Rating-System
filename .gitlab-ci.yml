@@ -88,14 +88,14 @@ api unit tests:
     - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
   # Only run this job when a merge request is created
   artifacts:
-  paths:
-    - api-test-results.xml
-  reports:
-    junit: api-test-results.xml
+    paths:
+      - api-test-results.xml
+    reports:
+      junit: api-test-results.xml
   # only:
-    # - merge_requests
+  #   - merge_requests
 
-    # Run unit tests for the UI
+# Run unit tests for the UI
 ui unit tests:
   stage: Unit Tests
   # Set up the environment before running the script
@@ -116,11 +116,11 @@ ui unit tests:
     - npm test $testFiles
     # Print success message
     - echo "All Tests Passed!"
-      # Only run this job when a merge request is created
+  # Only run this job when a merge request is created
   artifacts:
-  paths:
-    - ui-test-results.xml
-  reports:
-    junit: ui-test-results.xml
-  only:
-    # - merge_requests
+    paths:
+      - ui-test-results.xml
+    reports:
+      junit: ui-test-results.xml
+  # only:
+  #   - merge_requests
