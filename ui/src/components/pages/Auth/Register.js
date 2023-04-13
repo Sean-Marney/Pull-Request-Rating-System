@@ -85,7 +85,7 @@ export default function SignUp() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AppBar position="static" sx={{ backgroundColor: "black" }}>
+            <AppBar position="static" sx={{ backgroundColor: "#1b2437" }}>
                 <Toolbar>
                     <Typography
                         variant="h6"
