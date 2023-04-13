@@ -454,9 +454,6 @@ const App = () => {
 
               // UnauthorizedPage
               <Route path="/401" element={<UnauthorizedPage />} />
-
-              // RouteError
-              <Route path="/404" element={<RouteError />} />
               
             </Routes>
         </Sidebar>
@@ -472,6 +469,8 @@ const App = () => {
             path="/forgotpassword"
             element={<ForgotPassword />}
           />
+          // RouteError
+              <Route path="/404" element={<RouteError />} />
         </Routes>
       )}
     </BrowserRouter>
