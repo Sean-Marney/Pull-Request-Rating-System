@@ -18,6 +18,5 @@ describe("Testing developer's badges page at /rewards", () => {
     expect(desc).toBeInTheDocument();
     const level = await screen.findByText("You have not earned any badges yet");
     expect(level).toBeInTheDocument();
-
   });
 });

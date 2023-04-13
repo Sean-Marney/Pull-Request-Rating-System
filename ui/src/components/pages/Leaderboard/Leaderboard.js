@@ -55,8 +55,6 @@ function Leaderboard() {
                 <TableCell>{user.totalStarsEarned}</TableCell>
                 
                 <TableCell><Level levelList={levelList} current={user.totalStarsEarned} /></TableCell>
-                {/* <TableCell>{levelList.filter(item => item.value <= user.totalStarsEarned).sort((a, b) => b.value - a.value)[0].name}</TableCell> */}
-                
               </TableRow>
             ))}
           </TableBody>

@@ -10,7 +10,8 @@ export class Level extends React.Component {
 
     render() {
         let image;
-        let level = this.props.levelList.filter(item => item.value <= this.props.current).sort((a, b) => b.value - a.value)[0];
+        // this.props.current
+        let level = this.props.levelList.filter(item => item.value <=22 ).sort((a, b) => b.value - a.value)[0];
         if (level.name === "No Badge") {
             image = <div></div>;
         }else{
@@ -25,10 +26,12 @@ export class Level extends React.Component {
               <div>
                 {image}
               </div>
-
             </Grid>
-                <Grid item style={{"text-align": "center"}}>
-                {level.name}
+                <Grid item>
+                  <div>
+                    {level.name}
+                  </div>
+
                 </Grid>
             </Grid>
         );

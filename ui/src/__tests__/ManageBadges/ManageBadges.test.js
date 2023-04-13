@@ -10,8 +10,8 @@ jest.mock("axios"); // mock axios module
 describe("Testing ManageBadges component", () => {
   it("should render the manage badges table with data", async () => {
     const mockData = [
-      { _id: "1", name: "First Reward", value: "10", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
-      { _id: "2", name: "Second Reward", value: "20", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
+      { _id: "1", name: "First Badge", value: "10", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
+      { _id: "2", name: "Second Badge", value: "20", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
     ];
 
     axios.get.mockResolvedValue({ data: mockData }); // mock the response of axios
@@ -24,16 +24,16 @@ describe("Testing ManageBadges component", () => {
       </MemoryRouter>
     );
 
-    const rewardName1 = await screen.findByText("First Reward");
-    const rewardName2 = await screen.findByText("Second Reward");
-    expect(rewardName1).toBeInTheDocument();
-    expect(rewardName2).toBeInTheDocument();
+    const badgeName1 = await screen.findByText("First Badge");
+    const badgeName2 = await screen.findByText("Second Badge");
+    expect(badgeName1).toBeInTheDocument();
+    expect(badgeName2).toBeInTheDocument();
     window.URL.createObjectURL.mockReset();
   });
 
-  it("should call deleteReward function when delete button is clicked", async () => {
+  it("should call deleteBadge function when delete button is clicked", async () => {
     const mockData = [
-      { _id: "1", name: "First Reward", value: "10", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
+      { _id: "1", name: "First Badge", value: "10", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
     ];
 
     axios.get.mockResolvedValue({ data: mockData });

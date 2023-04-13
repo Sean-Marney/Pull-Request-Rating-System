@@ -5,9 +5,12 @@ let path = require('path');
 
 const getAll = async (req, res) => {
     try {
-        const user = await Badge.find().sort({ value: 1 });
-        res.status(200).json(user);
+      console.log("getAll called");
+        const badges = await Badge.find().sort({ value: 1 });
+        console.log(badges);
+        res.status(200).json(badges);
     } catch (error) {
+        console.log(error);
         res.status(404).json({ message: error.message });
     }
 };
