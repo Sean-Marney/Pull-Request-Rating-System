@@ -41,6 +41,7 @@ app.get("/", (req, res) => res.send("Server up and running"));
 // routes
 app.use("/", authRoutes);
 app.use("/dashboard", developerDashboardRoute);
+app.use("/management", managerDashboardRoute);
 app.use("/management/rewards", rewardsRoute);
 app.use("/management/rewards/claimed", claimedRewardsRoute);
 app.use("/rewards", rewardsRoute);
@@ -52,8 +53,6 @@ app.use("/management/trackers", trackerRoute);
 app.use("/pullrequests", pullRequestHistoryRoute);
 app.use("/ratings", ratingRoute);
 app.get("/management/Leaderboard", leaderboardRoute);
-app.get("/requests", managerDashboardRoute);
-app.get("/archived-rewards", managerDashboardRoute);
 app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
 app.post("/management/ManagerHelp", managerHelpRoute);

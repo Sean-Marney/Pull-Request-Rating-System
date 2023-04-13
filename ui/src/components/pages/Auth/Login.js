@@ -2,10 +2,9 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import { InputLabel } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -17,18 +16,29 @@ import useAxiosInstance from "../../../useAxiosInstance";
 import * as yup from "yup";
 import { useState } from "react";
 import validateLoginForm from "../../../validations/loginForm";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import { useStyles } from "../../styles/Auth/loginFormStyle";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 const theme = createTheme();
 
 export default function SignIn() {
+    const classes = useStyles();
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const { request } = useAxiosInstance();
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+    const [showPassword, setShowPassword] = React.useState(false);
     const [error, setError] = useState({});
     const [user, setUser] = React.useState({
         email: "",
         password: "",
     });
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -37,6 +47,8 @@ export default function SignIn() {
             [name]: value,
         }));
     };
+
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -80,11 +92,28 @@ export default function SignIn() {
 
     return (
         <ThemeProvider theme={theme}>
+            <AppBar
+                position="static"
+                className={classes.appBar}
+                sx={{ backgroundColor: "#1b2437" }}
+            >
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: "25px",
+                            fontFamily: "Bahnschrift",
+                        }}
+                    >
+                        PullMaster.io
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -130,10 +159,29 @@ export default function SignIn() {
                                     required
                                     fullWidth
                                     name="password"
-                                    type="password"
                                     id="password"
                                     onChange={handleInputChange}
                                     autoComplete="current-password"
+                                    type={showPassword ? "text" : "password"}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                                 {error.password && (
                                     <div style={{ color: "red" }}>
@@ -151,10 +199,23 @@ export default function SignIn() {
                             Sign In
                         </Button>
                         <Grid container>
+                            <Grid item xs>
+                                <Button
+                                    type="submit"
+                                    onClick={() => navigate("/forgotPassword")}
+                                    sx={{ textTransform: "none" }}
+                                >
+                                    Forgot password
+                                </Button>
+                            </Grid>
                             <Grid item>
-                                <Link href="/register" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
+                                <Button
+                                    type="submit"
+                                    onClick={() => navigate("/register")}
+                                    sx={{ textTransform: "none" }}
+                                >
+                                    Don't have an account? Sign Up
+                                </Button>
                             </Grid>
                         </Grid>
                     </Box>

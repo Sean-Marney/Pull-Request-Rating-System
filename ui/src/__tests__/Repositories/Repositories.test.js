@@ -4,10 +4,20 @@ import axios from "axios";
 import RepositoryList from "../../components/pages/Repositories/Repositories";
 import { MemoryRouter } from "react-router";
 import "@testing-library/jest-dom/extend-expect";
+import noData from "../../../src/assets/images/NoData.png";
 
 jest.mock("axios");
 
 const mockedAxios = axios;
+
+jest.mock("../../../src/assets/images/NoData.png", () => {
+    return {
+        __esModule: true,
+        default: "path/to/NoData.png",
+    };
+});
+
+
 
 describe("RepositoryList", () => {
     beforeEach(() => {
@@ -40,21 +50,24 @@ describe("RepositoryList", () => {
         // const pullRequestTitle = await screen.findByText("Test Pull Request");
         // expect(pullRequestTitle).toBeInTheDocument();
     });
+
+    it("renders RepositoryList without crashing", () => {
+        render(
+            <MemoryRouter>
+                <RepositoryList />
+            </MemoryRouter>
+        );
+    });
+
+    it("renders 'All Pull Requests' by default", () => {
+        const { getByText } = render(
+            <MemoryRouter>
+                <RepositoryList />
+            </MemoryRouter>
+        );
+        expect(getByText("All Pull Requests")).toBeInTheDocument();
+    });
 });
 
-test("renders RepositoryList without crashing", () => {
-    render(
-        <MemoryRouter>
-            <RepositoryList />
-        </MemoryRouter>
-    );
-});
 
-test("renders 'All Pull Requests' by default", () => {
-    const { getByText } = render(
-        <MemoryRouter>
-            <RepositoryList />
-        </MemoryRouter>
-    );
-    expect(getByText("All Pull Requests")).toBeInTheDocument();
-});
+

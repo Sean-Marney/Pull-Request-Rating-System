@@ -3,7 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import Box from "@mui/material/Box";
@@ -16,12 +15,21 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useNavigate } from "react-router-dom";
 import validateRegisterForm from "../../../validations/registerForm";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 const theme = createTheme();
 
 export default function SignUp() {
     const navigate = useNavigate();
     const { request } = useAxiosInstance();
+    const [showPassword, setShowPassword] = React.useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+    const [error, setError] = useState({});
     const [user, setUser] = React.useState({
         email: "",
         name: "",
@@ -29,7 +37,11 @@ export default function SignUp() {
         confirmPassword: "",
     });
 
-    const [error, setError] = useState({});
+    
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowConfirmPassword = () =>
+        setShowConfirmPassword((show) => !show);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -57,7 +69,8 @@ export default function SignUp() {
         } catch (error) {
             const errors = {};
             if (error.response?.status === 409) {
-                errors.email = "This email is already registered in the system. Please login instead";
+                errors.email =
+                    "This email is already registered in the system. Please login instead";
             } else if (error instanceof yup.ValidationError) {
                 error.inner.forEach((e) => {
                     errors[e.path] = e.message;
@@ -72,11 +85,24 @@ export default function SignUp() {
 
     return (
         <ThemeProvider theme={theme}>
+            <AppBar position="static" sx={{ backgroundColor: "#1b2437" }}>
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: "25px",
+                            fontFamily: "Bahnschrift",
+                        }}
+                    >
+                        PullMaster.io
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: theme.spacing(8),
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -135,10 +161,29 @@ export default function SignUp() {
                                     required
                                     fullWidth
                                     name="password"
-                                    type="password"
                                     id="password"
                                     autoComplete="new-password"
                                     onChange={handleInputChange}
+                                    type={showPassword ? "text" : "password"}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                                 {error.password && (
                                     <div style={{ color: "red" }}>
@@ -154,9 +199,32 @@ export default function SignUp() {
                                     required
                                     fullWidth
                                     name="confirmPassword"
-                                    type="password"
                                     id="confirmPassword"
                                     onChange={handleInputChange}
+                                    type={
+                                        showConfirmPassword
+                                            ? "text"
+                                            : "password"
+                                    }
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowConfirmPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showConfirmPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                                 {error.confirmPassword && (
                                     <div style={{ color: "red" }}>
@@ -175,9 +243,13 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login" variant="body2">
+                                <Button
+                                    type="submit"
+                                    onClick={() => navigate("/login")}
+                                    sx={{ textTransform: "none" }}
+                                >
                                     Already have an account? Sign in
-                                </Link>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Box>

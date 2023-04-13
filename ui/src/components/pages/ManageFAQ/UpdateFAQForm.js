@@ -5,11 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
   InputLabel,
-  TextField,
   Button,
   Card,
   CardContent,
-  makeStyles,
+  Input,
 } from "@material-ui/core";
 import * as yup from "yup";
 import validateCreateFAQForm from "../../../validations/createFAQForm";
@@ -62,7 +61,8 @@ export default function UpdateFAQs() {
       });
       // Update faq
       await axios.patch(
-        process.env.REACT_APP_API_ENDPOINT +`/management/manageFaqs/update/${id}`,
+        process.env.REACT_APP_API_ENDPOINT +
+          `/management/manageFaqs/update/${id}`,
         updateForm
       );
 
@@ -89,32 +89,26 @@ export default function UpdateFAQs() {
             <form onSubmit={updateFAQs} className={classes.formControl}>
               <div>
                 <InputLabel>Question</InputLabel>
-                <TextField
+                <Input
                   multiline
                   rows={3}
                   onChange={updateEditFormField}
                   value={updateForm.question}
                   name="question"
-                  inputProps={{
-                    style: { textAlign: "left" },
-                  }}
                   className={classes.input}
                 />
                 {error.question && (
-                  <div style={{ color: "red" }}>{error.question}</div>
+                  <div className={classes.error}>{error.question}</div>
                 )}
               </div>
               <div>
                 <InputLabel>Answer</InputLabel>
-                <TextField
+                <Input
                   multiline
                   rows={3}
                   onChange={updateEditFormField}
                   value={updateForm.answer}
                   name="answer"
-                  inputProps={{
-                    style: { textAlign: "left" },
-                  }}
                   className={classes.input}
                 />
                 {error.answer && (
