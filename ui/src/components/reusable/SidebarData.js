@@ -13,6 +13,7 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import PeopleIcon from '@mui/icons-material/People';
+import CallMergeIcon from '@mui/icons-material/CallMerge';
 import { NavLink, Link} from "react-router-dom";
 
 
@@ -65,6 +66,11 @@ const Sidebar = ({ children, removeCookie, role }) => {
         path: "/management/users",
         name: "Developers",
         icon: <PeopleIcon />,
+    }, 
+    {
+        path: "/management/repositories",
+        name: "Pull Requests",
+        icon: <CallMergeIcon />,
     }, 
     {
         path: "/management/Leaderboard",
