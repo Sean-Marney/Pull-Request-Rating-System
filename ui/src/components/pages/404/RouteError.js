@@ -33,13 +33,6 @@ export default function RouteError() {
     return(
         <div>
         <Paper className={classes.paper}>
-        <Button className={classes.button}
-          variant="contained" 
-          size="large"
-          onClick={() => navigate("/dashboard")}
-        >
-        < KeyboardReturnIcon /> dashboard
-        </Button>
         <h2>Page Not Found</h2>
             <img src="/images/404.jpg" alt="404" className="errorimage"/>
             </Paper>
