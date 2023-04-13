@@ -74,7 +74,7 @@ const sendOTP = async (req, res) => {
             <p style="font-family: Arial; font-size: 16px;">Best regards,</p>
             <p style="font-family: Arial; font-size: 16px;">The PullMaster.io Team</p>
             </div>
-            <div style="background-color: black; color: white; text-align: center; padding: 10px;">
+            <div style="background-color: #1b2437; color: white; text-align: center; padding: 10px;">
             <h1 style="font-family: Bahnschrift; margin: 0;">PullMaster.io</h1>
             </div>`,
         };
