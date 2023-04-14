@@ -150,13 +150,12 @@ export default function ManageFAQ() {
               </Table>
             </TableContainer>
           )}
-
-          <div>
-            {/* Render "Load More" button from the reusable component and use the handler on click */}
-            <Pagination handlePageClick={handlePageClick} />
-          </div>
         </Box>
       </Paper>
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }

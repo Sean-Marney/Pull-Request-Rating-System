@@ -39,9 +39,6 @@ export default function ManageFaqs() {
   const handlePageClick = () => {
     setVisible((preValue) => preValue + 5);
   };
-  // const handlePageBack = () => {
-  //   setVisible((postValue) => postValue - 5);
-  // };
 
   return (
     <div>
@@ -105,11 +102,7 @@ export default function ManageFaqs() {
           ))}
 
         <div>
-          <Pagination
-            // visible={visible}
-            handlePageClick={handlePageClick}
-            // handlePageBack={handlePageBack}
-          />
+          <Pagination handlePageClick={handlePageClick} />
         </div>
       </Box>
     </div>
