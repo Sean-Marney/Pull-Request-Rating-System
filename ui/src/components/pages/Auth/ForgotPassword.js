@@ -8,16 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import { useStyles } from "../../styles/Auth/loginFormStyle";
 import { ToastContainer, toast } from "react-toastify";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-
+import CustomAppBar from "../../reusable/AppBar";
 
 const theme = createTheme();
 
@@ -74,24 +70,7 @@ export default function ForgotPassword() {
         <ThemeProvider theme={theme}>
             <ToastContainer />
             {/* App Bar */}
-            <AppBar
-                position="static"
-                className={classes.appBar}
-                sx={{ backgroundColor: "#1b2437" }}
-            >
-                <Toolbar>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            flexGrow: 1,
-                            fontSize: "25px",
-                            fontFamily: "Bahnschrift",
-                        }}
-                    >
-                        PullMaster.io
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <CustomAppBar />
             {/* Main container */}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
