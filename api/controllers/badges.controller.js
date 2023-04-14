@@ -5,9 +5,7 @@ let path = require('path');
 
 const getAll = async (req, res) => {
     try {
-      console.log("getAll called");
         const badges = await Badge.find().sort({ value: 1 });
-        console.log(badges);
         res.status(200).json(badges);
     } catch (error) {
         console.log(error);
@@ -32,17 +30,21 @@ const deleteBadge = async (req, res) => {
       if (!badge) {
         return res.status(404).json({ message: "Badge with that ID not found" });
       }
-  
+
+
       await badge.remove();
   
       res.status(200).json({ message: "Badge deleted" });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: error.message });
     }
   };
 
   // Create a badge
 const createBadge = async (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
   try {
     let npath = path.join(__dirname + '/..');
     let badge = new Badge({
