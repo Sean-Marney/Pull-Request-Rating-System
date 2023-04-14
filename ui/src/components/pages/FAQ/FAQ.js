@@ -42,9 +42,6 @@ export default function ManageFaqs() {
   const handlePageClick = () => {
     setVisible((preValue) => preValue + 5);
   };
-  // const handlePageBack = () => {
-  //   setVisible((postValue) => postValue - 5);
-  // };
 
   return (
     <div>
