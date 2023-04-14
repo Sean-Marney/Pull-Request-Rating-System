@@ -3,6 +3,11 @@ const request = require("supertest");
 const app = require("../../index");
 const sinon = require("sinon");
 const Badge = require("../../models/badges.model");
+const mockBadge = {
+    _id: "60720497f99eeb23c42ec6a7",
+    name: "Badge 1",
+    value: 1
+};
 
 describe("GET /all", () => {
     it("should return all levels and status code 200", (done) => {
