@@ -14,7 +14,7 @@ export default function CustomAppBar(props) {
             // Set the position of the AppBar
             position={position}
             // Use the sx prop to set the background color of the AppBar using the backgroundColor prop
-            sx={{ backgroundColor }}
+            sx={{ backgroundColor: backgroundColor }}
         >
             {/* Add a Toolbar component inside the AppBar as a container for the AppBar's content */}
             <Toolbar>

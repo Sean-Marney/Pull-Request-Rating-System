@@ -25,10 +25,11 @@ export default function ForgotPassword() {
     const [error, setError] = useState("");
     // Add success state
     const [success, setSuccess] = useState(false);
-    
+
     // Function to handle form submission and email validation
     const handleCheckEmail = async (event) => {
         event.preventDefault();
+        setError("");
 
         // Check if the email input is empty
         if (email.trim() === "") {
