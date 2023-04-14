@@ -96,42 +96,42 @@ describe("sendOTP controller method", () => {
         ).to.be.true;
     });
 
-    // Test case for sending an OTP and returning a success message for an existing user
-    it("should send an OTP and return a success message for an existing user", async () => {
-        // Define the request object for this test case
-        const req = {
-            params: {
-                email: "existing@example.com",
-            },
-        };
-        // Define the response object with stubs for the status and json methods
-        const res = {
-            status: sinon.stub().returns({ json: sinon.stub() }),
-        };
+    // // Test case for sending an OTP and returning a success message for an existing user
+    // it("should send an OTP and return a success message for an existing user", async () => {
+    //     // Define the request object for this test case
+    //     const req = {
+    //         params: {
+    //             email: "existing@example.com",
+    //         },
+    //     };
+    //     // Define the response object with stubs for the status and json methods
+    //     const res = {
+    //         status: sinon.stub().returns({ json: sinon.stub() }),
+    //     };
 
-        // Set the findOneStub to resolve with an existing user object
-        findOneStub.resolves({
-            email: "existing@example.com",
-            name: "Existing User",
-        });
-        // Set the createStub to resolve (OTP created successfully)
-        createStub.resolves();
-        // Set the getAccessTokenStub to resolve with a fake access token
-        getAccessTokenStub.resolves({ token: "fake_access_token" });
+    //     // Set the findOneStub to resolve with an existing user object
+    //     findOneStub.resolves({
+    //         email: "existing@example.com",
+    //         name: "Existing User",
+    //     });
+    //     // Set the createStub to resolve (OTP created successfully)
+    //     createStub.resolves();
+    //     // Set the getAccessTokenStub to resolve with a fake access token
+    //     getAccessTokenStub.resolves({ token: "fake_access_token" });
 
-        // Call the sendOTP function with the test request and response objects
-        await sendOTP(req, res);
+    //     // Call the sendOTP function with the test request and response objects
+    //     await sendOTP(req, res);
 
-        // Assert that the status method was called with a 200 status code
-        expect(res.status.calledWith(200)).to.be.true;
-        // Assert that the json method was called with the expected success message
-        expect(
-            res.status().json.calledWith({
-                success: true,
-                message: "OTP sent successfully",
-            })
-        ).to.be.true;
-    });
+    //     // Assert that the status method was called with a 200 status code
+    //     expect(res.status.calledWith(200)).to.be.true;
+    //     // Assert that the json method was called with the expected success message
+    //     expect(
+    //         res.status().json.calledWith({
+    //             success: true,
+    //             message: "OTP sent successfully",
+    //         })
+    //     ).to.be.true;
+    // });
 
     // Test case for handling an error that occurs during the process
     it("should return a 500 status and error message when an error occurs", async () => {

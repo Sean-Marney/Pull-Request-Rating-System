@@ -15,81 +15,81 @@ const {
 chai.use(chaiHttp);
 chai.should();
 
-// // Test suite for the registerUser controller method
-// describe("registerUser controller method", () => {
-//     // Declare variables to hold stubs
-//     let findOneStub, saveStub, hashStub;
+// Test suite for the registerUser controller method
+describe("registerUser controller method", () => {
+    // Declare variables to hold stubs
+    let findOneStub, saveStub, hashStub;
 
-//     beforeEach(() => {
-//         // Create stubs before each test
-//         findOneStub = sinon.stub(User, "findOne");
-//         saveStub = sinon.stub(User.prototype, "save");
-//         hashStub = sinon.stub(bcrypt, "hash");
-//     });
+    beforeEach(() => {
+        // Create stubs before each test
+        findOneStub = sinon.stub(User, "findOne");
+        saveStub = sinon.stub(User.prototype, "save");
+        hashStub = sinon.stub(bcrypt, "hash");
+    });
 
-//     afterEach(() => {
-//         // Restore stubs after each test
-//         findOneStub.restore();
-//         saveStub.restore();
-//         hashStub.restore();
-//     });
+    afterEach(() => {
+        // Restore stubs after each test
+        findOneStub.restore();
+        saveStub.restore();
+        hashStub.restore();
+    });
 
-//     // Test case for existing user
-//     it("should return a 409 status and error message for an existing user", async () => {
-//         const req = {
-//             body: {
-//                 name: "John Doe",
-//                 email: "john.doe@example.com",
-//                 password: "password123",
-//             },
-//         };
-//         const res = {
-//             status: sinon.stub().returns({ json: sinon.stub() }),
-//         };
+    // Test case for existing user
+    it("should return a 409 status and error message for an existing user", async () => {
+        const req = {
+            body: {
+                name: "John Doe",
+                email: "john.doe@example.com",
+                password: "password123",
+            },
+        };
+        const res = {
+            status: sinon.stub().returns({ json: sinon.stub() }),
+        };
 
-//         // Mock the findOne method of the User model to return an object with the email that matches the one in the request
-//         findOneStub.resolves({ email: "john.doe@example.com" });
+        // Mock the findOne method of the User model to return an object with the email that matches the one in the request
+        findOneStub.resolves({ email: "john.doe@example.com" });
 
-//         // Call the controller method with the mocked request and response objects
-//         await registerUser(req, res);
+        // Call the controller method with the mocked request and response objects
+        await registerUser(req, res);
 
-//         // Assert that the status and json methods of the response object are being called correctly
-//         expect(res.status.calledWith(409)).to.be.true;
-//         expect(
-//             res.status().json.calledWith({
-//                 message: "Email already exists in the database",
-//             })
-//         ).to.be.true;
-//     });
+        // Assert that the status and json methods of the response object are being called correctly
+        expect(res.status.calledWith(409)).to.be.true;
+        expect(
+            res.status().json.calledWith({
+                message: "Email already exists in the database",
+            })
+        ).to.be.true;
+    });
 
-//     // Test case for new user
-//     it("should successfully register a new user", async () => {
-//         const req = {
-//             body: {
-//                 name: "Jane Doe",
-//                 email: "jane.doe@example.com",
-//                 password: "password123",
-//             },
-//         };
-//         const res = {
-//             json: sinon.stub(),
-//         };
+    // Test case for new user
+    it("should successfully register a new user", async () => {
+        const req = {
+            body: {
+                name: "Jane Doe",
+                email: "jane.doe@example.com",
+                password: "password123",
+            },
+        };
+        const res = {
+            json: sinon.stub(),
+        };
 
-//         // Mock the findOne method of the User model to return null, indicating that there is no existing user with the email provided in the request
-//         findOneStub.resolves(null);
-//         // Mock the hash method to simulate the successful hashing of the user's password
-//         hashStub.resolves("hashedPassword123");
-//         // Mock the save method to simulate the successful creation of a new user in the database
-//         saveStub.resolves();
+        // Mock the findOne method of the User model to return null, indicating that there is no existing user with the email provided in the request
+        findOneStub.resolves(null);
+        // Mock the hash method to simulate the successful hashing of the user's password
+        hashStub.resolves("hashedPassword123");
+        // Mock the save method to simulate the successful creation of a new user in the database
+        saveStub.resolves();
 
-//         // Call the controller method with the mocked request and response objects
-//         await registerUser(req, res);
+        // Call the controller method with the mocked request and response objects
+        await registerUser(req, res);
 
-//         // Assert that the json method of the response object is being called correctly
-//         expect(res.json.calledWith({ message: "Success", isRegistered: true }))
-//             .to.be.true;
-//     });
-// });
+        // Assert that the json method of the response object is being called correctly
+        expect(res.json.calledWith({ message: "Success", isRegistered: true }))
+            .to.be.true;
+    });
+});
 
 // Test suite for the loginUser controller method
 describe("loginUser controller method", () => {
