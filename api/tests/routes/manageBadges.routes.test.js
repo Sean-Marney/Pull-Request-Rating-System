@@ -3,37 +3,6 @@ const request = require("supertest");
 const app = require("../../index");
 const sinon = require("sinon");
 const Badge = require("../../models/badges.model");
-var fs = require('fs');
-let path = require('path');
-const Binary = require('mongodb').Binary;
-const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
-const mockBadge = {
-    _id: "60720497f99eeb23c42ec6a7",
-    name: "Badge 1",
-    value: 1
-};
-
-
-// const storage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, 'images');
-//     },
-//     filename: function(req, file, cb) {   
-//         cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
-//     }
-// });
-
-// const fileFilter = (req, file, cb) => {
-//     const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-//     if(allowedFileTypes.includes(file.mimetype)) {
-//         cb(null, true);
-//     } else {
-//         cb(null, false);
-//     }
-// }
-
-let upload = multer({ storage, fileFilter });
 
 describe("GET /all", () => {
     it("should return all levels and status code 200", (done) => {
