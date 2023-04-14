@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
@@ -19,13 +18,15 @@ import {
 } from "@material-ui/core";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
 export default function ManageTrackers() {
-  const { request } = useAxiosInstance();
   const classes = useStyles();
-  const [trackers, setTracker] = useState(null);
 
   const navigate = useNavigate();
+  const { request } = useAxiosInstance();
+  const [trackers, setTracker] = useState(null);
+  const [visible, setVisible] = React.useState(10);
 
   useEffect(() => {
     getAllTrackers();
@@ -52,6 +53,11 @@ export default function ManageTrackers() {
     });
 
     getAllTrackers(); // Get updated list of trackers
+  };
+
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
   };
 
   return (
@@ -91,7 +97,8 @@ export default function ManageTrackers() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {trackers.map((tracker) => (
+                  {/* Render items that have been loaded via pagination */}
+                  {trackers.slice(0, visible).map((tracker) => (
                     <TableRow key={tracker._id}>
                       <TableCell className={classes.tableContent}>
                         {tracker.name}
@@ -122,6 +129,11 @@ export default function ManageTrackers() {
               </Table>
             </TableContainer>
           )}
+
+          <div>
+            {/* Render "Load More" button from the reusable component and use the handler on click */}
+            <Pagination handlePageClick={handlePageClick} />
+          </div>
         </Box>
       </Paper>
     </div>

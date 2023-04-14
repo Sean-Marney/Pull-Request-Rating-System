@@ -12,6 +12,8 @@ import Pagination from "../../reusable/Pagination";
 
 export default function ManageFaqs() {
   const [question, setQuestion] = useState(null);
+  const [expanded, setExpanded] = React.useState(false);
+  const [visible, setVisible] = React.useState(5);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,22 +30,18 @@ export default function ManageFaqs() {
     setQuestion(res.data);
   };
 
-  const [expanded, setExpanded] = React.useState(false);
-
   // handling the accordion expansion
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const [visible, setVisible] = React.useState(5);
-
   // handling pagination
   const handlePageClick = () => {
     setVisible((preValue) => preValue + 5);
   };
-  const handlePageBack = () => {
-    setVisible((postValue) => postValue - 5);
-  };
+  // const handlePageBack = () => {
+  //   setVisible((postValue) => postValue - 5);
+  // };
 
   return (
     <div>
@@ -108,9 +106,9 @@ export default function ManageFaqs() {
 
         <div>
           <Pagination
-            visible={visible}
+            // visible={visible}
             handlePageClick={handlePageClick}
-            handlePageBack={handlePageBack}
+            // handlePageBack={handlePageBack}
           />
         </div>
       </Box>

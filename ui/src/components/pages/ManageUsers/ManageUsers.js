@@ -18,12 +18,15 @@ import {
 } from "@material-ui/core";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
 export default function ManageUsers() {
   const classes = useStyles();
+
+  const navigate = useNavigate();
   const { request } = useAxiosInstance();
   const [users, setUsers] = useState(null);
-  const navigate = useNavigate();
+  const [visible, setVisible] = React.useState(10);
 
   useEffect(() => {
     getUsers();
@@ -47,6 +50,11 @@ export default function ManageUsers() {
     });
 
     getUsers(); // Get updated list of users
+  };
+
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
   };
 
   return (
@@ -95,7 +103,8 @@ export default function ManageUsers() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {users.map((user) => (
+                  {/* Render items that have been loaded via pagination */}
+                  {users.slice(0, visible).map((user) => (
                     <TableRow key={user._id}>
                       <TableCell className={classes.tableContent}>
                         {user.name}
@@ -133,6 +142,11 @@ export default function ManageUsers() {
               </Table>
             </TableContainer>
           )}
+
+          <div>
+            {/* Render "Load More" button from the reusable component and use the handler on click */}
+            <Pagination handlePageClick={handlePageClick} />
+          </div>
         </Box>
       </Paper>
     </div>

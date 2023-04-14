@@ -2,23 +2,15 @@ import { Button } from "@material-ui/core";
 import { Stack } from "@mui/material";
 import React from "react";
 
-export default function Pagination({
-  visible,
-  handlePageClick,
-  handlePageBack,
-}) {
+export default function Pagination({ handlePageClick }) {
   return (
-    <Stack
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-    >
+    <Stack direction="row" justifyContent="center">
       <Button
         style={{
           display: "flex",
           justifyContent: "center",
           margin: 40,
+          width: 300,
         }}
         variant="outlined"
         color="primary"
@@ -26,20 +18,6 @@ export default function Pagination({
         onClick={handlePageClick}
       >
         Load More
-      </Button>
-      <Button
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: 40,
-        }}
-        variant="outlined"
-        color="primary"
-        size="large"
-        onClick={handlePageBack}
-        disabled={visible <= 5}
-      >
-        Load Less
       </Button>
     </Stack>
   );

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
   Table,
@@ -11,19 +10,20 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Button,
   Typography,
   Box,
   IconButton,
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
 export default function ManageQuestions() {
   const classes = useStyles();
-  const [questions, setQuestions] = useState(null);
 
   const navigate = useNavigate();
+  const [questions, setQuestions] = useState(null);
+  const [visible, setVisible] = React.useState(10);
 
   useEffect(() => {
     getQuestions();
@@ -48,22 +48,13 @@ export default function ManageQuestions() {
     getQuestions(); // Get updated list of rewards
   };
 
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
+  };
+
   return (
     <div className={classes.tableContainer}>
-      {/* <Button
-          style={{
-            marginLeft: "20px",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-          variant="contained"
-          color="primary"
-          size="large"
-          startIcon={<ChevronLeftIcon />}
-          onClick={() => navigate("/management/faqs")}
-        >
-          back
-        </Button> */}
       <Paper className={classes.paper}>
         <Box padding={3}>
           <Typography variant="h4" className={classes.title}>
@@ -85,7 +76,8 @@ export default function ManageQuestions() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {questions.map((question) => (
+                  {/* Render items that have been loaded via pagination */}
+                  {questions.slice(0, visible).map((question) => (
                     <TableRow key={question._id}>
                       <TableCell className={classes.tableContent}>
                         {question.question}
@@ -114,6 +106,10 @@ export default function ManageQuestions() {
               </Table>
             </TableContainer>
           )}
+          <div>
+            {/* Render "Load More" button from the reusable component and use the handler on click */}
+            <Pagination handlePageClick={handlePageClick} />
+          </div>
         </Box>
       </Paper>
     </div>
