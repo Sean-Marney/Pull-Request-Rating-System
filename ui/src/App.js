@@ -32,7 +32,7 @@ import UpdateFAQs from "./components/pages/ManageFAQ/UpdateFAQForm";
 import ClaimedRewards from "./components/pages/ClaimedRewards/ClaimedRewards";
 import ArchivedRewards from "./components/pages/ClaimedRewards/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
-import ManageProfiles from "./components/pages/Profile/Profile";
+import ProfilePage from "./components/pages/Profile/Profile";
 import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm";
 import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm";
 import AddQuestion from "./components/pages/Questions/QuestionsForm";
@@ -366,7 +366,7 @@ const App = () => {
                             }
               />
 
-              // ManageProfiles
+              // ProfilePage
               <Route
                             path="/profile"
                             element={
@@ -375,7 +375,7 @@ const App = () => {
                                     role={cookies.role}
                                 >
                                     {" "}
-                                    <ManageProfiles />
+                                    <ProfilePage />
                                 </ProtectedRoute>
                             }
               />
