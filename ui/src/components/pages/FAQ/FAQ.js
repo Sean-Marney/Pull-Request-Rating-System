@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Typography, Box, Button } from "@material-ui/core";
+import { Typography, Box, Button, Paper } from "@material-ui/core";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import Accordion from "@mui/material/Accordion";
@@ -9,12 +9,15 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import QuizIcon from "@mui/icons-material/Quiz";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../reusable/Pagination";
+import { useStyles } from "../../styles/Repositories/RepositoryStyle";
 
 export default function ManageFaqs() {
+  const classes = useStyles();
   const [question, setQuestion] = useState(null);
   const [expanded, setExpanded] = React.useState(false);
   const [visible, setVisible] = React.useState(5);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     getFaqs();
@@ -45,6 +48,7 @@ export default function ManageFaqs() {
 
   return (
     <div>
+       <Paper className={classes.paper}>
       <Box padding={3}>
         <Typography variant="h4">
           <b>FAQ</b>
@@ -105,13 +109,12 @@ export default function ManageFaqs() {
           ))}
 
         <div>
-          <Pagination
-            // visible={visible}
-            handlePageClick={handlePageClick}
-            // handlePageBack={handlePageBack}
-          />
         </div>
       </Box>
+      </Paper>
+      <Pagination
+            handlePageClick={handlePageClick}
+          />
     </div>
   );
 }

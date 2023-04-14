@@ -6,6 +6,7 @@ import {
   Select,
   Typography,
   MenuItem,
+  Paper,
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { Skeleton } from "@mui/material";
@@ -150,6 +151,7 @@ const RepositoryList = () => {
           handleSubmit={handleSubmitClick}
         />
       </Modal>
+      <Paper className={classes.paper}>
       <Typography variant="h4">
         <b>Pull Requests Rating</b>
       </Typography>
@@ -303,6 +305,7 @@ const RepositoryList = () => {
           </div>
         )}
       </div>
+      </Paper>
       <div>
         {/* Render "Load More" button from the reusable component and use the handler on click */}
         <Pagination handlePageClick={handlePageClick} />

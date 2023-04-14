@@ -62,4 +62,9 @@ export const useStyles = makeStyles((theme) => ({
         height: "80px",
         marginBottom: "10px",
     },
+    paper: {
+        boxShadow: theme.shadows[3],
+        marginTop: theme.spacing(3),
+        padding: theme.spacing(2),
+      },
 }));
