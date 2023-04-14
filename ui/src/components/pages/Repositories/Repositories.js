@@ -15,6 +15,7 @@ import PullRequestRatingStars from "./PullRequestRatingStars";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/Repositories/RepositoryStyle";
 import noData from "../../../assets/images/NoData.png";
+import CircularProgress from "@mui/material/CircularProgress";
 
 var moment = require("moment");
 moment().format();
@@ -293,8 +294,9 @@ const RepositoryList = () => {
                                 style={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    padding: "auto",
-                                    margin: "auto",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    minWidth: "1000px",
                                 }}
                             >
                                 <img
@@ -302,32 +304,19 @@ const RepositoryList = () => {
                                     src={noData}
                                     style={{ height: "220px", width: "250px" }}
                                 />
-                                <Typography  variant="h6">
-                                    No pending pull requests available 
+                                <Typography variant="h6">
+                                    No{" "}
+                                    {filter === "pending"
+                                        ? "pending"
+                                        : "reviewed"}{" "}
+                                    pull requests available
                                 </Typography>
                             </div>
                         )}
                     </List>
                 ) : (
-                    <div>
-                        <Skeleton
-                            variant="rectangular"
-                            width={1000}
-                            height={145}
-                            style={{ margin: "8px 0px" }}
-                        />
-                        <Skeleton
-                            variant="rectangular"
-                            width={1000}
-                            height={145}
-                            style={{ margin: "8px 0px" }}
-                        />
-                        <Skeleton
-                            variant="rectangular"
-                            width={1000}
-                            height={145}
-                            style={{ margin: "8px 0px" }}
-                        />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',height: "500px", width: "1000px" }}>
+                        <CircularProgress  />
                     </div>
                 )}
             </div>
