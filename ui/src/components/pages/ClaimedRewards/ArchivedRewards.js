@@ -12,11 +12,13 @@ import {
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
 export default function ArchivedRewards() {
   const classes = useStyles();
 
   const [claimedRewards, setClaimedRewards] = useState(null);
+  const [visible, setVisible] = React.useState(10);
 
   // Gets claimed rewards on page load
   useEffect(() => {
@@ -34,6 +36,11 @@ export default function ArchivedRewards() {
 
     // Set to state
     setClaimedRewards(archivedRewards);
+  };
+
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
   };
 
   return (
@@ -63,7 +70,8 @@ export default function ArchivedRewards() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {claimedRewards.map((claimedReward) => (
+                  {/* Render items that have been loaded via pagination */}
+                  {claimedRewards.slice(0, visible).map((claimedReward) => (
                     <TableRow key={claimedReward._id}>
                       <TableCell className={classes.tableContent}>
                         {claimedReward.reward_name}
@@ -82,6 +90,10 @@ export default function ArchivedRewards() {
           )}
         </Box>
       </Paper>
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }
