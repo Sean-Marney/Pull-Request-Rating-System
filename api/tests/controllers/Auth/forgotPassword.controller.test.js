@@ -4,10 +4,8 @@ const sinon = require("sinon");
 const User = require("../../../models/user.model");
 const expect = chai.expect;
 const Otp = require("../../../models/otp.model");
-const {
-    oAuth2Client,
-    CLIENT_ID
-} = require("../../../controllers/Auth/authentication.controller");
+const getAccessTokenWrapper = require("../../../controllers/Auth/emailUtils");
+const sendEmail = require("../../../controllers/Auth/emailUtils");
 const nodemailer = require("nodemailer");
 const {
     sendOTP,
@@ -26,19 +24,26 @@ describe("sendOTP controller method", () => {
     // Set up the stubs before each test case
     beforeEach(() => {
         findOneStub = sinon.stub(User, "findOne");
+        findOneOtpStub = sinon.stub(Otp, "findOne");
         createStub = sinon.stub(Otp, "create");
         sendMailStub = sinon.stub(nodemailer, "createTransport").returns({
             sendMail: sinon.stub(),
         });
-        getAccessTokenStub = sinon.stub(oAuth2Client, "getAccessToken");
+        getAccessTokenStub = sinon.stub(
+            getAccessTokenWrapper,
+            "getAccessTokenWrapper"
+        );
+        sendEmailStub = sinon.stub(sendEmail, "sendEmail");
     });
 
     // Restore the stubs after each test case
     afterEach(() => {
         findOneStub.restore();
+        findOneOtpStub.restore();
         createStub.restore();
         sendMailStub.restore();
         getAccessTokenStub.restore();
+        sendEmailStub.restore()
     });
 
     // Test case for handling an invalid email
@@ -118,6 +123,9 @@ describe("sendOTP controller method", () => {
     //     createStub.resolves();
     //     // Set the getAccessTokenStub to resolve with a fake access token
     //     getAccessTokenStub.resolves({ token: "fake_access_token" });
+
+    //     // Set the findOneOtpStub to return null (no existing OTP found)
+    //     findOneOtpStub.resolves(null);
 
     //     // Call the sendOTP function with the test request and response objects
     //     await sendOTP(req, res);

@@ -1,5 +1,7 @@
 // Import the necessary MUI components: AppBar, Toolbar, and Typography
 import { AppBar, Toolbar, Typography } from "@mui/material";
+import React from "react";
+
 
 // Create a functional component named CustomAppBar
 // It takes three props: title, position, and backgroundColor
