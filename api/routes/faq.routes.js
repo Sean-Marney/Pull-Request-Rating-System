@@ -22,7 +22,9 @@ router.get("/:id", getFaqById);
 router.post("/create", verifyManger, createFAQs);
 router.patch("/update/:id", verifyManger, updateFAQs);
 router.delete("/delete/:id", verifyManger, deleteFAQs);
-
+// router.post("/create", createFAQs);
+// router.patch("/update/:id", updateFAQs);
+// router.delete("/delete/:id", deleteFAQs);
 
 
 module.exports = router;
