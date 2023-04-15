@@ -46,6 +46,7 @@ export default function ManageFaqs() {
   return (
     <div>
        <Paper className={classes.paper}>
+        <div className={classes.Container}>
       <Box padding={3}>
         <Typography variant="h4">
           <b>FAQ</b>
@@ -108,6 +109,7 @@ export default function ManageFaqs() {
         <div>
         </div>
       </Box>
+      </div>
       </Paper>
       <Pagination
             handlePageClick={handlePageClick}

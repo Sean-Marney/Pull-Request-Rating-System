@@ -66,5 +66,12 @@ export const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[3],
         marginTop: theme.spacing(3),
         padding: theme.spacing(2),
-      },
+    },
+    Container: {
+    maxWidth: "90%",
+    margin: "0 auto",
+    overflow: "auto",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    },
 }));

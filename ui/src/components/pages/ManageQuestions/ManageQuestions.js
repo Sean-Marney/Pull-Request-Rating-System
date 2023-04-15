@@ -54,8 +54,9 @@ export default function ManageQuestions() {
   };
 
   return (
+    <div>
+    <Paper className={classes.paper}>
     <div className={classes.tableContainer}>
-      <Paper className={classes.paper}>
         <Box padding={3}>
           <Typography variant="h4" className={classes.title}>
             <b>Developers Questions</b>
@@ -107,6 +108,7 @@ export default function ManageQuestions() {
             </TableContainer>
           )}
         </Box>
+        </div>
       </Paper>
       <div>
         {/* Render "Load More" button from the reusable component and use the handler on click */}
