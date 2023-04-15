@@ -37,7 +37,7 @@ export const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
         flexDirection: "row",
-        alignItems: 'center',
+        alignItems: 'start',
         justifyContent: 'start',
         minHeight: '300px',
     },
