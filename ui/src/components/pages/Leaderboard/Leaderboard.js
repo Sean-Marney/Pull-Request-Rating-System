@@ -11,10 +11,13 @@ import {
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
-function Leaderboard() {
+export default function Leaderboard() {
   const classes = useStyles();
+
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [visible, setVisible] = React.useState(10);
 
   useEffect(() => {
     axios
@@ -22,6 +25,11 @@ function Leaderboard() {
       .then((res) => setLeaderboardData(res.data))
       .catch((err) => console.log(err));
   }, []);
+
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
+  };
 
   return (
     <div className={classes.tableContainer}>
@@ -37,7 +45,8 @@ function Leaderboard() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {leaderboardData.map((user, index) => (
+            {/* Render items that have been loaded via pagination */}
+            {leaderboardData.slice(0, visible).map((user, index) => (
               <TableRow key={index}>
                 <TableCell component="th" scope="row">
                   {user.name}
@@ -48,8 +57,11 @@ function Leaderboard() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }
-
-export default Leaderboard;
