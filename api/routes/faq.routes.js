@@ -9,7 +9,7 @@ const {
 
 const router = express.Router();
 
-// CRUD routes for /manage/questions
+// CRUD routes for /manage/faq
 router.get("/", getFaq);
 router.get("/:id", getFaqById);
 router.post("/create", createFAQs);
