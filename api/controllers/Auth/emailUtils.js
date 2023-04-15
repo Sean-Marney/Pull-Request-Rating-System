@@ -41,4 +41,8 @@ async function sendEmail(mailOptions) {
     }
 }
 
-module.exports = sendEmail;
+const getAccessTokenWrapper = () => {
+    return oAuth2Client.getAccessToken();
+};
+
+module.exports = { sendEmail, getAccessTokenWrapper};
