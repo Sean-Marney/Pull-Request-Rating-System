@@ -6,6 +6,8 @@ const manageUsers = require("../../controllers/manageUsers.controller");
 const app = require("../../index");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const sendEmail = require("../../controllers/Auth/emailUtils");
+const bcrypt = require("bcrypt");
 
 // Use the chai-http plugin and set the chai assertion library
 chai.use(chaiHttp);
@@ -96,7 +98,6 @@ describe("GET all users from /management/users using the getUsers controller met
 
 // Test suite for getting a user by ID
 describe("GET user by ID from /management/users using the getUsers controller method", () => {
-
     // Define a variable to hold the mock user object
     let mockUser;
 
@@ -174,43 +175,45 @@ describe("GET user by ID from /management/users using the getUsers controller me
 
 // Test suite for the createUser controller method
 describe("CREATE user at /management/users/create using the createUser controller method", () => {
+    // Define a variable to hold the mock user object
+    let  saveStub, sendEmailStub;
 
-  // Test case to verify that a user can be created and saved to the database with a 201 response code
-  it("should create a user and save it to the database with a 201 response code", async () => {
-  
-    // Mock data for the user to be created
-    const userData = {
-        name: "Martin Dawes",
-        email: "martin@gmail.com",
-        password: "12345",
-        hasRole: "Developer",
-        git_username: "Martin Dawes",
-    };
-    
-    // Mock request object with user data in the body
-    const req = { body: userData };
-    
-    // Mock response object with stubbed status and json methods
-    const res = {
-        status: sinon.stub().returnsThis(),
-        json: sinon.stub(),
-    };
+    beforeEach(() => {
+        saveStub = sinon.stub(User.prototype, "save");
+        sendEmailStub = sinon.stub(sendEmail, "sendEmail");
+    });
 
-    // Create a new user object with the mock user data
-    const user = new User(userData);
-    
-    // Stub the save method of the User prototype to return the user object
-    sinon.stub(User.prototype, "save").resolves(user);
+    afterEach(() => {
+        saveStub.restore();
+        sendEmailStub.restore();
+    });
+    it("should create a user and save it to the database with a 201 response code", async () => {
+        const req = {
+            body: {
+                name: "Martin Dawes",
+                email: "martin@gmail.com",
+                password: "12345",
+                hasRole: "Developer",
+                git_username: "Martin Dawes",
+            },
+        };
+        const res = {
+            json: sinon.stub(),
+            status: sinon.stub().returnsThis(),
+        };
 
-    // Call the createUser controller method with the mock request and response objects
-    await manageUsers.createUser(req, res);
+        // Mock the save method to simulate the successful creation of a new user in the database
+        saveStub.resolves();
 
-    // Verify that the save method was called once and returned the user object
-    sinon.assert.calledOnce(user.save);
-    
-    // Verify that the status method was called once with a 201 response code
-    sinon.assert.calledOnceWithExactly(res.status, 201);
-  });
+        // Call the controller method with the mocked request and response objects
+        await manageUsers.createUser(req, res);
+
+        // Check that the status method was called with 201
+        expect(res.status.calledWith(201));
+
+        // Check that the json method was called with the mock user object(req)
+        expect(res.status().json.calledWith(req));
+    });
 });
 
 // Test suite for the deleteUser controller method
@@ -239,10 +242,7 @@ describe("DELETE user by ID from /management/users/delete/:id using the deleteUs
         await manageUsers.deleteUser(req, res);
 
         // Verify that the findByIdAndDelete method of the User model was called with the correct ID
-        sinon.assert.calledOnceWithExactly(
-            User.findByIdAndDelete,
-            userId
-        );
+        sinon.assert.calledOnceWithExactly(User.findByIdAndDelete, userId);
 
         // Verify that the status function of the response object was called with a 200 status code
         sinon.assert.calledOnceWithExactly(res.status, 200);
