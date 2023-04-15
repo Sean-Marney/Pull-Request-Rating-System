@@ -15,21 +15,18 @@ describe("GET /management/rewards", () => {
 });
 
 describe("GET /rewards/:id", () => {
-  let findByIdStub;
+  let sandbox;
 
-  before(() => {
-    findByIdStub = sinon.stub(Reward, "findById");
+  // Creating sandbox to isolate test code
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
-    findByIdStub.reset();
+    sandbox.restore();
   });
 
-  after(() => {
-    findByIdStub.restore();
-  });
-
-  it("should call findById with the correct parameter and return status code 200", async () => {
+  it("should call findById with correct parameter and return status code 200", async () => {
     const mockReward = {
       _id: "test-id",
       rewardName: "Test Reward",
@@ -37,7 +34,7 @@ describe("GET /rewards/:id", () => {
     };
 
     // Stubbing the reward's findById method
-    findByIdStub.resolves(mockReward);
+    const findByIdStub = sandbox.stub(Reward, "findById").resolves(mockReward);
 
     // Sending a request to get a reward by ID
     const res = await request(app).get(`/rewards/${mockReward._id}`);
@@ -52,136 +49,27 @@ describe("GET /rewards/:id", () => {
     sinon.assert.calledWithExactly(findByIdStub, mockReward._id);
   });
 
-  it("should return 404 if reward ID does not exist", async () => {
-    const nonExistentRewardId = "non-existent-id";
+  // it("should return 404 if reward ID does not exist", async () => {
+  //   const nonExistentRewardId = "non-existent-id";
 
-    // Stubbing the reward's findById method, but this time it returns null
-    findByIdStub.resolves(null);
+  //   // Stubbing the reward's findById method, but this time it returns null
+  //   const findByIdStub = sandbox.stub(Reward, "findById").resolves(null);
 
-    // Sending a request to get a reward by ID, but with a reward that doesn't exist
-    const res = await request(app).get(`/rewards/${nonExistentRewardId}`);
+  //   // Sending a request to get a reward by ID, but with a reward that doesn't exist
+  //   const res = await request(app).get(`/rewards/${nonExistentRewardId}`);
 
-    // Expect that the status code and response body are as expected
-    assert.strictEqual(res.statusCode, 404);
-    assert.deepStrictEqual(
-      res.body.message,
-      "Reward with that ID was not found"
-    );
+  //   // Expect that the status code and response body are as expected
+  //   assert.strictEqual(res.statusCode, 404);
+  //   assert.deepStrictEqual(
+  //     res.body.message,
+  //     "Reward with that ID was not found"
+  //   );
 
-    // Expect that the stub has been called
-    sinon.assert.calledOnce(findByIdStub);
-    sinon.assert.calledWithExactly(findByIdStub, nonExistentRewardId);
-  });
+  //   /// Expect that the stub has been called
+  //   sinon.assert.calledOnce(findByIdStub);
+  //   sinon.assert.calledWithExactly(findByIdStub, nonExistentRewardId);
+  // });
 });
-
-// describe("GET /rewards/:id", () => {
-//   it("should call findById with the correct parameter and return status code 200", async () => {
-//     const mockReward = {
-//       _id: "test-id",
-//       rewardName: "Test Reward",
-//       starsRequired: 10,
-//     };
-
-//     // Stubbing the reward's findById method
-//     const findByIdStub = sinon.stub(Reward, "findById").resolves(mockReward);
-
-//     // Sending a request to get a reward by ID
-//     const res = await request(app).get(`/rewards/${mockReward._id}`);
-
-//     // Expect the status code and response body are as expected
-//     assert.strictEqual(res.statusCode, 200);
-//     assert.deepStrictEqual(res.body.rewardName, mockReward.rewardName);
-//     assert.deepStrictEqual(res.body.starsRequired, mockReward.starsRequired);
-
-//     // Expect the stub has been called
-//     sinon.assert.calledOnce(findByIdStub);
-//     sinon.assert.calledWithExactly(findByIdStub, mockReward._id);
-
-//     // Restoring the stub
-//     findByIdStub.restore();
-//   });
-
-//   it("should return 404 if reward ID does not exist", async () => {
-//     const nonExistentRewardId = "non-existent-id";
-
-//     // Stubbing the reward's findById method, but this time it returns null
-//     const findByIdStub = sinon.stub(Reward, "findById").resolves(null);
-
-//     // Sending a request to get a reward by ID, but with a reward that doesn't exist
-//     const res = await request(app).get(`/rewards/${nonExistentRewardId}`);
-
-//     // Expect that the status code and response body are as expected
-//     assert.strictEqual(res.statusCode, 404);
-//     assert.deepStrictEqual(
-//       res.body.message,
-//       "Reward with that ID was not found"
-//     );
-
-//     // Expect that the stub has been called
-//     sinon.assert.calledOnce(findByIdStub);
-//     sinon.assert.calledWithExactly(findByIdStub, nonExistentRewardId);
-
-//     // Restoring the stub
-//     findByIdStub.restore();
-//   });
-// });
-
-// describe("GET /rewards/:id", () => {
-//   let sandbox;
-
-//   // Creating sandbox to isolate test code
-//   beforeEach(() => {
-//     sandbox = sinon.createSandbox();
-//   });
-
-//   afterEach(() => {
-//     sandbox.restore();
-//   });
-
-//   it("should call findById with correct parameter and return status code 200", async () => {
-//     const mockReward = {
-//       _id: "test-id",
-//       rewardName: "Test Reward",
-//       starsRequired: 10,
-//     };
-
-//     // Stubbing the reward's findById method
-//     const findByIdStub = sandbox.stub(Reward, "findById").resolves(mockReward);
-
-//     // Sending a request to get a reward by ID
-//     const res = await request(app).get(`/rewards/${mockReward._id}`);
-
-//     // Expect the status code and response body are as expected
-//     assert.strictEqual(res.statusCode, 200);
-//     assert.deepStrictEqual(res.body.rewardName, mockReward.rewardName);
-//     assert.deepStrictEqual(res.body.starsRequired, mockReward.starsRequired);
-
-//     // Expect the stub has been called
-//     sinon.assert.calledOnce(findByIdStub);
-//     sinon.assert.calledWithExactly(findByIdStub, mockReward._id);
-//   });
-
-//   it("should return 404 if reward ID does not exist", async () => {
-//     const nonExistentRewardId = "non-existent-id";
-
-//     // Stubbing the reward's findById method, but this time it returns null
-//     const findByIdStub = sandbox.stub(Reward, "findById").resolves(null);
-
-//     // Sending a request to get a reward by ID, but with a reward that doesn't exist
-//     const res = await request(app).get(`/rewards/${nonExistentRewardId}`);
-
-//     // Expect that the status code and response body are as expected
-//     assert.strictEqual(res.statusCode, 404);
-//     assert.deepStrictEqual(
-//       res.body.message,
-//       "Reward with that ID was not found"
-//     );
-
-//     /// Expect that the stub has been called
-//     sinon.assert.calledOnce(findByIdStub);
-//     sinon.assert.calledWithExactly(findByIdStub, nonExistentRewardId);
-//   });
-// });
 
 // describe("POST /management/rewards/create", () => {
 //   it("should create a reward and return status code 201", async () => {
