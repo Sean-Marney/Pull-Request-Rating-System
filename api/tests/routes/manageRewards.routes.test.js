@@ -24,6 +24,7 @@ describe("GET /rewards/:id", () => {
 
   afterEach(() => {
     sandbox.restore();
+    sinon.reset();
   });
 
   it("should call findById with correct parameter and return status code 200", async () => {
@@ -101,6 +102,7 @@ describe("PATCH /management/rewards/update/:id", () => {
 
   afterEach(() => {
     sandbox.restore();
+    sinon.reset();
   });
 
   it("should call updateReward with correct parameters and return status code 200", async () => {
@@ -167,6 +169,7 @@ describe("DELETE /management/rewards/delete/:id", () => {
 
   afterEach(() => {
     sandbox.restore();
+    sinon.reset();
   });
 
   it("should call findById and remove with correct parameters and return status code 200", async () => {
