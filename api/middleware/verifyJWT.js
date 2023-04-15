@@ -4,15 +4,9 @@ const jwt = require("jsonwebtoken");
 function verifyJWTToken(req, res, next) {
 
     console.log(req.headers)
+    const token = req?.headers?.cookie?.split('; ')[0].split('=')[1]
 
-    // new defining the auth header
-    const authHeader = req.headers.authorization || req.headers.Authorization
-
-    if (!authHeader?.startsWith('Bearer')){
-        return res.status(401).json({ message: 'Unauthorized' })
-    }
-
-    const token =authHeader.split(' ')[1]
+    function parse
 
     // // Get the JWT from the "x-access-token" header of the request
     // const token = req.headers["x-access-token"];
@@ -20,7 +14,7 @@ function verifyJWTToken(req, res, next) {
     // If no token is provided, return an error response
     if (!token) {
         return res.json({
-            message: "Incorrect Token Given",
+            message: "No Token Given",
             isLoggedIn: false,
         }); 
     }
@@ -36,7 +30,7 @@ function verifyJWTToken(req, res, next) {
         }
 
         // Set the decoded user information on the request object
-        req.user = { id: decoded.id, name: decoded.name, hasRole: decoded.hasRole };
+        req.user = { id: decoded.id, email: decoded.email, hasRole: decoded.hasRole };
 
         // Call the next middleware function
         next();
@@ -45,7 +39,7 @@ function verifyJWTToken(req, res, next) {
 
 const verifyTokenAndAuth = (req, res, next) => {
     verifyJWTToken(req, res, () => {
-    if (req.user.id == req.params.id || req.user.hasRole == "manager") {
+    if (req.user.id == req.params.id || req.user.hasRole == "Manager") {
         next();
         } else {
             res.status(403).json("You are not authorized for this action");
@@ -55,7 +49,7 @@ const verifyTokenAndAuth = (req, res, next) => {
 
 const verifyManger = (req, res, next) => {
     verifyJWTToken(req, res, () => {
-    if (req.user.hasRole == "manager") {
+    if (req.user.hasRole == "Manager") {
         next();
         } else {
             res.status(403).json("You are not authorized for this action");
