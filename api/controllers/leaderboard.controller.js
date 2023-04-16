@@ -3,7 +3,7 @@ exports.getLeaderboard = async (req, res) => {
   try {
     const leaderboard = await User.find({ hasRole: "Developer" })
       .sort({ totalStarsEarned: -1 })
-      .select("name totalStarsEarned level");
+      .select("name totalStarsEarned");
     res.json(leaderboard);
   } catch (err) {
     console.error(err.message);
