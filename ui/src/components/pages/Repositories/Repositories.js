@@ -152,159 +152,163 @@ const RepositoryList = () => {
         />
       </Modal>
       <Paper className={classes.paper}>
-      <Typography variant="h4">
-        <b>Pull Requests Rating</b>
-      </Typography>
+        <Typography variant="h4" className={classes.title}>
+          <b>Pull Requests Rating</b>
+        </Typography>
 
-      <div className={classes.selectContainer}>
-        <div className={classes.selectWrapper}>
-          <label style={{ fontWeight: "bold" }}> Filter by Repository</label>
-          <Select
-            className={classes.select}
-            value={selectedRepository}
-            onChange={handleRepositoryChange}
-            defaultValue="all"
-          >
-            <MenuItem value="all">All Pull Requests</MenuItem>
-            {repositories?.map((repository) => (
-              <MenuItem key={repository.id} value={repository.name}>
-                {repository.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
-        <div className={classes.selectWrapper}>
-          <label style={{ fontWeight: "bold" }}> Filter by Status</label>
-          <Select
-            className={classes.select}
-            value={filter}
-            onChange={(event) => {
-              setFilter(event.target.value);
-              if (event.target.value === "reviewed") setSelectedPR(null);
-            }}
-            defaultValue="pending"
-          >
-            <MenuItem value="pending">Pending</MenuItem>
-            <MenuItem value="reviewed">Reviewed</MenuItem>
-          </Select>
-        </div>
-      </div>
-      <div className={classes.container}>
-        {!loading ? (
-          <List>
-            {selectedPullRequests.length > 0 ? (
-              selectedPullRequests?.slice(0, visible).map((pullRequest) => (
-                <ListItem key={pullRequest._id} className={classes.listItem}>
-                  <ListItemText
-                    primary={
-                      <Typography variant="h6">{pullRequest.title}</Typography>
-                    }
-                    secondary={
-                      <div className={classes.positionElements}>
-                        <div>
-                          <Typography
-                            component="span"
-                            variant="body1"
-                            color="textSecondary"
-                          >
-                            {`Pull Request #${pullRequest.git_id} from ${pullRequest.repo}`}
-                          </Typography>
-                          <br />
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            color="textSecondary"
-                          >
-                            {`Created by ${pullRequest.users_name}`}
-                          </Typography>
-                          <br />
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            color="textSecondary"
-                          >
-                            {moment(pullRequest.date).format(
-                              "DD/MM/YYYY  HH:mm:ss"
-                            )}
-                          </Typography>
-                          <br />
-                        </div>
-                        <br />
-
-                        <PullRequestRatingStars rating={pullRequest.ratings} />
-                        <br />
-                        <div className={classes.buttonContainer}>
-                          <Button
-                            onClick={() =>
-                              handleGitHubLinkClick(pullRequest.url)
-                            }
-                            variant="contained"
-                            size="medium"
-                          >
-                            GitHub Link
-                          </Button>
-                          {filter === "pending" && (
-                            <Button
-                              onClick={() => {
-                                if (filter === "pending")
-                                  setSelectedPR(pullRequest);
-                                else return;
-                              }}
-                              variant="contained"
-                              size="small"
-                            >
-                              Add rating
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    }
-                  />
-                </ListItem>
-              ))
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "auto",
-                  margin: "auto",
-                }}
-              >
-                <img
-                  alt="No pending pull requests"
-                  src={noData}
-                  style={{ height: "220px", width: "250px" }}
-                />
-                <Typography variant="h6">
-                  No pending pull requests available
-                </Typography>
-              </div>
-            )}
-          </List>
-        ) : (
-          <div>
-            <Skeleton
-              variant="rectangular"
-              width={1000}
-              height={145}
-              style={{ margin: "8px 0px" }}
-            />
-            <Skeleton
-              variant="rectangular"
-              width={1000}
-              height={145}
-              style={{ margin: "8px 0px" }}
-            />
-            <Skeleton
-              variant="rectangular"
-              width={1000}
-              height={145}
-              style={{ margin: "8px 0px" }}
-            />
+        <div className={classes.selectContainer}>
+          <div className={classes.selectWrapper}>
+            <label style={{ fontWeight: "bold" }}> Filter by Repository</label>
+            <Select
+              className={classes.select}
+              value={selectedRepository}
+              onChange={handleRepositoryChange}
+              defaultValue="all"
+            >
+              <MenuItem value="all">All Pull Requests</MenuItem>
+              {repositories?.map((repository) => (
+                <MenuItem key={repository.id} value={repository.name}>
+                  {repository.name}
+                </MenuItem>
+              ))}
+            </Select>
           </div>
-        )}
-      </div>
+          <div className={classes.selectWrapper}>
+            <label style={{ fontWeight: "bold" }}> Filter by Status</label>
+            <Select
+              className={classes.select}
+              value={filter}
+              onChange={(event) => {
+                setFilter(event.target.value);
+                if (event.target.value === "reviewed") setSelectedPR(null);
+              }}
+              defaultValue="pending"
+            >
+              <MenuItem value="pending">Pending</MenuItem>
+              <MenuItem value="reviewed">Reviewed</MenuItem>
+            </Select>
+          </div>
+        </div>
+        <div className={classes.container}>
+          {!loading ? (
+            <List>
+              {selectedPullRequests.length > 0 ? (
+                selectedPullRequests?.slice(0, visible).map((pullRequest) => (
+                  <ListItem key={pullRequest._id} className={classes.listItem}>
+                    <ListItemText
+                      primary={
+                        <Typography variant="h6">
+                          {pullRequest.title}
+                        </Typography>
+                      }
+                      secondary={
+                        <div className={classes.positionElements}>
+                          <div>
+                            <Typography
+                              component="span"
+                              variant="body1"
+                              color="textSecondary"
+                            >
+                              {`Pull Request #${pullRequest.git_id} from ${pullRequest.repo}`}
+                            </Typography>
+                            <br />
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              color="textSecondary"
+                            >
+                              {`Created by ${pullRequest.users_name}`}
+                            </Typography>
+                            <br />
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              color="textSecondary"
+                            >
+                              {moment(pullRequest.date).format(
+                                "DD/MM/YYYY  HH:mm:ss"
+                              )}
+                            </Typography>
+                            <br />
+                          </div>
+                          <br />
+
+                          <PullRequestRatingStars
+                            rating={pullRequest.ratings}
+                          />
+                          <br />
+                          <div className={classes.buttonContainer}>
+                            <Button
+                              onClick={() =>
+                                handleGitHubLinkClick(pullRequest.url)
+                              }
+                              variant="contained"
+                              size="medium"
+                            >
+                              GitHub Link
+                            </Button>
+                            {filter === "pending" && (
+                              <Button
+                                onClick={() => {
+                                  if (filter === "pending")
+                                    setSelectedPR(pullRequest);
+                                  else return;
+                                }}
+                                variant="contained"
+                                size="small"
+                              >
+                                Add rating
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      }
+                    />
+                  </ListItem>
+                ))
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: "auto",
+                    margin: "auto",
+                  }}
+                >
+                  <img
+                    alt="No pending pull requests"
+                    src={noData}
+                    style={{ height: "220px", width: "250px" }}
+                  />
+                  <Typography variant="h6">
+                    No pending pull requests available
+                  </Typography>
+                </div>
+              )}
+            </List>
+          ) : (
+            <div>
+              <Skeleton
+                variant="rectangular"
+                width={1000}
+                height={145}
+                style={{ margin: "8px 0px" }}
+              />
+              <Skeleton
+                variant="rectangular"
+                width={1000}
+                height={145}
+                style={{ margin: "8px 0px" }}
+              />
+              <Skeleton
+                variant="rectangular"
+                width={1000}
+                height={145}
+                style={{ margin: "8px 0px" }}
+              />
+            </div>
+          )}
+        </div>
       </Paper>
       <div>
         {/* Render "Load More" button from the reusable component and use the handler on click */}
