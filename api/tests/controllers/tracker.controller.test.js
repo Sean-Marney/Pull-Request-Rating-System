@@ -124,7 +124,12 @@ describe("CREATE tracker at /management/trackers/create using the createTracker 
         };
 
         const tracker = new Tracker(trackerData);
-        sinon.stub(Tracker.prototype, "save").resolves(tracker);
+        sinon.replace(
+            Tracker.prototype,
+            "save",
+            sinon.stub().resolves(tracker)
+        );
+
 
         await manageTrackers.createTracker(req, res);
 
@@ -152,7 +157,12 @@ describe("DELETE tracker by ID from /management/trackers/delete/:id using the de
         const tracker = { _id: trackerId };
 
         // Stub the findByIdAndDelete method of the Tracker model to resolve with the tracker mock
-        sinon.stub(Tracker, "findByIdAndDelete").resolves(tracker);
+        sinon.replace(
+            Tracker,
+            "findByIdAndDelete",
+            sinon.stub().resolves(tracker)
+        );
+
 
         // Call the deleteTracker controller method with the request and response objects
         await manageTrackers.deleteTracker(req, res);
