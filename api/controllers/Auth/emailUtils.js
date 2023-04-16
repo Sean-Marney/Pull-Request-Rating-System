@@ -45,4 +45,5 @@ const getAccessTokenWrapper = () => {
     return oAuth2Client.getAccessToken();
 };
 
-module.exports = { sendEmail, getAccessTokenWrapper};
+module.exports = { sendEmail, getAccessTokenWrapper };
+

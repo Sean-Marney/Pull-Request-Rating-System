@@ -16,11 +16,16 @@ describe("createRating", () => {
     let updateOneStub;
     let findOneStub;
     let findByIdStub;
+    let userUpdateOneStub;
 
     before(() => {
         updateOneStub = sinon.stub(PullRequest, "updateOne");
         findOneStub = sinon.stub(PullRequest, "findOne");
         findByIdStub = sinon.stub(User, "findById");
+        userUpdateOneStub = sinon.stub(User, "updateOne");
+
+        // reset history before each test case
+        sinon.resetHistory();
     });
 
     after(() => {
@@ -68,30 +73,28 @@ describe("createRating", () => {
             });
     });
 
+    it("should update pull request and return a success response", (done) => {
+        findOneStub.returns({ _id: "1", rating: {}, rating_complete: false });
+        findByIdStub.returns({ _id: "1", stars: 3, totalStarsEarned: 10 });
 
-    // it("should update pull request and return a success response", (done) => {
-    //     findOneStub.returns({ _id: "1", rating: {}, rating_complete: false });
-    //     findByIdStub.returns({ _id: "1", stars: 3, totalStarsEarned: 10 });
+        updateOneStub.resolves({ nModified: 1 });
+        userUpdateOneStub.resolves({ nModified: 1 });
 
-    //     updateOneStub.resolves({ nModified: 1 });
-    //     userUpdateOneStub.resolves({ nModified: 1 });
-
-    //     chai.request(app)
-    //         .put("/ratings/update/1")
-    //         .send({
-    //             rating: { a: 1, b: 2 },
-    //             rating_complete: true,
-    //             user_id: "1",
-    //         })
-    //         .end((err, res) => {
-    //             expect(res).to.have.status(200);
-    //             expect(res.body.message).to.equal(
-    //                 "Rating updated successfully"
-    //             );
-    //             done();
-    //         });
-    // });
-
+        chai.request(app)
+            .put("/ratings/update/1")
+            .send({
+                rating: { a: 1, b: 2 },
+                rating_complete: true,
+                user_id: "1",
+            })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body.message).to.equal(
+                    "Rating updated successfully"
+                );
+                done();
+            });
+    });
 
     it("should handle errors", (done) => {
         updateOneStub.throws();
@@ -108,76 +111,3 @@ describe("createRating", () => {
             });
     });
 });
-
-// describe("getUserByPullRequestRating", () => {
-//   beforeEach(() => {
-//     sinon.stub(PullRequest, "findById");
-//     sinon.stub(User, "findById");
-//     sinon.stub(User, "updateOne");
-//   });
-
-//   afterEach(() => {
-//     sinon.restore();
-//   });
-
-//   it("should update user's stars and totalStarsEarned fields", async () => {
-//     // Mock data
-//     const pullRequestId = "123";
-//     const userId = "456";
-//     const ratingSum = 5;
-
-//     // Create mock pull request
-//     const pullRequest = { user_id: userId };
-//     PullRequest.findById.resolves(pullRequest);
-
-//     // Create mock user
-//     const user = { _id: userId, stars: 3, totalStarsEarned: 10 };
-//     User.findById.resolves(user);
-
-//     // Do calculations for the new star count and new total star count, according to the ratings received for that pull request
-//     const updatedStarCount = user.stars + ratingSum;
-//     const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
-
-//     // Call method with rating received and the pull request its for
-//     await getUserByPullRequestRating(ratingSum, pullRequestId);
-
-//     // Assert it was called with the expected data
-//     assert(User.findById.calledOnceWith(userId));
-//     assert(
-//       User.updateOne.calledOnceWith(
-//         { _id: user._id },
-//         {
-//           $set: {
-//             stars: updatedStarCount,
-//             totalStarsEarned: updatedTotalStarCount,
-//           },
-//         }
-//       )
-//     );
-//   });
-
-//   it("should return 404 if pull request is not found", async () => {
-//     // Create a spy for the res.json method
-//     const jsonSpy = sinon.spy();
-
-//     // Mock data
-//     const res = {
-//       status: sinon.stub().returns({ json: jsonSpy }),
-//       json: jsonSpy,
-//     };
-//     const pullRequestId = "123";
-//     const ratingSum = 5;
-
-//     // Set up the mock PullRequest.findById to return null
-//     PullRequest.findById.resolves(null);
-
-//     // Call the method with the mock pull request ID
-//     await getUserByPullRequestRating(ratingSum, pullRequestId, res);
-
-//     // Check that the method returned a 404 response
-//     assert(res.status.calledWith(404));
-//     assert(
-//       jsonSpy.calledWith({ message: "Pull request with that ID not found" })
-//     );
-//   });
-// });
