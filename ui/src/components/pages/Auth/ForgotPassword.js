@@ -77,7 +77,7 @@ export default function ForgotPassword() {
             <AppBar
                 position="static"
                 className={classes.appBar}
-                sx={{ backgroundColor: "black" }}
+                sx={{ backgroundColor: "#1b2437" }}
             >
                 <Toolbar>
                     <Typography

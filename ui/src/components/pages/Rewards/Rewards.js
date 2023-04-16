@@ -24,6 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStyles } from "../../styles/tableStyle";
 import { Badges } from "./Badges";
+import Pagination from "../../reusable/Pagination";
 
 
 function TabPanel(props) {
@@ -73,6 +74,7 @@ export default function BasicTabs() {
   const [remainingStarsForReward, setRemainingStarsForReward] = useState({});
   const [totalStarsEarned, setTotalStarsEarned] = useState(null);
   const [levelList, setLevelList] = useState(null);
+  const [visible, setVisible] = React.useState(10);
 
   // Gets rewards and stars on page load
   useEffect(() => {
@@ -94,7 +96,10 @@ export default function BasicTabs() {
 
   const getRewards = async () => {
     // Get rewards
-    const res = await axios.get( process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
+    const res = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards"
+    );
+
     // Calculates remaining stars needed for reward
     const remainingStarsData = {};
     res.data.forEach((reward) => {
@@ -113,7 +118,8 @@ export default function BasicTabs() {
   const getStars = async () => {
     // Get user object via getUserByEmail method
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
     setTotalStarsEarned(res.data.totalStarsEarned);
     
@@ -125,7 +131,8 @@ export default function BasicTabs() {
   const claimReward = async (reward) => {
     // Gets user object via getUserByEmail method (uses email stored in cookies)
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
     // Sets response data to user
 
@@ -138,7 +145,8 @@ export default function BasicTabs() {
 
       // Updates user object with their new star count
       await axios.patch(
-        process.env.REACT_APP_API_ENDPOINT + `/management/users/update/${user._id}`,
+        process.env.REACT_APP_API_ENDPOINT +
+          `/management/users/update/${user._id}`,
         {
           name: user.name,
           email: user.email,
@@ -173,6 +181,11 @@ export default function BasicTabs() {
     setValue(newValue);
   };
 
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
     <Box style ={{"paddingBottom":"10px"}}>
@@ -186,69 +199,74 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0} component={'span'}>
-            <div className={classes.tableContainer} component="span">
-            <ToastContainer/>
-            <Paper className={classes.paper}>
-                <Typography variant="h4" component='div'>
-                <b>Rewards</b>
-                </Typography>
-                <Box>
-                <Typography className={classes.starCountBox} component='div'>
-                    <b>You have {stars} stars</b>
-                </Typography>
-                </Box>
-                 <Box component='div'>
-                {/*Get all rewards from database and display in a table */}
-                 {rewards && (
-                    <TableContainer component='div'>
-                    <Table>
-                        <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.tableHeaders}>
-                            <b>Name</b>
-                            </TableCell>
-                            <TableCell className={classes.tableHeaders}>
-                            <b>Stars Required</b>
-                            </TableCell>
-                            <TableCell className={classes.tableHeaders}>
-                            <b>Stars Remaining</b>
-                            </TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {rewards.map((reward) => (
-                            <TableRow key={reward._id}>
-                            <TableCell className={classes.tableContent}>
-                                {reward.rewardName}
-                            </TableCell>
-                            <TableCell className={classes.tableContent}>
-                                {reward.starsRequired} <br />
-                            </TableCell>
-                            <TableCell className={classes.tableContent}>
-                                {remainingStarsForReward[reward._id]}
-                            </TableCell>
-                            <TableCell>
-                                <Button
-                                onClick={() => claimReward(reward)}
-                                // Disable button if user doesn't have enough stars to claim reward
-                                disabled={reward.starsRequired > stars}
-                                variant="contained"
-                                color="primary"
-                                startIcon={<ClaimIcon />}
-                                >
-                                Claim Reward
-                                </Button>
-                            </TableCell>
-                            </TableRow>
-                        ))}
-                        </TableBody>
-                    </Table>
-                    </TableContainer>
-                )}
-                </Box>
-             </Paper>
-            </div>
+      <div className={classes.tableContainer}>
+      <ToastContainer />
+      <Paper className={classes.paper}>
+        <Typography variant="h4" className={classes.title}>
+          <b>Rewards</b>
+        </Typography>
+        <Box>
+          <Typography className={classes.starCountBox}>
+            <b>You have {stars} stars</b>
+          </Typography>
+        </Box>
+        <Box>
+          {/* Get all rewards from database and display in a table */}
+          {rewards && (
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Name</b>
+                    </TableCell>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Stars Required</b>
+                    </TableCell>
+                    <TableCell className={classes.tableHeaders}>
+                      <b>Stars Remaining</b>
+                    </TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {/* Render items that have been loaded via pagination */}
+                  {rewards.slice(0, visible).map((reward) => (
+                    <TableRow key={reward._id}>
+                      <TableCell className={classes.tableContent}>
+                        {reward.rewardName}
+                      </TableCell>
+                      <TableCell className={classes.tableContent}>
+                        {reward.starsRequired} <br />
+                      </TableCell>
+                      <TableCell className={classes.tableContent}>
+                        {remainingStarsForReward[reward._id]}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => claimReward(reward)}
+                          // Disable button if user doesn't have enough stars to claim reward
+                          disabled={reward.starsRequired > stars}
+                          variant="contained"
+                          color="primary"
+                          startIcon={<ClaimIcon />}
+                        >
+                          Claim Reward
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Box>
+      </Paper>
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
+    </div>
       </TabPanel>
       <TabPanel value={value} index={1} component="div">
           <Badges style={useStyles()} levelList={levelList} current={totalStarsEarned} />

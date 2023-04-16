@@ -37,11 +37,13 @@ export const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
         flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '300px',
     },
     selectWrapper: {
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
     },
     buttonContainer: {
         display: "flex",
@@ -59,5 +61,17 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: "space-between",
         height: "80px",
         marginBottom: "10px",
+    },
+    paper: {
+        boxShadow: theme.shadows[3],
+        marginTop: theme.spacing(3),
+        padding: theme.spacing(2),
+    },
+    Container: {
+    maxWidth: "90%",
+    margin: "0 auto",
+    overflow: "auto",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     },
 }));

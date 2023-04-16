@@ -12,10 +12,14 @@ import {
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
 import { Level } from "./Level";
-function Leaderboard() {
+import Pagination from "../../reusable/Pagination";
+
+export default function Leaderboard() {
   const classes = useStyles();
+
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [levelList, setLevelList] = useState([{name: "No Badge", value: 0 }]);
+  const [visible, setVisible] = React.useState(10);
 
   useEffect(() => {
     axios
@@ -30,6 +34,9 @@ function Leaderboard() {
     levels.data.unshift({name: "No Badge", value: 0 });
     // console.log(levels.data.filter(item => item.value <= 11).sort((a, b) => b.value - a.value)[0].name);
     setLevelList(levels.data);
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
   };
 
   return (
@@ -47,7 +54,8 @@ function Leaderboard() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {leaderboardData.map((user, index) => (
+            {/* Render items that have been loaded via pagination */}
+            {leaderboardData.slice(0, visible).map((user, index) => (
               <TableRow key={index}>
                 <TableCell component="th" scope="row">
                   {user.name}
@@ -60,8 +68,12 @@ function Leaderboard() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }
-
-export default Leaderboard;
+}
