@@ -112,31 +112,37 @@ describe("GET tracker by ID from /management/trackers using the getTrackers cont
     });
 });
 
-// describe("CREATE tracker at /management/trackers/create using the createTracker controller method", () => {
-//     it("should create a tracker and save it to the database with a 201 response code", async () => {
-//         const trackerData = {
-//             name: "Design Patterns",
-//         };
-//         const req = { body: trackerData };
-//         const res = {
-//             status: sinon.stub().returnsThis(),
-//             json: sinon.stub(),
-//         };
+describe("CREATE tracker at /management/trackers/create using the createTracker controller method", () => {
+    let saveStub;
 
-//         const tracker = new Tracker(trackerData);
-//         sinon.replace(
-//             Tracker.prototype,
-//             "save",
-//             sinon.stub().resolves(tracker)
-//         );
+    beforeEach(() => {
+        saveStub = sinon.stub(Tracker.prototype, "save");
+    });
 
+    afterEach(() => {
+        saveStub.restore();
+    });
 
-//         await manageTrackers.createTracker(req, res);
+    it("should create a tracker and save it to the database with a 201 response code", async () => {
+        const trackerData = {
+            name: "Design Patterns",
+        };
+        const req = { body: trackerData };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
 
-//         sinon.assert.calledOnce(tracker.save);
-//         sinon.assert.calledOnceWithExactly(res.status, 201);
-//     });
-// });
+        const tracker = new Tracker(trackerData);
+        saveStub.resolves(tracker);
+
+        await manageTrackers.createTracker(req, res);
+
+        sinon.assert.calledOnce(saveStub);
+        sinon.assert.calledOnceWithExactly(res.status, 201);
+    });
+});
+
 
 describe("DELETE tracker by ID from /management/trackers/delete/:id using the deleteTracker controller method", () => {
     let findByIdAndDeleteStub;
