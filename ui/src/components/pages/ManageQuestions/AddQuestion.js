@@ -33,7 +33,7 @@ export default function AddQuestions() {
   const getQuestions = async () => {
     // Get question by id
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/questions/${id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/questions/${id}`,{ withCredentials: true}
     );
 
     // Set to state (fills in textboxes)
@@ -61,7 +61,7 @@ export default function AddQuestions() {
       // Create new faq
       await axios.post(
         process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs/create",
-        createForm
+        createForm,{ withCredentials: true}
       );
 
       navigate("/management/faqs"); // Redirects after reward is created
