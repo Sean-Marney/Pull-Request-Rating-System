@@ -1,40 +1,39 @@
 const User = require("../../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {sendEmail} = require("../Auth/emailUtils");
+const sendEmail = require("../Auth/emailUtils");
 
 const registerUser = async (req, res) => {
-    try {
-        // Extract the name and email values from the request body and convert to lowercase
-        const name = req.body.name.toLowerCase();
-        const email = req.body.email.toLowerCase();
+    // Extract the name and email values from the request body and convert to lowercase
+    const name = req.body.name.toLowerCase();
+    const email = req.body.email.toLowerCase();
 
-        // Check if a user with the same name or email already exists in the database
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            // If a user with the same name or email exists, return a 409 response with an error message
-            return res
-                .status(409)
-                .json({ message: "Email already exists in the database" });
-        }
+    // Check if a user with the same name or email already exists in the database
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        // If a user with the same name or email exists, return a 409 response with an error message
+        return res
+            .status(409)
+            .json({ message: "Email already exists in the database" });
+    }
 
-        // Hash the password with bcrypt and create a new User document with the name, email, and hashed password
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const newUser = new User({
-            name,
-            email,
-            password: hashedPassword,
-            hasRole: "Manager",
-        });
+    // Hash the password with bcrypt and create a new User document with the name, email, and hashed password
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = new User({
+        name,
+        email,
+        password: hashedPassword,
+        hasRole: "Manager",
+    });
 
-        // Save the new user to the database and return a success response
-        await newUser.save();
+    // Save the new user to the database and return a success response
+    await newUser.save();
 
-        const mailOptions = {
-            from: "team7largeteamproject@gmail.com",
-            to: email,
-            subject: "PullMaster.io Onboarding Confirmation",
-            html: `<div style="background-color: white; padding: 10px;">
+    const mailOptions = {
+        from: "team7largeteamproject@gmail.com",
+        to: email,
+        subject: "PullMaster.io Onboarding Confirmation",
+        html: `<div style="background-color: white; padding: 10px;">
             <p style="font-family: Arial; font-size: 16px;">Hi ${name},</p>
             <p style="font-family: Arial; font-size: 16px;">Wecome to PullMaster.io</p>
             <p style="font-family: Arial; font-size: 16px;">Thank you for registering with PullMaster.io! We're excited to have you on board.</p>
@@ -44,23 +43,9 @@ const registerUser = async (req, res) => {
             <div style="background-color: #1b2437; color: white; text-align: center; padding: 10px;">
             <h1 style="font-family: Bahnschrift; margin: 0;">PullMaster.io</h1>
             </div>`,
-        };
-        const emailSent = await sendEmail(mailOptions);
-
-        if (emailSent) {
-            console.log(`Email send to ${email}`);
-            res.status(200).json({
-                success: true,
-                isRegistered: true,
-                message: "Email sent successfully",
-            });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            message: "An error occurred while sending the Email",
-        });
-    }
+    };
+    await sendEmail(mailOptions);
+    res.json({ message: "Success", isRegistered: true });
 };
 
 const loginUser = async (req, res) => {
