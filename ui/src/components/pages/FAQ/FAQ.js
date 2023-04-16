@@ -45,22 +45,21 @@ export default function ManageFaqs() {
   return (
     <div>
       <Paper className={classes.paper}>
-        <div className={classes.Container}>
-          <Box padding={3}>
-            <Typography variant="h4">
-              <b>FAQ</b>
-            </Typography>
-          </Box>
-
+        <Box padding={3}>
+          <Typography variant="h4" style={{ margin: "30px" }}>
+            <b>FAQ</b>
+          </Typography>
+        </Box>
+        <div>
           <Box padding={5}>
             <Button
               style={{
-                marginLeft: "20px",
+                marginLeft: "30px",
                 marginTop: "20px",
                 marginBottom: "20px",
                 display: "flex",
                 justifyContent: "center",
-                margin: 40,
+                // margin: 40,
               }}
               variant="contained"
               color="primary"
