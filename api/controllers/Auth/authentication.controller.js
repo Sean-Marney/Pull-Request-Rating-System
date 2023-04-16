@@ -70,15 +70,15 @@ const loginUser = async (req, res) => {
         const token = jwt.sign(
             { id: user._id, email: user.email, hasRole: user.hasRole },
             process.env.PASSPORTSECRET,
-            { expiresIn: 86400 }
+            { expiresIn:   1000 * 60 * 60 * 24 * 7} // a week
         );
 
           // create secure cookie with token
          res.cookie('jwt', token, {
-            httpOnly: false, // accessible only by web server
+            httpOnly: true, // accessible only by web server
             secure: true, // only accessible over SSl, https
             sameSite: 'None', //cross-site cookie
-            maxAge: 86400 //cookie expiry: set to match rT
+            maxAge: 1000 * 60 * 60 * 24 * 7//cookie expiry: set to match rT (a week)
         })
 
 

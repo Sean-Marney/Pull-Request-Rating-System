@@ -4,10 +4,43 @@ const jwt = require("jsonwebtoken");
 function verifyJWTToken(req, res, next) {
 
     console.log(req.headers)
-    const token = req?.headers?.cookie?.split('; ')[0].split('=')[1]
+    // const token = req?.headers?.cookie?.split('; ')[0].split('=')[1]
 
-    function parse
 
+
+    function parseCookies(request) {
+        const list ={};
+        request?.headers?.cookie?.split(';').forEach((cookie) => {
+            let [name, ...rest] = cookie.split('=');
+            name = name?.trim();
+            if (!name) return;
+            const value = rest.join('=').trim();
+            if (!value) return;
+            list[name] = decodeURIComponent(value);
+        });
+
+        return list;
+    }
+
+    const allCookies = parseCookies(req);
+
+    console.log(allCookies);
+    const token = allCookies?.jwt;
+    console.log("random")
+
+    // 2
+    //  // new defining the auth header
+    //  const authHeader = req.headers.authorization || req.headers.Authorization
+
+    //  if (!authHeader?.startsWith('Bearer')){
+    //      return res.status(401).json({ message: 'Unauthorized' })
+    //  }
+ 
+    //  const token =authHeader.split(' ')[1]
+ 
+
+
+    // 1
     // // Get the JWT from the "x-access-token" header of the request
     // const token = req.headers["x-access-token"];
 
