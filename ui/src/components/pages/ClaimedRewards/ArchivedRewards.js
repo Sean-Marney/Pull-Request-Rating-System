@@ -28,7 +28,7 @@ export default function ArchivedRewards() {
   const getClaimedRewards = async () => {
     // Get claimed rewards
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/claimed/get"
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/claimed/get",{ withCredentials: true}
     );
 
     // Filter results so that it only displays rewards that have been archived
