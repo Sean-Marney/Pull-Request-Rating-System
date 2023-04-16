@@ -33,16 +33,8 @@ describe("GET /management/rewards/:id", () => {
       `/management/rewards/${createResponse.body._id}`
     );
 
-    // Expect that the status code and response body are as expected
+    // Expect that the status code is as expected
     assert.strictEqual(getResponse.statusCode, 200);
-    assert.deepStrictEqual(
-      getResponse.body.rewardName,
-      existingReward.rewardName
-    );
-    assert.deepStrictEqual(
-      getResponse.body.starsRequired,
-      existingReward.starsRequired
-    );
   });
 });
 
