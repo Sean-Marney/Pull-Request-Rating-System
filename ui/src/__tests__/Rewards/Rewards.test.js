@@ -22,9 +22,12 @@ describe("Testing developer's rewards page at /rewards", () => {
     ];
 
     axios.get.mockResolvedValueOnce({ data: mockData }); // mock the response of axios
-    const expectedData = [];
+    const stars = {totalStarsEarned : 58, stars :200};
 
-    axios.get.mockResolvedValueOnce({ data: expectedData });
+    axios.get.mockResolvedValueOnce({ data: stars });
+    const levels = [];
+
+    axios.get.mockResolvedValueOnce({ data: levels });
 
 
     useCookies.mockReturnValue([{ user: { email: "test@test.com" } }]);
@@ -33,28 +36,38 @@ describe("Testing developer's rewards page at /rewards", () => {
 
     const rewardName1 = await screen.findByText("First Reward");
     const rewardName2 = await screen.findByText("Second Reward");
-    // const starsRequired1 = await screen.findByText(10);
-    // const starsRequired2 = await screen.findByText(10);
 
     expect(rewardName1).toBeInTheDocument();
     expect(rewardName2).toBeInTheDocument();
-    // expect(starsRequired1).toBeInTheDocument();
-    // expect(starsRequired2).toBeInTheDocument();
   });
 });
 
 // describe("Testing logic for claiming a reward on /rewards page", () => {
 //   it("should test claim button is clicked", async () => {
+
 //     const mockData = [
 //       { _id: "1", rewardName: "First Reward", starsRequired: 100 },
 //     ];
-
+//     axios.get.mockResolvedValueOnce({ data: mockData });
 //     const mockUser = {
 //       email: "test@test.com",
 //       stars: 200, // initial stars
 //     };
 
-//     axios.get.mockResolvedValue({ data: mockData }); // mock the response of axios
+
+//     const starlist = [{totalStarsEarned : 58, stars : 200}];
+//     axios.get.mockResolvedValueOnce({ data: starlist });
+
+//     const levels = [];
+
+//     axios.get.mockResolvedValueOnce({ data: levels });
+
+// //  // mock the response of axios
+
+// //     axios.get.mockResolvedValueOnce({ data: mockUser });
+// //     axios.get.mockResolvedValueOnce({ data: mockUser });
+
+
 //     axios.post.mockResolvedValue({ data: { success: true } }); // mock the response of axios
 
 //     // useCookies.mockReturnValue([{ user: { email: "test@test.com" } }]);
@@ -67,36 +80,37 @@ describe("Testing developer's rewards page at /rewards", () => {
 //   });
 // });
 
-// describe("Testing logic for tracking progress towards a reward on /rewards page", () => {
-//   it("should display the correct number of stars remaining for each reward", async () => {
-//     // Mock rewards
-//     const rewards = [
-//       {
-//         _id: "1",
-//         starsRequired: 20,
-//       },
-//       {
-//         _id: "2",
-//         starsRequired: 30,
-//       },
-//     ];
-//     // Set user's star count
-//     const stars = 10;
 
-//     // Loop through each reward and calculate the stars remaining before they can claim it
-//     const remainingStarsData = {};
-//     rewards.forEach((reward) => {
-//       const remainingStars = Math.max(reward.starsRequired - stars, 0);
-//       remainingStarsData[reward._id] = remainingStars;
-//       if (remainingStars === 0) {
-//         remainingStarsData[reward._id] = "Reward can now be claimed";
-//       }
-//     });
+describe("Testing logic for tracking progress towards a reward on /rewards page", () => {
+  it("should display the correct number of stars remaining for each reward", async () => {
+    // Mock rewards
+    const rewards = [
+      {
+        _id: "1",
+        starsRequired: 20,
+      },
+      {
+        _id: "2",
+        starsRequired: 30,
+      },
+    ];
+    // Set user's star count
+    const stars = 10;
 
-//     // Expect the calculation to be correct
-//     expect(remainingStarsData).toEqual({
-//       1: 10,
-//       2: 20,
-//     });
-//   });
-// });
+    // Loop through each reward and calculate the stars remaining before they can claim it
+    const remainingStarsData = {};
+    rewards.forEach((reward) => {
+      const remainingStars = Math.max(reward.starsRequired - stars, 0);
+      remainingStarsData[reward._id] = remainingStars;
+      if (remainingStars === 0) {
+        remainingStarsData[reward._id] = "Reward can now be claimed";
+      }
+    });
+
+    // Expect the calculation to be correct
+    expect(remainingStarsData).toEqual({
+      1: 10,
+      2: 20,
+    });
+  });
+});

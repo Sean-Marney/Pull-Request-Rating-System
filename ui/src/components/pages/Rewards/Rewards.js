@@ -79,7 +79,6 @@ export default function BasicTabs() {
     getRewards();
     getStars();
     getLevels();
-    console.log(classes);
   }, []);
 
   const getLevels = async () => {
@@ -96,7 +95,6 @@ export default function BasicTabs() {
   const getRewards = async () => {
     // Get rewards
     const res = await axios.get( process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
-
     // Calculates remaining stars needed for reward
     const remainingStarsData = {};
     res.data.forEach((reward) => {
@@ -106,7 +104,6 @@ export default function BasicTabs() {
         remainingStarsData[reward._id] = "Reward can now be claimed";
       }
     });
-
     // Set to state
     setRewards(res.data);
     setRemainingStarsForReward(remainingStarsData);
@@ -118,7 +115,6 @@ export default function BasicTabs() {
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
     );
-
     setTotalStarsEarned(res.data.totalStarsEarned);
     
     // Set the star count
@@ -132,6 +128,7 @@ export default function BasicTabs() {
       process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
     );
     // Sets response data to user
+
     const user = res.data;
 
     // Checks if the user has enough stars to claim the reward
