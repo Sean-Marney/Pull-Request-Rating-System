@@ -35,7 +35,7 @@ export default function UpdateProfile() {
     // Get user by email
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT +
-        `/management/users/email/${cookies.user}`
+        `/management/users/email/${cookies.user}`,{ withCredentials: true}
     );
     console.log(res.data);
     // Set to state (fills in textboxes)
@@ -65,7 +65,7 @@ export default function UpdateProfile() {
       await axios.patch(
         process.env.REACT_APP_API_ENDPOINT +
           `/management/users/update/email/${cookies.user.email}`,
-        updateForm
+        updateForm,{ withCredentials: true}
       );
       console.log(updateForm);
 

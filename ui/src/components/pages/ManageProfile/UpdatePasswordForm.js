@@ -66,7 +66,7 @@ export default function UpdatePassword() {
         // `http://localhost:8000/management/users/update/${id}`,
         process.env.REACT_APP_API_ENDPOINT +
           `/management/users/updatePassword/email/${cookies.user.email}`,
-        updateForm
+        updateForm,{ withCredentials: true}
       );
       navigate("/profile");
     } catch (error) {
