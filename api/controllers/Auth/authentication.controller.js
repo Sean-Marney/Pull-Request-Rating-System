@@ -48,7 +48,7 @@ const registerUser = async (req, res) => {
         const emailSent = await sendEmail(mailOptions);
 
         if (emailSent) {
-            console.log(`Email send to ${email}`);
+            console.log(`Email successfully send to ${email}`);
             res.status(200).json({
                 success: true,
                 isRegistered: true,
