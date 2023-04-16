@@ -15,36 +15,36 @@ describe("GET /management/rewards", () => {
   });
 });
 
-// describe("GET /management/rewards/:id", () => {
-//   it("should get a reward by ID and return status code 200", async () => {
-//     // Mocking an existing reward
-//     const existingReward = {
-//       rewardName: "Existing Reward",
-//       starsRequired: 20,
-//     };
+describe("GET /management/rewards/:id", () => {
+  it("should get a reward by ID and return status code 200", async () => {
+    // Mocking an existing reward
+    const existingReward = {
+      rewardName: "Existing Reward",
+      starsRequired: 20,
+    };
 
-//     // Sending a POST request to create a new reward
-//     const createResponse = await request(app)
-//       .post("/management/rewards/create")
-//       .send(existingReward);
+    // Sending a POST request to create a new reward
+    const createResponse = await request(app)
+      .post("/management/rewards/create")
+      .send(existingReward);
 
-//     // Sending a GET request to retrieve the reward by ID
-//     const getResponse = await request(app).get(
-//       `/management/rewards/${createResponse.body._id}`
-//     );
+    // Sending a GET request to retrieve the reward by ID
+    const getResponse = await request(app).get(
+      `/management/rewards/${createResponse.body._id}`
+    );
 
-//     // Expect that the status code and response body are as expected
-//     assert.strictEqual(getResponse.statusCode, 200);
-//     assert.deepStrictEqual(
-//       getResponse.body.rewardName,
-//       existingReward.rewardName
-//     );
-//     assert.deepStrictEqual(
-//       getResponse.body.starsRequired,
-//       existingReward.starsRequired
-//     );
-//   });
-// });
+    // Expect that the status code and response body are as expected
+    assert.strictEqual(getResponse.statusCode, 200);
+    assert.deepStrictEqual(
+      getResponse.body.rewardName,
+      existingReward.rewardName
+    );
+    assert.deepStrictEqual(
+      getResponse.body.starsRequired,
+      existingReward.starsRequired
+    );
+  });
+});
 
 describe("POST /management/rewards/create", () => {
   it("should create a reward and return status code 201", async () => {
@@ -128,35 +128,3 @@ describe("DELETE /management/rewards/:id", () => {
     assert.deepStrictEqual(deleteResponse.body.message, "Reward deleted");
   });
 });
-
-// describe("DELETE /management/rewards/delete/:id", () => {
-//   it("should delete a reward and return status code 200", async () => {
-//     // Mocking an existing reward
-//     const existingReward = {
-//       rewardName: "Existing Reward",
-//       starsRequired: 20,
-//     };
-
-//     // Sending a POST request to create a new reward
-//     const createResponse = await request(app)
-//       .post("/management/rewards/create")
-//       .send(existingReward);
-
-//     // Sending a DELETE request to delete the reward
-//     const deleteResponse = await request(app).delete(
-//       `/management/rewards/delete/${createResponse.body._id}`
-//     );
-
-//     // Expect that the status code and response body are as expected
-//     assert.strictEqual(deleteResponse.statusCode, 200);
-//     assert.deepStrictEqual(deleteResponse.body.message, "Reward deleted");
-
-//     // Sending a GET request to check that the reward has been deleted
-//     const getResponse = await request(app).get(
-//       `/management/rewards/${createResponse.body._id}`
-//     );
-
-//     // Expect that the status code is 404, indicating that the reward does not exist
-//     assert.strictEqual(getResponse.statusCode, 404);
-//   });
-// });
