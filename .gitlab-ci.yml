@@ -89,7 +89,7 @@ api unit tests:
         # Check the exit status of the npm test command
         - if [ $? -eq 0 ]; then echo "Tests passed"; else echo "Tests failed"; exit 1; fi
 
-    # Run unit tests for the UI
+# Run unit tests for the UI
 ui unit tests:
     stage: Unit Tests
     rules:
