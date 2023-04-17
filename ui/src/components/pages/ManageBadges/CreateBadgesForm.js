@@ -42,36 +42,27 @@ export default function CreateBadge() {
   const handlePhoto = (e) => {
     setPhoto(e.target.files[0]);
     let valid = validateFile(e.target.files[0]);
-    console.log(valid);
     setValid(valid);
-    // // Validate file type and size and whether image is valid
-    // if ((e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpeg") && e.target.files[0].size < 1000000) {
-    //   setValid(true);
-    // }else{
-    //   setValid(false);
-    // }
   }
 
   function validateFile(file) {
-    console.log(file);
     if (file === null || file === undefined) {
-      console.log("No file")
       return false;
     }
     else if ((file.type === "image/png" || file.type === "image/jpeg") && file.size < 1000000) {
-      console.log("Valid file")
       return true;
     }else{
-      console.log("Invalid file")
       return false;
     }
   }
 
 // Handles form submission
   const createBadge = async (e) => {
+    let validPhoto = validateFile(photo);
+    setValid(validPhoto);
     e.preventDefault();
     // Only submit form if file is valid
-    if (validFile) {
+    if (validPhoto) {
     try {
       await validateCreateBadgeForm.validate(createForm, {
         abortEarly: false,
@@ -151,6 +142,7 @@ export default function CreateBadge() {
                     type="file" 
                     accept=".png, .jpg, .jpeg"
                     name="photo"
+                    id="photo"
                     onChange={handlePhoto}
                     inputProps={{
                       style: { textAlign: "center" },

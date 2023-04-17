@@ -39,7 +39,6 @@ export default function ManageBadges() {
       const image = window.URL.createObjectURL(blob);
       res.data[i].photo = image;
     }
-    console.log(res.data);
     // Set to state
     setBadges(res.data);
   };
