@@ -8,7 +8,8 @@
     Logout,
     Dashboard,
     LiveHelp,
-    Help
+    Help,
+    Forum
 } from "@mui/icons-material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink, Link} from "react-router-dom";
@@ -50,6 +51,11 @@ const Sidebar = ({ children, removeCookie }) => {
             path: "/management/ManagerHelp",
             name: "ManagerHelp",
             icon: <Help />,
+        },
+        {
+            path: "/ChatBot",
+            name: "PullBot",
+            icon: <Forum />,
         },
    ];
     return (

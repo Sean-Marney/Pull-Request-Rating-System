@@ -37,6 +37,7 @@ import AddQuestions from "./components/pages/ManageQuestions/AddQuestion";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
+import ChatBot from "./components/pages/ChatBot/ChatBot";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -46,6 +47,7 @@ const App = () => {
                 <Sidebar removeCookie={removeCookie} role={cookies.role}>
                     <Routes>
                         <Route path="/" element={<DeveloperDashboard />} />
+                        <Route  path="/ChatBot"element={<ChatBot /> }/>
                         <Route
                             path="/management"
                             element={<ManagerDashboard />}
@@ -104,6 +106,9 @@ const App = () => {
                                 </ProtectedRoute>
                             }
                         />
+
+
+
                         <Route
                             path="/management/users/update/:id"
                             element={
