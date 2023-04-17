@@ -11,45 +11,61 @@ import {
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
-function Leaderboard() {
+export default function Leaderboard() {
   const classes = useStyles();
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [visible, setVisible] = React.useState(10);
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API_ENDPOINT + "/management/leaderboard")
+      .get(process.env.REACT_APP_API_ENDPOINT + "/management/leaderboard",{ withCredentials: true})
       .then((res) => setLeaderboardData(res.data))
       .catch((err) => console.log(err));
   }, []);
 
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
+  };
+
   return (
     <div className={classes.tableContainer}>
-      <Typography variant="h4" gutterBottom>
-        <b>Leaderboard</b>
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="leaderboard table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Total Stars Earned</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {leaderboardData.map((user, index) => (
-              <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  {user.name}
+      <Paper className={classes.paper}>
+        <Typography variant="h4" className={classes.title}>
+          <b>Leaderboard</b>
+        </Typography>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableHeaders}>
+                  <b>Name</b>
                 </TableCell>
-                <TableCell>{user.totalStarsEarned}</TableCell>
+                <TableCell className={classes.tableHeaders}>
+                  <b>Total Stars Earned</b>
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {leaderboardData.slice(0, visible).map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell className={classes.tableContent}>
+                    {user.name}
+                  </TableCell>
+                  <TableCell className={classes.tableContent}>
+                    {user.totalStarsEarned}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }
-
-export default Leaderboard;

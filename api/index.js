@@ -35,6 +35,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("Server up and running"));
 
@@ -56,6 +57,7 @@ app.get("/management/Leaderboard", leaderboardRoute);
 app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
 app.post("/management/ManagerHelp", managerHelpRoute);
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {

@@ -46,7 +46,7 @@ export default function CreateUser() {
       // Create new user
       await request({
         method: "post",
-        url: "/management/users/create",
+        url: "/management/users/create", withCredentials: true,
         data: { ...createForm },
       });
 

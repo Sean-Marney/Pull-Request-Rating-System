@@ -44,6 +44,20 @@ main{
   background: whitesmoke;
   color: #000;
 }
+.active2{
+  background: whitesmoke;
+  color: #000;
+}
 .icon, .link_text{
   font-size: 20px;
+}
+.image{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.errorimage{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }

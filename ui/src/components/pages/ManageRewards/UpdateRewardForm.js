@@ -33,7 +33,7 @@ export default function UpdateReward() {
   const getReward = async () => {
     // Get reward by id
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/${id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/${id}`,{ withCredentials: true}
     );
 
     // Set to state (fills in textboxes)
@@ -62,7 +62,7 @@ export default function UpdateReward() {
       // Update reward
       await axios.patch(
         process.env.REACT_APP_API_ENDPOINT + `/management/rewards/update/${id}`,
-        updateForm
+        updateForm,{ withCredentials: true}
       );
 
       navigate("/management/rewards");
