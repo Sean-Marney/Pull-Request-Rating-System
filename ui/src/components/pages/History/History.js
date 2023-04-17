@@ -3,25 +3,41 @@ import axios from "axios";
 import { Ratings } from "./Ratings";
 import { PullRequestHistory } from "../History/PullRequestHistory";
 import { useCookies } from "react-cookie";
-import { Typography, Box, Grid, Card, makeStyles } from "@material-ui/core";
+import {
+  Typography,
+  Box,
+  Grid,
+  Card,
+  makeStyles,
+  Paper,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+  },
   clickable: {
     cursor: "pointer",
-    "margin-bottom": "20px",
-  },
-  padding: {
-    "background-color": "#f5f5f5",
+    marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
+    borderRadius: theme.shape.borderRadius,
+    boxShadow: theme.shadows[1],
+    "&:hover": {
+      backgroundColor: theme.palette.action.hover,
+    },
   },
-  height: {
-    height: "40vh",
+  selected: {
+    backgroundColor: theme.palette.action.focus,
+  },
+  ratingsContainer: {
+    height: "calc(100vh - 120px)",
+    overflowY: "auto",
   },
 }));
 
-function App() {
+export default function History() {
   const classes = useStyles();
-
   const [pullRequests, setPullRequests] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [rated, setRated] = useState();
@@ -33,8 +49,6 @@ function App() {
     setRated("blank");
   }, []);
 
-  // Gets the Pull Requests through calling api backend
-  // TODO: Integrate with ID of user who is logged in
   const getPullRequests = async () => {
     let email = cookies.user;
     const res = await axios.get(
@@ -45,73 +59,75 @@ function App() {
     setPullRequests(res.data);
   };
 
-  // Handles the selection of a pull request
-  // Changes the background color of the selected pull request
-  // Displays the ratings
-  function handleSelection(rated, ratings, id) {
+  const handleSelection = (rated, ratings, id) => {
     try {
-      let newRequest = document.getElementById(id);
-      if (newRequest) {
-        newRequest.style.background = "#C9C5C5";
-      }
-      let oldRequest = document.getElementById(selected);
-      if (oldRequest) {
-        oldRequest.style.background = "#ffffff";
-      }
+      setSelected(id);
+      setRated(rated);
+      setRatings(ratings);
     } catch (err) {
       console.log(err);
     }
-    setSelected(id);
-    setRated(rated);
-    setRatings(ratings);
-  }
+  };
 
   return (
     <div className="App">
-      <Box padding={3}>
-        <Typography variant="h4" style={{ margin: "30px" }}>
+      <Box marginBottom={4}>
+        <Typography variant="h4" style={{ margin: "15px" }}>
           <b>History</b>
         </Typography>
       </Box>
-      <Grid container spacing={0} className={classes.container}>
+
+      <Grid container spacing={2} className={classes.container}>
         {/* Section to display the pull requests */}
-        <Grid
-          item
-          xs={6}
-          className={classes.padding}
-          variant="outlined"
-          style={{ maxHeight: "80vh", overflow: "auto" }}
-        >
-          {pullRequests.map((pullRequest) => {
-            return (
-              <Card
-                id={pullRequest._id}
-                className={classes.clickable}
-                onClick={() =>
-                  handleSelection(
-                    pullRequest.rating_complete,
-                    pullRequest.ratings,
-                    pullRequest._id
-                  )
-                }
-              >
-                <PullRequestHistory
-                  key={pullRequest._id}
-                  pullRequest={pullRequest}
-                />
-              </Card>
-            );
-          })}
+        <Grid item xs={12} md={6}>
+          <Paper>
+            <Box padding={2}>
+              {pullRequests.length === 0 ? (
+                <div>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      textAlign: "center",
+                      padding: "20px",
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    You have submitted no pull requests
+                  </Typography>
+                </div>
+              ) : (
+                pullRequests.map((pullRequest) => (
+                  <Card
+                    key={pullRequest._id}
+                    id={pullRequest._id}
+                    className={`${classes.clickable} ${
+                      selected === pullRequest._id ? classes.selected : ""
+                    }`}
+                    onClick={() =>
+                      handleSelection(
+                        pullRequest.rating_complete,
+                        pullRequest.ratings,
+                        pullRequest._id
+                      )
+                    }
+                  >
+                    <PullRequestHistory pullRequest={pullRequest} />
+                  </Card>
+                ))
+              )}
+            </Box>
+          </Paper>
         </Grid>
+
         {/* Section to display the ratings */}
-        <Grid item xs={6} className={classes.padding}>
-          <Card className={classes.height}>
-            <Ratings ratings={ratings} rated={rated} />
-          </Card>
+        <Grid item xs={12} md={6}>
+          <Paper className={classes.ratingsContainer}>
+            <Box padding={2}>
+              <Ratings ratings={ratings} rated={rated} />
+            </Box>
+          </Paper>
         </Grid>
       </Grid>
     </div>
   );
 }
-
-export default App;
