@@ -148,6 +148,8 @@ export default function DeveloperDashboard() {
     checkIfUserCanClaimReward();
     getUsersClaimedRewards();
     getLevel();
+    console.log(user);
+    console.log(level);
   }, [user]);
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
@@ -165,18 +167,23 @@ export default function DeveloperDashboard() {
 
   // Get the highest badge the user has earned
   const getLevel = async () => {
-    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
-    levels.data.unshift({name: "No Badge", value: 0 });
-    let level = levels.data.filter(item => item.value <= user.totalStarsEarned).sort((a, b) => b.value - a.value)[0];
-    setLevel(level.name);
-    if (level.name === "No Badge") {
-      setImage(<div></div>);
-    }else{
-      const blob = new Blob([Int8Array.from(level.img.data.data)], {type: level.img.data.contentType });
-      const imagsrc = window.URL.createObjectURL(blob);
-      let photo = <img src={imagsrc} alt="badge" width="75" height="75" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/>;
-      setImage(photo);
+    try{
+      const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
+      levels.data.unshift({name: "No Badge", value: 0 });
+      let level = levels.data.filter(item => item.value <= user.totalStarsEarned).sort((a, b) => b.value - a.value)[0];
+      setLevel(level.name);
+      if (level.name === "No Badge") {
+        setImage(<div></div>);
+      }else{
+        const blob = new Blob([Int8Array.from(level.img.data.data)], {type: level.img.data.contentType });
+        const imagsrc = window.URL.createObjectURL(blob);
+        let photo = <img src={imagsrc} alt="badge" width="75" height="75" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/>;
+        setImage(photo);
+      }
+    }catch(error){
+      console.log(error);
     }
+
   }
 
   // Gets user's current star count

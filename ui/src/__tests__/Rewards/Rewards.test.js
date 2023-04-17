@@ -42,43 +42,30 @@ describe("Testing developer's rewards page at /rewards", () => {
   });
 });
 
-// describe("Testing logic for claiming a reward on /rewards page", () => {
-//   it("should test claim button is clicked", async () => {
+describe("Testing logic for claiming a reward on /rewards page", () => {
+  it("should test claim button is clicked", async () => {
+    const mockData = [
+      { _id: "1", rewardName: "First Reward", starsRequired: 100 },
+    ];
 
-//     const mockData = [
-//       { _id: "1", rewardName: "First Reward", starsRequired: 100 },
-//     ];
-//     axios.get.mockResolvedValueOnce({ data: mockData });
-//     const mockUser = {
-//       email: "test@test.com",
-//       stars: 200, // initial stars
-//     };
+    const mockUser = {
+      email: "test@test.com",
+      stars: 200, // initial stars
+    };
 
+    axios.get.mockResolvedValue({ data: mockData }); // mock the response of axios
+    axios.post.mockResolvedValue({ data: { success: true } }); // mock the response of axios
 
-//     const starlist = [{totalStarsEarned : 58, stars : 200}];
-//     axios.get.mockResolvedValueOnce({ data: starlist });
+    // useCookies.mockReturnValue([{ user: { email: "test@test.com" } }]);
+    useCookies.mockReturnValue([{ user: mockUser }]);
 
-//     const levels = [];
+    render(<Rewards />);
 
-//     axios.get.mockResolvedValueOnce({ data: levels });
+    const claimButton = await screen.findByText("Claim Reward");
+    fireEvent.click(claimButton);
+  });
+});
 
-// //  // mock the response of axios
-
-// //     axios.get.mockResolvedValueOnce({ data: mockUser });
-// //     axios.get.mockResolvedValueOnce({ data: mockUser });
-
-
-//     axios.post.mockResolvedValue({ data: { success: true } }); // mock the response of axios
-
-//     // useCookies.mockReturnValue([{ user: { email: "test@test.com" } }]);
-//     useCookies.mockReturnValue([{ user: mockUser }]);
-
-//     render(<Rewards />);
-
-//     const claimButton = await screen.findByText("Claim Reward");
-//     fireEvent.click(claimButton);
-//   });
-// });
 
 
 describe("Testing logic for tracking progress towards a reward on /rewards page", () => {

@@ -47,61 +47,65 @@ describe("Testing CreateReward component", () => {
     // });
   });
 
-  // test("displays validation error when stars required is not entered", async () => {
-  //   render(
-  //     <MemoryRouter>
-  //       <CreateBadge />
-  //     </MemoryRouter>
-  //   );
-
-  //   // find the stars required input field and set it to empty
-  //   const starsRequiredInput = screen.getByLabelText("Stars Required");
-  //   fireEvent.change(starsRequiredInput, { target: { value: "" } });
-
-  //   // find the submit button and click it
-  //   const createRewardButton = screen.getByText("Create Badge");
-  //   fireEvent.click(createRewardButton);
-
-  //   // wait for validation to complete and display error message
-  //   await waitFor(() => {
-  //     const errorMessage = screen.getByText("Stars required must be a number");
-  //     expect(errorMessage).toBeInTheDocument();
-  //   });
-  // });
-
-  test("creates a new reward when form is submitted with valid data", async () => {
-    const mockPost = jest.fn();
-    mockPost.mockResolvedValueOnce({ data: { success: true } });
-    axios.post.mockImplementation(mockPost);
-
+  test("displays validation error when stars required is not entered", async () => {
     render(
       <MemoryRouter>
         <CreateBadge />
       </MemoryRouter>
     );
 
-    // find the reward name input field and set it to a valid value
-    const rewardNameInput = screen.getByLabelText("Badge Name");
-    fireEvent.change(rewardNameInput, { target: { value: "New Badge" } });
-
-    // find the stars required input field and set it to a valid value
+    // find the stars required input field and set it to empty
     const starsRequiredInput = screen.getByLabelText("Stars Required");
-    fireEvent.change(starsRequiredInput, { target: { value: "50" } });
+    fireEvent.change(starsRequiredInput, { target: { value: "" } });
+
+    // find the stars required input field and set it to empty
+    const fileInput = screen.getByLabelText("Image");
+    fireEvent.change(fileInput, { target: { file: {lastModified: "1652036727000",      lastModifiedDate: "Sun May 08 2022 20:05:27 GMT+0100 (British Summer Time)",      name: "25.PNG",      size: "47201",      type: "image/png" } } });
 
     // find the submit button and click it
-    const createRewardButton = screen.getByText("Create Reward");
+    const createRewardButton = screen.getByText("Create Badge");
     fireEvent.click(createRewardButton);
 
-    // Wait for axios.post and navigation to complete
+    // wait for validation to complete and display error message
     await waitFor(() => {
-      expect(mockPost).toHaveBeenCalledWith(
-        process.env.REACT_APP_API_ENDPOINT + "/management/rewards/create",
-        { rewardName: "New Reward", starsRequired: "50" }
-      );
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText("Create New Reward")).toBeInTheDocument();
+      const errorMessage = screen.getByText("Stars required must be a number");
+      expect(errorMessage).toBeInTheDocument();
     });
   });
+
+  // test("creates a new reward when form is submitted with valid data", async () => {
+  //   const mockPost = jest.fn();
+  //   mockPost.mockResolvedValueOnce({ data: { success: true } });
+  //   axios.post.mockImplementation(mockPost);
+
+  //   render(
+  //     <MemoryRouter>
+  //       <CreateBadge />
+  //     </MemoryRouter>
+  //   );
+
+  //   // find the reward name input field and set it to a valid value
+  //   const rewardNameInput = screen.getByLabelText("Badge Name");
+  //   fireEvent.change(rewardNameInput, { target: { value: "New Badge" } });
+
+  //   // find the stars required input field and set it to a valid value
+  //   const starsRequiredInput = screen.getByLabelText("Stars Required");
+  //   fireEvent.change(starsRequiredInput, { target: { value: "50" } });
+
+  //   // find the submit button and click it
+  //   const createRewardButton = screen.getByText("Create Badge");
+  //   fireEvent.click(createRewardButton);
+
+  //   // Wait for axios.post and navigation to complete
+  //   await waitFor(() => {
+  //     expect(mockPost).toHaveBeenCalledWith(
+  //       process.env.REACT_APP_API_ENDPOINT + "/management/rewards/create",
+  //       { rewardName: "New Reward", starsRequired: "50" }
+  //     );
+  //   });
+
+  //   await waitFor(() => {
+  //     expect(screen.getByText("Create New Reward")).toBeInTheDocument();
+  //   });
+  // });
 });

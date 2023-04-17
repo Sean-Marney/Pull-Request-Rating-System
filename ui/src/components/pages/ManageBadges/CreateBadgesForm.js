@@ -41,11 +41,29 @@ export default function CreateBadge() {
 // Handle photo upload
   const handlePhoto = (e) => {
     setPhoto(e.target.files[0]);
-    // Validate file type and size and whether image is valid
-    if ((e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpeg") && e.target.files[0].size < 1000000) {
-      setValid(true);
+    let valid = validateFile(e.target.files[0]);
+    console.log(valid);
+    setValid(valid);
+    // // Validate file type and size and whether image is valid
+    // if ((e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpeg") && e.target.files[0].size < 1000000) {
+    //   setValid(true);
+    // }else{
+    //   setValid(false);
+    // }
+  }
+
+  function validateFile(file) {
+    console.log(file);
+    if (file === null || file === undefined) {
+      console.log("No file")
+      return false;
+    }
+    else if ((file.type === "image/png" || file.type === "image/jpeg") && file.size < 1000000) {
+      console.log("Valid file")
+      return true;
     }else{
-      setValid(false);
+      console.log("Invalid file")
+      return false;
     }
   }
 
@@ -138,7 +156,6 @@ export default function CreateBadge() {
                       style: { textAlign: "center" },
                     }}
                     className={classes.input}
-                    required
                 />
                   {!validFile && (
                   <div className={classes.error}>Invalid File Type or Too Large</div>

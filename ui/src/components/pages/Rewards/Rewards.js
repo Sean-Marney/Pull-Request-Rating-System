@@ -84,13 +84,18 @@ export default function BasicTabs() {
   }, []);
 
   const getLevels = async () => {
-    const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
-    for (let i = 0; i < levels.data.length; i++) {
-      const blob = new Blob([Int8Array.from(levels.data[i].img.data.data)], {type: levels.data[i].img.data.contentType });
-      const image = window.URL.createObjectURL(blob);
-      levels.data[i].photo = image;
+    try{
+      const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);
+      for (let i = 0; i < levels.data.length; i++) {
+        const blob = new Blob([Int8Array.from(levels.data[i].img.data.data)], {type: levels.data[i].img.data.contentType });
+        const image = window.URL.createObjectURL(blob);
+        levels.data[i].photo = image;
+      }
+      setLevelList(levels.data);
+    }catch(err){
+      console.log(err);
     }
-    setLevelList(levels.data);
+
   };
 
 
