@@ -18,7 +18,7 @@ export class PullRequestHistory extends React.Component {
             <Typography
               variant="h6"
               component="div"
-              style={{ fontSize: "1.7rem" }}
+              style={{ fontSize: "1.2rem" }}
             >
               {rating}
             </Typography>
