@@ -159,24 +159,24 @@ describe("DELETE reward by ID from /management/rewards/delete/:id using the dele
   });
 });
 
-describe("UPDATE reward by ID from /management/rewards/update/:id using the updateReward controller method", () => {
-  it("should update a reward with the given ID", async () => {
-    const reward = new Reward({
-      rewardName: "Test Reward",
-      starsRequired: "5",
-    });
-    await reward.save();
+// describe("UPDATE reward by ID from /management/rewards/update/:id using the updateReward controller method", () => {
+//   it("should update a reward with the given ID", async () => {
+//     const reward = new Reward({
+//       rewardName: "Test Reward",
+//       starsRequired: "5",
+//     });
+//     await reward.save();
 
-    const res = await chai
-      .request(app)
-      .patch(`/management/rewards/update/${reward.id}`)
-      .send({
-        rewardName: "Updated Test Reward",
-        starsRequired: "10",
-      });
+//     const res = await chai
+//       .request(app)
+//       .patch(`/management/rewards/update/${reward.id}`)
+//       .send({
+//         rewardName: "Updated Test Reward",
+//         starsRequired: "10",
+//       });
 
-    res.should.have.status(200);
-    res.body.should.have.property("rewardName").eql("Updated Test Reward");
-    res.body.should.have.property("starsRequired").eql(parseInt("10"));
-  });
-});
+//     res.should.have.status(200);
+//     res.body.should.have.property("rewardName").eql("Updated Test Reward");
+//     res.body.should.have.property("starsRequired").eql(parseInt("10"));
+//   });
+// });

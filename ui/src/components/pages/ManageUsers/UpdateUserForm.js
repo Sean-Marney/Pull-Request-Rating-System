@@ -33,7 +33,7 @@ export default function UpdateUser() {
         // Get user by id
         const res = await request({
             method: "get",
-            url: `/management/users/${id}`,
+            url: `/management/users/${id}`, withCredentials: true,
         });
         // Set to state (fills in textboxes)
         setUpdateForm({
@@ -60,7 +60,7 @@ export default function UpdateUser() {
             });
             await request({
                 method: "patch",
-                url: `/management/users/update/${id}`,
+                url: `/management/users/update/${id}`, withCredentials: true,
                 data: { ...updateForm },
             });
             console.log("User updated successfully");

@@ -44,7 +44,7 @@ export default function CreateReward() {
       // Create new reward
       await axios.post(
         process.env.REACT_APP_API_ENDPOINT + "/management/rewards/create",
-        createForm
+        createForm,{ withCredentials: true}
       );
 
       navigate("/management/rewards"); // Redirects after reward is created

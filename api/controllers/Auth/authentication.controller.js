@@ -89,10 +89,19 @@ const loginUser = async (req, res) => {
 
         // Generate a JSON Web Token (JWT) with the user's ID and email and sign it with a secret key
         const token = jwt.sign(
-            { id: user._id, email: user.email },
+            { id: user._id, email: user.email, hasRole: user.hasRole },
             process.env.PASSPORTSECRET,
-            { expiresIn: 86400 }
+            { expiresIn:   1000 * 60 * 60 * 24 * 7} // a week
         );
+
+          // create secure cookie with token
+         res.cookie('jwt', token, {
+            httpOnly: true, // accessible only by web server
+            secure: true, // only accessible over SSl, https
+            sameSite: 'None', //cross-site cookie
+            maxAge: 1000 * 60 * 60 * 24 * 7//cookie expiry: set to match rT (a week)
+        })
+
 
         // Return a success response with the JWT included as a Bearer token
         res.json({
@@ -106,6 +115,7 @@ const loginUser = async (req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 };
+
 
 module.exports = {
     registerUser,

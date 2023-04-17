@@ -50,7 +50,7 @@ const RepositoryList = () => {
       // Sends GET request to API to get all pull requests in all repositories
       const response = await request({
         method: "get",
-        url: "/management/repositories/allPulls",
+        url: "/management/repositories/allPulls", withCredentials: true,
       });
       // Sets the state of the pull requests and repositories
       setSelectedPullRequests(filterList(response.data.pullRequests));
@@ -117,7 +117,7 @@ const RepositoryList = () => {
             // Sends a PUT request to the API to update the rating for the selected pull request
             await request({
                 method: "put",
-                url: `/ratings/update/${pullRequest._id}`,
+                url: `/ratings/update/${pullRequest._id}`, withCredentials: true,
                 data: {
                     ...pullRequest,
                     rating: { ...pullRequestRating },

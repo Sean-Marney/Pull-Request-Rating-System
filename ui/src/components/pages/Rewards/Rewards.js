@@ -38,7 +38,7 @@ export default function Rewards() {
   const getRewards = async () => {
     // Get rewards
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + "/management/rewards"
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards",{ withCredentials: true}
     );
 
     // Calculates remaining stars needed for reward
@@ -61,7 +61,7 @@ export default function Rewards() {
     // Get user object via getUserByEmail method
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT +
-        `/management/users/email/${cookies.user}`
+        `/management/users/email/${cookies.user}`,{ withCredentials: true}
     );
 
     // Set the star count
@@ -73,7 +73,7 @@ export default function Rewards() {
     // Gets user object via getUserByEmail method (uses email stored in cookies)
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT +
-        `/management/users/email/${cookies.user}`
+        `/management/users/email/${cookies.user}`,{ withCredentials: true}
     );
     // Sets response data to user
     const user = res.data;
@@ -86,14 +86,14 @@ export default function Rewards() {
       // Updates user object with their new star count
       await axios.patch(
         process.env.REACT_APP_API_ENDPOINT +
-          `/management/users/update/${user._id}`,
+          `/management/users/update/${user._id}`,{ withCredentials: true},
         {
           name: user.name,
           email: user.email,
           password: user.password,
           stars: newStars, // Updated
           totalStarsEarned: user.totalStarsEarned,
-        }
+        },{ withCredentials: true}
       );
 
       toast.success("Congratulations, you have claimed a reward!");
@@ -111,7 +111,7 @@ export default function Rewards() {
           userId: user._id,
           userEmail: user.email,
           dateClaimed: currentDate,
-        }
+        }, { withCredentials: true}
       );
     } else {
       console.log("User does not have enough stars to claim the reward");

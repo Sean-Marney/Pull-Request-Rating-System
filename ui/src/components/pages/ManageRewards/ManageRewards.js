@@ -35,7 +35,7 @@ export default function ManageRewards() {
   const getRewards = async () => {
     // Get rewards
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + "/management/rewards"
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards",{ withCredentials: true}
     );
 
     // Set to state
@@ -45,7 +45,7 @@ export default function ManageRewards() {
   const deleteReward = async (_id) => {
     // Delete reward
     await axios.delete(
-      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/delete/${_id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/delete/${_id}`,{ withCredentials: true}
     );
 
     getRewards(); // Get updated list of rewards

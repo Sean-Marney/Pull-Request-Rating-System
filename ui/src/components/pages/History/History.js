@@ -49,6 +49,7 @@ export default function History() {
     setRated("blank");
   }, []);
 
+
   const getPullRequests = async () => {
     let email = cookies.user;
     const res = await axios.get(
@@ -59,6 +60,7 @@ export default function History() {
     setPullRequests(res.data);
   };
 
+    
   const handleSelection = (rated, ratings, id) => {
     try {
       setSelected(id);
@@ -68,6 +70,7 @@ export default function History() {
       console.log(err);
     }
   };
+
 
   return (
     <div className="App">
