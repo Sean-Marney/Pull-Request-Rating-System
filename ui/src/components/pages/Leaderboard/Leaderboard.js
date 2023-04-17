@@ -114,40 +114,49 @@ export default function Leaderboard() {
     setLevelList(levels.data);
   };
 
-  // Handling "Load More" click
   const handlePageClick = () => {
     setVisible((preValue) => preValue + 10);
   };
 
   return (
     <div className={classes.tableContainer}>
-      <Typography variant="h4" gutterBottom>
-        <b>Leaderboard</b>
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="leaderboard table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Total Stars Earned</TableCell>
-              <TableCell>Level</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* Render items that have been loaded via pagination */}
-            {leaderboardData.slice(0, visible).map((user, index) => (
-              <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  {user.name}
+      <Paper className={classes.paper}>
+        <Typography variant="h4" className={classes.title}>
+          <b>Leaderboard</b>
+        </Typography>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableHeaders}>
+                  <b>Name</b>
                 </TableCell>
-                <TableCell>{user.totalStarsEarned}</TableCell>
-                <TableCell><Level levelList={levelList} current={user.totalStarsEarned} /></TableCell>
+                <TableCell className={classes.tableHeaders}>
+                  <b>Total Stars Earned</b>
+                </TableCell>
+                <TableCell className={classes.tableHeaders}>
+                  <b>Level</b>
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
+            </TableHead>
+            <TableBody>
+              {leaderboardData.slice(0, visible).map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell className={classes.tableContent}>
+                    {user.name}
+                  </TableCell>
+                  <TableCell className={classes.tableContent}>
+                    {user.totalStarsEarned}
+                  </TableCell>
+                  <TableCell className={classes.tableContent}>
+                  <Level levelList={levelList} current={user.totalStarsEarned} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
       <div>
         {/* Render "Load More" button from the reusable component and use the handler on click */}
         <Pagination handlePageClick={handlePageClick} />
