@@ -49,7 +49,7 @@ const App = () => {
         {cookies.token && (
           <Sidebar removeCookie={removeCookie} role={cookies.role}>
             <Routes>
-              // DeveloperDashboard
+               {/* DeveloperDashboard */}
               <Route 
                         path="/" element={
                         cookies.role === "Manager" ? (
@@ -60,7 +60,7 @@ const App = () => {
                         } 
               />
 
-              // ManagerDashboard
+               {/* ManagerDashboard */}
               <Route
                             path="/management"
                             element={
@@ -74,7 +74,7 @@ const App = () => {
                           }
               />
                         
-              // History
+               {/* History */}
               <Route path="/history" element={
                           <DeveloperRoutes
                           token={cookies.token}
@@ -86,7 +86,7 @@ const App = () => {
                         } 
               />
 
-              // PullRequestRating
+               {/* PullRequestRating */}
               <Route
                             path="/management/repositories/rating"
                             element={
@@ -100,7 +100,7 @@ const App = () => {
                           }
               />
 
-              // Leaderboard
+               {/* Leaderboard */}
               <Route
                             path="/management/Leaderboard"
                             element={
@@ -114,7 +114,7 @@ const App = () => {
                             }
               />
 
-              // ManageUsers
+               {/* ManageUsers */}
               <Route
                             path="/management/users"
                             element={
@@ -128,7 +128,7 @@ const App = () => {
                             }
               />
 
-              // ManagerHelp
+               {/* ManagerHelp */}
               <Route
                             path="/management/ManagerHelp"
                             element={
@@ -142,7 +142,7 @@ const App = () => {
                             }
               />
 
-              // CreateUser
+               {/* CreateUser */}
               <Route
                             path="/management/users/create"
                             element={
@@ -156,7 +156,7 @@ const App = () => {
                             }
               />
 
-              // UpdateUser
+               {/* UpdateUser */}
               <Route
                             path="/management/users/update/:id"
                             element={
@@ -170,7 +170,7 @@ const App = () => {
                             }
               />
 
-              // ManageRewards
+               {/* ManageRewards */}
               <Route
                             path="/management/rewards"
                             element={
@@ -184,7 +184,7 @@ const App = () => {
                             }
               />
 
-              // CreateRewards
+               {/* CreateRewards */}
               <Route
                             path="/management/rewards/create"
                             element={
@@ -198,7 +198,7 @@ const App = () => {
                             }
               />
 
-              // UpdateRewards
+               {/* UpdateRewards */}
               <Route
                             path="/management/rewards/update/:id"
                             element={
@@ -212,7 +212,7 @@ const App = () => {
                             }
               />
 
-              // ClaimedRewards
+               {/* ClaimedRewards */}
               <Route
                             path="/management/rewards/claimed"
                             element={
@@ -226,7 +226,7 @@ const App = () => {
                             }
               />
 
-              // ArchivedRewards
+               {/* ArchivedRewards */}
               <Route
                             path="/management/rewards/claimed/archived"
                             element={
@@ -240,7 +240,7 @@ const App = () => {
                             }
               />
 
-              // Developers Rewards
+               {/* Developers Rewards */}
               <Route 
                         path="/rewards" 
                         element={
@@ -254,7 +254,7 @@ const App = () => {
                         } 
               />
 
-              // Developer FAQ
+               {/* Developer FAQ */}
               <Route 
                         path="/FAQ" 
                         element={
@@ -268,7 +268,7 @@ const App = () => {
                          }
               />
 
-              // Mangers FAQ
+               {/* Mangers FAQ */}
               <Route
                             path="/management/faqs"
                             element={
@@ -282,7 +282,7 @@ const App = () => {
                             }
               />
 
-              // CreateFAQ
+               {/* CreateFAQ */}
               <Route
                             path="/management/manageFaqs/create"
                             element={
@@ -296,7 +296,7 @@ const App = () => {
                             }
               />
 
-              // UpdateFAQs
+               {/* UpdateFAQs */}
               <Route
                             path="/management/manageFaqs/update/:id"
                             element={
@@ -310,7 +310,7 @@ const App = () => {
                             }
               />    
 
-              // Repositories
+               {/* Repositories */}
               <Route
                             path="/management/repositories"
                             element={
@@ -324,7 +324,7 @@ const App = () => {
                             }
               />
 
-              // ManageTrackers
+               {/* ManageTrackers */}
               <Route
                             path="/management/trackers"
                             element={
@@ -338,7 +338,7 @@ const App = () => {
                             }
               />
 
-              // CreateTracker
+               {/* CreateTracker */}
               <Route
                             path="/management/trackers/create"
                             element={
@@ -352,7 +352,7 @@ const App = () => {
                             }
               />  
 
-              // UpdateTracker
+               {/* UpdateTracker */}
               <Route
                             path="/management/trackers/update/:id"
                             element={
@@ -366,7 +366,7 @@ const App = () => {
                             }
               />
 
-              // ProfilePage
+               {/* ProfilePage */}
               <Route
                             path="/profile"
                             element={
@@ -380,7 +380,7 @@ const App = () => {
                             }
               />
 
-              // UpdateProfile
+               {/* UpdateProfile */}
               <Route
                             path="/profile/update"
                             element={
@@ -394,7 +394,7 @@ const App = () => {
                             }
               />
 
-              // UpdatePassword
+               {/* UpdatePassword */}
               <Route
                             path="/profile/password"
                             element={
@@ -408,7 +408,7 @@ const App = () => {
                             }
               />
 
-              // AddQuestion
+               {/* AddQuestion */}
               <Route 
                             path="/faq/ask"
                             element={
@@ -422,7 +422,7 @@ const App = () => {
                             }
               />
 
-              // ManageQuestions
+               {/* ManageQuestions */}
               <Route
                             path="/management/manageFaqs/questions"
                             element={
@@ -436,7 +436,7 @@ const App = () => {
                             }
               />
 
-              // AddQuestions
+               {/* AddQuestions */}
               <Route
                             path="/management/manageFaqs/questions/add/:id"
                             element={

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 // function checks if a JSON Web Token (JWT) exists in the "x-access-token" header of an HTTP request
 function verifyJWTToken(req, res, next) {
 
-    console.log(req.headers)
+    // console.log(req.headers)
     function parseCookies(request) {
         const list ={};
         request?.headers?.cookie?.split(';').forEach((cookie) => {
@@ -20,9 +20,9 @@ function verifyJWTToken(req, res, next) {
 
     const allCookies = parseCookies(req);
 
-    console.log(allCookies);
+    // console.log(allCookies);
     const token = allCookies?.jwt;
-    console.log("random")
+    // console.log("random")
 
     // 2
     //  // new defining the auth header
@@ -77,6 +77,15 @@ const verifyTokenAndAuth = (req, res, next) => {
 }
 
 const verifyManger = (req, res, next) => {
+    verifyJWTToken(req, res, () => {
+    if (req.user.hasRole == "Manager") {
+        next();
+        } else {
+            res.status(403).json("You are not authorized for this action");
+        }
+    });
+}
+const verifyDeveloper = (req, res, next) => {
     verifyJWTToken(req, res, () => {
     if (req.user.hasRole == "Manager") {
         next();

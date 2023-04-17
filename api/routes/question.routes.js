@@ -12,7 +12,7 @@ const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middlewar
 router.use(verifyJWTToken)
 
 // CRUD routes for /manage/questions
-router.get("/", getQuestions);
+router.get("/", verifyManger, getQuestions);
 router.get("/:id", verifyManger, getQuestionById);
 router.post("/create", createQuestions);
 router.delete("/delete/:id", verifyManger, deleteQuestions);
