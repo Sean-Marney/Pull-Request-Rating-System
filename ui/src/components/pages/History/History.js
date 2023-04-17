@@ -50,35 +50,27 @@ export default function History() {
   }, []);
 
 
-    // Gets the Pull Requests through calling api backend
-    // TODO: Integrate with ID of user who is logged in
-    const getPullRequests = async () => {
-        let email = cookies.user;
-        const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/pullrequests/history/" + email.toLowerCase(),{ withCredentials: true});
-        setPullRequests(res.data);
-    };
+  const getPullRequests = async () => {
+    let email = cookies.user;
+    const res = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT +
+        "/pullrequests/history/" +
+        email.toLowerCase()
+    );
+    setPullRequests(res.data);
+  };
+
     
-    // Handles the selection of a pull request
-    // Changes the background color of the selected pull request
-    // Displays the ratings
-    function handleSelection(rated,ratings,id) {
-        try{
-            let newRequest = document.getElementById(id);
-            if (newRequest){
-                newRequest.style.background = "#C9C5C5"
-            }
-            let oldRequest = document.getElementById(selected);
-            if (oldRequest){
-                oldRequest.style.background = "#ffffff"
-            }
-        }catch(err){
-            console.log(err);
-        }
-        setSelected(id);
-        setRated(rated);
-        setRatings(ratings);
+  const handleSelection = (rated, ratings, id) => {
+    try {
+      setSelected(id);
+      setRated(rated);
+      setRatings(ratings);
+    } catch (err) {
+      console.log(err);
     }
   };
+
 
   return (
     <div className="App">
