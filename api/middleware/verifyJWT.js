@@ -4,10 +4,6 @@ const jwt = require("jsonwebtoken");
 function verifyJWTToken(req, res, next) {
 
     console.log(req.headers)
-    // const token = req?.headers?.cookie?.split('; ')[0].split('=')[1]
-
-
-
     function parseCookies(request) {
         const list ={};
         request?.headers?.cookie?.split(';').forEach((cookie) => {

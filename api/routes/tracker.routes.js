@@ -8,10 +8,13 @@ const {
     getTrackerById
 } = require("../controllers/tracker.controller");
 
+const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
+router.use(verifyJWTToken)
+
 router.get("/", getTrackers);
 router.get("/:id", getTrackerById);
-router.post("/create", createTracker);
-router.patch("/update/:id", updateTracker);
-router.delete("/delete/:id", deleteTracker);
+router.post("/create", verifyManger, createTracker);
+router.patch("/update/:id", verifyManger, updateTracker);
+router.delete("/delete/:id", verifyManger, deleteTracker);
 
 module.exports = router;
