@@ -1,9 +1,11 @@
 const User = require("../../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const sendEmail = require("../Auth/emailUtils");
+const {sendEmail} = require("../Auth/emailUtils");
 
 const registerUser = async (req, res) => {
+
+    try{
     // Extract the name and email values from the request body and convert to lowercase
     const name = req.body.name.toLowerCase();
     const email = req.body.email.toLowerCase();
@@ -43,9 +45,23 @@ const registerUser = async (req, res) => {
             <div style="background-color: #1b2437; color: white; text-align: center; padding: 10px;">
             <h1 style="font-family: Bahnschrift; margin: 0;">PullMaster.io</h1>
             </div>`,
-    };
-    await sendEmail(mailOptions);
-    res.json({ message: "Success", isRegistered: true });
+        };
+        const emailSent = await sendEmail(mailOptions);
+
+        if (emailSent) {
+            console.log(`Email successfully send to ${email}`);
+            res.status(200).json({
+                success: true,
+                isRegistered: true,
+                message: "Email sent successfully",
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "An error occurred while sending the Email",
+        });
+    }
 };
 
 const loginUser = async (req, res) => {
