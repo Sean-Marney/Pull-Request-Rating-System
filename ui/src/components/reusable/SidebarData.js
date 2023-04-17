@@ -14,6 +14,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import PeopleIcon from '@mui/icons-material/People';
 import CallMergeIcon from '@mui/icons-material/CallMerge';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import { NavLink, Link} from "react-router-dom";
 
 
@@ -56,6 +57,11 @@ const Sidebar = ({ children, removeCookie, role }) => {
         path: "/management",
         name: "Dashboard",
         icon: <Dashboard />,
+    },
+    {
+        path: "/management/trackers",
+        name: "Trackers",
+        icon: <GpsFixedIcon />,
     },
     {
         path: "/management/rewards",
