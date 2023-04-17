@@ -88,6 +88,47 @@ describe("registerUser controller method", () => {
             "PullMaster.io Onboarding Confirmation"
         );
     });
+
+    it("should return an error if a user with the email already exists", async () => {
+        const req = {
+            body: {
+                name: "John Doe",
+                email: "john.doe@example.com",
+                password: "password123",
+            },
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+
+        // Set up the stub for the User.findOne method to return a user with the same email
+        findOneStub.resolves({
+            _id: "abcd1234",
+            name: "Existing User",
+            email: "john.doe@example.com",
+            password: "hashedPassword123",
+        });
+
+        await registerUser(req, res);
+
+        // Assert that the status method was called with a 409 status code (Conflict)
+        expect(res.status.calledWith(409)).to.be.true;
+
+        // Assert that the json method was called with the expected error message
+        expect(
+            res.json.calledWith({
+                message: "Email already exists in the database",
+            })
+        ).to.be.true;
+
+        // Assert that the findOne method was called with the correct arguments
+        expect(findOneStub.calledOnce).to.be.true;
+        expect(findOneStub.calledWith({ email: "john.doe@example.com" })).to.be
+            .true;
+    });
+
+
 });
 
 // Test suite for the loginUser controller method
