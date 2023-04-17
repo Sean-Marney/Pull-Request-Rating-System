@@ -11,8 +11,8 @@ const {
 const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
 router.use(verifyJWTToken)
 
-router.get("/", getTrackers);
-router.get("/:id", getTrackerById);
+router.get("/", verifyManger, getTrackers);
+router.get("/:id", verifyManger, getTrackerById);
 router.post("/create", verifyManger, createTracker);
 router.patch("/update/:id", verifyManger, updateTracker);
 router.delete("/delete/:id", verifyManger, deleteTracker);
