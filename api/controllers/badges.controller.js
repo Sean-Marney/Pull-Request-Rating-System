@@ -115,5 +115,5 @@ const updateBadgeImage = async (req, res) => {
 
 
 module.exports = {
-    getAll, deleteBadge, createBadge,getBadgesById, updateBadge,getAllNames, updateBadgeImage
+    getAll, deleteBadge, createBadge,getBadgesById, updateBadge, updateBadgeImage
 };
