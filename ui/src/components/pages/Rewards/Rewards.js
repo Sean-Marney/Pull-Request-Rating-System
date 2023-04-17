@@ -83,6 +83,7 @@ export default function BasicTabs() {
     getLevels();
   }, []);
 
+  // Reads list of levels from database
   const getLevels = async () => {
     try{
       const levels = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/badge/all`);

@@ -2,7 +2,7 @@ const Badge = require("../models/badges.model");
 var fs = require('fs');
 let path = require('path');
 
-
+// Get all badges
 const getAll = async (req, res) => {
     try {
         const badges = await Badge.find().sort({ value: 1 });
@@ -13,27 +13,15 @@ const getAll = async (req, res) => {
     }
 };
 
-const getAllNames = async (req, res) => {
-  try {
-      const user = await Badge.find({img:0}).sort({ value: 1 } );
-      res.status(200).json(user);
-  } catch (error) {
-      res.status(404).json({ message: error.message });
-  }
-};
 
-
-// Delete a reward
+// Delete a badge
 const deleteBadge = async (req, res) => {
     try {
       const badge = await Badge.findById(req.params.id);
       if (!badge) {
         return res.status(404).json({ message: "Badge with that ID not found" });
       }
-
-
       await badge.remove();
-  
       res.status(200).json({ message: "Badge deleted" });
     } catch (error) {
       console.log(error);
@@ -65,7 +53,7 @@ catch (error) {
 }
 };
 
-// Get a reward by ID
+// Get a badge by ID
 const getBadgesById = async (req, res) => {
   try {
     const badge = await Badge.findById(req.params.id);
@@ -80,7 +68,7 @@ const getBadgesById = async (req, res) => {
   }
 };
 
-// Update a reward
+// Update a badge
 const updateBadge = async (req, res) => {
   try {
     const badge = await Badge.findById(req.params.id);
@@ -98,7 +86,7 @@ const updateBadge = async (req, res) => {
   }
 };
 
-// Update a reward
+// Update a badge
 const updateBadgeImage = async (req, res) => {
   try {
         const badge = await Badge.findById(req.params.id);

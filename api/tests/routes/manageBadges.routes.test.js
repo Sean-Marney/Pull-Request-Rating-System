@@ -10,7 +10,7 @@ const mockBadge = {
 };
 
 describe("GET /all", () => {
-    it("should return all levels and status code 200", (done) => {
+    it("should return all badges and status code 200", (done) => {
         const sortByValue = { value: 1 };
         let badgeFindStub = sinon.stub(Badge, 'find').returns({
             sort: sinon.stub().withArgs(sortByValue).returns([mockBadge])
@@ -99,29 +99,3 @@ describe("PATCH /management/badge/update/:id", () => {
             });
     });
 });
-
-// describe("POST /management/trackers/create", () => {
-//     it("should create a badge and return status code 201", async () => {
-//         const reqBody = {
-//             name: "Test Badge",
-//             value: 1,
-//             img: {contentType: 'image/png'}
-//         };
-//         const badge = new Badge({name: "Test Badge",value: 1,img: {contentType: 'image/png'}});
-//         let saveStub = sinon.stub(Badge.prototype, "save").resolves(badge);
-//         let fsStub = sinon.stub(fs, "readFileSync").resolves(await new Binary(Buffer.from("89504e470d0a1a0a0000000d4948445200000015000000160802000000a0e1406f000000017352474200aece1ce90000000467414d410000b18f0bfc61050000000970485973000016250000162501495224f00000003549444154384f63f84f191856fa190801a83a2430aa1f094055c100561134404bfb3101541d121856fac900a3fa290394e9ffff1f006fc8fe2ca56803f80000000049454e44ae426082", "hex"), 0));
-//         let unlinkFsStub = sinon.stub(fs, "unlinkSync").resolves();
-//         let uploadStub =  sinon.stub(upload,"single").resolves({file: {filename: 'test.png'}});
-
-//         const res = await request(app)
-//             .post("/management/badge/upload")
-//             .send(reqBody);
-//         chai.expect(res.statusCode).to.equal(201);
-//         chai.expect(res.body).to.be.an("object");
-//         chai.expect(res.body.name).to.equal(reqBody.name);
-//         saveStub.restore();
-//         fsStub.restore();
-//         uploadStub.restore();
-//         unlinkFsStub.restore();
-//     });
-// });

@@ -11,10 +11,11 @@ import { styled } from '@mui/material/styles';
 export class Badges extends React.Component {
 
     render() {
+      // Filter the badges that the user has earnt and the badges that the user has not earnt yet
       let earned_badges = this.props.levelList.filter(item => item.value <= this.props.current);
       let too_earn_badges = this.props.levelList.filter(item => item.value > this.props.current);
 
-
+      // Create tooltip for the badges
       const LightTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
       ))(({ theme }) => ({
@@ -28,15 +29,17 @@ export class Badges extends React.Component {
       let list = [];
       let index = 0;
       let users_badge ;
+
+      // Set element for the badge that the user has earnt
       if (earned_badges.length === 0){
         users_badge = "You have not earned any badges yet";
       }else{
         users_badge = "Your badge is " + (earned_badges[earned_badges.length - 1].name);
+        // Creates elements for the badges that the user has earnt
         while (index < earned_badges.length){
           let level = earned_badges[index];
           let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value} Stars</em></React.Fragment>
           list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><img src={level.photo} alt="badge" width="125" height="125" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/></LightTooltip></Grid>);
-          // list.push(<Grid item xs={2}  key={level.value} style ={{"backgroundColor": "#E6E6E6"}}><LightTooltip title={title}><LocalPoliceIcon /></LightTooltip></Grid>);
           index = index + 1;
         }
       index = 0;
@@ -45,7 +48,7 @@ export class Badges extends React.Component {
 
 
 
-
+      // Creates elements for the badges that the user has not earnt yet
       while (index < too_earn_badges.length){
           let level = too_earn_badges[index];
           let title =  <React.Fragment><Typography color="inherit">{level.name}</Typography><em>{level.value - this.props.current} Stars Away</em></React.Fragment>
@@ -53,7 +56,6 @@ export class Badges extends React.Component {
           index = index + 1;
       }
         const classes = this.props.style;
-        console.log(classes);
         return (
                  <Box className={classes.tableContainer} component="span">
                         <Paper className={classes.paper}>

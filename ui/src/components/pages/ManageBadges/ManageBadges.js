@@ -18,12 +18,13 @@ import {
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
 export default function ManageBadges() {
   const classes = useStyles();
 
   const [badges, setBadges] = useState(null);
-
+  const [visible, setVisible] = React.useState(5);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,6 +51,11 @@ export default function ManageBadges() {
     );
 
     getBadges(); // Get updated list of badges
+  };
+
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
   };
 
   return (
@@ -91,7 +97,7 @@ export default function ManageBadges() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {badges.map((badge) => (
+                  {badges.slice(0, visible).map((badge) => (
                     <TableRow key={badge._id}>
                       <TableCell className={classes.tableContent}>
                         <img src={badge.photo} alt="badge" width="75" height="75" style ={{ "display": "block","marginLeft": "auto","marginRight": "auto"}}/>
@@ -128,6 +134,10 @@ export default function ManageBadges() {
           )}
         </Box>
       </Paper>
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }
