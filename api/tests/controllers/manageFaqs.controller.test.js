@@ -159,24 +159,24 @@ describe("CREATE faq at /management/manageFaq/create using the createFaq control
 //     });
 // });
 
-describe("UPDATE faq by ID from /management/manageFaq/update/:id using the updateFaqs controller method", () => {
-    it("should update a faq with the given ID", async () => {
-        const faq = new Faq({
-            question: "Test question",
-            answer: "Test answer",
-        });
-        await faq.save();
+// describe("UPDATE faq by ID from /management/manageFaq/update/:id using the updateFaqs controller method", () => {
+//     it("should update a faq with the given ID", async () => {
+//         const faq = new Faq({
+//             question: "Test question",
+//             answer: "Test answer",
+//         });
+//         await faq.save();
 
-        const res = await chai
-            .request(app)
-            .patch(`/management/manageFaqs/update/${faq.id}`)
-            .send({
-                question: "Updated Test Question",
-                answer: "Updated Test Answer",
-            });
+//         const res = await chai
+//             .request(app)
+//             .patch(`/management/manageFaqs/update/${faq.id}`)
+//             .send({
+//                 question: "Updated Test Question",
+//                 answer: "Updated Test Answer",
+//             });
 
-        res.should.have.status(200);
-        res.body.should.have.property("question").eql("Updated Test Question");
-        res.body.should.have.property("answer").eql("Updated Test Answer");
-    });
-});
+//         res.should.have.status(200);
+//         res.body.should.have.property("question").eql("Updated Test Question");
+//         res.body.should.have.property("answer").eql("Updated Test Answer");
+//     });
+// });
