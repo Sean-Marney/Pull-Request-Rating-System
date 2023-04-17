@@ -20,7 +20,7 @@ export default function PullRequestRating(props) {
         try {
             const response = await request({
                 method: "get",
-                url: "/management/trackers",
+                url: "/management/trackers",withCredentials: true
             });
             setTracker([...response.data]);
         } catch (error) {
