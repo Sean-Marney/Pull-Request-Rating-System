@@ -6,6 +6,7 @@ const manageUsers = require("../../controllers/manageUsers.controller");
 const app = require("../../index");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const nodemailer = require("nodemailer");
 
 // Use the chai-http plugin and set the chai assertion library
 chai.use(chaiHttp);
@@ -49,7 +50,7 @@ describe("GET all users from /management/users using the getUsers controller met
 
     // Clean up the stub after each test
     afterEach(() => {
-        User.find.restore();
+        sinon.restore();
     });
 
     // Test that the getUsers function returns an array of users with the expected length
@@ -115,7 +116,7 @@ describe("GET user by ID from /management/users using the getUsers controller me
 
     afterEach(() => {
         // Restore the stubbed User.findById method
-        User.findById.restore();
+        sinon.restore();
     });
 
     // Test case for returning a user with the expected ID
@@ -173,6 +174,29 @@ describe("GET user by ID from /management/users using the getUsers controller me
 
 // Test suite for the createUser controller method
 describe("CREATE user at /management/users/create using the createUser controller method", () => {
+    let saveStub;
+
+    // Set up the stub before each test case
+    beforeEach(() => {
+        saveStub = sinon.stub(User.prototype, "save");
+        // Create a mock transport with a sendMail function
+        const mockTransport = {
+            sendMail: sinon.stub().resolves(),
+        };
+
+        // Stub the createTransport function to return the mock transport
+        sinon.stub(nodemailer, "createTransport").returns(mockTransport);
+
+        // Set sendMailStub to reference the sendMail function from the mock transport
+        sendMailStub = mockTransport.sendMail;
+    });
+
+    // Clean up the stub after each test case
+    afterEach(() => {
+        saveStub.restore();
+        nodemailer.createTransport.restore();
+    });
+
     // Test case to verify that a user can be created and saved to the database with a 201 response code
     it("should create a user and save it to the database with a 201 response code", async () => {
         // Mock data for the user to be created
@@ -196,19 +220,28 @@ describe("CREATE user at /management/users/create using the createUser controlle
         // Create a new user object with the mock user data
         const user = new User(userData);
 
-        // Stub the save method of the User prototype to return the user object
-        sinon.stub(User.prototype, "save").resolves(user);
+        // Set up the stub to return the user object
+        saveStub.resolves(user);
 
         // Call the createUser controller method with the mock request and response objects
         await manageUsers.createUser(req, res);
 
         // Verify that the save method was called once and returned the user object
-        sinon.assert.calledOnce(user.save);
+        sinon.assert.calledOnce(saveStub);
 
         // Verify that the status method was called once with a 201 response code
         sinon.assert.calledOnceWithExactly(res.status, 201);
+        // Assert that the sendMail function was called with the correct arguments
+        expect(sendMailStub.calledOnce).to.be.true;
+        const sendMailArgs = sendMailStub.args[0][0];
+        expect(sendMailArgs.to).to.equal("martin@gmail.com");
+        expect(sendMailArgs.subject).to.equal(
+            "PullMaster.io Onboarding Confirmation"
+        );
     });
 });
+
+
 
 describe("DELETE user by ID from /management/users/delete/:id using the deleteUser controller method", () => {
     let mockUser;
@@ -229,7 +262,7 @@ describe("DELETE user by ID from /management/users/delete/:id using the deleteUs
 
     afterEach(() => {
         // Restore the stubbed findByIdAndDelete method
-        User.findByIdAndDelete.restore();
+        sinon.restore();
     });
 
     // Test case for deleting a user with the expected ID
