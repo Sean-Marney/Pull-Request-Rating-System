@@ -89,7 +89,8 @@ describe("POST /management/trackers/create", () => {
         const reqBody = {
             name: "Performance",
         };
-        const trackerSaveStub = sinon.stub(Tracker.prototype, "save").resolves({
+        const trackerMock = sinon.mock(Tracker.prototype);
+        trackerMock.expects("save").once().resolves({
             name: reqBody.name,
         });
 
@@ -99,6 +100,8 @@ describe("POST /management/trackers/create", () => {
         chai.expect(res.statusCode).to.equal(201);
         chai.expect(res.body).to.be.an("object");
         chai.expect(res.body.name).to.equal(reqBody.name);
-        trackerSaveStub.restore();
+
+        trackerMock.verify();
+        trackerMock.restore();
     });
 });

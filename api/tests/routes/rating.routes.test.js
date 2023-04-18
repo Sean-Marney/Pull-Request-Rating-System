@@ -10,7 +10,7 @@ const express = require("express");
 const app = express();
 
 // Import the controller method
-const  createRating  = require("../../controllers/rating.controller");
+const createRating = require("../../controllers/rating.controller");
 
 // Mock the controller method
 const createRatingMock = sinon.stub(createRating, "createRating");
@@ -91,7 +91,6 @@ describe("PUT /update/:id", () => {
 
     // Test case for an error occurring during rating update
     it("should return 500 status code when an error occurs", async () => {
-
         // Test rating data
         const ratingData = {
             rating: {
