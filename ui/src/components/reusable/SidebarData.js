@@ -9,6 +9,7 @@
     Dashboard,
     LiveHelp,
     Help,
+    Forum,
 } from "@mui/icons-material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';

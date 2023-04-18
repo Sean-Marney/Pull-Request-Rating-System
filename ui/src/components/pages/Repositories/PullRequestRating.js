@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Rating } from "@mui/material";
 import Button from "@mui/material/Button";
+// Custom hook to handle API requests
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/Repositories/PullRequestRatingStyle";
 import { Typography, Link } from "@material-ui/core";
@@ -11,36 +12,48 @@ var moment = require("moment");
 moment().format();
 
 export default function PullRequestRating(props) {
+    // Custom hook to handle API requests
     const { request } = useAxiosInstance();
+    // State variable to store user's ratings for each tracker
     const [pullRequestRating, setPullRequestRating] = React.useState({});
+    // State variable to store list of available trackers
     const [tracker, setTracker] = React.useState([]);
+    // State variable to indicate whether an error occurred
     const [error, setError] = useState(false);
 
+    // This function retrieves a list of available trackers for rating pull requests
     const getAllTrackers = async () => {
         try {
+            // Send API request to retrieve list of available trackers
             const response = await request({
                 method: "get",
                 url: "/management/trackers",withCredentials: true
             });
+            // Update state variable to store list of available trackers
             setTracker([...response.data]);
         } catch (error) {
             console.error(error);
         }
     };
 
+    // This function clears the user's ratings for all trackers by resetting the "pullRequestRating" state variable to an empty object
     const handleClearClick = () => {
         setPullRequestRating({});
     };
 
+    // This useEffect hook retrieves the list of available trackers when the component mounts
     useEffect(() => {
         getAllTrackers();
     }, []);
 
+    // This function is called when the user clicks the "Close" button to exit the rating form
     const handleRatingFormClose = async () => {
         props.setSelectedPR(null);
     };
 
+    // This function is called when the user changes their rating for a specific tracker. It updates the "pullRequestRating" state variable to store the new rating for the specified tracker
     const handleRating = (key, value) => {
+        // Update user's rating for a specific tracker
         const newRating = { ...pullRequestRating, [key]: value };
         setPullRequestRating({ ...newRating });
     };
@@ -70,12 +83,14 @@ export default function PullRequestRating(props) {
                     style={{ display: "flex", justifyContent: "center" }}
                     variant="body1"
                 >
+                    {/* Display the title and repository name of the pull request being rated */}
                     {`Pull Request ${props.pullRequest.title} for ${props.pullRequest.repo}`}
                 </Typography>
             </div>
             <hr></hr>
             {tracker.length === 0 ? (
                 <div>
+                    {/* Display a message if no trackers are available */}
                     <Typography variant="body1">
                         No trackers found. Please{" "}
                         <Link
@@ -89,6 +104,7 @@ export default function PullRequestRating(props) {
                 </div>
             ) : (
                 <>
+                    {/* For each tracker, display its name and a star rating component */}
                     {tracker.map((item) => (
                         <div key={item._id}>
                             <Typography component="legend">
@@ -112,11 +128,12 @@ export default function PullRequestRating(props) {
                     ))}
 
                     <div>
+                        {/* Display the total number of stars selected */}
                         <Typography
                             component="legend"
                             style={{ marginTop: "1rem" }}
                         >
-                            Total Stars {" "}
+                            Total Stars{" "}
                             {Object.values(pullRequestRating).reduce(
                                 (total, value) => total + value,
                                 0
@@ -126,6 +143,7 @@ export default function PullRequestRating(props) {
                 </>
             )}
             <div className={classes.buttonContainer}>
+                {/* When the "Submit" button is clicked, call the handleSubmit function with the current pull request, user's ratings, and setError function */}
                 <Button
                     onClick={() =>
                         props.handleSubmit(
@@ -143,7 +161,15 @@ export default function PullRequestRating(props) {
                 </Button>
             </div>
             {error && (
-                <span style={{ color: "red",  display: "flex" ,alignContent: "center", justifyContent: "center"}}>
+                <span
+                    style={{
+                        color: "red",
+                        display: "flex",
+                        alignContent: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    {/* Display an error message if the user did not provide ratings for all required trackers */}
                     Please give the required stars to submit a rating
                 </span>
             )}{" "}
@@ -154,6 +180,7 @@ export default function PullRequestRating(props) {
                     marginTop: "1rem",
                 }}
             >
+                {/* When the "Clear Ratings" button is clicked, reset the user's ratings for all trackers */}
                 <Button
                     onClick={handleClearClick}
                     className={classes.button}

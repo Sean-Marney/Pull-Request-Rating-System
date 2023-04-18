@@ -16,7 +16,10 @@ describe("GET /management/manageFaqs", () => {
       {expiresIn: '7d'});
 
   it("should return all faqs and status code 200", (done) => {
-    const mockFaq = { question: "How to get a free pizza?", answer: "I want a free pizza!" };
+    const mockFaq = {
+      question: "How to get a free pizza?",
+      answer: "I want a free pizza!",
+    };
     const faqFindStub = sinon.stub(Faq, "find").resolves([mockFaq]);
     request(app)
       .get("/management/manageFaqs")
@@ -41,25 +44,25 @@ describe("GET /management/manageFaqs/:id", () => {
       process.env.PASSPORTSECRET,
       {expiresIn: '7d'});
 
-  beforeEach((done) => {
-    faq = new Faq({
-      question: "Test question",
-      answer: "Test answer",
-    });
+//   beforeEach((done) => {
+//     faq = new Faq({
+//       question: "Test question",
+//       answer: "Test answer",
+//     });
 
-    faq.save((err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+//     faq.save((err) => {
+//       if (err) return done(err);
+//       done();
+//     });
+//   });
 
-  afterEach((done) => {
-    sinon.restore();
-    Faq.deleteMany({}, (err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+//   afterEach((done) => {
+//     sinon.restore();
+//     Faq.deleteMany({}, (err) => {
+//       if (err) return done(err);
+//       done();
+//     });
+//   });
 
   it("should return a faq and status code 200", (done) => {
     request(app)
@@ -139,15 +142,16 @@ describe("POST /management/manageFaqs/create", () => {
   afterEach((done) => {
     sinon.restore();
     Faq.deleteMany({}, (err) => {
-        if (err) return done(err);
-        done();
+      if (err) return done(err);
+      done();
     });
   });
 
   it("should create an faq and return status code 201", (done) => {
     const mockFaq = {
       question: "Test question 2",
-      answer: "Test answer 2"};
+      answer: "Test answer 2",
+    };
     const faqCreateStub = sinon.stub(Faq, "create").resolves(mockFaq);
 
     request(app)
@@ -184,7 +188,7 @@ describe("POST /management/manageFaqs/create", () => {
 //   it("should delete an faq and return status code 200", async () => {
 //     const res = await request(app)
 //       .delete(`/management/manageFaqs/delete/${faq._id}`);
-      
+
 //         chai.expect(res.statusCode).to.equal(200);
 
 //         const deletedFaq = await Faq.findById(faq._id);

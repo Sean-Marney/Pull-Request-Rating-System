@@ -14,16 +14,16 @@ import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/formStyle";
 
 export default function UpdateUser() {
-    const classes = useStyles();
-    const { request } = useAxiosInstance();
-    const [updateForm, setUpdateForm] = useState({
-        name: "",
-        email: "",
-        git_username: "",
-    });
-    const [error, setError] = useState({});
-    const { id } = useParams(); // Get user ID from URL
-    const navigate = useNavigate();
+  const classes = useStyles();
+  const { request } = useAxiosInstance();
+  const [updateForm, setUpdateForm] = useState({
+    name: "",
+    email: "",
+    git_username: "",
+  });
+  const [error, setError] = useState({});
+  const { id } = useParams(); // Get user ID from URL
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser();
@@ -93,9 +93,6 @@ export default function UpdateUser() {
                   value={updateForm.name}
                   name="name"
                   id="name"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.name && (
@@ -109,9 +106,6 @@ export default function UpdateUser() {
                   value={updateForm.email}
                   name="email"
                   id="email"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.email && (
@@ -125,9 +119,6 @@ export default function UpdateUser() {
                   value={updateForm.git_username}
                   name="git_username"
                   id="git_username"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.git_username && (

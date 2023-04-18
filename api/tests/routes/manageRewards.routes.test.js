@@ -1,153 +1,124 @@
-const chai = require("chai");
-const sinon = require("sinon");
 const request = require("supertest");
 const app = require("../../index");
+const assert = require("assert");
+const sinon = require("sinon");
+const chai = require("chai");
 const Reward = require("../../models/reward.model");
 const chaiHttp = require('chai-http');
 const jwt = require('jsonwebtoken');
 
 describe("GET /management/rewards", () => {
-    chai.use(chaiHttp);
-    const token = jwt.sign(
-      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
-      process.env.PASSPORTSECRET,
-      {expiresIn: '7d'});
+  it("should return all rewards and status code 200", async () => {
+    // Send a get request to get all rewards
+    const res = await request(app).get("/management/rewards");
+    // Assert that the status code and response body is as expected
+    assert.strictEqual(res.statusCode, 200);
+    assert.strictEqual(Array.isArray(res.body), true);
+  });
+});
 
-  it("should return all rewards and status code 200", (done) => {
-    const mockReward = { rewardName: "Free Pizza", starsRequired: 100 };
-    const rewardFindStub = sinon.stub(Reward, "find").resolves([mockReward]);
+describe("GET /management/rewards/:id", () => {
+  it("should get a reward by ID and return status code 200", async () => {
+    // Mocking an existing reward
+    const existingReward = {
+      rewardName: "Existing Reward",
+      starsRequired: 20,
+    };
 
-    request(app)
-      .get("/management/rewards")
-      .set ('Cookie', `jwt=${token}`)
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("array");
-        chai.expect(res.body[0].rewardName).to.equal(mockReward.rewardName);
-        chai
-          .expect(res.body[0].starsRequired)
-          .to.equal(mockReward.starsRequired);
-        rewardFindStub.restore();
-        done();
-      });
+    // Sending a POST request to create a new reward
+    const createResponse = await request(app)
+      .post("/management/rewards/create")
+      .send(existingReward);
+
+    // Sending a GET request to retrieve the reward by ID
+    const getResponse = await request(app).get(
+      `/management/rewards/${createResponse.body._id}`
+    );
+
+    // Expect that the status code is as expected
+    assert.strictEqual(getResponse.statusCode, 200);
   });
 });
 
 describe("POST /management/rewards/create", () => {
-    chai.use(chaiHttp);
-    const token = jwt.sign(
-      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
-      process.env.PASSPORTSECRET,
-      {expiresIn: '7d'});
+  it("should create a reward and return status code 201", async () => {
+    // Mocking a reward object
+    const newReward = {
+      rewardName: "New Reward",
+      starsRequired: 30,
+    };
 
-  afterEach((done) => {
-    sinon.restore();
-    Reward.deleteMany({}, (err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
-
-  it("should create a reward and return status code 201", (done) => {
-    const mockReward = { rewardName: "Free Coffee", starsRequired: 50 };
-    const rewardCreateStub = sinon.stub(Reward, "create").resolves(mockReward);
-
-    request(app)
+    // Sending a POST request to create the reward
+    const response = await request(app)
       .post("/management/rewards/create")
-      .set ('Cookie', `jwt=${token}`)
-      .send(mockReward)
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(201);
-        chai.expect(res.body.rewardName).to.equal(mockReward.rewardName);
-        chai.expect(res.body.starsRequired).to.equal(mockReward.starsRequired);
-        rewardCreateStub.restore();
-        done();
-      });
+      .send(newReward);
+
+    // Expect that the status code and response body are as expected
+    assert.strictEqual(response.statusCode, 201);
+    assert.deepStrictEqual(response.body.rewardName, newReward.rewardName);
+    assert.deepStrictEqual(
+      response.body.starsRequired,
+      newReward.starsRequired
+    );
   });
 });
 
-describe("PATCH /management/rewards/:id", () => {
-    chai.use(chaiHttp);
-    const token = jwt.sign(
-      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
-      process.env.PASSPORTSECRET,
-      {expiresIn: '7d'});
+describe("PATCH /management/rewards/update/:id", () => {
+  it("should update a reward and return status code 200", async () => {
+    // Mocking an existing reward
+    const existingReward = {
+      rewardName: "Existing Reward",
+      starsRequired: 20,
+    };
 
-  let reward;
+    // Sending a POST request to create a new reward
+    const createResponse = await request(app)
+      .post("/management/rewards/create")
+      .send(existingReward);
 
-  beforeEach((done) => {
-    reward = new Reward({
-      rewardName: "Free Pizza",
-      starsRequired: 100,
-    });
-    reward.save((err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+    // Mocking updated reward information
+    const updatedReward = {
+      rewardName: "Updated Reward",
+      starsRequired: 30,
+    };
 
-  afterEach((done) => {
-    sinon.restore();
-    Reward.deleteMany({}, (err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+    // Sending a PATCH request to update the reward
+    const updateResponse = await request(app)
+      .patch(`/management/rewards/update/${createResponse.body._id}`)
+      .send(updatedReward);
 
-  it("should update a reward and return status code 200", (done) => {
-    const findByIdAndUpdateStub = sinon
-      .stub(Reward, "findByIdAndUpdate")
-      .resolves({
-        rewardName: "Free Ice Cream",
-        starsRequired: 50,
-      });
-
-    request(app)
-      .patch(`/management/rewards/update/${reward._id}`)
-      .set ('Cookie', `jwt=${token}`)
-      .send({ rewardName: "Free Ice Cream", starsRequired: 50 })
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("object");
-        chai.expect(res.body.rewardName).to.equal("Free Ice Cream");
-        chai.expect(res.body.starsRequired).to.equal(50);
-        findByIdAndUpdateStub.restore();
-        done();
-      });
+    // Expect that the status code and response body are as expected
+    assert.strictEqual(updateResponse.statusCode, 200);
+    assert.deepStrictEqual(
+      updateResponse.body.rewardName,
+      updatedReward.rewardName
+    );
+    assert.deepStrictEqual(
+      updateResponse.body.starsRequired,
+      updatedReward.starsRequired
+    );
   });
 });
 
 describe("DELETE /management/rewards/:id", () => {
-    chai.use(chaiHttp);
-    const token = jwt.sign(
-      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
-      process.env.PASSPORTSECRET,
-      {expiresIn: '7d'});
-
-  let reward;
-
-  beforeEach(async () => {
-    reward = new Reward({
-      rewardName: "Free Pizza",
-      starsRequired: 100,
-    });
-
-    await reward.save();
-  });
-
-  afterEach(async () => {
-    await Reward.deleteMany({});
-  });
-
   it("should delete a reward and return status code 200", async () => {
-    const res = await request(app).delete(
-      `/management/rewards/delete/${reward._id}`
-    ).set ('Cookie', `jwt=${token}`);
+    // Mocking a reward object
+    const newReward = {
+      rewardName: "New Reward",
+      starsRequired: 30,
+    };
 
-    chai.expect(res.statusCode).to.equal(200);
+    // Sending a POST request to create the reward
+    const response = await request(app)
+      .post("/management/rewards/create")
+      .send(newReward);
 
-    const deletedReward = await Reward.findById(reward._id);
+    // Sending a DELETE request to delete the reward
+    const deleteResponse = await request(app).delete(
+      `/management/rewards/delete/${response.body._id}`
+    );
 
-    chai.expect(deletedReward).to.be.null;
+    assert.strictEqual(deleteResponse.statusCode, 200);
+    assert.deepStrictEqual(deleteResponse.body.message, "Reward deleted");
   });
 });

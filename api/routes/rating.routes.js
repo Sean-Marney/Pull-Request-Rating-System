@@ -1,5 +1,8 @@
 const express = require("express");
-const { createRating } = require("../controllers/rating.controller");
+const {
+    createRating,
+} = require("../controllers/rating.controller");
+
 const router = express.Router();
 
 const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')

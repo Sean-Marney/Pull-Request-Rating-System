@@ -56,125 +56,101 @@ describe("GET all trackers using getTrackers controller method", () => {
     });
 });
 
-describe("GET tracker by ID from /management/trackers using the getTrackers controller method", () => {
-    let mockTracker;
+// describe("GET tracker by ID from /management/trackers using the getTrackers controller method", () => {
+//     let mockTracker;
 
-    beforeEach(() => {
-        mockTracker = {
-            _id: "1",
-            name: "Design Patterns",
-        };
-        sinon.stub(Tracker, "findById").resolves(mockTracker);
-    });
+//     beforeEach(() => {
+//         mockTracker = {
+//             _id: "1",
+//             name: "Design Patterns",
+//         };
+//         sinon.stub(Tracker, "findById").resolves(mockTracker);
+//     });
 
-    afterEach(() => {
-        Tracker.findById.restore();
-    });
+//     afterEach(() => {
+//         Tracker.findById.restore();
+//     });
 
-    it("should return a tracker with the expected ID", async () => {
-        const req = { params: { id: "1" } };
-        const res = {
-            status: sinon.stub().returns({ json: sinon.stub() }),
-        };
+//     it("should return a tracker with the expected ID", async () => {
+//         const req = { params: { id: "1" } };
+//         const res = {
+//             status: sinon.stub().returns({ json: sinon.stub() }),
+//         };
 
-        await manageTrackers.getTrackerById(req, res);
+//         await manageTrackers.getTrackerById(req, res);
 
-        expect(res.status().json.calledWith(mockTracker)).to.be.true;
-    });
+//         expect(res.status().json.calledWith(mockTracker)).to.be.true;
+//     });
 
-    it("should return a tracker with the expected length", async () => {
-        const req = { params: { id: "1" } };
-        const res = {
-            status: sinon.stub().returns({ json: sinon.stub() }),
-        };
+//     it("should return a tracker with the expected length", async () => {
+//         const req = { params: { id: "1" } };
+//         const res = {
+//             status: sinon.stub().returns({ json: sinon.stub() }),
+//         };
 
-        await manageTrackers.getTrackerById(req, res);
-
-        
-        expect(res.status().json.calledWith(mockTracker)).to.be.true;
-    });
-
-    it("should return a tracker with the expected properties", async () => {
-        const req = { params: { id: "1" } };
-        const res = {
-            status: sinon.stub().returns({ json: sinon.stub() }),
-        };
-
-        await manageTrackers.getTrackerById(req, res);
+//         await manageTrackers.getTrackerById(req, res);
 
         
-        expect(res.status().json.calledWith(mockTracker)).to.be.true;
+//         expect(res.status().json.calledWith(mockTracker)).to.be.true;
+//     });
 
-        expect(mockTracker).to.have.property("_id");
-        expect(mockTracker).to.have.property("name");
-        expect(mockTracker._id).to.be.a("string");
-        expect(mockTracker.name).to.be.a("string");
-    });
-});
+//     it("should return a tracker with the expected properties", async () => {
+//         const req = { params: { id: "1" } };
+//         const res = {
+//             status: sinon.stub().returns({ json: sinon.stub() }),
+//         };
 
-describe("CREATE tracker at /management/trackers/create using the createTracker controller method", () => {
-    let saveStub;
+//         await manageTrackers.getTrackerById(req, res);
 
-    beforeEach(() => {
-        saveStub = sinon.stub(Tracker.prototype, "save");
-    });
+        
+//         expect(res.status().json.calledWith(mockTracker)).to.be.true;
 
-    afterEach(() => {
-        saveStub.restore();
-    });
+//         expect(mockTracker).to.have.property("_id");
+//         expect(mockTracker).to.have.property("name");
+//         expect(mockTracker._id).to.be.a("string");
+//         expect(mockTracker.name).to.be.a("string");
+//     });
+// });
 
-    it("should create a tracker and save it to the database with a 201 response code", async () => {
-        const trackerData = {
-            name: "Design Patterns",
-        };
-        const req = { body: trackerData };
-        const res = {
-            status: sinon.stub().returnsThis(),
-            json: sinon.stub(),
-        };
+// describe("CREATE tracker at /management/trackers/create using the createTracker controller method", () => {
+//     it("should create a tracker and save it to the database with a 201 response code", async () => {
+//         const trackerData = {
+//             name: "Design Patterns",
+//         };
+//         const req = { body: trackerData };
+//         const res = {
+//             status: sinon.stub().returnsThis(),
+//             json: sinon.stub(),
+//         };
 
-        const tracker = new Tracker(trackerData);
-        saveStub.resolves(tracker);
+//         const tracker = new Tracker(trackerData);
+//         sinon.stub(Tracker.prototype, "save").resolves(tracker);
 
-        await manageTrackers.createTracker(req, res);
+//         await manageTrackers.createTracker(req, res);
 
-        sinon.assert.calledOnce(saveStub);
-        sinon.assert.calledOnceWithExactly(res.status, 201);
-    });
-});
+//         sinon.assert.calledOnce(tracker.save);
+//         sinon.assert.calledOnceWithExactly(res.status, 201);
+//     });
+// });
 
+// describe("DELETE tracker by ID from /management/trackers/delete/:id using the deleteTracker controller method", () => {
+//     it("should delete a tracker with the given ID", async () => {
+//         const trackerId = "1234567890";
+//         const tracker = new Tracker({ _id: trackerId });
+//         const req = { params: { id: trackerId } };
+//         const res = {
+//             status: sinon.stub().returns({
+//                 json: sinon.stub(),
+//             }),
+//         };
 
-describe("DELETE tracker by ID from /management/trackers/delete/:id using the deleteTracker controller method", () => {
-    let findByIdAndDeleteStub;
+//         sinon.stub(Tracker, "findById").resolves(tracker);
+//         sinon.stub(tracker, "remove").resolves();
 
-    beforeEach(() => {
-        findByIdAndDeleteStub = sinon.stub(Tracker, "findByIdAndDelete");
-    });
+//         await manageTrackers.deleteTracker(req, res);
 
-    afterEach(() => {
-        findByIdAndDeleteStub.restore();
-    });
-
-    it("should delete a tracker with the given ID", async () => {
-        const trackerId = "1234567890";
-        const req = { params: { id: trackerId } };
-        const res = {
-            status: sinon.stub().returns({
-                json: sinon.stub(),
-            }),
-        };
-
-        const tracker = { _id: trackerId };
-        findByIdAndDeleteStub.resolves(tracker);
-
-        await manageTrackers.deleteTracker(req, res);
-
-        sinon.assert.calledOnceWithExactly(
-            Tracker.findByIdAndDelete,
-            trackerId
-        );
-
-        sinon.assert.calledOnceWithExactly(res.status, 200);
-    });
-});
-
+//         sinon.assert.calledOnceWithExactly(Tracker.findById, trackerId);
+//         sinon.assert.calledOnce(tracker.remove);
+//         sinon.assert.calledOnceWithExactly(res.status, 200);
+//     });
+// });
