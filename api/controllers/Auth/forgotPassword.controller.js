@@ -1,7 +1,13 @@
 const User = require("../../models/user.model");
 const Otp = require("../../models/otp.model");
+const nodemailer = require("nodemailer");
 const validator = require("validator");
-const {sendEmail} = require("../Auth/emailUtils");
+const {
+    oAuth2Client,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    REFRESH_TOKEN,
+} = require("../../controllers/Auth/authentication.controller");
 
 // Generate a random 6-digit OTP code
 const generateOTP = () => {
@@ -28,17 +34,33 @@ const sendOTP = async (req, res) => {
                 .json({ message: "User with that email was not found" });
         }
         const { name } = user;
-
+        
         // Generate OTP
         const otp = generateOTP();
 
         // Check if an OTP exists for the user entered email
-        const existingOtp = await Otp.findOne({ email });
+        const existingOtp = await Otp.findOne({email});
 
-        // If OTP exists, update it with the latest one send to the email
-        if (existingOtp) await Otp.findOneAndUpdate({ email }, { otp: otp });
+        // If OTP exists, update it with the latest one send to the email 
+        if(existingOtp) await Otp.findOneAndUpdate({email}, {otp: otp} );
+
         // Generate the OTP and save it to the database
         else await Otp.create({ email, otp });
+
+        // Send the OTP to the user's email
+        const accessToken = await oAuth2Client.getAccessToken();
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAUTH2",
+                user: "team7largeteamproject@gmail.com",
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+                accessToken: accessToken.token || "",
+                accessType: "OFFLINE",
+            },
+        });
 
         const mailOptions = {
             from: "team7largeteamproject@gmail.com",
@@ -57,16 +79,13 @@ const sendOTP = async (req, res) => {
             </div>`,
         };
 
-        // Use the sendEmail function from mailUtils to send the email
-        const emailSent = await sendEmail(mailOptions);
+        await transporter.sendMail(mailOptions);
+        console.log(`OTP sent to ${email}: ${otp}`);
 
-        if (emailSent) {
-            console.log(`OTP sent to ${email}: ${otp}`);
-            res.status(200).json({
-                success: true,
-                message: "OTP sent successfully",
-            });
-        }
+        res.status(200).json({
+            success: true,
+            message: "OTP sent successfully",
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({
