@@ -22,7 +22,7 @@ export default function ManagerHelp() {
   
     const validateEmail = (email) => {
       // Regular expression to check if email is valid
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const regex = /^[^\s@.]+@[^\s@.]+\.[^\s@.]+$/;
       return regex.test(email);
     };
   
