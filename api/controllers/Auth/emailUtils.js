@@ -7,7 +7,7 @@ const CLIENT_ID =
 const CLIENT_SECRET = "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";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";
 const REFRESH_TOKEN =
-    "1//04YGVXmWgFm8SCgYIARAAGAQSNwF-L9IrPY-MkdcMt9x7VTEpD5CuNgRBDnuQXvXAnXQ2fHco2rtV6kdZFw6B99GvgO3WFav1Hzs";
+    "1//046xNzzSQkxfYCgYIARAAGAQSNwF-L9Irno9Tkcd_f6f09XVDGcHU0sHgExnL-ZjfSGnaJHao6x3IZlDGRhmCCXxTfYIAFT2g87s";
 
 const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
@@ -46,4 +46,3 @@ const getAccessTokenWrapper = () => {
 };
 
 module.exports = { sendEmail, getAccessTokenWrapper };
-
