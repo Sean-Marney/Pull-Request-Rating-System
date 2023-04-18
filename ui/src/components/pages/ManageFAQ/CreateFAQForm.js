@@ -89,6 +89,7 @@ export default function CreateFAQ() {
                 )}
               </div>
               <div>
+                <br />
                 <InputLabel htmlFor="answer">Answer</InputLabel>
                 <TextField
                   onChange={updateCreateFormField}

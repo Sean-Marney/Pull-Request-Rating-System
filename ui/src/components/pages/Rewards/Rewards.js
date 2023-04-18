@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -19,6 +18,7 @@ import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStyles } from "../../styles/tableStyle";
+import Pagination from "../../reusable/Pagination";
 
 export default function Rewards() {
   const classes = useStyles();
@@ -27,6 +27,7 @@ export default function Rewards() {
   const [rewards, setRewards] = useState(null);
   const [stars, setStars] = useState(null);
   const [remainingStarsForReward, setRemainingStarsForReward] = useState({});
+  const [visible, setVisible] = React.useState(10);
 
   // Gets rewards and stars on page load
   useEffect(() => {
@@ -36,7 +37,9 @@ export default function Rewards() {
 
   const getRewards = async () => {
     // Get rewards
-    const res = await axios.get( process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
+    const res = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards"
+    );
 
     // Calculates remaining stars needed for reward
     const remainingStarsData = {};
@@ -57,7 +60,8 @@ export default function Rewards() {
   const getStars = async () => {
     // Get user object via getUserByEmail method
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
 
     // Set the star count
@@ -68,7 +72,8 @@ export default function Rewards() {
   const claimReward = async (reward) => {
     // Gets user object via getUserByEmail method (uses email stored in cookies)
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+      process.env.REACT_APP_API_ENDPOINT +
+        `/management/users/email/${cookies.user}`
     );
     // Sets response data to user
     const user = res.data;
@@ -80,7 +85,8 @@ export default function Rewards() {
 
       // Updates user object with their new star count
       await axios.patch(
-        process.env.REACT_APP_API_ENDPOINT + `/management/users/update/${user._id}`,
+        process.env.REACT_APP_API_ENDPOINT +
+          `/management/users/update/${user._id}`,
         {
           name: user.name,
           email: user.email,
@@ -112,11 +118,16 @@ export default function Rewards() {
     }
   };
 
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 10);
+  };
+
   return (
     <div className={classes.tableContainer}>
       <ToastContainer />
       <Paper className={classes.paper}>
-        <Typography variant="h4">
+        <Typography variant="h4" className={classes.title}>
           <b>Rewards</b>
         </Typography>
         <Box>
@@ -144,7 +155,8 @@ export default function Rewards() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rewards.map((reward) => (
+                  {/* Render items that have been loaded via pagination */}
+                  {rewards.slice(0, visible).map((reward) => (
                     <TableRow key={reward._id}>
                       <TableCell className={classes.tableContent}>
                         {reward.rewardName}
@@ -175,6 +187,10 @@ export default function Rewards() {
           )}
         </Box>
       </Paper>
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }

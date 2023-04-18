@@ -1,13 +1,7 @@
 const User = require("../../models/user.model");
 const Otp = require("../../models/otp.model");
-const nodemailer = require("nodemailer");
 const validator = require("validator");
-const {
-    oAuth2Client,
-    CLIENT_ID,
-    CLIENT_SECRET,
-    REFRESH_TOKEN,
-} = require("../../controllers/Auth/authentication.controller");
+const {sendEmail} = require("../Auth/emailUtils");
 
 // Generate a random 6-digit OTP code
 const generateOTP = () => {
@@ -35,24 +29,16 @@ const sendOTP = async (req, res) => {
         }
         const { name } = user;
 
-        // Generate the OTP and save it to the database
+        // Generate OTP
         const otp = generateOTP();
-        await Otp.create({ email, otp });
 
-        // Send the OTP to the user's email
-        const accessToken = await oAuth2Client.getAccessToken();
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                type: "OAUTH2",
-                user: "team7largeteamproject@gmail.com",
-                clientId: CLIENT_ID,
-                clientSecret: CLIENT_SECRET,
-                refreshToken: REFRESH_TOKEN,
-                accessToken: accessToken.token || "",
-                accessType: "OFFLINE",
-            },
-        });
+        // Check if an OTP exists for the user entered email
+        const existingOtp = await Otp.findOne({ email });
+
+        // If OTP exists, update it with the latest one send to the email
+        if (existingOtp) await Otp.findOneAndUpdate({ email }, { otp: otp });
+        // Generate the OTP and save it to the database
+        else await Otp.create({ email, otp });
 
         const mailOptions = {
             from: "team7largeteamproject@gmail.com",
@@ -66,18 +52,21 @@ const sendOTP = async (req, res) => {
             <p style="font-family: Arial; font-size: 16px;">Best regards,</p>
             <p style="font-family: Arial; font-size: 16px;">The PullMaster.io Team</p>
             </div>
-            <div style="background-color: black; color: white; text-align: center; padding: 10px;">
+            <div style="background-color: #1b2437; color: white; text-align: center; padding: 10px;">
             <h1 style="font-family: Bahnschrift; margin: 0;">PullMaster.io</h1>
             </div>`,
         };
 
-        await transporter.sendMail(mailOptions);
-        console.log(`OTP sent to ${email}: ${otp}`);
+        // Use the sendEmail function from mailUtils to send the email
+        const emailSent = await sendEmail(mailOptions);
 
-        res.status(200).json({
-            success: true,
-            message: "OTP sent successfully",
-        });
+        if (emailSent) {
+            console.log(`OTP sent to ${email}: ${otp}`);
+            res.status(200).json({
+                success: true,
+                message: "OTP sent successfully",
+            });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({
