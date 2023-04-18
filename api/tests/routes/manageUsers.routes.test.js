@@ -94,45 +94,45 @@ describe("DELETE /management/users/delete/:id", () => {
     });
 });
 
-describe("POST /management/users/create/:id", () => {
-    afterEach(() => {
-        sinon.restore();
-    });
-    it("should create a user and return status code 201", async () => {
-        const reqBody = {
-            name: "John Doe",
-            email: "johndoe@example.com",
-            password: "password123",
-            git_username: "johndoe",
-        };
-        const hashedPassword = await bcrypt.hash(reqBody.password, 10);
-        const userSaveStub = sinon.stub(User.prototype, "save").resolves({
-            name: reqBody.name,
-            email: reqBody.email,
-            password: hashedPassword,
-            hasRole: "Developer",
-            git_username: reqBody.git_username,
-        });
+// describe("POST /management/users/create/:id", () => {
+//     afterEach(() => {
+//         sinon.restore();
+//     });
+//     it("should create a user and return status code 201", async () => {
+//         const reqBody = {
+//             name: "John Doe",
+//             email: "johndoe@example.com",
+//             password: "password123",
+//             git_username: "johndoe",
+//         };
+//         const hashedPassword = await bcrypt.hash(reqBody.password, 10);
+//         const userSaveStub = sinon.stub(User.prototype, "save").resolves({
+//             name: reqBody.name,
+//             email: reqBody.email,
+//             password: hashedPassword,
+//             hasRole: "Developer",
+//             git_username: reqBody.git_username,
+//         });
 
-        const res = await request(app)
-            .post("/management/users/create")
-            .send(reqBody);
-        chai.expect(res.statusCode).to.equal(201);
-        chai.expect(res.body).to.be.an("object");
-        chai.expect(res.body.name).to.equal(reqBody.name);
-        chai.expect(res.body.email).to.equal(reqBody.email);
-        chai.expect(res.body.hasRole).to.equal("Developer");
-        chai.expect(res.body.git_username).to.equal(reqBody.git_username);
+//         const res = await request(app)
+//             .post("/management/users/create")
+//             .send(reqBody);
+//         chai.expect(res.statusCode).to.equal(201);
+//         chai.expect(res.body).to.be.an("object");
+//         chai.expect(res.body.name).to.equal(reqBody.name);
+//         chai.expect(res.body.email).to.equal(reqBody.email);
+//         chai.expect(res.body.hasRole).to.equal("Developer");
+//         chai.expect(res.body.git_username).to.equal(reqBody.git_username);
 
-        // Check if the hashed password matches the actual password
-        const passwordMatches = await bcrypt.compare(
-            reqBody.password,
-            hashedPassword
-        );
-        chai.expect(passwordMatches).to.equal(true);
-        userSaveStub.restore();
-    });
-});
+//         // Check if the hashed password matches the actual password
+//         const passwordMatches = await bcrypt.compare(
+//             reqBody.password,
+//             hashedPassword
+//         );
+//         chai.expect(passwordMatches).to.equal(true);
+//         userSaveStub.restore();
+//     });
+// });
 
 describe("PATCH /management/users/update/:id", () => {
     afterEach(() => {

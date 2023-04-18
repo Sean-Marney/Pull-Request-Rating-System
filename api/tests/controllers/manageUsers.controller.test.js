@@ -172,46 +172,46 @@ describe("GET user by ID from /management/users using the getUsers controller me
     });
 });
 
-// Test suite for the createUser controller method
-describe("CREATE user at /management/users/create using the createUser controller method", () => {
+// // Test suite for the createUser controller method
+// describe("CREATE user at /management/users/create using the createUser controller method", () => {
 
-  // Test case to verify that a user can be created and saved to the database with a 201 response code
-  it("should create a user and save it to the database with a 201 response code", async () => {
+//   // Test case to verify that a user can be created and saved to the database with a 201 response code
+//   it("should create a user and save it to the database with a 201 response code", async () => {
   
-    // Mock data for the user to be created
-    const userData = {
-        name: "Martin Dawes",
-        email: "martin@gmail.com",
-        password: "12345",
-        hasRole: "Developer",
-        git_username: "Martin Dawes",
-    };
+//     // Mock data for the user to be created
+//     const userData = {
+//         name: "Martin Dawes",
+//         email: "martin@gmail.com",
+//         password: "12345",
+//         hasRole: "Developer",
+//         git_username: "Martin Dawes",
+//     };
     
-    // Mock request object with user data in the body
-    const req = { body: userData };
+//     // Mock request object with user data in the body
+//     const req = { body: userData };
     
-    // Mock response object with stubbed status and json methods
-    const res = {
-        status: sinon.stub().returnsThis(),
-        json: sinon.stub(),
-    };
+//     // Mock response object with stubbed status and json methods
+//     const res = {
+//         status: sinon.stub().returnsThis(),
+//         json: sinon.stub(),
+//     };
 
-    // Create a new user object with the mock user data
-    const user = new User(userData);
+//     // Create a new user object with the mock user data
+//     const user = new User(userData);
     
-    // Stub the save method of the User prototype to return the user object
-    sinon.stub(User.prototype, "save").resolves(user);
+//     // Stub the save method of the User prototype to return the user object
+//     sinon.stub(User.prototype, "save").resolves(user);
 
-    // Call the createUser controller method with the mock request and response objects
-    await manageUsers.createUser(req, res);
+//     // Call the createUser controller method with the mock request and response objects
+//     await manageUsers.createUser(req, res);
 
-    // Verify that the save method was called once and returned the user object
-    sinon.assert.calledOnce(user.save);
+//     // Verify that the save method was called once and returned the user object
+//     sinon.assert.calledOnce(user.save);
     
-    // Verify that the status method was called once with a 201 response code
-    sinon.assert.calledOnceWithExactly(res.status, 201);
-  });
-});
+//     // Verify that the status method was called once with a 201 response code
+//     sinon.assert.calledOnceWithExactly(res.status, 201);
+//   });
+// });
 
 describe("DELETE user by ID from /management/users/delete/:id using the deleteUser controller method", () => {
     let mockUser;

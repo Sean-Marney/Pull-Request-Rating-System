@@ -32,9 +32,17 @@ describe("sendOTP controller method", () => {
         findOneOtpStub = sinon.stub(Otp, "findOne");
         findOneStub = sinon.stub(User, "findOne");
         createStub = sinon.stub(Otp, "create");
-        sendMailStub = sinon.stub(nodemailer, "createTransport").returns({
-            sendMail: sinon.stub(),
-        });
+        // Create a mock transport with a sendMail function
+        const mockTransport = {
+            sendMail: sinon.stub().resolves(),
+        };
+
+        // Stub the createTransport function to return the mock transport
+        sinon.stub(nodemailer, "createTransport").returns(mockTransport);
+
+        // Set sendMailStub to reference the sendMail function from the mock transport
+        sendMailStub = mockTransport.sendMail;
+
         getAccessTokenStub = sinon.stub(oAuth2Client, "getAccessToken");
     });
 
@@ -79,7 +87,6 @@ describe("sendOTP controller method", () => {
         await sendOTP(req, res);
 
         // Assert that the status method was called with a 200 status code
-        console.log(res.status.args);
         expect(res.status.calledWith(200)).to.be.true;
 
         // Assert that the json method was called with the expected success message

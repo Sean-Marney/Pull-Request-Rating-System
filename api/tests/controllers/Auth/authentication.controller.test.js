@@ -6,7 +6,7 @@ const expect = chai.expect;
 const jwt = require("jsonwebtoken");
 const {
   oAuth2Client,
-} = require("../../../controllers/Auth/authentication.controller");
+} = require("../../../controllers/Auth/emailUtils");
 const bcrypt = require("bcrypt");
 const {
   registerUser,
