@@ -47,6 +47,11 @@ const Sidebar = ({ children, removeCookie, role }) => {
             icon: <LiveHelp />,
         },
         {
+            path: "/ChatBot",
+            name: "PullBot",
+            icon: <LiveHelp />,
+        },
+        {
             path: "/profile",
             name: "Profile",
             icon: <AccountCircleIcon />,
@@ -93,6 +98,11 @@ const Sidebar = ({ children, removeCookie, role }) => {
         path: "/management/ManagerHelp",
         name: "Help",
         icon: <Help />,
+    },
+    {
+        path: "/ChatBot",
+        name: "PullBot",
+        icon: <Forum />,
     },
     {
         path: "/profile",
