@@ -10,6 +10,9 @@ const mockTracker = {
 };
 
 describe("GET /management/trackers", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     it("should return all trackers and status code 200", (done) => {
         const trackerFindStub = sinon.stub(Tracker, "find").resolves([mockTracker]);
 
@@ -26,6 +29,9 @@ describe("GET /management/trackers", () => {
 });
 
 describe("GET /management/trackers/:id", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     it("should return a tracker and status code 200", (done) => {
         const trackerFindStub = sinon.stub(Tracker, "findById").resolves(mockTracker);
 
@@ -42,6 +48,9 @@ describe("GET /management/trackers/:id", () => {
 });
 
 describe("DELETE /management/trackers/delete/:id", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     it("should delete a tracker and return status code 200", (done) => {
         const trackerfindByIdAndDeleteStub = sinon
             .stub(Tracker, "findByIdAndDelete")
@@ -59,6 +68,9 @@ describe("DELETE /management/trackers/delete/:id", () => {
 });
 
 describe("PATCH /management/trackers/update/:id", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     it("should update a tracker and return status code 200", (done) => {
         const mockUpdatedTracker = {
             name: "Code quality",
@@ -85,11 +97,15 @@ describe("PATCH /management/trackers/update/:id", () => {
 });
 
 describe("POST /management/trackers/create", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     it("should create a tracker and return status code 201", async () => {
         const reqBody = {
             name: "Performance",
         };
-        const trackerSaveStub = sinon.stub(Tracker.prototype, "save").resolves({
+        const trackerMock = sinon.mock(Tracker.prototype);
+        trackerMock.expects("save").once().resolves({
             name: reqBody.name,
         });
 
@@ -99,6 +115,8 @@ describe("POST /management/trackers/create", () => {
         chai.expect(res.statusCode).to.equal(201);
         chai.expect(res.body).to.be.an("object");
         chai.expect(res.body.name).to.equal(reqBody.name);
-        trackerSaveStub.restore();
+
+        trackerMock.verify();
+        trackerMock.restore();
     });
 });
