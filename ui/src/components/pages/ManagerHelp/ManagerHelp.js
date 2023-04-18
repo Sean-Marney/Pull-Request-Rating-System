@@ -16,7 +16,6 @@ import { useStyles } from "../../styles/formStyle";
 export default function ManagerHelp() {
   const classes = useStyles();
 
-const ManagerHelp = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -143,7 +142,7 @@ const ManagerHelp = () => {
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
-}}
+}
 // return (
 //   <div>
 //     <Typography variant="h4" className={classes.title}>

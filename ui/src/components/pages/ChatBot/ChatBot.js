@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
-
-
+import '@chatscope/chat-ui-kit-styles/dist/default/styles.css';
 
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
 
@@ -227,11 +226,11 @@ function ChatBot() {
       setIsTyping(false);
     });
   }
-
+//Now using chatscope for the containers, message list and input.
   return (
     <div className="App">
       <div style={{ position:"relative", height: "590px", width: "590px",  }}>
-        <MainContainer>
+        <MainContainer> 
           <ChatContainer>       
             <MessageList 
               scrollBehavior="smooth" 
@@ -251,4 +250,3 @@ function ChatBot() {
 }
 
 export default ChatBot;
-
