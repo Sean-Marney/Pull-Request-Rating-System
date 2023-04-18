@@ -4,9 +4,6 @@ const request = require("supertest");
 const app = require("../../index");
 const User = require("../../models/user.model");
 const bcrypt = require("bcrypt");
-const controller = require("../../controllers/manageUsers.controller");
-const express = require("express");
-const emailUtils = require("../../controllers/Auth/emailUtils");
 
 const mockUser = {
     _id: "60720497f99eeb23c42ec6a7",
@@ -88,8 +85,7 @@ describe("DELETE /management/users/delete/:id", () => {
     });
 });
 
-
-describe("POST /management/users/create/:id", () => {
+describe("POST /management/users/delete/:id", () => {
     it("should create a user and return status code 201", async () => {
         const reqBody = {
             name: "John Doe",
@@ -106,24 +102,9 @@ describe("POST /management/users/create/:id", () => {
             git_username: reqBody.git_username,
         });
 
-        // Stub the sendEmail function
-        const sendEmailStub = sinon.stub(emailUtils, "sendEmail").resolves();
-
-        // Stub the route handler
-        const routeHandlerStub = sinon.stub(controller, "createUser");
-        routeHandlerStub.callsFake(async (req, res) => {
-            res.status(201).json(await User.prototype.save());
-        });
-
-        // Use a test app with the isolated route handler
-        const testApp = express();
-        testApp.use(express.json());
-        testApp.post("/management/users/create", controller.createUser);
-
-        const res = await request(testApp)
+        const res = await request(app)
             .post("/management/users/create")
             .send(reqBody);
-
         chai.expect(res.statusCode).to.equal(201);
         chai.expect(res.body).to.be.an("object");
         chai.expect(res.body.name).to.equal(reqBody.name);
@@ -137,14 +118,9 @@ describe("POST /management/users/create/:id", () => {
             hashedPassword
         );
         chai.expect(passwordMatches).to.equal(true);
-
-        // Restore the stubs
         userSaveStub.restore();
-        routeHandlerStub.restore();
-        sendEmailStub.restore();
     });
 });
-
 
 describe("PATCH /management/users/update/:id", () => {
     it("should update a user and return status code 200", (done) => {
