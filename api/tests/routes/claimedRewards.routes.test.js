@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("../../index");
 const assert = require("assert");
-const chai = require('chai')
+const chai = require('chai');
 const chaiHttp = require('chai-http');
 const jwt = require('jsonwebtoken');
 
