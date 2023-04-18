@@ -6,14 +6,14 @@ const User = require("../../models/user.model");
 const bcrypt = require("bcrypt");
 
 const mockUser = {
-  _id: "60720497f99eeb23c42ec6a7",
-  name: "John Doe",
-  email: "johndoe@example.com",
-  hasRole: "admin",
-  stars: 50,
-  totalStarsEarned: 200,
-  git_username: "johndoe",
-  bio: "A software engineer",
+    _id: "60720497f99eeb23c42ec6a7",
+    name: "John Doe",
+    email: "johndoe@example.com",
+    hasRole: "admin",
+    stars: 50,
+    totalStarsEarned: 200,
+    git_username: "johndoe",
+    bio: "A software engineer",
 };
 
 describe("GET /management/users", () => {
@@ -23,24 +23,26 @@ describe("GET /management/users", () => {
     it("should return all users and status code 200", (done) => {
         const userFindStub = sinon.stub(User, "find").resolves([mockUser]);
 
-    request(app)
-      .get("/management/users")
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("array");
-        chai.expect(res.body[0].name).to.equal(mockUser.name);
-        chai.expect(res.body[0].email).to.equal(mockUser.email);
-        chai.expect(res.body[0].hasRole).to.equal(mockUser.hasRole);
-        chai.expect(res.body[0].stars).to.equal(mockUser.stars);
-        chai
-          .expect(res.body[0].totalStarsEarned)
-          .to.equal(mockUser.totalStarsEarned);
-        chai.expect(res.body[0].git_username).to.equal(mockUser.git_username);
-        chai.expect(res.body[0].bio).to.equal(mockUser.bio);
-        userFindStub.restore();
-        done();
-      });
-  });
+        request(app)
+            .get("/management/users")
+            .end((err, res) => {
+                chai.expect(res.statusCode).to.equal(200);
+                chai.expect(res.body).to.be.an("array");
+                chai.expect(res.body[0].name).to.equal(mockUser.name);
+                chai.expect(res.body[0].email).to.equal(mockUser.email);
+                chai.expect(res.body[0].hasRole).to.equal(mockUser.hasRole);
+                chai.expect(res.body[0].stars).to.equal(mockUser.stars);
+                chai.expect(res.body[0].totalStarsEarned).to.equal(
+                    mockUser.totalStarsEarned
+                );
+                chai.expect(res.body[0].git_username).to.equal(
+                    mockUser.git_username
+                );
+                chai.expect(res.body[0].bio).to.equal(mockUser.bio);
+                userFindStub.restore();
+                done();
+            });
+    });
 });
 
 describe("GET /management/users/:id", () => {
@@ -50,24 +52,26 @@ describe("GET /management/users/:id", () => {
     it("should return a user and status code 200", (done) => {
         const userFindStub = sinon.stub(User, "findById").resolves(mockUser);
 
-    request(app)
-      .get(`/management/users/${mockUser._id}`)
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("object");
-        chai.expect(res.body.name).to.equal(mockUser.name);
-        chai.expect(res.body.email).to.equal(mockUser.email);
-        chai.expect(res.body.hasRole).to.equal(mockUser.hasRole);
-        chai.expect(res.body.stars).to.equal(mockUser.stars);
-        chai
-          .expect(res.body.totalStarsEarned)
-          .to.equal(mockUser.totalStarsEarned);
-        chai.expect(res.body.git_username).to.equal(mockUser.git_username);
-        chai.expect(res.body.bio).to.equal(mockUser.bio);
-        userFindStub.restore();
-        done();
-      });
-  });
+        request(app)
+            .get(`/management/users/${mockUser._id}`)
+            .end((err, res) => {
+                chai.expect(res.statusCode).to.equal(200);
+                chai.expect(res.body).to.be.an("object");
+                chai.expect(res.body.name).to.equal(mockUser.name);
+                chai.expect(res.body.email).to.equal(mockUser.email);
+                chai.expect(res.body.hasRole).to.equal(mockUser.hasRole);
+                chai.expect(res.body.stars).to.equal(mockUser.stars);
+                chai.expect(res.body.totalStarsEarned).to.equal(
+                    mockUser.totalStarsEarned
+                );
+                chai.expect(res.body.git_username).to.equal(
+                    mockUser.git_username
+                );
+                chai.expect(res.body.bio).to.equal(mockUser.bio);
+                userFindStub.restore();
+                done();
+            });
+    });
 });
 
 describe("DELETE /management/users/delete/:id", () => {
@@ -89,7 +93,6 @@ describe("DELETE /management/users/delete/:id", () => {
             });
     });
 });
-
 
 describe("POST /management/users/create/:id", () => {
     afterEach(() => {
@@ -129,25 +132,7 @@ describe("POST /management/users/create/:id", () => {
         chai.expect(passwordMatches).to.equal(true);
         userSaveStub.restore();
     });
-
-    const res = await request(app)
-      .post("/management/users/create")
-      .send(reqBody);
-    chai.expect(res.statusCode).to.equal(201);
-    chai.expect(res.body).to.be.an("object");
-    chai.expect(res.body.name).to.equal(reqBody.name);
-    chai.expect(res.body.email).to.equal(reqBody.email);
-    chai.expect(res.body.hasRole).to.equal("Developer");
-    chai.expect(res.body.git_username).to.equal(reqBody.git_username);
-
-    // Check if the hashed password matches the actual password
-    const passwordMatches = await bcrypt.compare(
-      reqBody.password,
-      hashedPassword
-    );
-    chai.expect(passwordMatches).to.equal(true);
-    userSaveStub.restore();
-  });
+});
 
 describe("PATCH /management/users/update/:id", () => {
     afterEach(() => {
@@ -174,25 +159,25 @@ describe("PATCH /management/users/update/:id", () => {
         };
         const userFindStub = sinon.stub(User, "findById").resolves(mockUser);
 
-    request(app)
-      .patch(`/management/users/update/${mockUser._id}`)
-      .send(mockUpdatedUser)
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("object");
-        chai.expect(res.body._id).to.equal(mockUser._id);
-        chai.expect(res.body.name).to.equal(mockUpdatedUser.name);
-        chai.expect(res.body.email).to.equal(mockUpdatedUser.email);
-        chai.expect(res.body.stars).to.equal(mockUpdatedUser.stars);
-        chai
-          .expect(res.body.totalStarsEarned)
-          .to.equal(mockUpdatedUser.totalStarsEarned);
-        chai
-          .expect(res.body.git_username)
-          .to.equal(mockUpdatedUser.git_username);
-        chai.expect(res.body.bio).to.equal(mockUser.bio);
-        userFindStub.restore();
-        done();
-      });
-  });
+        request(app)
+            .patch(`/management/users/update/${mockUser._id}`)
+            .send(mockUpdatedUser)
+            .end((err, res) => {
+                chai.expect(res.statusCode).to.equal(200);
+                chai.expect(res.body).to.be.an("object");
+                chai.expect(res.body._id).to.equal(mockUser._id);
+                chai.expect(res.body.name).to.equal(mockUpdatedUser.name);
+                chai.expect(res.body.email).to.equal(mockUpdatedUser.email);
+                chai.expect(res.body.stars).to.equal(mockUpdatedUser.stars);
+                chai.expect(res.body.totalStarsEarned).to.equal(
+                    mockUpdatedUser.totalStarsEarned
+                );
+                chai.expect(res.body.git_username).to.equal(
+                    mockUpdatedUser.git_username
+                );
+                chai.expect(res.body.bio).to.equal(mockUser.bio);
+                userFindStub.restore();
+                done();
+            });
+    });
 });
