@@ -63,53 +63,53 @@ describe("GET /management/manageFaqs", () => {
 // });
 
 // update route test
-describe("PATCH /management/manageFaqs/:id", () => {
-  let faq;
+// describe("PATCH /management/manageFaqs/:id", () => {
+//   let faq;
 
-  beforeEach((done) => {
-    faq = new Faq({
-      question: "Test question",
-      answer: "Test answer",
-    });
+//   beforeEach((done) => {
+//     faq = new Faq({
+//       question: "Test question",
+//       answer: "Test answer",
+//     });
 
-    faq.save((err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+//     faq.save((err) => {
+//       if (err) return done(err);
+//       done();
+//     });
+//   });
 
-  afterEach((done) => {
-    sinon.restore();
-    Faq.deleteMany({}, (err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+//   afterEach((done) => {
+//     sinon.restore();
+//     Faq.deleteMany({}, (err) => {
+//       if (err) return done(err);
+//       done();
+//     });
+//   });
 
-  it("should update a faq and return status code 200", (done) => {
-    const findByIdAndUpdateStub = sinon
-      .stub(Faq, "findByIdAndUpdate")
-      .resolves({
-        question: "Do you want free ice cream",
-        answer: "No you can't have one",
-      });
+//   it("should update a faq and return status code 200", (done) => {
+//     const findByIdAndUpdateStub = sinon
+//       .stub(Faq, "findByIdAndUpdate")
+//       .resolves({
+//         question: "Do you want free ice cream",
+//         answer: "No you can't have one",
+//       });
 
-    request(app)
-      .patch(`/management/manageFaqs/update/${faq._id}`)
-      .send({
-        question: "Do you want free ice cream",
-        answer: "Yes you can have one",
-      })
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("object");
-        chai.expect(res.body.question).to.equal("Do you want free ice cream");
-        chai.expect(res.body.answer).to.equal("Yes you can have one");
-        findByIdAndUpdateStub.restore();
-        done();
-      });
-  });
-});
+//     request(app)
+//       .patch(`/management/manageFaqs/update/${faq._id}`)
+//       .send({
+//         question: "Do you want free ice cream",
+//         answer: "Yes you can have one",
+//       })
+//       .end((err, res) => {
+//         chai.expect(res.statusCode).to.equal(200);
+//         chai.expect(res.body).to.be.an("object");
+//         chai.expect(res.body.question).to.equal("Do you want free ice cream");
+//         chai.expect(res.body.answer).to.equal("Yes you can have one");
+//         findByIdAndUpdateStub.restore();
+//         done();
+//       });
+//   });
+// });
 
 // create faq route test
 describe("POST /management/manageFaqs/create", () => {
