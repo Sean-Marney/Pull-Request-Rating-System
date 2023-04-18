@@ -72,6 +72,9 @@ describe("GET /management/users/:id", () => {
 });
 
 describe("DELETE /management/users/delete/:id", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     it("should delete a user and return status code 200", (done) => {
         const userfindByIdAndDeleteStub = sinon
             .stub(User, "findByIdAndDelete")
