@@ -165,4 +165,3 @@ describe("createRating controller method", () => {
         ).to.be.true;
     });
 });
-
