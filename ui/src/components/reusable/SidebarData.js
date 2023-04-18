@@ -8,7 +8,8 @@
     Logout,
     Dashboard,
     LiveHelp,
-    Help
+    Help,
+    Forum
 } from "@mui/icons-material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink, Link} from "react-router-dom";
@@ -28,7 +29,7 @@ const Sidebar = ({ children, removeCookie }) => {
         },
         {
             path: "/rewards",
-            name: "Rewards",
+            name: "Achievements",
             icon: <Star />,
         },
         {
@@ -51,6 +52,11 @@ const Sidebar = ({ children, removeCookie }) => {
             name: "ManagerHelp",
             icon: <Help />,
         },
+        {
+            path: "/ChatBot",
+            name: "PullBot",
+            icon: <Forum />,
+        },
    ];
     return (
         <div className="container">
@@ -66,7 +72,7 @@ const Sidebar = ({ children, removeCookie }) => {
                         to={item.path}
                         key={index}
                         className="link"
-                        activeclassName="active"
+                        activeclassname="active"
                     >
                         <div className="icon">{item.icon}</div>
                         <div style={{ display: "block" }} className="link_text">
@@ -79,7 +85,7 @@ const Sidebar = ({ children, removeCookie }) => {
                     to="/login"
                     key="logout"
                     className="link"
-                    activeclassName="active"
+                    activeclassname="active"
                 >
                 <div className="icon"><Logout/></div>
                 <div style={{ display: "block" }} className="link_text">Logout</div>  

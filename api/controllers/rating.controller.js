@@ -34,7 +34,7 @@ const createRating = async (req, res) => {
                 },
             }
         );
-        console.log(req.body);
+        // console.log(req.body);
 
         const pullRequest = await PullRequest.findById(req.params.id);
         if (!pullRequest) {
@@ -52,7 +52,8 @@ const createRating = async (req, res) => {
         // Calculating updatedStarCount and UpdatedTotalStarCount
         const updatedStarCount = user.stars + ratingSum;
         const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
-
+        let newLevel = updateLevel(user.level, updatedTotalStarCount);
+        console.log(newLevel);
         // Updating user model fields stars and totalStarsEarned in DB
         await User.updateOne(
             { _id: user._id },
@@ -60,6 +61,7 @@ const createRating = async (req, res) => {
                 $set: {
                     stars: updatedStarCount,
                     totalStarsEarned: updatedTotalStarCount,
+                    level: newLevel,
                 },
             }
         );
@@ -81,6 +83,14 @@ const createRating = async (req, res) => {
         });
     }
 };
+
+function updateLevel(level, currentTotal){
+    let newLevel = (currentTotal / 20)|0;
+    if (newLevel > level && newLevel <= 20){
+        level = newLevel;
+    }
+    return level;
+}
 
 module.exports = {
     createRating,
