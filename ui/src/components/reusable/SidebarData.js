@@ -49,7 +49,7 @@ const Sidebar = ({ children, removeCookie, role }) => {
         {
             path: "/ChatBot",
             name: "PullBot",
-            icon: <LiveHelp />,
+            icon: <Forum />,
         },
         {
             path: "/profile",
