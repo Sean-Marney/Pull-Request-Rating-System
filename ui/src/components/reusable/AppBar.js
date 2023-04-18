@@ -40,7 +40,6 @@ export default function CustomAppBar(props) {
 }
 
 // Define default values for the props of the CustomAppBar component
-// These values will be used if no values are provided when the component is used
 CustomAppBar.defaultProps = {
     // Set the default title to "PullMaster.io"
     title: "PullMaster.io",

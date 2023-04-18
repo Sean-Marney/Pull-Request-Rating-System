@@ -17,7 +17,6 @@ export default function ManageFaqs() {
   const [expanded, setExpanded] = React.useState(false);
   const [visible, setVisible] = React.useState(5);
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     getFaqs();
@@ -45,75 +44,73 @@ export default function ManageFaqs() {
 
   return (
     <div>
-       <Paper className={classes.paper}>
-        <div className={classes.Container}>
-      <Box padding={3}>
-        <Typography variant="h4">
-          <b>FAQ</b>
-        </Typography>
-      </Box>
-
-      <Box padding={5}>
-        <Button
-          style={{
-            marginLeft: "20px",
-            marginTop: "20px",
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "center",
-            margin: 40,
-          }}
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={() => navigate("/faq/ask")}
-        >
-          <QuizIcon /> Ask A Question
-        </Button>
-
-        {/* Get all FAQs from database and display on a card */}
-        {question &&
-          question.slice(0, visible).map((q) => (
-            <Accordion
-              sx={{ maxWidth: 3500 }}
-              key={q._id}
-              style={{ padding: 6, margin: 35 }}
-            >
-              <AccordionSummary
-                expanded={expanded === "panel1"}
-                onChange={handleChange("panel1")}
-                expandIcon={
-                  <ExpandCircleDownIcon style={{ color: "#1b2437" }} />
-                }
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography variant="body2" color="text.secondary">
-                  <div style={{ color: "red" }}>
-                    {" "}
-                    <PsychologyAltIcon />{" "}
-                  </div>
-                  <h3>Question</h3>
-                  <br></br>
-                  <Typography paragraph>{q.question}</Typography>
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <h3>Answer</h3>
-                <br></br>
-                <Typography paragraph>{q.answer}</Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-
+      <Paper className={classes.paper}>
+        <Box padding={3}>
+          <Typography variant="h4" style={{ margin: "30px" }}>
+            <b>FAQ</b>
+          </Typography>
+        </Box>
         <div>
+          <Box padding={5}>
+            <Button
+              style={{
+                marginLeft: "30px",
+                marginTop: "20px",
+                marginBottom: "20px",
+                display: "flex",
+                justifyContent: "center",
+                // margin: 40,
+              }}
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => navigate("/faq/ask")}
+            >
+              <QuizIcon /> Ask A Question
+            </Button>
+
+            {/* Get all FAQs from database and display on a card */}
+            {question &&
+              question.slice(0, visible).map((q) => (
+                <Accordion
+                  sx={{ maxWidth: 3500 }}
+                  key={q._id}
+                  style={{ padding: 6, margin: 35 }}
+                >
+                  <AccordionSummary
+                    expanded={expanded === "panel1"}
+                    onChange={handleChange("panel1")}
+                    expandIcon={
+                      <ExpandCircleDownIcon style={{ color: "#1b2437" }} />
+                    }
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography variant="body2" color="text.secondary">
+                      <div style={{ color: "red" }}>
+                        {" "}
+                        <PsychologyAltIcon />{" "}
+                      </div>
+                      <h3>Question</h3>
+                      <br></br>
+                      <Typography paragraph>{q.question}</Typography>
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography variant="body2" color="text.secondary">
+                      <h3>Answer</h3>
+                    </Typography>
+                    <br></br>
+                    <Typography paragraph>{q.answer}</Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+
+            <div></div>
+          </Box>
         </div>
-      </Box>
-      </div>
       </Paper>
-      <Pagination
-            handlePageClick={handlePageClick}
-          />
+      <Pagination handlePageClick={handlePageClick} />
     </div>
   );
 }
