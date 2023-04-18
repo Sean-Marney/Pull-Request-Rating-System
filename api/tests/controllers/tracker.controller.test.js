@@ -90,7 +90,6 @@ describe("GET tracker by ID from /management/trackers using the getTrackers cont
 
         await manageTrackers.getTrackerById(req, res);
 
-        
         expect(res.status().json.calledWith(mockTracker)).to.be.true;
     });
 
@@ -102,7 +101,6 @@ describe("GET tracker by ID from /management/trackers using the getTrackers cont
 
         await manageTrackers.getTrackerById(req, res);
 
-        
         expect(res.status().json.calledWith(mockTracker)).to.be.true;
 
         expect(mockTracker).to.have.property("_id");
@@ -132,7 +130,6 @@ describe("CREATE tracker at /management/trackers/create using the createTracker 
         sinon.assert.calledOnceWithExactly(res.status, 201);
     });
 });
-
 
 describe("DELETE tracker by ID from /management/trackers/delete/:id using the deleteTracker controller method", () => {
     let mockTracker;
@@ -206,5 +203,3 @@ describe("DELETE tracker by ID from /management/trackers/delete/:id using the de
         ).to.be.true;
     });
 });
-
-

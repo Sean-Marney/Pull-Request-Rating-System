@@ -96,7 +96,6 @@ describe("GET all users from /management/users using the getUsers controller met
 
 // Test suite for getting a user by ID
 describe("GET user by ID from /management/users using the getUsers controller method", () => {
-
     // Define a variable to hold the mock user object
     let mockUser;
 
@@ -172,46 +171,44 @@ describe("GET user by ID from /management/users using the getUsers controller me
     });
 });
 
-// // Test suite for the createUser controller method
-// describe("CREATE user at /management/users/create using the createUser controller method", () => {
+// Test suite for the createUser controller method
+describe("CREATE user at /management/users/create using the createUser controller method", () => {
+    // Test case to verify that a user can be created and saved to the database with a 201 response code
+    it("should create a user and save it to the database with a 201 response code", async () => {
+        // Mock data for the user to be created
+        const userData = {
+            name: "Martin Dawes",
+            email: "martin@gmail.com",
+            password: "12345",
+            hasRole: "Developer",
+            git_username: "Martin Dawes",
+        };
 
-//   // Test case to verify that a user can be created and saved to the database with a 201 response code
-//   it("should create a user and save it to the database with a 201 response code", async () => {
-  
-//     // Mock data for the user to be created
-//     const userData = {
-//         name: "Martin Dawes",
-//         email: "martin@gmail.com",
-//         password: "12345",
-//         hasRole: "Developer",
-//         git_username: "Martin Dawes",
-//     };
-    
-//     // Mock request object with user data in the body
-//     const req = { body: userData };
-    
-//     // Mock response object with stubbed status and json methods
-//     const res = {
-//         status: sinon.stub().returnsThis(),
-//         json: sinon.stub(),
-//     };
+        // Mock request object with user data in the body
+        const req = { body: userData };
 
-//     // Create a new user object with the mock user data
-//     const user = new User(userData);
-    
-//     // Stub the save method of the User prototype to return the user object
-//     sinon.stub(User.prototype, "save").resolves(user);
+        // Mock response object with stubbed status and json methods
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
 
-//     // Call the createUser controller method with the mock request and response objects
-//     await manageUsers.createUser(req, res);
+        // Create a new user object with the mock user data
+        const user = new User(userData);
 
-//     // Verify that the save method was called once and returned the user object
-//     sinon.assert.calledOnce(user.save);
-    
-//     // Verify that the status method was called once with a 201 response code
-//     sinon.assert.calledOnceWithExactly(res.status, 201);
-//   });
-// });
+        // Stub the save method of the User prototype to return the user object
+        sinon.stub(User.prototype, "save").resolves(user);
+
+        // Call the createUser controller method with the mock request and response objects
+        await manageUsers.createUser(req, res);
+
+        // Verify that the save method was called once and returned the user object
+        sinon.assert.calledOnce(user.save);
+
+        // Verify that the status method was called once with a 201 response code
+        sinon.assert.calledOnceWithExactly(res.status, 201);
+    });
+});
 
 describe("DELETE user by ID from /management/users/delete/:id using the deleteUser controller method", () => {
     let mockUser;
@@ -254,8 +251,8 @@ describe("DELETE user by ID from /management/users/delete/:id using the deleteUs
         expect(res.status.calledWith(200)).to.be.true;
 
         // Check that the json method was called with the expected success message
-        expect(res.status().json.calledWith({ message: "User deleted" })).to
-            .be.true;
+        expect(res.status().json.calledWith({ message: "User deleted" })).to.be
+            .true;
     });
 
     // Test case for returning a 404 status code and error message when the user is not found
@@ -287,5 +284,3 @@ describe("DELETE user by ID from /management/users/delete/:id using the deleteUs
         ).to.be.true;
     });
 });
-
-
