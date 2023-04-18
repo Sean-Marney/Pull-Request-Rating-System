@@ -3,6 +3,8 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import { Button } from "@mui/material";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useNavigate, useLocation } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -11,7 +13,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import { useStyles } from "../../styles/Auth/loginFormStyle";
 import { ToastContainer, toast } from "react-toastify";
-import CustomAppBar from "../../reusable/AppBar";
 
 const theme = createTheme();
 
@@ -107,7 +108,24 @@ const OTPVerification = () => {
     return (
         <ThemeProvider theme={theme}>
             <ToastContainer />
-            <CustomAppBar />
+            <AppBar
+                position="static"
+                className={classes.appBar}
+                sx={{ backgroundColor: "#1b2437" }}
+            >
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: "25px",
+                            fontFamily: "Bahnschrift",
+                        }}
+                    >
+                        PullMaster.io
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             {/* Main container for the OTP verification form */}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
