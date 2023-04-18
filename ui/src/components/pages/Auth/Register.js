@@ -15,11 +15,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useAxiosInstance from "../../../useAxiosInstance";
 import { useNavigate } from "react-router-dom";
 import validateRegisterForm from "../../../validations/registerForm";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import CustomAppBar from "../../reusable/AppBar";
 
 const theme = createTheme();
 
@@ -84,7 +85,20 @@ export default function SignUp() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CustomAppBar />
+            <AppBar position="static" sx={{ backgroundColor: "#1b2437" }}>
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: "25px",
+                            fontFamily: "Bahnschrift",
+                        }}
+                    >
+                        PullMaster.io
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -203,9 +217,9 @@ export default function SignUp() {
                                                     edge="end"
                                                 >
                                                     {showConfirmPassword ? (
-                                                        <Visibility />
-                                                    ) : (
                                                         <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
                                                     )}
                                                 </IconButton>
                                             </InputAdornment>

@@ -1,7 +1,7 @@
 const User = require("../../models/user.model");
 const Otp = require("../../models/otp.model");
 const validator = require("validator");
-const {sendEmail} = require("../Auth/emailUtils");
+const { sendEmail } = require("../Auth/emailUtils");
 
 // Generate a random 6-digit OTP code
 const generateOTP = () => {

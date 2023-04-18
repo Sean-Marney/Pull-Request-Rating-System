@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
-const {sendEmail} = require("../controllers/Auth/emailUtils");
+const { sendEmail } = require("../controllers/Auth/emailUtils");
 
 // Get all users
 const getUsers = async (req, res) => {
@@ -57,6 +57,7 @@ const getUserByEmail = async (req, res) => {
 };
 
 // Create a user
+// Create a user
 const createUser = async (req, res) => {
     const email = req.body.email.toLowerCase();
     try {
@@ -91,6 +92,7 @@ const createUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Update a user
 const updateUser = async (req, res) => {

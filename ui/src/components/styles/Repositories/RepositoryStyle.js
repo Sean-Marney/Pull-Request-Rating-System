@@ -37,9 +37,9 @@ export const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
         flexDirection: "row",
-        alignItems: 'start',
-        justifyContent: 'start',
-        minHeight: '300px',
+        alignItems: "start",
+        justifyContent: "start",
+        minHeight: "300px",
     },
     selectWrapper: {
         display: "flex",
@@ -68,10 +68,10 @@ export const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
     },
     Container: {
-    maxWidth: "90%",
-    margin: "0 auto",
-    overflow: "auto",
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+        maxWidth: "90%",
+        margin: "0 auto",
+        overflow: "auto",
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
     },
 }));

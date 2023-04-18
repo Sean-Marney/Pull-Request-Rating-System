@@ -6,6 +6,8 @@ import { InputLabel } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
 import updatePasswordForm from "../../../validations/updatePasswordForm";
 import * as yup from "yup";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import useAxiosInstance from "../../../useAxiosInstance";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -24,7 +26,6 @@ import DialogContentText from "@mui/material/DialogContentText";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useStyles } from "../../styles/Auth/loginFormStyle";
-import CustomAppBar from "../../reusable/AppBar";
 
 const theme = createTheme();
 
@@ -107,7 +108,24 @@ export default function ResetPassword() {
     return (
         <ThemeProvider theme={theme}>
             {/* App Bar */}
-            <CustomAppBar />
+            <AppBar
+                position="static"
+                className={classes.appBar}
+                sx={{ backgroundColor: "#1b2437" }}
+            >
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: "25px",
+                            fontFamily: "Bahnschrift",
+                        }}
+                    >
+                        PullMaster.io
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             {/* Main container */}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -170,9 +188,9 @@ export default function ResetPassword() {
                                                     edge="end"
                                                 >
                                                     {showPassword ? (
-                                                        <Visibility />
-                                                    ) : (
                                                         <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
                                                     )}
                                                 </IconButton>
                                             </InputAdornment>

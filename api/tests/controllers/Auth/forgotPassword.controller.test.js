@@ -4,7 +4,10 @@ const sinon = require("sinon");
 const User = require("../../../models/user.model");
 const expect = chai.expect;
 const Otp = require("../../../models/otp.model");
-const getAccessTokenWrapper = require("../../../controllers/Auth/emailUtils");
+const {
+    getAccessTokenWrapper,
+    oAuth2Client,
+} = require("../../../controllers/Auth/emailUtils");
 const nodemailer = require("nodemailer");
 const {
     sendOTP,
@@ -22,17 +25,13 @@ describe("sendOTP controller method", () => {
         createStub,
         sendMailStub,
         getAccessTokenStub,
-        findOneOtpStub
+        findOneOtpStub;
 
+    // Set up the stubs before each test case
     beforeEach(() => {
-        findOneStub = sinon.stub(User, "findOne");
         findOneOtpStub = sinon.stub(Otp, "findOne");
+        findOneStub = sinon.stub(User, "findOne");
         createStub = sinon.stub(Otp, "create");
-        getAccessTokenStub = sinon.stub(
-            getAccessTokenWrapper,
-            "getAccessTokenWrapper"
-        );
-
         // Create a mock transport with a sendMail function
         const mockTransport = {
             sendMail: sinon.stub().resolves(),
@@ -43,11 +42,14 @@ describe("sendOTP controller method", () => {
 
         // Set sendMailStub to reference the sendMail function from the mock transport
         sendMailStub = mockTransport.sendMail;
+
+        getAccessTokenStub = sinon.stub(oAuth2Client, "getAccessToken");
     });
 
+    // Restore the stubs after each test case
     afterEach(() => {
-        findOneStub.restore();
         findOneOtpStub.restore();
+        findOneStub.restore();
         createStub.restore();
         getAccessTokenStub.restore();
         nodemailer.createTransport.restore();

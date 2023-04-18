@@ -6,10 +6,19 @@ chai.use(chaiHttp);
 const { createRating } = require("../../controllers/rating.controller");
 const PullRequest = require("../../models/pullRequest.model");
 const User = require("../../models/user.model");
+const sandbox = sinon.createSandbox();
 
 describe("createRating controller method", () => {
+    let sandbox;
+
+    beforeEach(() => {
+        // Create a new sandbox before each test case
+        sandbox = sinon.createSandbox();
+    });
+
     afterEach(() => {
-        sinon.restore();
+        // Restore the sandbox after each test case
+        sandbox.restore();
     });
 
     it("should update rating and user stars successfully", async () => {
@@ -121,7 +130,7 @@ describe("createRating controller method", () => {
             body: {
                 rating: { quality: 4, readability: 5 },
                 rating_complete: true,
-                user_id: "user1", // Replace userId with a string
+                user_id: "user1",
             },
             params: {
                 id: "pr1",
@@ -134,17 +143,15 @@ describe("createRating controller method", () => {
             json: sinon.stub(),
         };
 
-        // Mock MongoDB methods
-        sinon.stub(PullRequest, "updateOne").resolves({
-            nModified: 0,
-        });
+        // Replace PullRequest.updateOne with a stub that resolves with nModified: 0
+        sandbox.replace(
+            PullRequest,
+            "updateOne",
+            sandbox.stub().resolves({ nModified: 0 })
+        );
 
-        // Add a mock for PullRequest.findById with null result
-        sinon.stub(PullRequest, "findById").callsFake((id) => {
-            if (id === "pr1") {
-                return null;
-            }
-        });
+        // Replace PullRequest.findById with a stub that resolves with null
+        sandbox.replace(PullRequest, "findById", sandbox.stub().resolves(null));
 
         // Call the createRating function
         await createRating(req, res);
@@ -158,4 +165,3 @@ describe("createRating controller method", () => {
         ).to.be.true;
     });
 });
-
