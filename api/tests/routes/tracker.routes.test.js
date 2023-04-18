@@ -12,6 +12,9 @@ const mockTracker = {
 };
 
 describe("GET /management/trackers", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     chai.use(chaiHttp);
     const token = jwt.sign(
       {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
@@ -35,6 +38,9 @@ describe("GET /management/trackers", () => {
 });
 
 describe("GET /management/trackers/:id", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     chai.use(chaiHttp);
     const token = jwt.sign(
       {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
@@ -58,6 +64,9 @@ describe("GET /management/trackers/:id", () => {
 });
 
 describe("DELETE /management/trackers/delete/:id", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     chai.use(chaiHttp);
     const token = jwt.sign(
       {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
@@ -82,6 +91,9 @@ describe("DELETE /management/trackers/delete/:id", () => {
 });
 
 describe("PATCH /management/trackers/update/:id", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     chai.use(chaiHttp);
     const token = jwt.sign(
       {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
@@ -115,6 +127,9 @@ describe("PATCH /management/trackers/update/:id", () => {
 });
 
 describe("POST /management/trackers/create", () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     chai.use(chaiHttp);
     const token = jwt.sign(
       {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
@@ -125,7 +140,8 @@ describe("POST /management/trackers/create", () => {
         const reqBody = {
             name: "Performance",
         };
-        const trackerSaveStub = sinon.stub(Tracker.prototype, "save").resolves({
+        const trackerMock = sinon.mock(Tracker.prototype);
+        trackerMock.expects("save").once().resolves({
             name: reqBody.name,
         });
 
@@ -136,6 +152,8 @@ describe("POST /management/trackers/create", () => {
         chai.expect(res.statusCode).to.equal(201);
         chai.expect(res.body).to.be.an("object");
         chai.expect(res.body.name).to.equal(reqBody.name);
-        trackerSaveStub.restore();
+
+        trackerMock.verify();
+        trackerMock.restore();
     });
 });

@@ -236,9 +236,9 @@ export default function ResetPassword() {
                                                     edge="end"
                                                 >
                                                     {showConfirmPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
                                                         <Visibility />
+                                                    ) : (
+                                                        <VisibilityOff />
                                                     )}
                                                 </IconButton>
                                             </InputAdornment>

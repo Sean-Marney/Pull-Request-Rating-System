@@ -10,7 +10,7 @@ const express = require("express");
 const app = express();
 
 // Import the controller method
-const  createRating  = require("../../controllers/rating.controller");
+const createRating = require("../../controllers/rating.controller");
 
 // Mock the controller method
 const createRatingMock = sinon.stub(createRating, "createRating");
@@ -22,9 +22,15 @@ app.put("/update/:id", (req, res) => {
 
 // Test suite for the PUT /update/:id route
 describe("PUT /update/:id", () => {
+    let updateOneStub, findByIdStub, userFindByIdStub, userUpdateOneStub;
+
     // Reset the mock after each test
     afterEach(() => {
         createRatingMock.reset();
+        if (updateOneStub) updateOneStub.restore();
+        if (findByIdStub) findByIdStub.restore();
+        if (userFindByIdStub) userFindByIdStub.restore();
+        if (userUpdateOneStub) userUpdateOneStub.restore();
     });
 
     // Test case for successful rating update
@@ -85,7 +91,6 @@ describe("PUT /update/:id", () => {
 
     // Test case for an error occurring during rating update
     it("should return 500 status code when an error occurs", async () => {
-
         // Test rating data
         const ratingData = {
             rating: {
