@@ -173,78 +173,78 @@ describe("GET user by ID from /management/users using the getUsers controller me
     });
 });
 
-// // Test suite for the createUser controller method
-// describe("CREATE user at /management/users/create using the createUser controller method", () => {
-//     // Define a variable to hold the mock user object
-//     let  saveStub, sendEmailStub;
+// Test suite for the createUser controller method
+describe("CREATE user at /management/users/create using the createUser controller method", () => {
+    // Define a variable to hold the mock user object
+    let  saveStub, sendEmailStub;
 
-//     beforeEach(() => {
-//         saveStub = sinon.stub(User.prototype, "save");
-//         sendEmailStub = sinon.stub(sendEmail, "sendEmail");
-//     });
+    beforeEach(() => {
+        saveStub = sinon.stub(User.prototype, "save");
+        sendEmailStub = sinon.stub(sendEmail, "sendEmail");
+    });
 
-//     afterEach(() => {
-//         saveStub.restore();
-//         sendEmailStub.restore();
-//     });
-//     it("should create a user and save it to the database with a 201 response code", async () => {
-//         const req = {
-//             body: {
-//                 name: "Martin Dawes",
-//                 email: "martin@gmail.com",
-//                 password: "12345",
-//                 hasRole: "Developer",
-//                 git_username: "Martin Dawes",
-//             },
-//         };
-//         const res = {
-//             json: sinon.stub(),
-//             status: sinon.stub().returnsThis(),
-//         };
+    afterEach(() => {
+        saveStub.restore();
+        sendEmailStub.restore();
+    });
+    it("should create a user and save it to the database with a 201 response code", async () => {
+        const req = {
+            body: {
+                name: "Martin Dawes",
+                email: "martin@gmail.com",
+                password: "12345",
+                hasRole: "Developer",
+                git_username: "Martin Dawes",
+            },
+        };
+        const res = {
+            json: sinon.stub(),
+            status: sinon.stub().returnsThis(),
+        };
 
-//         // Mock the save method to simulate the successful creation of a new user in the database
-//         saveStub.resolves();
+        // Mock the save method to simulate the successful creation of a new user in the database
+        saveStub.resolves();
 
-//         // Call the controller method with the mocked request and response objects
-//         await manageUsers.createUser(req, res);
+        // Call the controller method with the mocked request and response objects
+        await manageUsers.createUser(req, res);
 
-//         // Check that the status method was called with 201
-//         expect(res.status.calledWith(201));
+        // Check that the status method was called with 201
+        expect(res.status.calledWith(201));
 
-//         // Check that the json method was called with the mock user object(req)
-//         expect(res.status().json.calledWith(req));
-//     });
-// });
+        // Check that the json method was called with the mock user object(req)
+        expect(res.status().json.calledWith(req));
+    });
+});
 
 // Test suite for the deleteUser controller method
-// describe("DELETE user by ID from /management/users/delete/:id using the deleteUsers controller method", () => {
-//     it("should delete a user with the given ID", async () => {
-//         // Create a user ID (simple string)
-//         const userId = "1234567890";
+describe("DELETE user by ID from /management/users/delete/:id using the deleteUsers controller method", () => {
+    it("should delete a user with the given ID", async () => {
+        // Create a user ID (simple string)
+        const userId = "1234567890";
 
-//         // Create a request object with the ID parameter
-//         const req = { params: { id: userId } };
+        // Create a request object with the ID parameter
+        const req = { params: { id: userId } };
 
-//         // Create a response object with a stubbed status function that returns a JSON object
-//         const res = {
-//             status: sinon.stub().returns({
-//                 json: sinon.stub(),
-//             }),
-//         };
+        // Create a response object with a stubbed status function that returns a JSON object
+        const res = {
+            status: sinon.stub().returns({
+                json: sinon.stub(),
+            }),
+        };
 
-//         // Create a user mock
-//         const user = { _id: userId };
+        // Create a user mock
+        const user = { _id: userId };
 
-//         // Stub the findByIdAndDelete method of the User model to resolve with the tracker mock
-//         sinon.stub(User, "findByIdAndDelete").resolves(user);
+        // Stub the findByIdAndDelete method of the User model to resolve with the tracker mock
+        sinon.stub(User, "findByIdAndDelete").resolves(user);
 
-//         // Call the deleteUser controller method with the request and response objects
-//         await manageUsers.deleteUser(req, res);
+        // Call the deleteUser controller method with the request and response objects
+        await manageUsers.deleteUser(req, res);
 
-//         // Verify that the findByIdAndDelete method of the User model was called with the correct ID
-//         sinon.assert.calledOnceWithExactly(User.findByIdAndDelete, userId);
+        // Verify that the findByIdAndDelete method of the User model was called with the correct ID
+        sinon.assert.calledOnceWithExactly(User.findByIdAndDelete, userId);
 
-//         // Verify that the status function of the response object was called with a 200 status code
-//         sinon.assert.calledOnceWithExactly(res.status, 200);
-//     });
-// });
+        // Verify that the status function of the response object was called with a 200 status code
+        sinon.assert.calledOnceWithExactly(res.status, 200);
+    });
+});
