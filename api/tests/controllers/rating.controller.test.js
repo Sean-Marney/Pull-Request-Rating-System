@@ -13,32 +13,44 @@ describe("createRating controller method", () => {
     sinon.restore();
   });
 
-    sinon.stub(PullRequest, "findById").resolves({
-      _id: "pr1",
+  it("should update rating and user stars successfully", async () => {
+    // Mock request
+    const req = {
+      body: {
+        rating: { quality: 4, readability: 5 },
+        rating_complete: true,
+        user_id: "user1",
+      },
+      params: {
+        id: "pr1",
+      },
+    };
+
+    // Mock response
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    // Mock MongoDB methods
+    sinon.stub(PullRequest, "updateOne").resolves({
+      nModified: 1,
     });
 
     sinon.stub(PullRequest, "findById").resolves({
       _id: "pr1",
     });
 
-    it("should return a 400 error if no ratings provided", (done) => {
-        chai.request(app)
-            .put("/ratings/update/1")
-            .set ('Cookie', `jwt=${token}`)
-            .send({ rating: {}, rating_complete: true })
-            .end((err, res) => {
-                expect(res).to.have.status(400);
-                expect(res.body.message).to.equal("No ratings provided");
-                done();
-            });
     sinon.stub(User, "findById").resolves({
       _id: "user1",
       stars: 10,
       totalStarsEarned: 20,
     });
 
-    it("should return a 404 error if pull request not found", (done) => {
-        findOneStub.returns(null);
+    sinon.stub(User, "updateOne").resolves({});
+
+    // Call the createRating function
+    await createRating(req, res);
 
     // Verify results
     expect(res.status.calledWith(200)).to.be.true;
@@ -127,22 +139,16 @@ describe("createRating controller method", () => {
       nModified: 0,
     });
 
-    it("should handle errors", (done) => {
-        updateOneStub.throws();
-
-        chai.request(app)
-            .put("/ratings/update/1")
-            .set ('Cookie', `jwt=${token}`)
-            .send({ rating: { a: 1, b: 2 }, rating_complete: true })
-            .end((err, res) => {
-                expect(res).to.have.status(500);
-                expect(res.body.message).to.equal(
-                    "An error occurred while updating rating"
-                );
-                done();
-            });
+    // Add a mock for PullRequest.findById with null result
+    sinon.stub(PullRequest, "findById").callsFake((id) => {
+      if (id === "pr1") {
+        return null;
+      }
     });
-=======
+
+    // Call the createRating function
+    await createRating(req, res);
+
     // Verify results
     expect(res.status.calledWith(404)).to.be.true;
     expect(
@@ -151,5 +157,4 @@ describe("createRating controller method", () => {
       })
     ).to.be.true;
   });
->>>>>>> cbfaf3328f3e6b1b5a9353b5f92efcdbf6daa778
 });
