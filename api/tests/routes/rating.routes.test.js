@@ -22,9 +22,15 @@ app.put("/update/:id", (req, res) => {
 
 // Test suite for the PUT /update/:id route
 describe("PUT /update/:id", () => {
+    let updateOneStub, findByIdStub, userFindByIdStub, userUpdateOneStub;
+
     // Reset the mock after each test
     afterEach(() => {
         createRatingMock.reset();
+        if (updateOneStub) updateOneStub.restore();
+        if (findByIdStub) findByIdStub.restore();
+        if (userFindByIdStub) userFindByIdStub.restore();
+        if (userUpdateOneStub) userUpdateOneStub.restore();
     });
 
     // Test case for successful rating update
