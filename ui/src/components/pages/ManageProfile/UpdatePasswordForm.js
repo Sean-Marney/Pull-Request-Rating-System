@@ -17,6 +17,7 @@ import { useStyles } from "../../styles/formStyle";
 export default function UpdatePassword() {
   const classes = useStyles();
   const [cookies] = useCookies();
+  const [user, setUser] = useState();
   const [updateForm, setUpdateForm] = useState({
     name: "",
     password: "",
@@ -35,7 +36,9 @@ export default function UpdatePassword() {
       process.env.REACT_APP_API_ENDPOINT +
         `/management/users/email/${cookies.user}`
     );
-    console.log(res.data);
+    // console.log(res.data);
+    setUser(res.data.email);
+
     // Set to state (fills in textboxes)
     setUpdateForm({
       name: res.data.name,
@@ -65,8 +68,9 @@ export default function UpdatePassword() {
       await axios.patch(
         // `http://localhost:8000/management/users/update/${id}`,
         process.env.REACT_APP_API_ENDPOINT +
-          `/management/users/updatePassword/email/${cookies.user.email}`,
-        updateForm,{ withCredentials: true}
+          `/management/users/updatePassword/email/${user}`,
+        updateForm,
+        { withCredentials: true }
       );
       navigate("/profile");
     } catch (error) {
