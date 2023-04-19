@@ -455,32 +455,47 @@ const App = () => {
                                 </ManagerRoutes>
                             }
               />
+
+              {/* manage badges  */}
               <Route
-                      path="/management/badges"
-                      element={
-                        <ProtectedRoute token={cookies.token} role={cookies.role}>
-                          {" "}
-                          <ManageBadges />
-                        </ProtectedRoute>
-                      }
-                    />
-                  <Route
-                      path="/management/badges/create"
-                      element={
-                        <ProtectedRoute token={cookies.token} role={cookies.role}>
-                          {" "}
-                          <CreateBadges />
-                        </ProtectedRoute>
-                      }
-                    />
-                          <Route
-                  path="/management/badges/update/:id"
-                  element={
-                    <ProtectedRoute token={cookies.token} role={cookies.role}>
-                      {" "}
-                      <UpdateBadges />
-                    </ProtectedRoute>
-                  }
+                            path="/management/badges"
+                            element={
+                                <ManagerRoutes 
+                                    token={cookies.token} 
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                                    <ManageBadges />
+                                </ManagerRoutes>
+                            }
+            />
+
+            {/* create badges  */}
+            <Route
+                            path="/management/badges/create"
+                            element={
+                                <ManagerRoutes 
+                                    token={cookies.token} 
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                                    <CreateBadges />
+                                </ManagerRoutes>
+                            }
+            />
+
+            {/* update badges */}
+            <Route
+                            path="/management/badges/update/:id"
+                            element={
+                                <ManagerRoutes 
+                                    token={cookies.token} 
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                                    <UpdateBadges />
+                                </ManagerRoutes>
+                            }
                 />
 
               // UnauthorizedPage
