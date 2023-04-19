@@ -16,7 +16,9 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import PeopleIcon from '@mui/icons-material/People';
 import CallMergeIcon from '@mui/icons-material/CallMerge';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import { NavLink, Link} from "react-router-dom";
+
 
 
 const Sidebar = ({ children, removeCookie, role }) => {
@@ -83,6 +85,11 @@ const Sidebar = ({ children, removeCookie, role }) => {
         path: "/management/repositories",
         name: "Pull Requests",
         icon: <CallMergeIcon />,
+    },
+    {
+        path: "/management/badges",
+        name: "Badges",
+        icon: <MilitaryTechIcon />,
     }, 
     {
         path: "/management/Leaderboard",
