@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor,screen} from "@testing-library/react";
+import { render, waitFor,} from "@testing-library/react";
 import Leaderboard from "../../components/pages/Leaderboard/Leaderboard";
 import axios from "axios";
 import '@testing-library/jest-dom';
@@ -17,13 +17,14 @@ test("renders leaderboard data", async () => {
   axios.get.mockResolvedValue({ data: mockResponse });
 
   // Render the component
-  render(<Leaderboard />);
+  const { getByText } = render(<Leaderboard />);
 
+  // Wait for the API call to finish and the data to be displayed
+  await waitFor(() => {
     // Check that the data is displayed correctly
-    mockResponse.forEach(async (user) => {
-      const name = await screen.findByText(user.name);
-      expect(name).toBeInTheDocument();
-      const starsEarnt = await screen.findByText(user.totalStarsEarned);
-      expect(starsEarnt).toBeInTheDocument();
+    mockResponse.forEach((user) => {
+      expect(getByText(user.name)).toBeInTheDocument();
+      expect(getByText(user.totalStarsEarned.toString())).toBeInTheDocument();
     });
+  });
 });

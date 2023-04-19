@@ -112,13 +112,10 @@ export default function ProfilePage() {
       process.env.REACT_APP_API_ENDPOINT +
         `/management/users/email/${cookies.user}`
     );
+
     //Set to state
     setUser(res.data);
   };
-
-
-
-
 
   const deleteUserByEmail = async () => {
     // email.preventDefault();
@@ -128,6 +125,7 @@ export default function ProfilePage() {
         process.env.REACT_APP_API_ENDPOINT +
           `/management/users/deleteUser/email/${cookies.user}`
       );
+      console.log("removing cookies");
       removeCookie("role");
       removeCookie("user");
       removeCookie("token");
