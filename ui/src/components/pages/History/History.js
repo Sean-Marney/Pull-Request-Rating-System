@@ -11,6 +11,7 @@ import {
   makeStyles,
   Paper,
 } from "@material-ui/core";
+import Pagination from "../../reusable/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,17 +39,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function History() {
   const classes = useStyles();
+
   const [pullRequests, setPullRequests] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [rated, setRated] = useState();
   const [selected, setSelected] = useState();
   const [cookies] = useCookies();
+  const [visible, setVisible] = React.useState(5);
 
   useEffect(() => {
     getPullRequests();
     setRated("blank");
   }, []);
-
 
   const getPullRequests = async () => {
     let email = cookies.user;
@@ -60,7 +62,6 @@ export default function History() {
     setPullRequests(res.data);
   };
 
-    
   const handleSelection = (rated, ratings, id) => {
     try {
       setSelected(id);
@@ -71,6 +72,10 @@ export default function History() {
     }
   };
 
+  // Handling "Load More" click
+  const handlePageClick = () => {
+    setVisible((preValue) => preValue + 5);
+  };
 
   return (
     <div className="App">
@@ -99,7 +104,7 @@ export default function History() {
                   </Typography>
                 </div>
               ) : (
-                pullRequests.map((pullRequest) => (
+                pullRequests.slice(0, visible).map((pullRequest) => (
                   <Card
                     key={pullRequest._id}
                     id={pullRequest._id}
@@ -131,6 +136,10 @@ export default function History() {
           </Paper>
         </Grid>
       </Grid>
+      <div>
+        {/* Render "Load More" button from the reusable component and use the handler on click */}
+        <Pagination handlePageClick={handlePageClick} />
+      </div>
     </div>
   );
 }
