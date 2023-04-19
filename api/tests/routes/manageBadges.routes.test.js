@@ -2,6 +2,8 @@ const chai = require("chai");
 const request = require("supertest");
 const app = require("../../index");
 const sinon = require("sinon");
+const chaiHttp = require('chai-http');
+const jwt = require('jsonwebtoken');
 const Badge = require("../../models/badges.model");
 const mockBadge = {
     _id: "60720497f99eeb23c42ec6a7",
@@ -29,6 +31,12 @@ describe("GET /all", () => {
 
 describe("GET /management/badge/get/:id", () => {
     it("should return a badge and status code 200", (done) => {
+        chai.use(chaiHttp);
+        const token = jwt.sign(
+          {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+          process.env.PASSPORTSECRET,
+          {expiresIn: '7d'});
+          
         let badge = {
             _id: "60720497f99eeb23c42ec6a7",
             name: "Badge 1",
@@ -38,6 +46,7 @@ describe("GET /management/badge/get/:id", () => {
 
         request(app)
             .get(`/management/badge/get/${badge._id}`)
+            .set ('Cookie', `jwt=${token}`)
             .end((err, res) => {
                 chai.expect(res.statusCode).to.equal(200);
                 chai.expect(res.body).to.be.an("object");
@@ -49,6 +58,12 @@ describe("GET /management/badge/get/:id", () => {
 });
 
 describe("DELETE /management/badge/delete/:id", () => {
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
     it("should delete a badge and return status code 200", (done) => {
         let badge = new Badge({
             _id: "60720497f99eeb23c42ec6a7",
@@ -60,6 +75,7 @@ describe("DELETE /management/badge/delete/:id", () => {
 
         request(app)
             .delete(`/management/badge/delete/${badge._id}`)
+            .set ('Cookie', `jwt=${token}`)
             .end((err, res) => {
                 chai.expect(res.statusCode).to.equal(200);
                 chai.expect(res.body.message).to.equal("Badge deleted");
@@ -71,6 +87,12 @@ describe("DELETE /management/badge/delete/:id", () => {
 });
 
 describe("PATCH /management/badge/update/:id", () => {
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
     it("should update a badge and return status code 200", (done) => {
         const mockUpdatedBadge= new Badge({
             _id: "60720497f99eeb23c42ec6a7",
@@ -87,6 +109,7 @@ describe("PATCH /management/badge/update/:id", () => {
         const badgeSaveStub = sinon.stub(badge, "save").resolves(mockUpdatedBadge);
         request(app)
             .patch(`/management/badge/update/${badge._id}`)
+            .set ('Cookie', `jwt=${token}`)
             .send(params)
             .end((err, res) => {
                 chai.expect(res.statusCode).to.equal(200);

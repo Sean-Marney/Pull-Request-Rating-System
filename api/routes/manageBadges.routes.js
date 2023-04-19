@@ -4,7 +4,8 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 let path = require('path');
 const router = express.Router();
-
+const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
+router.use(verifyJWTToken)
 
 
 const storage = multer.diskStorage({
@@ -28,10 +29,10 @@ const fileFilter = (req, file, cb) => {
 let upload = multer({ storage, fileFilter });
 
 
-router.delete("/delete/:id", deleteBadge);
+router.delete("/delete/:id", verifyManger, deleteBadge);
 router.get("/get/:id", getBadgesById);
-router.patch("/update/:id", updateBadge);
-router.post("/upload", upload.single('photo'), createBadge);
-router.patch("/updateimage/:id", upload.single('photo'), updateBadgeImage);
+router.patch("/update/:id", verifyManger, updateBadge);
+router.post("/upload", upload.single('photo'), verifyManger, createBadge);
+router.patch("/updateimage/:id", upload.single('photo'), verifyManger, updateBadgeImage);
 
 module.exports = router;

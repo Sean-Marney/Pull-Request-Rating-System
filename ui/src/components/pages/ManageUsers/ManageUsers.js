@@ -42,22 +42,22 @@ export default function ManageUsers() {
         getUsers();
     }, []);
 
-    const getUsers = async () => {
-        // Get users
-        const res = await request({
-            method: "get",
-            url: "/management/users/roles/Developer",
-        });
+  const getUsers = async () => {
+    // Get users
+    const res = await request({
+      method: "get",
+      url: "/management/users/roles/Developer", withCredentials: true,
+    });
 
-        // Set to state
-        setUsers(res.data);
-    };
-    const deleteUser = async (_id) => {
-        // Delete user
-        await request({
-            method: "delete",
-            url: `/management/users/delete/${_id}`,
-        });
+    // Set to state
+    setUsers(res.data);
+  };
+  const deleteUser = async (_id) => {
+    // Delete user
+    await request({
+      method: "delete",
+      url: `/management/users/delete/${_id}`, withCredentials: true,
+    });
 
         getUsers(); // Get updated list of users
         handleClose(); // Close the modal

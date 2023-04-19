@@ -7,6 +7,7 @@ const { createRating } = require("../../controllers/rating.controller");
 const PullRequest = require("../../models/pullRequest.model");
 const User = require("../../models/user.model");
 const sandbox = sinon.createSandbox();
+const jwt = require('jsonwebtoken');
 
 describe("createRating controller method", () => {
     let sandbox;

@@ -43,26 +43,26 @@ const RepositoryList = () => {
     // Stores the loading and non-loading state for loaders
     const [loading, setLoading] = useState(false);
 
-    // Gets all pull requests across all repositories
-    const getAllPullRequests = async () => {
-        try {
-            setLoading(true);
-            // Sends GET request to API to get all pull requests in all repositories
-            const response = await request({
-                method: "get",
-                url: "/management/repositories/allPulls",
-            });
-            // Sets the state of the pull requests and repositories
-            setSelectedPullRequests(filterList(response.data.pullRequests));
-            setAllPullRequests(response.data.pullRequests);
-            console.log(response);
-            setRepositories(response.data.repos);
-            setLoading(false);
-        } catch (error) {
-            console.error(error);
-            setLoading(false);
-        }
-    };
+  // Gets all pull requests across all repositories
+  const getAllPullRequests = async () => {
+    try {
+      setLoading(true);
+      // Sends GET request to API to get all pull requests in all repositories
+      const response = await request({
+        method: "get",
+        url: "/management/repositories/allPulls", withCredentials: true,
+      });
+      // Sets the state of the pull requests and repositories
+      setSelectedPullRequests(filterList(response.data.pullRequests));
+      setAllPullRequests(response.data.pullRequests);
+      console.log(response);
+      setRepositories(response.data.repos);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
     // Event handler to navigate to GitHub page for a specific pull request when user clicks the pull request
     const handleGitHubLinkClick = (pullRequestUrl) => {
@@ -102,29 +102,25 @@ const RepositoryList = () => {
         return list;
     };
 
-    // Event handler to update the rating of a pull request when the user submits a rating
-    const handleSubmitClick = async (
-        pullRequest,
-        pullRequestRating,
-        setError
-    ) => {
-        try {
-            // Checks if the user has entered a rating before submitting
-            if (Object.keys(pullRequestRating).length < 1) {
-                setError(true);
-                return;
-            }
-            // Sends a PUT request to the API to update the rating for the selected pull request
-            await request({
-                method: "put",
-                url: `/ratings/update/${pullRequest._id}`,
-                data: {
-                    ...pullRequest,
-                    rating: { ...pullRequestRating },
-                    rating_complete: true,
-                },
-            });
-            toast.success("Rating submitted successfully");
+  const handleSubmitClick = async (
+    pullRequest,
+    pullRequestRating,
+    setError
+  ) => {
+    try {
+      if (Object.keys(pullRequestRating).length < 1) {
+        setError(true);
+        return;
+      }
+      await request({
+        method: "put",
+        url: `/ratings/update/${pullRequest._id}`, withCredentials: true,
+        data: {
+          ...pullRequest,
+          rating: { ...pullRequestRating },
+          rating_complete: true,
+        },
+      });
 
             // Resets the state of the selected pull request and retrieves all pull requests again
             setSelectedPR(null);

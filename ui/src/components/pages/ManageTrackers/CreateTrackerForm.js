@@ -46,11 +46,11 @@ export default function CreateTracker() {
                 abortEarly: false,
             });
 
-            await request({
-                method: "post",
-                url: "/management/trackers/create",
-                data: { ...createForm },
-            });
+      await request({
+        method: "post",
+        url: "/management/trackers/create", withCredentials: true,
+        data: { ...createForm },
+      });
 
             navigate("/management/trackers"); // Redirects after reward is created
         } catch (error) {
