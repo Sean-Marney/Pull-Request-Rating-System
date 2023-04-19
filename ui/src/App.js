@@ -22,6 +22,7 @@ import CreateUser from "./components/pages/ManageUsers/CreateUserForm";
 import UpdateUser from "./components/pages/ManageUsers/UpdateUserForm";
 import CreateReward from "./components/pages/ManageRewards/CreateRewardForm";
 import CreateTracker from "./components/pages/ManageTrackers/CreateTrackerForm";
+import CreateBadges from "./components/pages/ManageBadges/CreateBadgesForm";
 import UpdateReward from "./components/pages/ManageRewards/UpdateRewardForm";
 import UpdateTracker from "./components/pages/ManageTrackers/UpdateTrackerForm";
 import Rewards from "./components/pages/Rewards/Rewards";
@@ -38,7 +39,9 @@ import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm"
 import AddQuestion from "./components/pages/Questions/QuestionsForm";
 import ManageQuestions from "./components/pages/ManageQuestions/ManageQuestions";
 import AddQuestions from "./components/pages/ManageQuestions/AddQuestion";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import ManageBadges from "./components/pages/ManageBadges/ManageBadges";
+import UpdateBadges from "./components/pages/ManageBadges/UpdateBadgesForm";
+import { BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
 import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
 import ChatBot from "./components/pages/ChatBot/ChatBot";
@@ -452,6 +455,33 @@ const App = () => {
                                 </ManagerRoutes>
                             }
               />
+              <Route
+                      path="/management/badges"
+                      element={
+                        <ProtectedRoute token={cookies.token} role={cookies.role}>
+                          {" "}
+                          <ManageBadges />
+                        </ProtectedRoute>
+                      }
+                    />
+                  <Route
+                      path="/management/badges/create"
+                      element={
+                        <ProtectedRoute token={cookies.token} role={cookies.role}>
+                          {" "}
+                          <CreateBadges />
+                        </ProtectedRoute>
+                      }
+                    />
+                          <Route
+                  path="/management/badges/update/:id"
+                  element={
+                    <ProtectedRoute token={cookies.token} role={cookies.role}>
+                      {" "}
+                      <UpdateBadges />
+                    </ProtectedRoute>
+                  }
+                />
 
               // UnauthorizedPage
               <Route path="/401" element={<UnauthorizedPage />} />
