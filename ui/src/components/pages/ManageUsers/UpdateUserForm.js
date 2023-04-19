@@ -14,34 +14,34 @@ import useAxiosInstance from "../../../useAxiosInstance";
 import { useStyles } from "../../styles/formStyle";
 
 export default function UpdateUser() {
-    const classes = useStyles();
-    const { request } = useAxiosInstance();
-    const [updateForm, setUpdateForm] = useState({
-        name: "",
-        email: "",
-        git_username: "",
-    });
-    const [error, setError] = useState({});
-    const { id } = useParams(); // Get user ID from URL
-    const navigate = useNavigate();
+  const classes = useStyles();
+  const { request } = useAxiosInstance();
+  const [updateForm, setUpdateForm] = useState({
+    name: "",
+    email: "",
+    git_username: "",
+  });
+  const [error, setError] = useState({});
+  const { id } = useParams(); // Get user ID from URL
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser();
   }, []);
 
-    const getUser = async () => {
-        // Get user by id
-        const res = await request({
-            method: "get",
-            url: `/management/users/${id}`,
-        });
-        // Set to state (fills in textboxes)
-        setUpdateForm({
-            name: res.data.name,
-            email: res.data.email,
-            git_username: res.data.git_username,
-        });
-    };
+  const getUser = async () => {
+    // Get user by id
+    const res = await request({
+      method: "get",
+      url: `/management/users/${id}`,
+    });
+    // Set to state (fills in textboxes)
+    setUpdateForm({
+      name: res.data.name,
+      email: res.data.email,
+      git_username: res.data.git_username,
+    });
+  };
 
   const updateEditFormField = (e) => {
     const { name, value } = e.target;
@@ -52,30 +52,30 @@ export default function UpdateUser() {
     });
   };
 
-    const updateUser = async (e) => {
-        e.preventDefault();
-        try {
-            await validateUpdateUserForm.validate(updateForm, {
-                abortEarly: false,
-            });
-            await request({
-                method: "patch",
-                url: `/management/users/update/${id}`,
-                data: { ...updateForm },
-            });
-            console.log("User updated successfully");
-            navigate("/management/users");
-        } catch (error) {
-            console.error(error);
-            const validationErrors = {};
-            if (error instanceof yup.ValidationError) {
-                error.inner.forEach((error) => {
-                    validationErrors[error.path] = error.message;
-                });
-                setError(validationErrors);
-            }
-        }
-    };
+  const updateUser = async (e) => {
+    e.preventDefault();
+    try {
+      await validateUpdateUserForm.validate(updateForm, {
+        abortEarly: false,
+      });
+      await request({
+        method: "patch",
+        url: `/management/users/update/${id}`,
+        data: { ...updateForm },
+      });
+      console.log("User updated successfully");
+      navigate("/management/users");
+    } catch (error) {
+      console.error(error);
+      const validationErrors = {};
+      if (error instanceof yup.ValidationError) {
+        error.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+        });
+        setError(validationErrors);
+      }
+    }
+  };
 
   return (
     <div>
@@ -93,9 +93,6 @@ export default function UpdateUser() {
                   value={updateForm.name}
                   name="name"
                   id="name"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.name && (
@@ -109,9 +106,6 @@ export default function UpdateUser() {
                   value={updateForm.email}
                   name="email"
                   id="email"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.email && (
@@ -125,9 +119,6 @@ export default function UpdateUser() {
                   value={updateForm.git_username}
                   name="git_username"
                   id="git_username"
-                  inputProps={{
-                    style: { textAlign: "center" },
-                  }}
                   className={classes.input}
                 />
                 {error.git_username && (
