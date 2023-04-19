@@ -150,7 +150,7 @@ export default function CreateBadge() {
                     className={classes.input}
                 />
                   {!validFile && (
-                  <div className={classes.error}>Invalid File Type or Too Large</div>
+                  <div className={classes.error}>Invalid File Type or Too Large. Only PNG, JPEG are allowed</div>
                 )}
               </div>
               <div className={classes.buttonContainer}>
