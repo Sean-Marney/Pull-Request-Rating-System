@@ -15,28 +15,15 @@ import {
     Box,
     IconButton,
     Paper,
-    Modal,
 } from "@material-ui/core";
 import useAxiosInstance from "../../../useAxiosInstance";
-import { useStyles } from "../../styles/Manageusers.style";
-import Pagination from "../../reusable/Pagination";
+import { useStyles } from "../../styles/tableStyle";
 
 export default function ManageUsers() {
     const classes = useStyles();
-
-    const navigate = useNavigate();
     const { request } = useAxiosInstance();
     const [users, setUsers] = useState(null);
-    const [visible, setVisible] = React.useState(10);
-    const [open, setOpen] = React.useState(false);
-    const [userIdToDelete, setUserIdToDelete] = useState(null);
-
-    const handleOpen = (userId) => {
-        setUserIdToDelete(userId);
-        setOpen(true);
-    };
-
-    const handleClose = () => setOpen(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getUsers();
@@ -60,19 +47,13 @@ export default function ManageUsers() {
         });
 
         getUsers(); // Get updated list of users
-        handleClose(); // Close the modal
-    };
-
-    // Handling "Load More" click
-    const handlePageClick = () => {
-        setVisible((preValue) => preValue + 10);
     };
 
     return (
         <div className={classes.tableContainer}>
             <Paper className={classes.paper}>
                 <Box padding={3}>
-                    <Typography variant="h4" className={classes.title}>
+                    <Typography variant="h4">
                         <b>Manage Users</b>
                     </Typography>
                 </Box>
@@ -122,8 +103,7 @@ export default function ManageUsers() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {/* Render items that have been loaded via pagination */}
-                                    {users.slice(0, visible).map((user) => (
+                                    {users.map((user) => (
                                         <TableRow key={user._id}>
                                             <TableCell
                                                 className={classes.tableContent}
@@ -165,7 +145,7 @@ export default function ManageUsers() {
                                                 <IconButton
                                                     title="Delete User"
                                                     onClick={() =>
-                                                        handleOpen(user._id)
+                                                        deleteUser(user._id)
                                                     }
                                                 >
                                                     <DeleteIcon
@@ -183,47 +163,6 @@ export default function ManageUsers() {
                     )}
                 </Box>
             </Paper>
-            <div>
-                {/* Render "Load More" button from the reusable component and use the handler on click */}
-                <Pagination handlePageClick={handlePageClick} />
-            </div>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                className={classes.modal}
-                aria-labelledby="popup-box"
-                aria-describedby="popup-box-description"
-            >
-                <div className={classes.modalPaper}>
-                    <Typography variant="h5" className={classes.modalTitle}>
-                        WARNING
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        className={classes.modalMessage}
-                    >
-                        This action is irreversible
-                    </Typography>
-                    <div className={classes.modalButtonContainer}>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.modalButton}
-                            onClick={() => deleteUser(userIdToDelete)}
-                        >
-                            Delete Account
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.modalButton}
-                            onClick={handleClose}
-                        >
-                            Cancel
-                        </Button>
-                    </div>
-                </div>
-            </Modal>
         </div>
     );
 }

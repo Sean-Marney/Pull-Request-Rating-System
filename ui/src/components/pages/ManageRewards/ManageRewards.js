@@ -19,14 +19,13 @@ import {
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
-import Pagination from "../../reusable/Pagination";
 
 export default function ManageRewards() {
   const classes = useStyles();
 
-  const navigate = useNavigate();
   const [rewards, setRewards] = useState(null);
-  const [visible, setVisible] = React.useState(10);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getRewards();
@@ -34,9 +33,7 @@ export default function ManageRewards() {
 
   const getRewards = async () => {
     // Get rewards
-    const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + "/management/rewards"
-    );
+    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/management/rewards");
 
     // Set to state
     setRewards(res.data);
@@ -51,15 +48,10 @@ export default function ManageRewards() {
     getRewards(); // Get updated list of rewards
   };
 
-  // Handling "Load More" click
-  const handlePageClick = () => {
-    setVisible((preValue) => preValue + 10);
-  };
-
   return (
     <div className={classes.tableContainer}>
       <Paper className={classes.paper}>
-        <Typography variant="h4" className={classes.title}>
+        <Typography variant="h4">
           <b>Manage Rewards</b>
         </Typography>
         <Button
@@ -108,8 +100,7 @@ export default function ManageRewards() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* Render items that have been loaded via pagination */}
-                  {rewards.slice(0, visible).map((reward) => (
+                  {rewards.map((reward) => (
                     <TableRow key={reward._id}>
                       <TableCell className={classes.tableContent}>
                         {reward.rewardName}
@@ -143,10 +134,6 @@ export default function ManageRewards() {
           )}
         </Box>
       </Paper>
-      <div>
-        {/* Render "Load More" button from the reusable component and use the handler on click */}
-        <Pagination handlePageClick={handlePageClick} />
-      </div>
     </div>
   );
 }
