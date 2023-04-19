@@ -160,6 +160,7 @@ export default function ProfilePage() {
             {user && user.email}
           </Typography>
         </div>
+        {user?.hasRole == "Developer" &&
         <div className={classes.details}>
           <Typography variant="subtitle1" className={classes.label}>
             Total Stars Earned:
@@ -167,7 +168,7 @@ export default function ProfilePage() {
           <Typography variant="subtitle1" className={classes.text}>
             {user && user.totalStarsEarned}
           </Typography>
-        </div>
+        </div>}
         <div className={classes.details}>
           <Typography variant="body1" className={classes.label}>
             Bio:
