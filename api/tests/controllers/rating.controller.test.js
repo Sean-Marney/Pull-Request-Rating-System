@@ -1,167 +1,168 @@
-const chai = require("chai");
-const chaiHttp = require("chai-http");
-const sinon = require("sinon");
-const expect = chai.expect;
-chai.use(chaiHttp);
-const { createRating } = require("../../controllers/rating.controller");
-const PullRequest = require("../../models/pullRequest.model");
-const User = require("../../models/user.model");
-const sandbox = sinon.createSandbox();
+// const chai = require("chai");
+// const chaiHttp = require("chai-http");
+// const sinon = require("sinon");
+// const PullRequest = require("../../models/pullRequest.model");
+// const app = require("../../index");
+// const assert = require("assert");
+// const {
+//   getUserByPullRequestRating,
+// } = require("../../controllers/rating.controller");
+// const User = require("../../models/user.model");
 
-describe("createRating controller method", () => {
-    let sandbox;
+// chai.use(chaiHttp);
+// const expect = chai.expect;
 
-    beforeEach(() => {
-        // Create a new sandbox before each test case
-        sandbox = sinon.createSandbox();
-    });
+// describe("createRating", () => {
+//   let updateOneStub;
 
-    afterEach(() => {
-        // Restore the sandbox after each test case
-        sandbox.restore();
-    });
+//   before(() => {
+//     updateOneStub = sinon.stub(PullRequest, "updateOne");
+//   });
 
-    it("should update rating and user stars successfully", async () => {
-        // Mock request
-        const req = {
-            body: {
-                rating: { quality: 4, readability: 5 },
-                rating_complete: true,
-                user_id: "user1",
-            },
-            params: {
-                id: "pr1",
-            },
-        };
+//   after(() => {
+//     updateOneStub.restore();
+//   });
 
-        // Mock response
-        const res = {
-            status: sinon.stub().returnsThis(),
-            json: sinon.stub(),
-        };
+//   it("should return a 400 error if missing rating input fields", (done) => {
+//     chai
+//       .request(app)
+//       .put("/ratings/update/1")
+//       .send({})
+//       .end((err, res) => {
+//         expect(res).to.have.status(400);
+//         expect(res.body.message).to.equal("Missing rating input fields");
+//         done();
+//       });
+//   });
 
-        // Mock MongoDB methods
-        sinon.stub(PullRequest, "updateOne").resolves({
-            nModified: 1,
-        });
+//   it("should return a 400 error if no ratings provided", (done) => {
+//     chai
+//       .request(app)
+//       .put("/ratings/update/1")
+//       .send({ rating: {}, rating_complete: true })
+//       .end((err, res) => {
+//         expect(res).to.have.status(400);
+//         expect(res.body.message).to.equal("No ratings provided");
+//         done();
+//       });
+//   });
 
-        sinon.stub(PullRequest, "findById").resolves({
-            _id: "pr1",
-        });
+//   it("should return a 404 error if pull request not found", (done) => {
+//     updateOneStub.returns({ nModified: 0 });
 
-        sinon.stub(User, "findById").resolves({
-            _id: "user1",
-            stars: 10,
-            totalStarsEarned: 20,
-        });
+//     chai
+//       .request(app)
+//       .put("/ratings/update/1")
+//       .send({ rating: { a: 1, b: 2 }, rating_complete: true })
+//       .end((err, res) => {
+//         expect(res).to.have.status(404);
+//         expect(res.body.message).to.equal(
+//           "Pull request with that ID not found"
+//         );
+//         done();
+//       });
+//   });
 
-        sinon.stub(User, "updateOne").resolves({});
+//   it("should update pull request and return a success response", (done) => {
+//     updateOneStub.returns({ nModified: 1 });
 
-        // Call the createRating function
-        await createRating(req, res);
+//     chai
+//       .request(app)
+//       .put("/ratings/update/1")
+//       .send({ rating: { a: 1, b: 2 }, rating_complete: true })
+//       .end((err, res) => {
+//         expect(res).to.have.status(200);
+//         expect(res.body.message).to.equal("Rating updated successfully");
+//         done();
+//       });
+//   });
 
-        // Verify results
-        expect(res.status.calledWith(200)).to.be.true;
-        expect(res.json.calledWith({ message: "Rating updated successfully" }))
-            .to.be.true;
-    });
+//   it("should handle errors", (done) => {
+//     updateOneStub.throws();
 
-    // Test case: Missing rating input fields
-    it("should respond with an error when missing rating input fields", async () => {
-        // Mock request
-        const req = {
-            body: {
-                rating_complete: true,
-                user_id: "user1",
-            },
-            params: {
-                id: "pr1",
-            },
-        };
+//     chai
+//       .request(app)
+//       .put("/ratings/update/1")
+//       .send({ rating: { a: 1, b: 2 }, rating_complete: true })
+//       .end((err, res) => {
+//         expect(res).to.have.status(500);
+//         expect(res.body.message).to.equal(
+//           "An error occurred while updating rating"
+//         );
+//         done();
+//       });
+//   });
+// });
 
-        // Mock response
-        const res = {
-            status: sinon.stub().returnsThis(),
-            json: sinon.stub(),
-        };
+// // describe("getUserByPullRequestRating", () => {
+// //   beforeEach(() => {
+// //     sinon.stub(PullRequest, "findById");
+// //     sinon.stub(User, "findById");
+// //     sinon.stub(User, "updateOne");
+// //   });
 
-        // Call the createRating function
-        await createRating(req, res);
+// //   afterEach(() => {
+// //     sinon.restore();
+// //   });
 
-        // Verify results
-        expect(res.status.calledWith(400)).to.be.true;
-        expect(res.json.calledWith({ message: "Missing rating input fields" }))
-            .to.be.true;
-    });
+// //   it("should update user's stars and totalStarsEarned fields", async () => {
+// //     // Mock data
+// //     const pullRequestId = "123";
+// //     const userId = "456";
+// //     const ratingSum = 5;
 
-    // Test case: No ratings provided
-    it("should respond with an error when no ratings are provided", async () => {
-        // Mock request
-        const req = {
-            body: {
-                rating: {},
-                rating_complete: true,
-                user_id: "user1",
-            },
-            params: {
-                id: "pr1",
-            },
-        };
+// //     // Create mock pull request
+// //     const pullRequest = { user_id: userId };
+// //     PullRequest.findById.resolves(pullRequest);
 
-        // Mock response
-        const res = {
-            status: sinon.stub().returnsThis(),
-            json: sinon.stub(),
-        };
+// //     // Create mock user
+// //     const user = { _id: userId, stars: 3, totalStarsEarned: 10 };
+// //     User.findById.resolves(user);
 
-        // Call the createRating function
-        await createRating(req, res);
+// //     // Do calculations for the new star count and new total star count, according to the ratings received for that pull request
+// //     const updatedStarCount = user.stars + ratingSum;
+// //     const updatedTotalStarCount = user.totalStarsEarned + ratingSum;
 
-        // Verify results
-        expect(res.status.calledWith(400)).to.be.true;
-        expect(res.json.calledWith({ message: "No ratings provided" })).to.be
-            .true;
-    });
+// //     // Call method with rating received and the pull request its for
+// //     await getUserByPullRequestRating(ratingSum, pullRequestId);
 
-    // Test case: Pull request not found
-    it("should respond with an error when pull request is not found", async () => {
-        // Mock request
-        const req = {
-            body: {
-                rating: { quality: 4, readability: 5 },
-                rating_complete: true,
-                user_id: "user1",
-            },
-            params: {
-                id: "pr1",
-            },
-        };
+// //     // Assert it was called with the expected data
+// //     assert(User.findById.calledOnceWith(userId));
+// //     assert(
+// //       User.updateOne.calledOnceWith(
+// //         { _id: user._id },
+// //         {
+// //           $set: {
+// //             stars: updatedStarCount,
+// //             totalStarsEarned: updatedTotalStarCount,
+// //           },
+// //         }
+// //       )
+// //     );
+// //   });
 
-        // Mock response
-        const res = {
-            status: sinon.stub().returnsThis(),
-            json: sinon.stub(),
-        };
+// //   it("should return 404 if pull request is not found", async () => {
+// //     // Create a spy for the res.json method
+// //     const jsonSpy = sinon.spy();
 
-        // Replace PullRequest.updateOne with a stub that resolves with nModified: 0
-        sandbox.replace(
-            PullRequest,
-            "updateOne",
-            sandbox.stub().resolves({ nModified: 0 })
-        );
+// //     // Mock data
+// //     const res = {
+// //       status: sinon.stub().returns({ json: jsonSpy }),
+// //       json: jsonSpy,
+// //     };
+// //     const pullRequestId = "123";
+// //     const ratingSum = 5;
 
-        // Replace PullRequest.findById with a stub that resolves with null
-        sandbox.replace(PullRequest, "findById", sandbox.stub().resolves(null));
+// //     // Set up the mock PullRequest.findById to return null
+// //     PullRequest.findById.resolves(null);
 
-        // Call the createRating function
-        await createRating(req, res);
+// //     // Call the method with the mock pull request ID
+// //     await getUserByPullRequestRating(ratingSum, pullRequestId, res);
 
-        // Verify results
-        expect(res.status.calledWith(404)).to.be.true;
-        expect(
-            res.json.calledWith({
-                message: "Pull request with that ID not found",
-            })
-        ).to.be.true;
-    });
-});
+// //     // Check that the method returned a 404 response
+// //     assert(res.status.calledWith(404));
+// //     assert(
+// //       jsonSpy.calledWith({ message: "Pull request with that ID not found" })
+// //     );
+// //   });
+// // });

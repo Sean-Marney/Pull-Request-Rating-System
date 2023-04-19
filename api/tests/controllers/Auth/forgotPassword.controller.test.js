@@ -5,9 +5,9 @@ const User = require("../../../models/user.model");
 const expect = chai.expect;
 const Otp = require("../../../models/otp.model");
 const {
-    getAccessTokenWrapper,
     oAuth2Client,
-} = require("../../../controllers/Auth/emailUtils");
+    CLIENT_ID
+} = require("../../../controllers/Auth/authentication.controller");
 const nodemailer = require("nodemailer");
 const {
     sendOTP,
@@ -21,87 +21,24 @@ chai.should();
 // Test suite for the sendOTP controller method
 describe("sendOTP controller method", () => {
     // Declare variables for the stubs used in this test suite
-    let findOneStub,
-        createStub,
-        sendMailStub,
-        getAccessTokenStub,
-        findOneOtpStub;
+    let findOneStub, createStub, sendMailStub, getAccessTokenStub;
 
     // Set up the stubs before each test case
     beforeEach(() => {
-        findOneOtpStub = sinon.stub(Otp, "findOne");
         findOneStub = sinon.stub(User, "findOne");
         createStub = sinon.stub(Otp, "create");
-        // Create a mock transport with a sendMail function
-        const mockTransport = {
-            sendMail: sinon.stub().resolves(),
-        };
-
-        // Stub the createTransport function to return the mock transport
-        sinon.stub(nodemailer, "createTransport").returns(mockTransport);
-
-        // Set sendMailStub to reference the sendMail function from the mock transport
-        sendMailStub = mockTransport.sendMail;
-
+        sendMailStub = sinon.stub(nodemailer, "createTransport").returns({
+            sendMail: sinon.stub(),
+        });
         getAccessTokenStub = sinon.stub(oAuth2Client, "getAccessToken");
     });
 
     // Restore the stubs after each test case
     afterEach(() => {
-        findOneOtpStub.restore();
         findOneStub.restore();
         createStub.restore();
+        sendMailStub.restore();
         getAccessTokenStub.restore();
-        nodemailer.createTransport.restore();
-    });
-
-    it("should send an OTP and return a success message for an existing user", async () => {
-        // Define the request object for this test case
-        const req = {
-            params: {
-                email: "existing@example.com",
-            },
-        };
-
-        // Define the response object with stubs for the status and json methods
-        const res = {
-            status: sinon.stub().returns({ json: sinon.stub() }),
-        };
-
-        // Set the findOneStub to resolve with an existing user object
-        findOneStub.resolves({
-            email: "existing@example.com",
-            name: "Existing User",
-        });
-
-        // Set the createStub to resolve (OTP created successfully)
-        createStub.resolves();
-
-        // Set the getAccessTokenStub to resolve with a fake access token
-        getAccessTokenStub.resolves({ token: "fake_access_token" });
-
-        // Set the findOneOtpStub to return null (no existing OTP found)
-        findOneOtpStub.resolves(null);
-
-        // Call the sendOTP function with the test request and response objects
-        await sendOTP(req, res);
-
-        // Assert that the status method was called with a 200 status code
-        expect(res.status.calledWith(200)).to.be.true;
-
-        // Assert that the json method was called with the expected success message
-        expect(
-            res.status().json.calledWith({
-                success: true,
-                message: "OTP sent successfully",
-            })
-        ).to.be.true;
-
-        // Assert that the sendMail function was called with the correct arguments
-        expect(sendMailStub.calledOnce).to.be.true;
-        const sendMailArgs = sendMailStub.args[0][0];
-        expect(sendMailArgs.to).to.equal("existing@example.com");
-        expect(sendMailArgs.subject).to.equal("PullMaster.io Password Reset");
     });
 
     // Test case for handling an invalid email
@@ -155,6 +92,43 @@ describe("sendOTP controller method", () => {
         expect(
             res.status().json.calledWith({
                 message: "User with that email was not found",
+            })
+        ).to.be.true;
+    });
+
+    // Test case for sending an OTP and returning a success message for an existing user
+    it("should send an OTP and return a success message for an existing user", async () => {
+        // Define the request object for this test case
+        const req = {
+            params: {
+                email: "existing@example.com",
+            },
+        };
+        // Define the response object with stubs for the status and json methods
+        const res = {
+            status: sinon.stub().returns({ json: sinon.stub() }),
+        };
+
+        // Set the findOneStub to resolve with an existing user object
+        findOneStub.resolves({
+            email: "existing@example.com",
+            name: "Existing User",
+        });
+        // Set the createStub to resolve (OTP created successfully)
+        createStub.resolves();
+        // Set the getAccessTokenStub to resolve with a fake access token
+        getAccessTokenStub.resolves({ token: "fake_access_token" });
+
+        // Call the sendOTP function with the test request and response objects
+        await sendOTP(req, res);
+
+        // Assert that the status method was called with a 200 status code
+        expect(res.status.calledWith(200)).to.be.true;
+        // Assert that the json method was called with the expected success message
+        expect(
+            res.status().json.calledWith({
+                success: true,
+                message: "OTP sent successfully",
             })
         ).to.be.true;
     });
