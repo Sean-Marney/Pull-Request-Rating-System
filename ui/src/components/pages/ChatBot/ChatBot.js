@@ -21,6 +21,7 @@ const softwareTerms = [
   "testing",
   "code",
   "scrum",
+  "node",
   "software engineering",
   "software architecture",
   "software design",
@@ -129,6 +130,11 @@ const softwareTerms = [
   "unit testing",
   "validation",
   "variable",
+  "java",
+  "Javascript",
+  "python",
+  "C++",
+  "React"
   
   
   // Add more terms here...
@@ -147,7 +153,7 @@ function isSoftwareRelated(input) {
 function ChatBot() {
   const [messages, setMessages] = useState([
     {
-      message: "Welcome! I am PullBot, your AI coding companion chatbot. I was created to assist you with any programming questions you may have. My knowledge spans various languages such as Python, Java, C++, and more. How can I help you today? Please feel free to ask me anything about coding, debugging or software engineering. I am here to support you!",
+      message: "This tool analyses your input for any programming related terms and will provide responses if any such terms are detected. You can discuss topics like programming concepts, technical specifications, software architectures etc. Avoid generic sentences, or it will not reply. You can also experiment by entering different content to see the responses and you will get better at framing your inputs. PullBot aims to assist you in programming, debugging and provide helpful responses. ",
       sentTime: "just now",
       sender: "PullBot"
     }

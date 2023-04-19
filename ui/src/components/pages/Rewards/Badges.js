@@ -11,9 +11,14 @@ import { styled } from '@mui/material/styles';
 export class Badges extends React.Component {
 
     render() {
+      let earned_badges = [];
+      let too_earn_badges = [];
+      if (this.props.levelList != null){
       // Filter the badges that the user has earnt and the badges that the user has not earnt yet
-      let earned_badges = this.props.levelList.filter(item => item.value <= this.props.current);
-      let too_earn_badges = this.props.levelList.filter(item => item.value > this.props.current);
+      earned_badges = this.props.levelList.filter(item => item.value <= this.props.current);
+      too_earn_badges = this.props.levelList.filter(item => item.value > this.props.current);
+      }
+
 
       // Create tooltip for the badges
       const LightTooltip = styled(({ className, ...props }) => (
