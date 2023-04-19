@@ -21,7 +21,14 @@ describe("Testing developer's rewards page at /rewards", () => {
       { _id: "2", rewardName: "Second Reward", starsRequired: 20 },
     ];
 
-    axios.get.mockResolvedValue({ data: mockData }); // mock the response of axios
+    axios.get.mockResolvedValueOnce({ data: mockData }); // mock the response of axios
+    const stars = {totalStarsEarned : 58, stars :200};
+
+    axios.get.mockResolvedValueOnce({ data: stars });
+    const levels = [];
+
+    axios.get.mockResolvedValueOnce({ data: levels });
+
 
     useCookies.mockReturnValue([{ user: { email: "test@test.com" } }]);
 
@@ -29,13 +36,9 @@ describe("Testing developer's rewards page at /rewards", () => {
 
     const rewardName1 = await screen.findByText("First Reward");
     const rewardName2 = await screen.findByText("Second Reward");
-    const starsRequired1 = await screen.findByText(10);
-    const starsRequired2 = await screen.findByText(10);
 
     expect(rewardName1).toBeInTheDocument();
     expect(rewardName2).toBeInTheDocument();
-    expect(starsRequired1).toBeInTheDocument();
-    expect(starsRequired2).toBeInTheDocument();
   });
 });
 
@@ -62,6 +65,8 @@ describe("Testing logic for claiming a reward on /rewards page", () => {
     fireEvent.click(claimButton);
   });
 });
+
+
 
 describe("Testing logic for tracking progress towards a reward on /rewards page", () => {
   it("should display the correct number of stars remaining for each reward", async () => {

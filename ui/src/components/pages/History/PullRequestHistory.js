@@ -39,7 +39,7 @@ export class PullRequestHistory extends React.Component {
     }
 
     let rating;
-    if (this.props.pullRequest.rating_complete === true) {
+    if (this.props.pullRequest.rating_complete == true && this.props.pullRequest.hasOwnProperty('ratings')) {
       rating = rated(this.props.pullRequest.ratings.overall);
     } else {
       rating = notRated();
