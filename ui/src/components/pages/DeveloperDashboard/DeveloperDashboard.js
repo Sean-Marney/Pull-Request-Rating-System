@@ -148,8 +148,6 @@ export default function DeveloperDashboard() {
     checkIfUserCanClaimReward();
     getUsersClaimedRewards();
     getLevel();
-    console.log(user);
-    console.log(level);
   }, [user]);
 
   // Use email provided by cookie to get the whole user object for the user that is currently logged in
