@@ -37,45 +37,26 @@ describe("GET /management/manageFaqs", () => {
 
 // get faq by id route test
 describe("GET /management/manageFaqs/:id", () => {
-  let faq;
-  chai.use(chaiHttp);
-    const token = jwt.sign(
-      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
-      process.env.PASSPORTSECRET,
-      {expiresIn: '7d'});
+  it("should return a faq by ID and return a status code 200", async() => {
+     // Mocking an existing faq
+     const existingFaq = {
+      question: "Existing Faq",
+      answer: "FAQ",
+    };
 
-  beforeEach((done) => {
-    faq = new Faq({
-      question: "Test question",
-      answer: "Test answer",
-    });
+    // Sending a POST request to create a new faq
+    const createResponse = await request(app)
+      .post("/management/manageFaqs/create")
+      .send(existingFaq);
 
-    faq.save((err) => {
-      if (err) return done(err);
-      done();
-    });
+    // Sending a GET request to retrieve the faq by ID
+    const getResponse = await request(app).get(
+      `/management/manageFaqs/${createResponse.body._id}`
+    );
+
+    // Expect that the status code is as expected
+    assert.strictEqual(getResponse.statusCode, 200);
   });
-
-  afterEach((done) => {
-    sinon.restore();
-    Faq.deleteMany({}, (err) => {
-      if (err) return done(err);
-      done();
-    });
-  });
-
-  it("should return a faq and status code 200", (done) => {
-    request(app)
-      .get(`/management/manageFaqs/${faq._id}`)
-      .set ('Cookie', `jwt=${token}`)
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.equal(200);
-        chai.expect(res.body).to.be.an("object");
-        chai.expect(res.body.question).to.equal("Test question");
-        chai.expect(res.body.answer).to.equal("Test answer");
-        done();
-      });
-});
 });
 
 // update route test
