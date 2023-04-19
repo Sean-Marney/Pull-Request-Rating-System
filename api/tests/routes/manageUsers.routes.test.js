@@ -17,9 +17,6 @@ const mockUser = {
 };
 
 describe("GET /management/users", () => {
-    afterEach(() => {
-        sinon.restore();
-    });
     it("should return all users and status code 200", (done) => {
         const userFindStub = sinon.stub(User, "find").resolves([mockUser]);
 
@@ -46,9 +43,6 @@ describe("GET /management/users", () => {
 });
 
 describe("GET /management/users/:id", () => {
-    afterEach(() => {
-        sinon.restore();
-    });
     it("should return a user and status code 200", (done) => {
         const userFindStub = sinon.stub(User, "findById").resolves(mockUser);
 
@@ -75,9 +69,6 @@ describe("GET /management/users/:id", () => {
 });
 
 describe("DELETE /management/users/delete/:id", () => {
-    afterEach(() => {
-        sinon.restore();
-    });
     it("should delete a user and return status code 200", (done) => {
         const userfindByIdAndDeleteStub = sinon
             .stub(User, "findByIdAndDelete")
@@ -94,10 +85,7 @@ describe("DELETE /management/users/delete/:id", () => {
     });
 });
 
-describe("POST /management/users/create/:id", () => {
-    afterEach(() => {
-        sinon.restore();
-    });
+describe("POST /management/users/delete/:id", () => {
     it("should create a user and return status code 201", async () => {
         const reqBody = {
             name: "John Doe",
@@ -135,9 +123,6 @@ describe("POST /management/users/create/:id", () => {
 });
 
 describe("PATCH /management/users/update/:id", () => {
-    afterEach(() => {
-        sinon.restore();
-    });
     it("should update a user and return status code 200", (done) => {
         const mockUpdatedUser = {
             name: "John Doe Wo",
