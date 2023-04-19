@@ -29,19 +29,19 @@ export default function UpdateUser() {
     getUser();
   }, []);
 
-  const getUser = async () => {
-    // Get user by id
-    const res = await request({
-      method: "get",
-      url: `/management/users/${id}`,
-    });
-    // Set to state (fills in textboxes)
-    setUpdateForm({
-      name: res.data.name,
-      email: res.data.email,
-      git_username: res.data.git_username,
-    });
-  };
+    const getUser = async () => {
+        // Get user by id
+        const res = await request({
+            method: "get",
+            url: `/management/users/${id}`, withCredentials: true,
+        });
+        // Set to state (fills in textboxes)
+        setUpdateForm({
+            name: res.data.name,
+            email: res.data.email,
+            git_username: res.data.git_username,
+        });
+    };
 
   const updateEditFormField = (e) => {
     const { name, value } = e.target;
@@ -52,30 +52,30 @@ export default function UpdateUser() {
     });
   };
 
-  const updateUser = async (e) => {
-    e.preventDefault();
-    try {
-      await validateUpdateUserForm.validate(updateForm, {
-        abortEarly: false,
-      });
-      await request({
-        method: "patch",
-        url: `/management/users/update/${id}`,
-        data: { ...updateForm },
-      });
-      console.log("User updated successfully");
-      navigate("/management/users");
-    } catch (error) {
-      console.error(error);
-      const validationErrors = {};
-      if (error instanceof yup.ValidationError) {
-        error.inner.forEach((error) => {
-          validationErrors[error.path] = error.message;
-        });
-        setError(validationErrors);
-      }
-    }
-  };
+    const updateUser = async (e) => {
+        e.preventDefault();
+        try {
+            await validateUpdateUserForm.validate(updateForm, {
+                abortEarly: false,
+            });
+            await request({
+                method: "patch",
+                url: `/management/users/update/${id}`, withCredentials: true,
+                data: { ...updateForm },
+            });
+            console.log("User updated successfully");
+            navigate("/management/users");
+        } catch (error) {
+            console.error(error);
+            const validationErrors = {};
+            if (error instanceof yup.ValidationError) {
+                error.inner.forEach((error) => {
+                    validationErrors[error.path] = error.message;
+                });
+                setError(validationErrors);
+            }
+        }
+    };
 
   return (
     <div>

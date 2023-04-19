@@ -37,6 +37,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("Server up and running"));
 
@@ -62,6 +63,7 @@ app.use("/management/badge", manageBadge);
 app.post("/management/ManagerHelp", managerHelpRoute);
 
 // setting up port
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {

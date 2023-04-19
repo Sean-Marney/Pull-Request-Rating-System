@@ -43,7 +43,7 @@ export default function AddQuestion() {
       // Create new question
       await axios.post(
         process.env.REACT_APP_API_ENDPOINT + "/management/questions/create",
-        createForm
+        createForm,{ withCredentials: true}
       );
 
       navigate("/faq"); // Redirects after reward is created

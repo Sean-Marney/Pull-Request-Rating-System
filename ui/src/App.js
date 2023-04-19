@@ -1,5 +1,9 @@
 import "./App.css";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import ManagerRoutes from "./routes/ManagerRoutes";
+import DeveloperRoutes from "./routes/DeveloperRoutes";
+import UnauthorizedPage from "./components/pages/401/UnauthorizedPage";
+import RouteError from "./components/pages/404/RouteError";
 import PullRequestRating from "./components/pages/Repositories/PullRequestRating";
 import Leaderboard from "./components/pages/Leaderboard/Leaderboard";
 import Sidebar from "./components/reusable/SidebarData";
@@ -29,7 +33,7 @@ import UpdateFAQs from "./components/pages/ManageFAQ/UpdateFAQForm";
 import ClaimedRewards from "./components/pages/ClaimedRewards/ClaimedRewards";
 import ArchivedRewards from "./components/pages/ClaimedRewards/ArchivedRewards";
 import Repositories from "./components/pages/Repositories/Repositories";
-import ManageProfiles from "./components/pages/Profile/Profile";
+import ProfilePage from "./components/pages/Profile/Profile";
 import UpdateProfile from "./components/pages/ManageProfile/UpdateProfileForm";
 import UpdatePassword from "./components/pages/ManageProfile/UpdatePasswordForm";
 import AddQuestion from "./components/pages/Questions/QuestionsForm";
@@ -37,7 +41,7 @@ import ManageQuestions from "./components/pages/ManageQuestions/ManageQuestions"
 import AddQuestions from "./components/pages/ManageQuestions/AddQuestion";
 import ManageBadges from "./components/pages/ManageBadges/ManageBadges";
 import UpdateBadges from "./components/pages/ManageBadges/UpdateBadgesForm";
-import { BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import { useCookies } from "react-cookie";
 import ManagerHelp from "./components/pages/ManagerHelp/ManagerHelp";
 import ChatBot from "./components/pages/ChatBot/ChatBot";
@@ -45,224 +49,331 @@ import ChatBot from "./components/pages/ChatBot/ChatBot";
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     return (
-        <BrowserRouter>
-            {cookies.token && (
-                <Sidebar removeCookie={removeCookie} role={cookies.role}>
-                    <Routes>
-                        <Route path="/" element={<DeveloperDashboard />} />
-                        <Route  path="/ChatBot"element={<ChatBot /> }/>
-                        <Route
-                            path="/management"
-                            element={<ManagerDashboard />}
-                        />
-                        <Route path="/history" element={<History />} />
+      <BrowserRouter>
+        {cookies.token && (
+          <Sidebar removeCookie={removeCookie} role={cookies.role}>
+            <Routes>
+                {/* chatbox */}
+            <Route  path="/ChatBot"element={<ChatBot /> }/>
+               {/* DeveloperDashboard */}
+              <Route 
+                        path="/" element={
+                        cookies.role === "Manager" ? (
+                            <Navigate replace to= "/management" />
+                        ) : (
+                        <DeveloperDashboard />
+                        )
+                        } 
+              />
 
-                        <Route
+               {/* ManagerDashboard */}
+              <Route
+                            path="/management"
+                            element={
+                              <ManagerRoutes
+                                    token={cookies.token}
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                            <ManagerDashboard />
+                            </ManagerRoutes>
+                          }
+              />
+                        
+               {/* History */}
+              <Route path="/history" element={
+                          <DeveloperRoutes
+                          token={cookies.token}
+                          role={cookies.role}
+                      >
+                          {" "}
+                        <History />
+                        </DeveloperRoutes>
+                        } 
+              />
+
+               {/* PullRequestRating */}
+              <Route
                             path="/management/repositories/rating"
-                            element={<PullRequestRating />}
-                        />
-                        <Route
+                            element={
+                              <ManagerRoutes
+                              token={cookies.token}
+                              role={cookies.role}
+                          >
+                              {" "}
+                            <PullRequestRating />
+                            </ManagerRoutes>
+                          }
+              />
+
+               {/* Leaderboard */}
+              <Route
                             path="/management/Leaderboard"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <Leaderboard />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ManageUsers */}
+              <Route
                             path="/management/users"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <ManageUsers />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ManagerHelp */}
+              <Route
                             path="/management/ManagerHelp"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <ManagerHelp />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* CreateUser */}
+              <Route
                             path="/management/users/create"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <CreateUser />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
+              />
 
-
-
-                        <Route
+               {/* UpdateUser */}
+              <Route
                             path="/management/users/update/:id"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <UpdateUser />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ManageRewards */}
+              <Route
                             path="/management/rewards"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <ManageRewards />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* CreateRewards */}
+              <Route
                             path="/management/rewards/create"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <CreateReward />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* UpdateRewards */}
+              <Route
                             path="/management/rewards/update/:id"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <UpdateReward />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ClaimedRewards */}
+              <Route
                             path="/management/rewards/claimed"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <ClaimedRewards />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ArchivedRewards */}
+              <Route
                             path="/management/rewards/claimed/archived"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <ArchivedRewards />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route path="/rewards" element={<Rewards />} />
-                        <Route path="/FAQ" element={<FAQ />} />
-                        <Route
+              />
+
+               {/* Developers Rewards */}
+              <Route 
+                        path="/rewards" 
+                        element={
+                          <DeveloperRoutes
+                          token={cookies.token}
+                          role={cookies.role}
+                      >
+                          {" "}
+                        <Rewards />
+                        </DeveloperRoutes>
+                        } 
+              />
+
+               {/* Developer FAQ */}
+              <Route 
+                        path="/FAQ" 
+                        element={
+                          <DeveloperRoutes
+                                    token={cookies.token}
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                        <FAQ />
+                        </DeveloperRoutes>
+                         }
+              />
+
+               {/* Mangers FAQ */}
+              <Route
                             path="/management/faqs"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <ManageFAQ />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* CreateFAQ */}
+              <Route
                             path="/management/manageFaqs/create"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <CreateFAQ />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* UpdateFAQs */}
+              <Route
                             path="/management/manageFaqs/update/:id"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <UpdateFAQs />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />    
+
+               {/* Repositories */}
+              <Route
                             path="/management/repositories"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <Repositories />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ManageTrackers */}
+              <Route
                             path="/management/trackers"
-                            element={<ManageTrackers />}
-                        />
-                        <Route
+                            element={
+                              <ManagerRoutes
+                              token={cookies.token}
+                              role={cookies.role}
+                          >
+                              {" "}
+                            <ManageTrackers />
+                            </ManagerRoutes>
+                            }
+              />
+
+               {/* CreateTracker */}
+              <Route
                             path="/management/trackers/create"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <CreateTracker />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />  
+
+               {/* UpdateTracker */}
+              <Route
                             path="/management/trackers/update/:id"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <UpdateTracker />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ProfilePage */}
+              <Route
                             path="/profile"
                             element={
                                 <ProtectedRoute
@@ -270,11 +381,13 @@ const App = () => {
                                     role={cookies.role}
                                 >
                                     {" "}
-                                    <ManageProfiles />
+                                    <ProfilePage />
                                 </ProtectedRoute>
                             }
-                        />
-                        <Route
+              />
+
+               {/* UpdateProfile */}
+              <Route
                             path="/profile/update"
                             element={
                                 <ProtectedRoute
@@ -285,8 +398,10 @@ const App = () => {
                                     <UpdateProfile />
                                 </ProtectedRoute>
                             }
-                        />
-                        <Route
+              />
+
+               {/* UpdatePassword */}
+              <Route
                             path="/profile/password"
                             element={
                                 <ProtectedRoute
@@ -297,88 +412,118 @@ const App = () => {
                                     <UpdatePassword />
                                 </ProtectedRoute>
                             }
-                        />
-                        <Route
+              />
+
+               {/* AddQuestion */}
+              <Route 
                             path="/faq/ask"
                             element={
-                                <ProtectedRoute
+                                <DeveloperRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <AddQuestion />
-                                </ProtectedRoute>
+                                </DeveloperRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* ManageQuestions */}
+              <Route
                             path="/management/manageFaqs/questions"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <ManageQuestions />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                        <Route
+              />
+
+               {/* AddQuestions */}
+              <Route
                             path="/management/manageFaqs/questions/add/:id"
                             element={
-                                <ProtectedRoute
+                                <ManagerRoutes
                                     token={cookies.token}
                                     role={cookies.role}
                                 >
                                     {" "}
                                     <AddQuestions />
-                                </ProtectedRoute>
+                                </ManagerRoutes>
                             }
-                        />
-                                          <Route
-                      path="/management/badges"
-                      element={
-                        <ProtectedRoute token={cookies.token} role={cookies.role}>
-                          {" "}
-                          <ManageBadges />
-                        </ProtectedRoute>
-                      }
-                    />
-                  <Route
-                      path="/management/badges/create"
-                      element={
-                        <ProtectedRoute token={cookies.token} role={cookies.role}>
-                          {" "}
-                          <CreateBadges />
-                        </ProtectedRoute>
-                      }
-                    />
-                          <Route
-                  path="/management/badges/update/:id"
-                  element={
-                    <ProtectedRoute token={cookies.token} role={cookies.role}>
-                      {" "}
-                      <UpdateBadges />
-                    </ProtectedRoute>
-                  }
+              />
+
+              {/* manage badges  */}
+              <Route
+                            path="/management/badges"
+                            element={
+                                <ManagerRoutes 
+                                    token={cookies.token} 
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                                    <ManageBadges />
+                                </ManagerRoutes>
+                            }
+            />
+
+            {/* create badges  */}
+            <Route
+                            path="/management/badges/create"
+                            element={
+                                <ManagerRoutes 
+                                    token={cookies.token} 
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                                    <CreateBadges />
+                                </ManagerRoutes>
+                            }
+            />
+
+            {/* update badges */}
+            <Route
+                            path="/management/badges/update/:id"
+                            element={
+                                <ManagerRoutes 
+                                    token={cookies.token} 
+                                    role={cookies.role}
+                                >
+                                    {" "}
+                                    <UpdateBadges />
+                                </ManagerRoutes>
+                            }
                 />
-                    </Routes>
-                </Sidebar>
-            )}
-            {!cookies.token && (
-                <Routes>
-                    <Route path="" element={<Login />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/verify-otp" element={<OTP />} />
-                    <Route path="/resetpassword" element={<ResetPassword />} />
-                    <Route
-                        path="/forgotpassword"
-                        element={<ForgotPassword />}
-                    />
-                </Routes>
-            )}
-        </BrowserRouter>
-    );
+
+              // UnauthorizedPage
+              <Route path="/401" element={<UnauthorizedPage />} />
+
+              // RouteError
+              <Route path="*" element={<RouteError />} />
+              
+            </Routes>
+        </Sidebar>
+      )}
+      {!cookies.token && (
+        <Routes>
+          <Route path="" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/verify-otp" element={<OTP />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route
+            path="/forgotpassword"
+            element={<ForgotPassword />}
+          />
+          // Unauthorizedlinks
+              <Route path="*" element={<Login />} />
+        </Routes>
+      )}
+    </BrowserRouter>
+  );
 };
 
 export default App;

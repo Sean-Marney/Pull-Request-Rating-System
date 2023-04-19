@@ -15,6 +15,7 @@ const useAxiosInstance = () => {
         },
         // set the base URL for all requests made with this instance
         baseURL: process.env.REACT_APP_API_ENDPOINT,
+        withCredentials: true,
     });
 
     // return an object that contains the axios instance

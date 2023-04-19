@@ -3,6 +3,8 @@ const request = require("supertest");
 const app = require("../../index");
 const sinon = require("sinon");
 const Tracker = require("../../models/tracker.model");
+const chaiHttp = require('chai-http');
+const jwt = require('jsonwebtoken');
 
 const mockTracker = {
     _id: "60720497f99eeb23c42ec6a7",
@@ -13,11 +15,18 @@ describe("GET /management/trackers", () => {
     afterEach(() => {
         sinon.restore();
     });
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
     it("should return all trackers and status code 200", (done) => {
         const trackerFindStub = sinon.stub(Tracker, "find").resolves([mockTracker]);
 
         request(app)
             .get("/management/trackers")
+            .set ('Cookie', `jwt=${token}`)
             .end((err, res) => {
                 chai.expect(res.statusCode).to.equal(200);
                 chai.expect(res.body).to.be.an("array");
@@ -32,11 +41,18 @@ describe("GET /management/trackers/:id", () => {
     afterEach(() => {
         sinon.restore();
     });
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
     it("should return a tracker and status code 200", (done) => {
         const trackerFindStub = sinon.stub(Tracker, "findById").resolves(mockTracker);
 
         request(app)
             .get(`/management/trackers/${mockTracker._id}`)
+            .set ('Cookie', `jwt=${token}`)
             .end((err, res) => {
                 chai.expect(res.statusCode).to.equal(200);
                 chai.expect(res.body).to.be.an("object");
@@ -51,6 +67,12 @@ describe("DELETE /management/trackers/delete/:id", () => {
     afterEach(() => {
         sinon.restore();
     });
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
     it("should delete a tracker and return status code 200", (done) => {
         const trackerfindByIdAndDeleteStub = sinon
             .stub(Tracker, "findByIdAndDelete")
@@ -58,6 +80,7 @@ describe("DELETE /management/trackers/delete/:id", () => {
 
         request(app)
             .delete(`/management/trackers/delete/${mockTracker._id}`)
+            .set ('Cookie', `jwt=${token}`)
             .end((err, res) => {
                 chai.expect(res.statusCode).to.equal(200);
                 chai.expect(res.body.message).to.equal("Tracker deleted");
@@ -71,6 +94,12 @@ describe("PATCH /management/trackers/update/:id", () => {
     afterEach(() => {
         sinon.restore();
     });
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
     it("should update a tracker and return status code 200", (done) => {
         const mockUpdatedTracker = {
             name: "Code quality",
@@ -84,6 +113,7 @@ describe("PATCH /management/trackers/update/:id", () => {
 
         request(app)
             .patch(`/management/trackers/update/${mockTracker._id}`)
+            .set ('Cookie', `jwt=${token}`)
             .send(mockUpdatedTracker)
             .end((err, res) => {
                 chai.expect(res.statusCode).to.equal(200);
@@ -100,6 +130,12 @@ describe("POST /management/trackers/create", () => {
     afterEach(() => {
         sinon.restore();
     });
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
     it("should create a tracker and return status code 201", async () => {
         const reqBody = {
             name: "Performance",
@@ -111,6 +147,7 @@ describe("POST /management/trackers/create", () => {
 
         const res = await request(app)
             .post("/management/trackers/create")
+            .set ('Cookie', `jwt=${token}`)
             .send(reqBody);
         chai.expect(res.statusCode).to.equal(201);
         chai.expect(res.body).to.be.an("object");

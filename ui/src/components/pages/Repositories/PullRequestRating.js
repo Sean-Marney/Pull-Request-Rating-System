@@ -27,7 +27,7 @@ export default function PullRequestRating(props) {
             // Send API request to retrieve list of available trackers
             const response = await request({
                 method: "get",
-                url: "/management/trackers",
+                url: "/management/trackers",withCredentials: true
             });
             // Update state variable to store list of available trackers
             setTracker([...response.data]);

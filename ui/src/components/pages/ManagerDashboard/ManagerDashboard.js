@@ -133,7 +133,7 @@ export default function ManagerDashboard() {
   const getNumberOfPendingPullRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests"
+        "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests",{ withCredentials: true}
       );
 
       // Set to state
@@ -147,7 +147,7 @@ export default function ManagerDashboard() {
   const getNumberOfClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards"
+        "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards",{ withCredentials: true}
       );
 
       // Set to state
@@ -161,7 +161,7 @@ export default function ManagerDashboard() {
   const getClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-claimed-rewards"
+        "http://localhost:8000/management/dashboard/get-claimed-rewards",{ withCredentials: true}
       );
 
       // Set to state
@@ -176,7 +176,7 @@ export default function ManagerDashboard() {
     try {
       // Get top 3 developers
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-top-developers"
+        "http://localhost:8000/management/dashboard/get-top-developers",{ withCredentials: true}
       );
 
       // Set to state
@@ -195,7 +195,7 @@ export default function ManagerDashboard() {
     try {
       // Get all developers
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-all-developers"
+        "http://localhost:8000/management/dashboard/get-all-developers",{ withCredentials: true}
       );
 
       // Set to state

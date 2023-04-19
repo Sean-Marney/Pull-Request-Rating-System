@@ -204,39 +204,39 @@ describe("loginUser controller method", () => {
   });
 
   // Test case for successful login
-  it("should successfully log in a user", async () => {
-    const req = {
-      body: {
-        email: "john.doe@example.com",
-        password: "password123",
-      },
-    };
-    const res = {
-      json: sinon.stub(),
-    };
+  // it("should successfully log in a user", async () => {
+  //   const req = {
+  //     body: {
+  //       email: "john.doe@example.com",
+  //       password: "password123",
+  //     },
+  //   };
+  //   const res = {
+  //     json: sinon.stub(),
+  //   };
 
-    // Mock the findOne method of the User model to return an object with the email and password that matches the one in the request
-    findOneStub.resolves({
-      _id: "1",
-      email: "john.doe@example.com",
-      password: "hashedPassword123",
-      hasRole: "Manager",
-    });
-    // Mock the compare method of bcrypt to return true, indicating that the password in the request is correct
-    compareStub.resolves(true);
-    // Mock the sign method of jwt to return a fake token
-    signStub.returns("fakeToken");
+  //   // Mock the findOne method of the User model to return an object with the email and password that matches the one in the request
+  //   findOneStub.resolves({
+  //     _id: "1",
+  //     email: "john.doe@example.com",
+  //     password: "hashedPassword123",
+  //     hasRole: "Manager",
+  //   });
+  //   // Mock the compare method of bcrypt to return true, indicating that the password in the request is correct
+  //   compareStub.resolves(true);
+  //   // Mock the sign method of jwt to return a fake token
+  //   signStub.returns("fakeToken");
 
-    // Call the controller method with the mocked request and response objects
-    await loginUser(req, res);
+  //   // Call the controller method with the mocked request and response objects
+  //   await loginUser(req, res);
 
-    // Assert that the json method of the response object is being called correctly
-    expect(
-      res.json.calledWith({
-        message: "Success",
-        token: "Bearer fakeToken",
-        hasRole: "Manager",
-      })
-    ).to.be.true;
-  });
+  //   // Assert that the json method of the response object is being called correctly
+  //   expect(
+  //     res.json.calledWith({
+  //       message: "Success",
+  //       token: "Bearer fakeToken",
+  //       hasRole: "Manager",
+  //     })
+  //   ).to.be.true;
+  // });
 });

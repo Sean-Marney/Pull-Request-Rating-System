@@ -156,7 +156,7 @@ export default function DeveloperDashboard() {
   const getUserByEmail = async () => {
     try {
       const res = await axios.get(
-        process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`
+        process.env.REACT_APP_API_ENDPOINT + `/management/users/email/${cookies.user}`,{ withCredentials: true}
       );
       // Set user object to state
       setUser(res.data);
@@ -209,7 +209,7 @@ export default function DeveloperDashboard() {
     try {
       // Passes userId of currently logged in user to my API which gets their most recent pull request
       const res = await axios.get(
-        process.env.REACT_APP_API_ENDPOINT +`/dashboard/recent-pull-request/${user._id}`
+        process.env.REACT_APP_API_ENDPOINT +`/dashboard/recent-pull-request/${user._id}`,{ withCredentials: true}
       );
 
       // Condition for if the user has not got a pull request stored in our database
@@ -246,7 +246,7 @@ export default function DeveloperDashboard() {
   const checkIfUserCanClaimReward = async () => {
     try {
       // Get rewards
-      const res = await axios.get(process.env.REACT_APP_API_ENDPOINT +"/management/rewards");
+      const res = await axios.get(process.env.REACT_APP_API_ENDPOINT +"/management/rewards",{ withCredentials: true});
 
       // Calculates remaining stars needed for each reward
       const remainingStarsData = {};
@@ -272,7 +272,7 @@ export default function DeveloperDashboard() {
   const getUsersClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        process.env.REACT_APP_API_ENDPOINT +`/dashboard/claimed-rewards/${user._id}`
+        process.env.REACT_APP_API_ENDPOINT +`/dashboard/claimed-rewards/${user._id}`,{ withCredentials: true}
       );
       setClaimedRewards(res.data);
     } catch (error) {

@@ -2,11 +2,15 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useNavigate, Link, Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children, token, role }) => {
+const DeveloperRoutes = ({ children, token, role }) => {
     if (!token) {
         return <Navigate to="/login" replace />;
-    } else {
+    } else if
+    (role !== "Developer") {
+    return <Navigate to="/401" replace/>
+    } 
+    else {
     return children;
 };
 }
-export default ProtectedRoute;
+export default DeveloperRoutes;
