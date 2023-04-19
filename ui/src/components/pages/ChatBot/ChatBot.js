@@ -131,6 +131,7 @@ const softwareTerms = [
   "validation",
   "variable",
   "java",
+  "Spring",
   "Javascript",
   "python",
   "C++",
@@ -153,7 +154,7 @@ function isSoftwareRelated(input) {
 function ChatBot() {
   const [messages, setMessages] = useState([
     {
-      message: "This tool analyses your input for any programming related terms and will provide responses if any such terms are detected. You can discuss topics like programming concepts, technical specifications, software architectures etc. Avoid generic sentences, or it will not reply. You can also experiment by entering different content to see the responses and you will get better at framing your inputs. PullBot aims to assist you in programming, debugging and provide helpful responses. ",
+      message: "This tool analyses your input for any programming related terms and will provide responses if any such terms are detected. You can discuss topics like programming concepts, technical specifications, software architectures etc. Avoid generic sentences, or it will not reply. You can also experiment by entering different content to see the responses and you will get better at framing your inputs. PullBot aims to assist you in programming, debugging and provide helpful responses.",
       sentTime: "just now",
       sender: "PullBot"
     }
