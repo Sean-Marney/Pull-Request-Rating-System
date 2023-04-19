@@ -49,11 +49,13 @@ export default function ClaimedRewards() {
   const archiveReward = async (claimedReward) => {
     toast.success("Successfully archived reward");
     // Update reward's "archived" value to true
-    await axios.patch(
+    const res = await axios.patch(
       process.env.REACT_APP_API_ENDPOINT +
         `/management/rewards/claimed/update/${claimedReward._id}`,
       { withCredentials: true }
     );
+
+    console.log(res.data);
 
     getClaimedRewards();
   };
