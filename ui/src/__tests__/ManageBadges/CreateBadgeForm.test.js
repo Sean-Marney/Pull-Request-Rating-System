@@ -38,7 +38,7 @@ describe("Testing CreateReward component", () => {
 
     // wait for validation to complete and display error message
     await waitFor(() => {
-      const errorMessage = screen.getByText("Invalid File Type or Too Large");
+      const errorMessage = screen.getByText("Invalid File Type or Too Large. Only PNG, JPEG are allowed");
       expect(errorMessage).toBeInTheDocument();
     });
   });
