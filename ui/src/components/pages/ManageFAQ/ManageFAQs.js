@@ -36,7 +36,8 @@ export default function ManageFAQ() {
   const getFaqs = async () => {
     // Get faqs
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs",{ withCredentials: true}
+      process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs",
+      { withCredentials: true }
     );
 
     // Set to state
@@ -47,7 +48,8 @@ export default function ManageFAQ() {
     // Delete faq
     await axios.delete(
       process.env.REACT_APP_API_ENDPOINT +
-        `/management/manageFaqs/delete/${_id}`,{ withCredentials: true},
+        `/management/manageFaqs/delete/${_id}`,
+      { withCredentials: true }
     );
 
     getFaqs(); // Get updated list of rewards
@@ -60,98 +62,98 @@ export default function ManageFAQ() {
 
   return (
     <div>
-    <Paper className={classes.paper}>
-    <div className={classes.tableContainer}>
-        <Box padding={3}>
-          <Typography variant="h4" className={classes.title}>
-            <b>Manage FAQs</b>
-          </Typography>
-        </Box>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Button
-            style={{
-              marginLeft: "20px",
-              marginTop: "20px",
-              marginBottom: "20px",
-            }}
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<AddCircleIcon />}
-            onClick={() => navigate("/management/manageFaqs/create")}
-          >
-            Add New FAQ
-          </Button>
-          <Button
-            style={{
-              marginLeft: "20px",
-              marginTop: "20px",
-              marginBottom: "20px",
-            }}
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<LiveHelpIcon />}
-            onClick={() => navigate("/management/manageFaqs/questions")}
-          >
-            View New Questions
-          </Button>
-        </Stack>
+      <Paper className={classes.paper}>
+        <div className={classes.tableContainer}>
+          <Box padding={3}>
+            <Typography variant="h4" className={classes.title}>
+              <b>Manage FAQs</b>
+            </Typography>
+          </Box>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Button
+              style={{
+                marginLeft: "20px",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<AddCircleIcon />}
+              onClick={() => navigate("/management/manageFaqs/create")}
+            >
+              Add New FAQ
+            </Button>
+            <Button
+              style={{
+                marginLeft: "20px",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<LiveHelpIcon />}
+              onClick={() => navigate("/management/manageFaqs/questions")}
+            >
+              View New Questions
+            </Button>
+          </Stack>
 
-        <Box>
-          {/* Get all rewards from database and display in a table */}
-          {questions && (
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Question</b>
-                    </TableCell>
-                    <TableCell className={classes.tableHeaders}>
-                      <b>Answer</b>
-                    </TableCell>
-                    <TableCell></TableCell>
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* Render items that have been loaded via pagination */}
-                  {questions.slice(0, visible).map((question) => (
-                    <TableRow key={question._id}>
-                      <TableCell className={classes.tableContent}>
-                        {question.question}
+          <Box>
+            {/* Get all rewards from database and display in a table */}
+            {questions && (
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className={classes.tableHeaders}>
+                        <b>Question</b>
                       </TableCell>
-                      <TableCell className={classes.tableContent}>
-                        {question.answer}
+                      <TableCell className={classes.tableHeaders}>
+                        <b>Answer</b>
                       </TableCell>
-                      <TableCell>
-                        <IconButton
-                          title="Edit FAQ"
-                          onClick={() =>
-                            navigate(
-                              `/management/manageFaqs/update/${question._id}`
-                            )
-                          }
-                        >
-                          <EditIcon className={classes.editButton} />
-                        </IconButton>
-                      </TableCell>
-                      <TableCell>
-                        <IconButton
-                          title="Delete FAQ"
-                          onClick={() => deleteFAQ(question._id)}
-                        >
-                          <DeleteIcon className={classes.deleteButton} />
-                        </IconButton>
-                      </TableCell>
+                      <TableCell></TableCell>
+                      <TableCell />
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </Box>
+                  </TableHead>
+                  <TableBody>
+                    {/* Render items that have been loaded via pagination */}
+                    {questions.slice(0, visible).map((question) => (
+                      <TableRow key={question._id}>
+                        <TableCell className={classes.tableContent}>
+                          {question.question}
+                        </TableCell>
+                        <TableCell className={classes.tableContent}>
+                          {question.answer}
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            title="Edit FAQ"
+                            onClick={() =>
+                              navigate(
+                                `/management/manageFaqs/update/${question._id}`
+                              )
+                            }
+                          >
+                            <EditIcon className={classes.editButton} />
+                          </IconButton>
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            title="Delete FAQ"
+                            onClick={() => deleteFAQ(question._id)}
+                          >
+                            <DeleteIcon className={classes.deleteButton} />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </Box>
         </div>
       </Paper>
       <div>
