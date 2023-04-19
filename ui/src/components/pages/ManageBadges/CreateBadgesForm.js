@@ -75,7 +75,7 @@ export default function CreateBadge() {
     // Sends form data via api
     
        
-    axios.post(process.env.REACT_APP_API_ENDPOINT +'/management/badge/upload', formData)
+    axios.post(process.env.REACT_APP_API_ENDPOINT +'/management/badge/upload', formData ,{ withCredentials: true })
          .then(res => {
             navigate("/management/badges"); // Redirects after badge is created
          })

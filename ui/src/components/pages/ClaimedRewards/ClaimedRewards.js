@@ -52,7 +52,7 @@ export default function ClaimedRewards() {
     const res = await axios.patch(
       process.env.REACT_APP_API_ENDPOINT +
         `/management/rewards/claimed/update/${claimedReward._id}`,
-      { withCredentials: true }
+      { withCredentials: true },{ withCredentials: true }
     );
 
     console.log(res.data);
