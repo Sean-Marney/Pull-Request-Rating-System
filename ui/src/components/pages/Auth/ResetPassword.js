@@ -188,9 +188,9 @@ export default function ResetPassword() {
                                                     edge="end"
                                                 >
                                                     {showPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
                                                         <Visibility />
+                                                    ) : (
+                                                        <VisibilityOff />
                                                     )}
                                                 </IconButton>
                                             </InputAdornment>
