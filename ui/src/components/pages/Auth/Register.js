@@ -176,9 +176,9 @@ export default function SignUp() {
                                                     edge="end"
                                                 >
                                                     {showPassword ? (
-                                                        <Visibility />
-                                                    ) : (
                                                         <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
                                                     )}
                                                 </IconButton>
                                             </InputAdornment>

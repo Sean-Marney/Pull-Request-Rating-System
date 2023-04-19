@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Stack from "@mui/material/Stack";
-import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+import Stack from '@mui/material/Stack';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import {
+  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -20,14 +21,12 @@ import {
   Paper,
 } from "@material-ui/core";
 import { useStyles } from "../../styles/tableStyle";
-import Pagination from "../../reusable/Pagination";
 
 export default function ManageFAQ() {
   const classes = useStyles();
+  const [questions, setQuestions] = useState(null);
 
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState(null);
-  const [visible, setVisible] = React.useState(10);
 
   useEffect(() => {
     getFaqs();
@@ -35,9 +34,7 @@ export default function ManageFAQ() {
 
   const getFaqs = async () => {
     // Get faqs
-    const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs"
-    );
+    const res = await axios.get(process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs");
 
     // Set to state
     setQuestions(res.data);
@@ -46,56 +43,54 @@ export default function ManageFAQ() {
   const deleteFAQ = async (_id) => {
     // Delete faq
     await axios.delete(
-      process.env.REACT_APP_API_ENDPOINT +
-        `/management/manageFaqs/delete/${_id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/manageFaqs/delete/${_id}`
     );
 
     getFaqs(); // Get updated list of rewards
   };
 
-  // Handling "Load More" click
-  const handlePageClick = () => {
-    setVisible((preValue) => preValue + 10);
-  };
-
   return (
-    <div>
-    <Paper className={classes.paper}>
     <div className={classes.tableContainer}>
+      <Paper className={classes.paper}>
         <Box padding={3}>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant="h4">
             <b>Manage FAQs</b>
           </Typography>
         </Box>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Button
-            style={{
-              marginLeft: "20px",
-              marginTop: "20px",
-              marginBottom: "20px",
-            }}
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<AddCircleIcon />}
-            onClick={() => navigate("/management/manageFaqs/create")}
-          >
-            Add New FAQ
-          </Button>
-          <Button
-            style={{
-              marginLeft: "20px",
-              marginTop: "20px",
-              marginBottom: "20px",
-            }}
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<LiveHelpIcon />}
-            onClick={() => navigate("/management/manageFaqs/questions")}
-          >
-            View New Questions
-          </Button>
+        <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        >
+        <Button
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<AddCircleIcon />}
+          onClick={() => navigate("/management/manageFaqs/create")}
+        >
+          Add New FAQ
+        </Button>
+        <Button
+          style={{
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<LiveHelpIcon />}
+          onClick={() => navigate("/management/manageFaqs/questions")}
+        >
+          View New Questions
+        </Button>
         </Stack>
 
         <Box>
@@ -116,8 +111,7 @@ export default function ManageFAQ() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* Render items that have been loaded via pagination */}
-                  {questions.slice(0, visible).map((question) => (
+                  {questions.map((question) => (
                     <TableRow key={question._id}>
                       <TableCell className={classes.tableContent}>
                         {question.question}
@@ -152,12 +146,7 @@ export default function ManageFAQ() {
             </TableContainer>
           )}
         </Box>
-        </div>
       </Paper>
-      <div>
-        {/* Render "Load More" button from the reusable component and use the handler on click */}
-        <Pagination handlePageClick={handlePageClick} />
-      </div>
     </div>
   );
 }

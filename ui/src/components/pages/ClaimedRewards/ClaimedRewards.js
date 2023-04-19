@@ -18,14 +18,12 @@ import FolderIcon from "@material-ui/icons/Folder";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStyles } from "../../styles/tableStyle";
-import Pagination from "../../reusable/Pagination";
 
 export default function ClaimedRewards() {
   const classes = useStyles();
+  const [claimedRewards, setClaimedRewards] = useState(null);
 
   const navigate = useNavigate();
-  const [claimedRewards, setClaimedRewards] = useState(null);
-  const [visible, setVisible] = React.useState(10);
 
   // Gets claimed rewards on page load
   useEffect(() => {
@@ -49,17 +47,11 @@ export default function ClaimedRewards() {
     toast.success("Successfully archived reward");
     // Update reward's "archived" value to true
     const res = await axios.patch(
-      process.env.REACT_APP_API_ENDPOINT +
-        `/management/rewards/claimed/update/${claimedReward._id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/rewards/claimed/update/${claimedReward._id}`
     );
     console.log(res.data);
 
     getClaimedRewards();
-  };
-
-  // Handling "Load More" click
-  const handlePageClick = () => {
-    setVisible((preValue) => preValue + 10);
   };
 
   return (
@@ -107,8 +99,7 @@ export default function ClaimedRewards() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* Render items that have been loaded via pagination */}
-                  {claimedRewards.slice(0, visible).map((claimedReward) => (
+                  {claimedRewards.map((claimedReward) => (
                     <TableRow key={claimedReward._id}>
                       <TableCell className={classes.tableContent}>
                         {claimedReward.reward_name}
@@ -137,10 +128,6 @@ export default function ClaimedRewards() {
           )}
         </Box>
       </Paper>
-      <div>
-        {/* Render "Load More" button from the reusable component and use the handler on click */}
-        <Pagination handlePageClick={handlePageClick} />
-      </div>
     </div>
   );
 }

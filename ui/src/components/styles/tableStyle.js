@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
   tableContainer: {
-    // height: "calc(100vh - 100px)",
+    height: "calc(100vh - 100px)",
     maxWidth: "90%",
     margin: "0 auto",
     overflow: "auto",
@@ -10,7 +10,8 @@ export const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
   },
   paper: {
-    boxShadow: theme.shadows[3],
+    boxShadow: theme.shadows[5],
+    borderRadius: "20px",
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
   },
@@ -24,7 +25,7 @@ export const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   title: {
-    margin: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   button: {
     marginLeft: theme.spacing(1),
