@@ -15,45 +15,64 @@ import {
     Box,
     IconButton,
     Paper,
+    Modal,
 } from "@material-ui/core";
 import useAxiosInstance from "../../../useAxiosInstance";
-import { useStyles } from "../../styles/tableStyle";
+import { useStyles } from "../../styles/Manageusers.style";
+import Pagination from "../../reusable/Pagination";
 
 export default function ManageUsers() {
     const classes = useStyles();
+
+    const navigate = useNavigate();
     const { request } = useAxiosInstance();
     const [users, setUsers] = useState(null);
-    const navigate = useNavigate();
+    const [visible, setVisible] = React.useState(10);
+    const [open, setOpen] = React.useState(false);
+    const [userIdToDelete, setUserIdToDelete] = useState(null);
+
+    const handleOpen = (userId) => {
+        setUserIdToDelete(userId);
+        setOpen(true);
+    };
+
+    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         getUsers();
     }, []);
 
-    const getUsers = async () => {
-        // Get users
-        const res = await request({
-            method: "get",
-            url: "/management/users/roles/Developer",
-        });
+  const getUsers = async () => {
+    // Get users
+    const res = await request({
+      method: "get",
+      url: "/management/users/roles/Developer", withCredentials: true,
+    });
 
-        // Set to state
-        setUsers(res.data);
-    };
-    const deleteUser = async (_id) => {
-        // Delete user
-        await request({
-            method: "delete",
-            url: `/management/users/delete/${_id}`,
-        });
+    // Set to state
+    setUsers(res.data);
+  };
+  const deleteUser = async (_id) => {
+    // Delete user
+    await request({
+      method: "delete",
+      url: `/management/users/delete/${_id}`, withCredentials: true,
+    });
 
         getUsers(); // Get updated list of users
+        handleClose(); // Close the modal
+    };
+
+    // Handling "Load More" click
+    const handlePageClick = () => {
+        setVisible((preValue) => preValue + 10);
     };
 
     return (
         <div className={classes.tableContainer}>
             <Paper className={classes.paper}>
                 <Box padding={3}>
-                    <Typography variant="h4">
+                    <Typography variant="h4" className={classes.title}>
                         <b>Manage Users</b>
                     </Typography>
                 </Box>
@@ -103,7 +122,8 @@ export default function ManageUsers() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {users.map((user) => (
+                                    {/* Render items that have been loaded via pagination */}
+                                    {users.slice(0, visible).map((user) => (
                                         <TableRow key={user._id}>
                                             <TableCell
                                                 className={classes.tableContent}
@@ -145,7 +165,7 @@ export default function ManageUsers() {
                                                 <IconButton
                                                     title="Delete User"
                                                     onClick={() =>
-                                                        deleteUser(user._id)
+                                                        handleOpen(user._id)
                                                     }
                                                 >
                                                     <DeleteIcon
@@ -163,6 +183,47 @@ export default function ManageUsers() {
                     )}
                 </Box>
             </Paper>
+            <div>
+                {/* Render "Load More" button from the reusable component and use the handler on click */}
+                <Pagination handlePageClick={handlePageClick} />
+            </div>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                className={classes.modal}
+                aria-labelledby="popup-box"
+                aria-describedby="popup-box-description"
+            >
+                <div className={classes.modalPaper}>
+                    <Typography variant="h5" className={classes.modalTitle}>
+                        WARNING
+                    </Typography>
+                    <Typography
+                        variant="body1"
+                        className={classes.modalMessage}
+                    >
+                        This action is irreversible
+                    </Typography>
+                    <div className={classes.modalButtonContainer}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.modalButton}
+                            onClick={() => deleteUser(userIdToDelete)}
+                        >
+                            Delete Account
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.modalButton}
+                            onClick={handleClose}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 }

@@ -8,11 +8,15 @@ const {
 
 const router = express.Router();
 
+const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
+router.use(verifyJWTToken)
+
 // CRUD routes for /manage/questions
-router.get("/", getQuestions);
-router.get("/:id", getQuestionById);
+router.get("/", verifyManger, getQuestions);
+router.get("/:id", verifyManger, getQuestionById);
 router.post("/create", createQuestions);
-router.delete("/delete/:id", deleteQuestions);
+router.delete("/delete/:id", verifyManger, deleteQuestions);
+
 
 
 

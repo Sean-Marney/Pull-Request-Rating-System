@@ -54,7 +54,8 @@ describe("Testing ManageRewards component", () => {
     deleteButton.click();
 
     expect(axios.delete).toHaveBeenCalledWith(
-      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/delete/1"
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/delete/1",
+      { withCredentials: true }
     );
   });
 });
