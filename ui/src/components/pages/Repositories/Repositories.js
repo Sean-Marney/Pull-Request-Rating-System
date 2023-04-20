@@ -121,6 +121,7 @@ const RepositoryList = () => {
           rating_complete: true,
         },
       });
+      toast.success("Rating submitted successfully");
 
             // Resets the state of the selected pull request and retrieves all pull requests again
             setSelectedPR(null);
