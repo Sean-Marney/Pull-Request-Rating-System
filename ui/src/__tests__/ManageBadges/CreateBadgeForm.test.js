@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from '@testing-library/user-event';
+import userEvent from "@testing-library/user-event";
 
 import CreateBadge from "../../components/pages/ManageBadges/CreateBadgesForm.js";
 import { MemoryRouter } from "react-router-dom";
@@ -11,7 +11,7 @@ jest.mock("axios", () => ({
   post: jest.fn(),
 }));
 describe("Testing CreateReward component", () => {
-    test("displays basic information on the form", async () => {
+  test("displays basic information on the form", async () => {
     render(
       <MemoryRouter>
         <CreateBadge />
@@ -38,7 +38,9 @@ describe("Testing CreateReward component", () => {
 
     // wait for validation to complete and display error message
     await waitFor(() => {
-      const errorMessage = screen.getByText("Invalid File Type or Too Large. Only PNG, JPEG are allowed");
+      const errorMessage = screen.getByText(
+        "Invalid File Type or Too Large. Only PNG, JPEG are allowed"
+      );
       expect(errorMessage).toBeInTheDocument();
     });
   });

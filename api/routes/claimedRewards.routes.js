@@ -8,12 +8,16 @@ const {
 
 const router = express.Router();
 
-const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
-router.use(verifyJWTToken)
+const {
+  verifyJWTToken,
+  verifyManger,
+  verifyTokenAndAuth,
+} = require("../middleware/verifyJWT");
+router.use(verifyJWTToken);
 
 router.get("/get", verifyManger, getClaimedRewards);
 router.get("/archived", verifyManger, getClaimedRewards);
-router.post("/save", verifyManger, saveClaimedReward);
+router.post("/save", saveClaimedReward);
 router.patch("/update/:id", verifyManger, updateArchiveStatus);
 
 module.exports = router;

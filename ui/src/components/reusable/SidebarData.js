@@ -119,7 +119,7 @@ const Sidebar = ({ children, removeCookie, role }) => {
    ];
     return (
         <div className="container">
-            <div style={{ width: "200px", position:"fixed"}} className="sidebar">
+            <div style={{ width: "200px", position:"fixed", "overflow-y": "scroll", "overflow-x": "hidden"}} className="sidebar">
                 <div className="top_section">
                 <Link to="/"
                     className="link">

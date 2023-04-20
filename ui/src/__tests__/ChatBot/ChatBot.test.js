@@ -14,7 +14,7 @@ jest.mock("@chatscope/chat-ui-kit-styles/dist/default/styles.css", () => ({
 describe('ChatBot', () => {
   it('renders a welcome message', () => {
     const { getByText } = render(<ChatBot />);
-    const welcomeMessage = getByText(/welcome/i);
+    const welcomeMessage = getByText(/This tool analyses your input for any programming related terms/i);
     expect(welcomeMessage).toBeInTheDocument();
   });
 });

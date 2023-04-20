@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chartContainer: {
     margin: `${theme.spacing(3)}px auto 0`,
-    width: `calc(100% - ${theme.spacing(4)}px)`,
+    width: "100%",
     height: "600px",
     borderRadius: 25,
     boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.1)",
@@ -133,7 +133,8 @@ export default function ManagerDashboard() {
   const getNumberOfPendingPullRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests",{ withCredentials: true}
+        "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests",
+        { withCredentials: true }
       );
 
       // Set to state
@@ -147,7 +148,8 @@ export default function ManagerDashboard() {
   const getNumberOfClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards",{ withCredentials: true}
+        "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards",
+        { withCredentials: true }
       );
 
       // Set to state
@@ -161,7 +163,8 @@ export default function ManagerDashboard() {
   const getClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-claimed-rewards",{ withCredentials: true}
+        "http://localhost:8000/management/dashboard/get-claimed-rewards",
+        { withCredentials: true }
       );
 
       // Set to state
@@ -176,7 +179,8 @@ export default function ManagerDashboard() {
     try {
       // Get top 3 developers
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-top-developers",{ withCredentials: true}
+        "http://localhost:8000/management/dashboard/get-top-developers",
+        { withCredentials: true }
       );
 
       // Set to state
@@ -195,7 +199,8 @@ export default function ManagerDashboard() {
     try {
       // Get all developers
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-all-developers",{ withCredentials: true}
+        "http://localhost:8000/management/dashboard/get-all-developers",
+        { withCredentials: true }
       );
 
       // Set to state
@@ -229,6 +234,8 @@ export default function ManagerDashboard() {
 
     // Setting chart options
     const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
       indexAxis: "x",
       scales: {
         x: {
