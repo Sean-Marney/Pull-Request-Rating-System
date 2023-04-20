@@ -133,7 +133,7 @@ export default function ManagerDashboard() {
   const getNumberOfPendingPullRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-number-of-pending-pull-requests",
+        process.env.REACT_APP_API_ENDPOINT + "/management/dashboard/get-number-of-pending-pull-requests",
         { withCredentials: true }
       );
 
@@ -148,7 +148,7 @@ export default function ManagerDashboard() {
   const getNumberOfClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-number-of-claimed-rewards",
+        process.env.REACT_APP_API_ENDPOINT +  "/management/dashboard/get-number-of-claimed-rewards",
         { withCredentials: true }
       );
 
@@ -163,7 +163,7 @@ export default function ManagerDashboard() {
   const getClaimedRewards = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-claimed-rewards",
+        process.env.REACT_APP_API_ENDPOINT + "/management/dashboard/get-claimed-rewards",
         { withCredentials: true }
       );
 
@@ -179,7 +179,7 @@ export default function ManagerDashboard() {
     try {
       // Get top 3 developers
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-top-developers",
+        process.env.REACT_APP_API_ENDPOINT + "/management/dashboard/get-top-developers",
         { withCredentials: true }
       );
 
@@ -199,7 +199,7 @@ export default function ManagerDashboard() {
     try {
       // Get all developers
       const res = await axios.get(
-        "http://localhost:8000/management/dashboard/get-all-developers",
+        process.env.REACT_APP_API_ENDPOINT + "/management/dashboard/get-all-developers",
         { withCredentials: true }
       );
 
