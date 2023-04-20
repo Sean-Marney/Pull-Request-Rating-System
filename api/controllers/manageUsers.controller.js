@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
+const { sendEmail } = require("../controllers/Auth/emailUtils");
 
 // Get all users
 const getUsers = async (req, res) => {
@@ -56,22 +57,42 @@ const getUserByEmail = async (req, res) => {
 };
 
 // Create a user
+// Create a user
 const createUser = async (req, res) => {
+    const email = req.body.email.toLowerCase();
     try {
         const user = new User({
             name: req.body.name,
-            email: req.body.email,
+            email,
             password: await bcrypt.hash(req.body.password, 10),
             hasRole: "Developer",
             git_username: req.body.git_username,
         });
         await user.save();
 
+        const mailOptions = {
+            from: "team7largeteamproject@gmail.com",
+            to: email,
+            subject: "PullMaster.io Onboarding Confirmation",
+            html: `<div style="background-color: white; padding: 10px;">
+            <p style="font-family: Arial; font-size: 16px;">Hi,</p>
+            <p style="font-family: Arial; font-size: 16px;">Wecome to PullMaster.io</p>
+            <p style="font-family: Arial; font-size: 16px;">You have been onboarded on PullMaster.io! We're excited to have you on board.</p>
+            <p style="font-family: Arial; font-size: 16px;">Best regards,</p>
+            <p style="font-family: Arial; font-size: 16px;">The PullMaster.io Team</p>
+            </div>
+            <div style="background-color: #1b2437; color: white; text-align: center; padding: 10px;">
+            <h1 style="font-family: Bahnschrift; margin: 0;">PullMaster.io</h1>
+            </div>`,
+        };
+        await sendEmail(mailOptions);
+
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Update a user
 const updateUser = async (req, res) => {

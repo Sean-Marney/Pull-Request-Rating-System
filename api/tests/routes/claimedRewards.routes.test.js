@@ -1,11 +1,22 @@
 const request = require("supertest");
 const app = require("../../index");
 const assert = require("assert");
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const jwt = require('jsonwebtoken');
+
+
 
 describe("Claimed Rewards Endpoints", () => {
-  describe("GET /get", () => {
+    chai.use(chaiHttp);
+    const token = jwt.sign(
+      {id: 'AB12345!', email: 'test2@test.com', hasRole:'Manager'},
+      process.env.PASSPORTSECRET,
+      {expiresIn: '7d'});
+
+    describe("GET /get", () => {
     it("should return a list of claimed rewards", async () => {
-      const res = await request(app).get("/management/rewards/claimed/get");
+      const res = await request(app).get("/management/rewards/claimed/get") .set ('Cookie', `jwt=${token}`);
       assert.strictEqual(res.statusCode, 200);
       assert.strictEqual(Array.isArray(res.body), true);
     });
@@ -15,7 +26,7 @@ describe("Claimed Rewards Endpoints", () => {
     it("should return a list of archived claimed rewards", async () => {
       const res = await request(app).get(
         "/management/rewards/claimed/archived"
-      );
+      ).set ('Cookie', `jwt=${token}`);
       assert.strictEqual(res.statusCode, 200);
       assert.strictEqual(Array.isArray(res.body), true);
     });
@@ -25,6 +36,7 @@ describe("Claimed Rewards Endpoints", () => {
     it("should save a claimed reward", async () => {
       const res = await request(app)
         .post("/management/rewards/claimed/save")
+        .set ('Cookie', `jwt=${token}`)
         .send({
           rewardId: "1",
           rewardName: "Test Reward",

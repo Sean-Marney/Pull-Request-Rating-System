@@ -176,9 +176,9 @@ export default function SignUp() {
                                                     edge="end"
                                                 >
                                                     {showPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
                                                         <Visibility />
+                                                    ) : (
+                                                        <VisibilityOff />
                                                     )}
                                                 </IconButton>
                                             </InputAdornment>
@@ -217,9 +217,9 @@ export default function SignUp() {
                                                     edge="end"
                                                 >
                                                     {showConfirmPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
                                                         <Visibility />
+                                                    ) : (
+                                                        <VisibilityOff />
                                                     )}
                                                 </IconButton>
                                             </InputAdornment>

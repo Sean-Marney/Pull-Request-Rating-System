@@ -17,6 +17,8 @@ const leaderboardRoute = require("./routes/leaderboard.routes");
 const managerDashboardRoute = require("./routes/managerDashboard.routes");
 const developerDashboardRoute = require("./routes/developerDashboard.routes");
 const manageQuestions = require("./routes/question.routes");
+const badge = require("./routes/badges.routes");
+const manageBadge = require("./routes/manageBadges.routes");
 const managerHelpRoute = require("./routes/ManagerHelp.routes");
 const app = express();
 const nodemailer = require("nodemailer");
@@ -35,6 +37,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("Server up and running"));
 
@@ -55,7 +58,12 @@ app.use("/ratings", ratingRoute);
 app.get("/management/Leaderboard", leaderboardRoute);
 app.use("/management/questions", manageQuestions);
 app.use("/questions", manageQuestions);
+app.use("/badge", badge);
+app.use("/management/badge", manageBadge);
 app.post("/management/ManagerHelp", managerHelpRoute);
+
+// setting up port
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {

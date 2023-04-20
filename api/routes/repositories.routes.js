@@ -4,6 +4,9 @@ const {getAllPullRequestsFromDB} = require("../controllers/repositories.controll
 
 const router = express.Router();
 
-router.get("/allPulls", getAllPullRequestsFromDB);
+const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
+router.use(verifyJWTToken)
+
+router.get("/allPulls", verifyManger, getAllPullRequestsFromDB);
 
 module.exports = router;

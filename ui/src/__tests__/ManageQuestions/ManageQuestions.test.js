@@ -30,9 +30,7 @@ describe("Testing ManageQuestions component", () => {
   });
 
   it("should call deleteQuestion function when delete button is clicked", async () => {
-    const mockData = [
-      { _id: "1", question: "First Question" },
-    ];
+    const mockData = [{ _id: "1", question: "First Question" }];
 
     axios.get.mockResolvedValue({ data: mockData });
     axios.delete.mockResolvedValue(); // mock the response of axios delete function
@@ -50,7 +48,8 @@ describe("Testing ManageQuestions component", () => {
     deleteButton.click();
 
     expect(axios.delete).toHaveBeenCalledWith(
-      process.env.REACT_APP_API_ENDPOINT + "/management/questions/delete/1"
+      process.env.REACT_APP_API_ENDPOINT + "/management/questions/delete/1",
+      { withCredentials: true }
     );
   });
 });

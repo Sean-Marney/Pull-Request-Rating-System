@@ -10,10 +10,13 @@ const {
 
 const router = express.Router();
 
+const {verifyJWTToken, verifyManger, verifyTokenAndAuth} = require('../middleware/verifyJWT')
+router.use(verifyJWTToken)
+
 router.get("/", getRewards);
 router.get("/:id", getRewardsById);
-router.post("/create", createReward);
-router.patch("/update/:id", updateReward);
-router.delete("/delete/:id", deleteReward);
+router.post("/create", verifyManger, createReward);
+router.patch("/update/:id", verifyManger, updateReward);
+router.delete("/delete/:id", verifyManger, deleteReward);
 
 module.exports = router;
