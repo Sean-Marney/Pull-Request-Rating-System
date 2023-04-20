@@ -52,3 +52,10 @@ git clone https://git.cardiff.ac.uk/c1986023/team7_gamificationsystem.git
 - The website is deployed using AWS
 - The link is http://pullmaster.io-react.s3-website.eu-north-1.amazonaws.com
 - The code is deployed every time code is committed to the main branch
+
+
+### Account Details
+
+AWS Account Details 
+- Email address: team7largeteamproject@gmail.com 
+- Password: 0riXOaj&qUsUbayAcr 
