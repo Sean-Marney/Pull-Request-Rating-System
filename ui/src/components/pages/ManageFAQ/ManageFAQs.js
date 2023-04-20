@@ -37,7 +37,7 @@ export default function ManageFAQ() {
     // Get faqs
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs",
-      { withCredentials: true }
+      { withCredentials: true },{ withCredentials: true }
     );
 
     // Set to state
@@ -49,7 +49,7 @@ export default function ManageFAQ() {
     await axios.delete(
       process.env.REACT_APP_API_ENDPOINT +
         `/management/manageFaqs/delete/${_id}`,
-      { withCredentials: true }
+      { withCredentials: true },{ withCredentials: true }
     );
 
     getFaqs(); // Get updated list of rewards

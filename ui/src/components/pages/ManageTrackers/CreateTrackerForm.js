@@ -48,7 +48,7 @@ export default function CreateTracker() {
 
       await request({
         method: "post",
-        url: "/management/trackers/create", withCredentials: true,
+        url: "/management/trackers/create", withCredentials: true,withCredentials: true,
         data: { ...createForm },
       });
 
