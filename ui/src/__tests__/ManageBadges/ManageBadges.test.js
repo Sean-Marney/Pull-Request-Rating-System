@@ -10,8 +10,28 @@ jest.mock("axios"); // mock axios module
 describe("Testing ManageBadges component", () => {
   it("should render the manage badges table with data", async () => {
     const mockData = [
-      { _id: "1", name: "First Badge", value: "10", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
-      { _id: "2", name: "Second Badge", value: "20", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
+      {
+        _id: "1",
+        name: "First Badge",
+        value: "10",
+        img: {
+          data: {
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            contentType: "image/png",
+          },
+        },
+      },
+      {
+        _id: "2",
+        name: "Second Badge",
+        value: "20",
+        img: {
+          data: {
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            contentType: "image/png",
+          },
+        },
+      },
     ];
 
     axios.get.mockResolvedValue({ data: mockData }); // mock the response of axios
@@ -33,7 +53,17 @@ describe("Testing ManageBadges component", () => {
 
   it("should call deleteBadge function when delete button is clicked", async () => {
     const mockData = [
-      { _id: "1", name: "First Badge", value: "10", img : {data: {data: [1,2,3,4,5,6,7,8,9,10], contentType: "image/png"}}},
+      {
+        _id: "1",
+        name: "First Badge",
+        value: "10",
+        img: {
+          data: {
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            contentType: "image/png",
+          },
+        },
+      },
     ];
 
     axios.get.mockResolvedValue({ data: mockData });
@@ -53,7 +83,8 @@ describe("Testing ManageBadges component", () => {
     deleteBadge.click();
 
     expect(axios.delete).toHaveBeenCalledWith(
-      process.env.REACT_APP_API_ENDPOINT + "/management/badge/delete/1"
+      process.env.REACT_APP_API_ENDPOINT + "/management/badge/delete/1",
+      { withCredentials: true }
     );
   });
 });
