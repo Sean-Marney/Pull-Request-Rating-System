@@ -103,7 +103,7 @@ export default function Leaderboard() {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API_ENDPOINT + "/management/leaderboard",{ withCredentials: true})
+      .get(process.env.REACT_APP_API_ENDPOINT + "/management/leaderboard",{ withCredentials: true},{ withCredentials: true})
       .then((res) => setLeaderboardData(res.data))
       .catch((err) => console.log(err));
     getLevels();

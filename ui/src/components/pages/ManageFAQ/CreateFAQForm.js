@@ -44,7 +44,7 @@ export default function CreateFAQ() {
       });
       // Create new faq
       await axios.post(
-        process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs/create", createForm,{ withCredentials: true},
+        process.env.REACT_APP_API_ENDPOINT + "/management/manageFaqs/create", createForm,{ withCredentials: true},{ withCredentials: true},
       );
 
       navigate("/management/faqs"); // Redirects after reward is created
