@@ -33,7 +33,7 @@ export default function UpdateTracker() {
     // Get reward by id
     const res = await request({
       method: "get",
-      url: `/management/trackers/${id}`, withCredentials: true
+      url: `/management/trackers/${id}`, withCredentials: true, withCredentials: true
     });
 
     // Set to state (fills in textboxes)

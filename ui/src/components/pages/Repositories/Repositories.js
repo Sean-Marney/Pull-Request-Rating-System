@@ -50,7 +50,7 @@ const RepositoryList = () => {
       // Sends GET request to API to get all pull requests in all repositories
       const response = await request({
         method: "get",
-        url: "/management/repositories/allPulls", withCredentials: true,
+        url: "/management/repositories/allPulls", withCredentials: true,withCredentials: true,
       });
       // Sets the state of the pull requests and repositories
       setSelectedPullRequests(filterList(response.data.pullRequests));
