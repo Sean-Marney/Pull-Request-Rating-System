@@ -37,7 +37,7 @@ export default function ManageTrackers() {
     try {
       const response = await request({
         method: "get",
-        url: "/management/trackers", withCredentials: true
+        url: "/management/trackers", withCredentials: true, withCredentials: true
       });
       setTracker([...response.data]);
     } catch (error) {
