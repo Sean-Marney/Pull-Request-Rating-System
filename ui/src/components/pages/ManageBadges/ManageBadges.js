@@ -47,7 +47,7 @@ export default function ManageBadges() {
   const deleteBadge = async (_id) => {
     // Delete badge 
     await axios.delete(
-      process.env.REACT_APP_API_ENDPOINT + `/management/badge/delete/${_id}`
+      process.env.REACT_APP_API_ENDPOINT + `/management/badge/delete/${_id}` ,{ withCredentials: true }
     );
 
     getBadges(); // Get updated list of badges

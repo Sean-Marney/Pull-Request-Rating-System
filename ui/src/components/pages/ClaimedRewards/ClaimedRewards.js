@@ -35,7 +35,8 @@ export default function ClaimedRewards() {
   const getClaimedRewards = async () => {
     // Get claimed rewards
     const res = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/claimed/get",{ withCredentials: true}
+      process.env.REACT_APP_API_ENDPOINT + "/management/rewards/claimed/get",
+      { withCredentials: true }
     );
 
     // Filter results so that it doesn't display rewards that have been archived
@@ -50,8 +51,10 @@ export default function ClaimedRewards() {
     // Update reward's "archived" value to true
     const res = await axios.patch(
       process.env.REACT_APP_API_ENDPOINT +
-        `/management/rewards/claimed/update/${claimedReward._id}`,{ withCredentials: true}
+        `/management/rewards/claimed/update/${claimedReward._id}`,
+      { withCredentials: true },{ withCredentials: true }
     );
+
     console.log(res.data);
 
     getClaimedRewards();

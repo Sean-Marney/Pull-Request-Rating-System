@@ -116,12 +116,24 @@ export default function ProfilePage() {
     setUser(res.data);
   };
 
-
-
-
-
+  // const deleteUserByEmail = async () => {
+  //   // email.preventDefault();
+  //   try {
+  //     // Delete user
+  //     await axios.delete(
+  //       process.env.REACT_APP_API_ENDPOINT +
+  //         `/management/users/deleteUser/email/${cookies.user}`
+  //     );
+  //     navigate("/login");
+  //     removeCookie("role");
+  //     removeCookie("user");
+  //     removeCookie("token");
+  //   } catch (error) {
+  //     console.log(error);
+  //     navigate("/profile");
+  //   }
+  // };
   const deleteUserByEmail = async () => {
-    // email.preventDefault();
     try {
       // Delete user
       await axios.delete(
@@ -132,6 +144,7 @@ export default function ProfilePage() {
       removeCookie("user");
       removeCookie("token");
       navigate("/login");
+      window.location.reload();
     } catch (error) {
       console.log(error);
       navigate("/profile");
@@ -160,6 +173,7 @@ export default function ProfilePage() {
             {user && user.email}
           </Typography>
         </div>
+        {user?.hasRole == "Developer" &&
         <div className={classes.details}>
           <Typography variant="subtitle1" className={classes.label}>
             Total Stars Earned:
@@ -167,7 +181,7 @@ export default function ProfilePage() {
           <Typography variant="subtitle1" className={classes.text}>
             {user && user.totalStarsEarned}
           </Typography>
-        </div>
+        </div>}
         <div className={classes.details}>
           <Typography variant="body1" className={classes.label}>
             Bio:
