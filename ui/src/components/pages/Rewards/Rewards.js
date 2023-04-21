@@ -76,7 +76,7 @@ export default function BasicTabs() {
     getRewards();
     getStars();
     getLevels();
-  }, []);
+  }, [remainingStarsForReward]);
 
   // Reads list of levels from database
   const getLevels = async () => {
@@ -101,7 +101,8 @@ export default function BasicTabs() {
     // Get rewards
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + "/management/rewards",
-      { withCredentials: true },{ withCredentials: true }
+      { withCredentials: true },
+      { withCredentials: true }
     );
 
     // Calculates remaining stars needed for reward
@@ -137,7 +138,8 @@ export default function BasicTabs() {
     const res = await axios.get(
       process.env.REACT_APP_API_ENDPOINT +
         `/management/users/email/${cookies.user}`,
-      { withCredentials: true },{ withCredentials: true }
+      { withCredentials: true },
+      { withCredentials: true }
     );
     // Sets response data to user
 
