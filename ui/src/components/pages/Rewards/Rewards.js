@@ -76,7 +76,7 @@ export default function BasicTabs() {
     getRewards();
     getStars();
     getLevels();
-  }, [remainingStarsForReward]);
+  }, []);
 
   // Reads list of levels from database
   const getLevels = async () => {
@@ -262,7 +262,10 @@ export default function BasicTabs() {
                             {reward.starsRequired} <br />
                           </TableCell>
                           <TableCell className={classes.tableContent}>
-                            {remainingStarsForReward[reward._id]}
+                            {/* {remainingStarsForReward[reward._id]} */}
+                            {stars >= reward.starsRequired
+                              ? "Reward can be claimed"
+                              : reward.starsRequired - stars}
                           </TableCell>
                           <TableCell>
                             <Button

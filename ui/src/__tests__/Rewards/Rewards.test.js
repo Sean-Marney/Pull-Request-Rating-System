@@ -22,13 +22,12 @@ describe("Testing developer's rewards page at /rewards", () => {
     ];
 
     axios.get.mockResolvedValueOnce({ data: mockData }); // mock the response of axios
-    const stars = {totalStarsEarned : 58, stars :200};
+    const stars = { totalStarsEarned: 58, stars: 200 };
 
     axios.get.mockResolvedValueOnce({ data: stars });
     const levels = [];
 
     axios.get.mockResolvedValueOnce({ data: levels });
-
 
     useCookies.mockReturnValue([{ user: { email: "test@test.com" } }]);
 
@@ -65,8 +64,6 @@ describe("Testing logic for claiming a reward on /rewards page", () => {
     fireEvent.click(claimButton);
   });
 });
-
-
 
 describe("Testing logic for tracking progress towards a reward on /rewards page", () => {
   it("should display the correct number of stars remaining for each reward", async () => {
