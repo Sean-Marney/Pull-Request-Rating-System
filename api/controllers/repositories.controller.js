@@ -23,7 +23,7 @@ const getAllPullRequestsFromDB = async (req, res) => {
 
 // Reads list of Repositories and Pull Requests from GitHub API
 async function getAllPullRequestsFromAPI() {
-    const token = "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";
+    const token = "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";
     const headers = {
         Authorization: `Token ${token}`,
     };
